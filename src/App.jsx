@@ -9,6 +9,7 @@ import HomeMoodText from "./components/features/homeMoodText/HomeMoodText";
 
 function App() {
   const [count, setCount] = useState(0)
+  
 
   useEffect(() => {
     (async () => {
