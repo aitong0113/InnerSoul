@@ -1,0 +1,55 @@
+/* =========================
+   Footer 雲朵定位（全站）
+   ========================= */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--bs-BG-02);
+}
+
+/* 左下雲 */
+.footer-cloud-left {
+  position: absolute;
+  left: 10%x;
+  bottom: 40px;
+  width: 300px;
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 右上雲 */
+.footer-cloud-right {
+  position: absolute;
+  right: -7%;
+  top: 10px; /* 往下些，避免被地圖覆蓋 */
+  width: 200px;
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Footer 內容一定在雲上 */
+.site-footer .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* RWD：避免在窄版蓋到內容 */
+@media (max-width: 992px) {
+  .footer-cloud-right {
+    right: 24px;
+    top: 48px;
+    width: 200px;
+  }
+  .footer-cloud-left {
+    left: 16px;
+    bottom: 16px;
+    width: 220px;
+  }
+}
+
+
+
+
+
