@@ -310,6 +310,7 @@ $cyans: (
 // ======================
 // Primary
 // ======================
+
 $primary-01: #dff2eb;
 $primary-02: #b9e5e8;
 $primary-03: #6db0b5;
@@ -368,6 +369,30 @@ $theme-colors: (
   "danger": $danger,
   "light": $light,
   "dark": $dark,
+  // 自定義色碼
+  "primary-01": $primary-01,
+  "primary-02": $primary-02,
+  "primary-03": $primary-03,
+  "primary-04": $primary-04,
+  "primary-05": $primary-05,
+  "BG-01": $BG-01,
+  "BG-02": $BG-02,
+  "BG-03": $BG-03,
+  "BG-04": $BG-04,
+  "BG-05": $BG-05,
+  "complementary-01": $complementary-01,
+  "complementary-02": $complementary-02,
+  "complementary-03": $complementary-03,
+  "complementary-04": $complementary-04,
+  "black-100": $black-100,
+  "black-200": $black-200,
+  "black-300": $black-300,
+  "black-400": $black-400,
+  "black-500": $black-500,
+  "black-600": $black-600,
+  "black-700": $black-700,
+  "black-800": $black-800,
+  "black-900": $black-900,
 ) !default;
 // scss-docs-end theme-colors-map
 
@@ -428,7 +453,8 @@ $enable-grid-classes: true !default;
 $enable-container-classes: true !default;
 $enable-cssgrid: false !default;
 $enable-button-pointers: true !default;
-$enable-rfs: true !default;
+// $enable-rfs: true !default;
+$enable-rfs: false !default;
 $enable-validation-icons: true !default;
 $enable-negative-margins: false !default;
 $enable-deprecation-messages: true !default;
@@ -1464,7 +1490,8 @@ $card-title-color: null !default;
 $card-subtitle-color: null !default;
 $card-border-width: var(--#{$prefix}border-width) !default;
 $card-border-color: var(--#{$prefix}border-color-translucent) !default;
-$card-border-radius: var(--#{$prefix}border-radius) !default;
+// $card-border-radius: var(--#{$prefix}border-radius) !default;
+$card-border-radius: 20px !default;
 $card-box-shadow: null !default;
 $card-inner-border-radius: subtract(
   $card-border-radius,

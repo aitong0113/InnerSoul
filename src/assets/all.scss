@@ -6,7 +6,7 @@
 // Bootstrap
 @import "bootstrap/scss/bootstrap";
 
-.bg-BG-02 {
-  background-color: $BG-02;
+// 自訂樣式
+.card-linerBG {
+  background: linear-gradient(#cde8fa, #ffffff);
 }
-
