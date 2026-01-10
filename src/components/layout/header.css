@@ -1,0 +1,95 @@
+/* =========================
+   Header 基本樣式（未滾動）
+========================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--bs-BG-02);
+    transition: all 0.35s ease;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+/* container：預設「兩行」 */
+.site-header .container {
+    display: flex;
+    flex-direction: column;
+    /* ← 關鍵：真的兩行 */
+    gap: 12px;
+}
+
+/* Logo 原始尺寸 */
+.site-header img {
+    height: 50px;
+    transition: all 0.35s ease;
+}
+
+
+/* 第 1 行：主選單 */
+.site-header nav {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+
+/* 第 2 行：Logo + 登入註冊 */
+.site-header .container>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* =========================
+   滾動後：白色膠囊狀 Header
+========================= */
+
+.site-header.scrolled {
+    background-color: transparent;
+    padding-bottom: 12px;
+}
+
+/* 內層 container 變成「一行膠囊」 */
+.site-header.scrolled .container {
+    flex-direction: row;
+    /* ← 關鍵：結構真的變一行 */
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 100px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+    padding: 12px 40px;
+    gap: 0;
+}
+
+
+
+/* Logo 縮小 */
+.site-header.scrolled .site-logo {
+  height: 40px;
+  order: 1;
+
+}
+
+/* 主選單置中 */
+.site-header.scrolled nav {
+  display: flex;
+  gap: 32px;
+  order: 2;
+  flex: 1;              
+  justify-content: center; 
+}
+
+/* 登入註冊靠右 */
+.site-header.scrolled .auth-buttons {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  order: 3;
+}
+
