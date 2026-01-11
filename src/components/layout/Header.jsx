@@ -36,13 +36,11 @@ function Header() {
 
                 {/* 第 2 行：LOGO + 登入註冊 */}
                 <div className="header-bottom">
-                        
                     <img
                         src={logo}
                         alt="Inner Soul"
                         className="site-logo"
                     />
-
                     <div className="d-flex gap-2 auth-buttons">
                         <button className="btn btn-outline">登入</button>
                         <button className="btn btn-outline">註冊</button>
@@ -50,6 +48,8 @@ function Header() {
                 </div>
             </div>
         </header>
+
+        
     );
 }
 
