@@ -4,21 +4,47 @@ import api from "../api";
  * 登入
  * @param {{ email: string, password: string }} data
  */
-export const login = (data) => {
-  return api.post("/login", data);
-};
+export async function login(data) {
+  try {
+    const res = await api.post("/login", data);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
 
 /**
  * 註冊
- * @param {{ email: string, password: string }} data
+ * @param {{ userName:string, email: string, password: string }} data
  */
-export const signUp = (data) => {
-  return api.post("/signup", data);
-};
+export async function signUp(data) {
+  try {
+    const res = await api.post("/signup", data);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
 
 /**
- * 登出（有些後端會需要）
+ * 修改密碼
  */
-export const logout = () => {
-  return api.post("/logout");
-};
+export async function updatePassword(userId, newPassword) {
+  try {
+    const res = await api.patch(`/600/users/${userId}`, {
+      password: newPassword,
+    });
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+/**
+ * 登出
+ */
+export function logout() {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userName");
+}

@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "email": "abc@gmail.com",
+      "password": "$2a$10$FF90Vp4quKMPngfzAENqKObrcHx.IUPBSkXYjrmYHuJqTPzsK0iG.",
+      "userName": "小熊",
+      "id": 1
+    },
+    {
+      "email": "zz@gmail.com",
+      "password": "$2a$10$DPY5Xjwe22jn5swLiNsPJuIw.uW.KPplW0G8H3FpVUya5ciQWDcC.",
+      "userName": "王小明",
+      "id": 2
+    }
+  ]
+}
