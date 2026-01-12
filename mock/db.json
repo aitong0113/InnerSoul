@@ -11,6 +11,12 @@
       "password": "$2a$10$DPY5Xjwe22jn5swLiNsPJuIw.uW.KPplW0G8H3FpVUya5ciQWDcC.",
       "userName": "王小明",
       "id": 2
+    },
+    {
+      "email": "sad@gmail.com",
+      "password": "$2a$10$fzvZtxO767Urko4BaXhzAuo7N5Dty1o196jxgYXwhhNVws1pGV2Au",
+      "userName": "憂憂",
+      "id": 3
     }
   ]
 }
