@@ -1,15 +1,15 @@
 import Card from "../../components/common/Card/Card";
-import SignUpForm from "../../components/auth/SignUpForm";
+import LoginForm from "../../components/auth/LoginForm";
 
-const Login = () => {
+function Login() {
   return (
     <div style={{ maxWidth: "400px", margin: "40px auto" }}>
       <Card>
-        <h2>Login</h2>
-        <SignUpForm />
+        <h2 className="text-center">登入</h2>
+        <LoginForm />
       </Card>
     </div>
   );
-};
+}
 
 export default Login;
