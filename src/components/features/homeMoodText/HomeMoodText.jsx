@@ -1,23 +1,17 @@
 import { useState } from "react";
 import { moodText } from "./moodText";
+import { getMoodText } from "./getMoodText";
 
 function HomeMoodText() {
-  const [randomIndex, setRandomIndex] = useState(() =>
-    Math.floor(Math.random() * moodText.length)
-  );
+  // 初始化隨機文字
+  const [text, setText] = useState(getMoodText());
 
   const handleChange = () => {
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * moodText.length);
-    } while (newIndex === randomIndex && moodText.length > 1);
-    setRandomIndex(newIndex);
+    setText(getMoodText());
   };
 
-  const text = moodText[randomIndex];
-
   return (
-    <div>
+    <div className="mood-text">
       <div>{text}</div>
       <button onClick={handleChange}>換一換</button>
     </div>
