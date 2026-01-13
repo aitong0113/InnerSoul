@@ -4,7 +4,7 @@ import { ROUTES } from "../../constants/routes";
 import { logout } from "../../services/auth/authService";
 
 import logo from "../../assets/logo.png";
-import "./header.scss";
+// import "./header.scss";
 import { useEffect, useState } from "react";
 
 function Header() {
