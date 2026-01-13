@@ -1,3 +1,6 @@
+@import "bootstrap/scss/functions";
+@import '../../assets/variables';
+
 /* =========================================
    Header 基本設定
 ========================================= */
@@ -6,7 +9,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #A2D9FA; /* 滾動前藍色 */
+  background-color: $BG-02; /* 滾動前藍色 */
   transition: all 0.35s ease;
 }
 
@@ -19,14 +22,13 @@
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto auto;
   grid-template-areas:
-    ". nav ."
-    "logo . auth";
+    '. nav .'
+    'logo . auth';
 
   row-gap: 12px;
   align-items: center;
 
-  /*  兩層 padding 的來源 */
-  padding: 24px 0;
+  padding: 24px 0; /* 兩層 padding 的來源 */
 }
 
 /* LOGO（第二行左） */
@@ -46,7 +48,7 @@
 
 .main-nav a {
   text-decoration: none;
-  color: #4A4A4A;
+  color: $gray-700;
   font-weight: 500;
 }
 
@@ -65,9 +67,10 @@
   background-color: transparent;
   padding-top: 12px;
   padding-bottom: 12px;
+  top: 20px; /* 與設計稿距離頂端 20px */
 }
 
-/*  關鍵：整組 layout 切換 */
+/* 關鍵：整組 layout 切換 */
 .site-header.scrolled .header-inner {
   display: flex;
   align-items: center;
@@ -78,11 +81,11 @@
   grid-template-columns: none;
   grid-template-rows: none;
 
-  background-color: #ffffff;
+  background-color: $white;
   border-radius: 100px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
-  padding: 12px 40px;
+  padding: 20px 40px; /* 視覺高度貼近 Figma 120px */
 }
 
 /* LOGO 縮小 */
