@@ -1,24 +1,39 @@
-import logo from '../../assets/logo.png';
-import './header.scss';
-import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
+import { logout } from "../../services/auth/authService";
+
+import logo from "../../assets/logo.png";
+// import "./header.scss";
+import { useEffect, useState } from "react";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const token = localStorage.getItem("accessToken");
+  const userName = localStorage.getItem("userName");
+  const isLoggedIn = !!token;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => {
       setIsScrolled(window.scrollY > 80);
     };
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  return (
-    <header className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="container header-inner">
+  function handleLogout() {
+    logout();
+    navigate(ROUTES.home);
+  }
 
+  return (
+    <header className={`site-header ${isScrolled ? "scrolled" : ""}`}>
+      <div className="container header-inner">
         {/* LOGO */}
-        <img src={logo} alt="Inner Soul" className="site-logo" />
+        <Link to={ROUTES.home} className="site-logo">
+          <img src={logo} alt="Inner Soul" className="site-logo" />
+        </Link>
 
         {/* 主選單 */}
         <nav className="main-nav">
@@ -30,10 +45,24 @@ function Header() {
 
         {/* 登入註冊 */}
         <div className="auth-buttons">
-          <button className="btn btn-outline">登入</button>
-          <button className="btn btn-outline">註冊</button>
+          {isLoggedIn ? (
+            <>
+              <span>你好! {userName}</span>
+              <button className="btn btn-outline" onClick={handleLogout}>
+                登出
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to={ROUTES.login} className="btn btn-outline">
+                登入
+              </Link>
+              <Link to={ROUTES.signup} className="btn btn-outline">
+                註冊
+              </Link>
+            </>
+          )}
         </div>
-
       </div>
     </header>
   );

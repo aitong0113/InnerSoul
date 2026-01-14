@@ -1,27 +1,11 @@
-import { useState } from "react";
-import { moodText } from "./moodText";
+import React from "react";
 
-function HomeMoodText() {
-  const [randomIndex, setRandomIndex] = useState(() =>
-    Math.floor(Math.random() * moodText.length)
-  );
-
-  const handleChange = () => {
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * moodText.length);
-    } while (newIndex === randomIndex && moodText.length > 1);
-    setRandomIndex(newIndex);
-  };
-
-  const text = moodText[randomIndex];
-
+const HomeMoodText = ({ text }) => {
   return (
-    <div>
-      <div>{text}</div>
-      <button onClick={handleChange}>換一換</button>
+    <div key={text} className="mood-text fade-in-out">
+      <p>{text}</p>
     </div>
   );
-}
+};
 
 export default HomeMoodText;

@@ -7,31 +7,10 @@
 @import "bootstrap/scss/bootstrap";
 
 // 自訂樣式
-body {
-  background: linear-gradient(
-    to bottom,
-    #a2d9fa 0%,
-    #a2d9fa 25%,
-    #a2d9fa 50%,
-    #a2d9fa 75%,
-    #a2d9fa 100%
-  );
-}
 
-// 首頁
-.card-linerBG {
-  background: linear-gradient(#cde8fa, #ffffff);
-}
+// layout
+@import "./layout/header";
+@import "./layout/footer";
 
-.tag {
-  background: linear-gradient(to right, #b9e5e880, #ffffff80);
-  border-radius: 20px;
-  border: 3px solid $white;
-}
-
-.heroBtn:hover {
-  background: linear-gradient(to right, #398c9f, #7ab2d380);
-  color: #ffffff;
-  border-color: $white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15), 0 0 10px rgba(255, 255, 255, 1);
-}
+// pages
+@import "./pages/index";

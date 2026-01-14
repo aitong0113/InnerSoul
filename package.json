@@ -12,6 +12,7 @@
     "mock": "json-server-auth --watch ./mock/db.json --port 3001"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.36.1",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
@@ -32,7 +33,7 @@
     "globals": "^16.5.0",
     "json-server": "^0.17.4",
     "json-server-auth": "^2.1.0",
-    "sass": "^1.97.1",
+    "sass": "^1.97.2",
     "vite": "^7.2.4"
   }
 }

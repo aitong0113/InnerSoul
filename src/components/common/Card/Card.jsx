@@ -1,4 +1,4 @@
-// src/component/Card.jsx
+// 未使用
 
 function Card({ title, children }) {
   return (

@@ -2,39 +2,38 @@
 
 // 引入功能模組（整個功能）
 import HomeMoodText from "../../components/features/homeMoodText/HomeMoodText.jsx";
+import HomeHero from "../../components/features/homehero/HomeHero.jsx";
 
 // （如果你想包卡片，可用 component）
 // import Card from '../components/Card';
+import Button from "../../components/common/Button/Button.jsx";
 
 function Home() {
   return (
-    <main className="container py-4">
-      {/* h1跟HomeMoodText是原本Home.jsx裡面就有的內容 */}
-
-      <h1>心途 InnerSoul</h1>
-      {/* 功能區塊 */}
-      <HomeMoodText />
-
-      {/* main只能有一個，所以先將這段的main標籤都改成section */}
-      <section className="site-main">
-        <section className="bg-bg-02 py-10">
-          <div className="container">{/* 中間內容 */}</div>
-        </section>
+    <main className="bg-BG-01">
+      {/* Hero 區塊 */}
+      <HomeHero />
+      <div className="container py-11">
+        {/* 心途小語換一換功能待處理 */}
+        <HomeMoodText />
+      </div>
+      {/* 試聽區塊 */}
+      <section>
+        <div className="container py-11">
+          <Button text="孤獨" imgUrl="/Union.png"></Button>
+        </div>
       </section>
-
-      {/* 以下是 ck 調整 App.jsx 的內容（註解可刪） */}
-      {/* Hero */}
+      {/* 功能區塊 */}
       <section>
         <div className="container py-11">
           <button
             type="button"
-            className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3"
+            className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3 bg-white fw-bold"
           >
             開始訂閱你的心途
           </button>
         </div>
       </section>
-
       {/* 關於心途 */}
       <section>
         <div className="container py-11">
@@ -49,7 +48,7 @@ function Home() {
       <section>
         <div className="container py-11 text-center">
           <div className="row row-cols-3">
-            <div className="col card card-linerBG py-9">
+            <div className="col card card-linerBG py-9 border-0">
               <i className="bi bi-play-fill d-block mb-3"></i>
               <p className="text-black-700 h5 mb-7">音頻播放次數</p>
               <p className="text-primary-05 h2">12,483 次</p>
@@ -57,9 +56,8 @@ function Home() {
           </div>
         </div>
       </section>
-
       {/* 常見問題 */}
-      <section>
+      <section className="bg-liner">
         <div className="container py-11">
           <div className="accordion" id="faqList">
             <div className="accordion-item">
@@ -89,7 +87,6 @@ function Home() {
           </div>
         </div>
       </section>
-      {/*  */}
     </main>
   );
 }

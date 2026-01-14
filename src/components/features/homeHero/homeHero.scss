@@ -1,0 +1,140 @@
+/* Hero 樣式 */
+.hero-container {
+  min-height: 640px;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-content {
+  width: 100%;
+  max-width: 1296px;
+  display: flex;
+  align-items: center;
+}
+
+/* 左側區塊*/
+.hero-left {
+  flex: 1;
+  line-height: 1.2;
+
+  .hero-title {
+    margin-bottom: 40px;
+    font-weight: 700;
+  }
+
+  .hero-text {
+    font-size: 24px;
+    margin-bottom: 88px;
+    font-weight: 700;
+    // color: $black-700;
+  }
+}
+
+/* 右側區塊 */
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/src/assets/blue-blob.png"),
+    /* 藍色斑點 */ url("/src/assets/white-blob.png");
+  /* 白色斑點 */
+  background-position: 100% 100%, /* 藍色位置 (X% Y%) */ center center;
+  /* 白色位置 */
+  background-size: 220px auto, /* 藍色大小 */ contain;
+  /* 白色大小 */
+  background-repeat: no-repeat;
+  min-height: 480px;
+  position: relative;
+}
+
+/* --- 心途小語 --- */
+.quote-card {
+  width: 100%;
+  max-width: 636px;
+  display: flex;
+  flex-direction: column;
+  gap: 82px;
+}
+
+.quote-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 60px;
+}
+
+.quote-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.title-icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* --- 小語文字 --- */
+.quote-body {
+  text-align: center;
+  // color: $BG-05;
+  font-weight: 700;
+  line-height: 1.2;
+  font-size: 28px;
+  margin-top: 24px;
+  margin-bottom: 14px;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+/* --- 底部簽名 --- */
+.quote-footer {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: end;
+  margin-right: 60px;
+}
+/* icon 旋轉一次 */
+.rotate-once {
+  animation: rotateOnce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes rotateOnce {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 小語淡入 */
+.fade-in-out {
+  animation: fadeInOut 0.6s ease;
+  animation-delay: 0.1s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInOut {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
