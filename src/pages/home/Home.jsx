@@ -2,28 +2,21 @@
 
 // 引入功能模組（整個功能）
 import HomeMoodText from "../../components/features/homeMoodText/HomeMoodText.jsx";
+import HomeHero from "../../components/features/homehero/HomeHero.jsx";
 
 // （如果你想包卡片，可用 component）
 // import Card from '../components/Card';
 
 function Home() {
   return (
-    <main className="container py-4">
-      {/* h1跟HomeMoodText是原本Home.jsx裡面就有的內容 */}
-
-      <h1>心途 InnerSoul</h1>
-      {/* 功能區塊 */}
+    <main className="bg-BG-01">
+      {/* Hero 區塊 */}
+      <HomeHero />
+      <div className="container py-11">
+        {/* 心途小語換一換功能待處理 */}
       <HomeMoodText />
-
-      {/* main只能有一個，所以先將這段的main標籤都改成section */}
-      <section className="site-main">
-        <section className="bg-bg-02 py-10">
-          <div className="container">{/* 中間內容 */}</div>
-        </section>
-      </section>
-
-      {/* 以下是 ck 調整 App.jsx 的內容（註解可刪） */}
-      {/* Hero */}
+      </div>
+      {/* 功能區塊 */}
       <section>
         <div className="container py-11">
           <button
@@ -34,7 +27,6 @@ function Home() {
           </button>
         </div>
       </section>
-
       {/* 關於心途 */}
       <section>
         <div className="container py-11">
@@ -57,7 +49,6 @@ function Home() {
           </div>
         </div>
       </section>
-
       {/* 常見問題 */}
       <section>
         <div className="container py-11">
@@ -89,7 +80,6 @@ function Home() {
           </div>
         </div>
       </section>
-      {/*  */}
     </main>
   );
 }
