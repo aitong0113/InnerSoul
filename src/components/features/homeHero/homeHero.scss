@@ -106,3 +106,40 @@
   text-align: end;
   margin-right: 60px;
 }
+/* icon 旋轉一次 */
+.rotate-once {
+  animation: rotateOnce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes rotateOnce {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 小語淡入 */
+.fade-in-out {
+  animation: fadeInOut 0.6s ease;
+  animation-delay: 0.1s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInOut {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

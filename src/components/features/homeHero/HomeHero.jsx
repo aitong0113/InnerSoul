@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './homeHero.scss';
 import flowerIcon from "../../../assets/flower.png";
 import { IconRotateClockwise } from '@tabler/icons-react';
+import HomeMoodText from "../homeMoodText/HomeMoodText";
+import { getMoodText } from "../homeMoodText/getMoodText";
 
 const HomeHero = () => {
 
+  const [text, setText] = useState(getMoodText());
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [isRotating, setIsRotating] = useState(false);
+  const handleChange = () => {
+    if (isDisabled) return;
+
+    setIsDisabled(true);
+    setIsRotating(true);
+    setText(getMoodText());
+
+    setTimeout(() => {
+      setIsRotating(false);   // 移除 class，讓下次能再轉
+      setIsDisabled(false);
+    }, 600);
+  };
 
   return (
     <div className="bg-BG-01">
@@ -33,18 +50,24 @@ const HomeHero = () => {
                   <img src={flowerIcon} alt="flower" className="title-icon" />
                   今日心途小語
                 </span>
-                <button type="button"
-                  className="btn refresh-btn text-black-700">
-                  <IconRotateClockwise size={24} />
-                  <span className='fw-bold ms-1'>
-                    換一換
-                  </span>
+
+                <button
+                  type="button"
+                  className="btn refresh-btn text-black-700"
+                  onClick={handleChange}
+                >
+                  <IconRotateClockwise
+                  size={24}
+                  className={isRotating ? "rotate-once" : ""}
+                  />
+                  <span className="fw-bold ms-1">換一換</span>
                 </button>
               </div>
+
               <div className="quote-body">
-                <p>「你現在的樣子不需要完美，</p>
-                <p>只需要願意前進一步。」</p>
+                <HomeMoodText text={text} />
               </div>
+
               <div className="quote-footer mb-0">
                 <p className='text-black-700'>- 心途 Inner Soul</p>
               </div>
