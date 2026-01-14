@@ -6,6 +6,7 @@ import HomeHero from "../../components/features/homehero/HomeHero.jsx";
 
 // （如果你想包卡片，可用 component）
 // import Card from '../components/Card';
+import Button from "../../components/common/Button/Button.jsx";
 
 function Home() {
   return (
@@ -16,6 +17,12 @@ function Home() {
         {/* 心途小語換一換功能待處理 */}
         <HomeMoodText />
       </div>
+      {/* 試聽區塊 */}
+      <section>
+        <div className="container py-11">
+          <Button text="孤獨" imgUrl="/Union.png"></Button>
+        </div>
+      </section>
       {/* 功能區塊 */}
       <section>
         <div className="container py-11">
