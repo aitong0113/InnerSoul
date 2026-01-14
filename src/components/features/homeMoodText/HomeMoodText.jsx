@@ -1,21 +1,11 @@
-import { useState } from "react";
-import { moodText } from "./moodText";
-import { getMoodText } from "./getMoodText";
+import React from "react";
 
-function HomeMoodText() {
-  // 初始化隨機文字
-  const [text, setText] = useState(getMoodText());
-
-  const handleChange = () => {
-    setText(getMoodText());
-  };
-
+const HomeMoodText = ({ text }) => {
   return (
-    <div className="mood-text">
-      <div>{text}</div>
-      <button onClick={handleChange}>換一換</button>
+    <div key={text} className="mood-text fade-in-out">
+      <p>{text}</p>
     </div>
   );
-}
+};
 
 export default HomeMoodText;
