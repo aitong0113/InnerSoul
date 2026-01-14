@@ -1,7 +1,9 @@
-@import "bootstrap/scss/functions";
-@import '../../../assets/variables';
-/* Hero 樣式 */
+// @import "bootstrap/scss/functions";
+// @import "../../../assets/variables";
 
+@import "../../../assets/share";
+
+/* Hero 樣式 */
 .hero-container {
   min-height: 640px;
   display: flex;
@@ -39,26 +41,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image:
-    url("/src/assets/blue-blob.png"),
-    /* 藍色斑點 */
-    url("/src/assets/white-blob.png");
+  background-image: url("/src/assets/blue-blob.png"),
+    /* 藍色斑點 */ url("/src/assets/white-blob.png");
   /* 白色斑點 */
-  background-position:
-    100% 100%,
-    /* 藍色位置 (X% Y%) */
-    center center;
+  background-position: 100% 100%, /* 藍色位置 (X% Y%) */ center center;
   /* 白色位置 */
-  background-size:
-    220px auto,
-    /* 藍色大小 */
-    contain;
+  background-size: 220px auto, /* 藍色大小 */ contain;
   /* 白色大小 */
   background-repeat: no-repeat;
   min-height: 480px;
   position: relative;
 }
-
 
 /* --- 心途小語 --- */
 .quote-card {

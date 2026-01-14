@@ -7,18 +7,6 @@
 @import "bootstrap/scss/bootstrap";
 
 // 自訂樣式
-body {
-  background: linear-gradient(
-    to bottom,
-    #a2d9fa 0%,
-    #a2d9fa 25%,
-    #a2d9fa 50%,
-    #a2d9fa 75%,
-    #a2d9fa 100%
-  );
-}
-
-// components
 
 // layout
 @import "./layout/header";

@@ -14,14 +14,14 @@ function Home() {
       <HomeHero />
       <div className="container py-11">
         {/* 心途小語換一換功能待處理 */}
-      <HomeMoodText />
+        <HomeMoodText />
       </div>
       {/* 功能區塊 */}
       <section>
         <div className="container py-11">
           <button
             type="button"
-            className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3"
+            className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3 bg-white fw-bold"
           >
             開始訂閱你的心途
           </button>
@@ -41,7 +41,7 @@ function Home() {
       <section>
         <div className="container py-11 text-center">
           <div className="row row-cols-3">
-            <div className="col card card-linerBG py-9">
+            <div className="col card card-linerBG py-9 border-0">
               <i className="bi bi-play-fill d-block mb-3"></i>
               <p className="text-black-700 h5 mb-7">音頻播放次數</p>
               <p className="text-primary-05 h2">12,483 次</p>
@@ -50,7 +50,7 @@ function Home() {
         </div>
       </section>
       {/* 常見問題 */}
-      <section>
+      <section className="bg-liner">
         <div className="container py-11">
           <div className="accordion" id="faqList">
             <div className="accordion-item">
