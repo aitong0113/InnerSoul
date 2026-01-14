@@ -1,8 +1,3 @@
-// @import "bootstrap/scss/functions";
-// @import "../../../assets/variables";
-
-@import "../../../assets/share";
-
 /* Hero 樣式 */
 .hero-container {
   min-height: 640px;
@@ -31,7 +26,7 @@
     font-size: 24px;
     margin-bottom: 88px;
     font-weight: 700;
-    color: $black-700;
+    // color: $black-700;
   }
 }
 
@@ -87,7 +82,7 @@
 /* --- 小語文字 --- */
 .quote-body {
   text-align: center;
-  color: $BG-05;
+  // color: $BG-05;
   font-weight: 700;
   line-height: 1.2;
   font-size: 28px;
