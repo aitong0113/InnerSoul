@@ -1,0 +1,20 @@
+.card-linerBG {
+  background: linear-gradient(#cde8fa, #ffffff);
+}
+
+.tag {
+  background: linear-gradient(to right, #b9e5e880, #ffffff80);
+  border-radius: 20px;
+  border: 3px solid $white;
+}
+
+.heroBtn:hover {
+  background: linear-gradient(to right, #398c9f, #7ab2d380);
+  color: #ffffff;
+  border-color: $white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15), 0 0 10px rgba(255, 255, 255, 1);
+}
+
+.bg-liner {
+  background: linear-gradient(to bottom, $BG-01, $BG-02);
+}
