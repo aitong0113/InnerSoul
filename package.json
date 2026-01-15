@@ -8,17 +8,22 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "mock": "json-server-auth --watch ./mock/db.json --port 3001"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.36.1",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "gh-pages": "^6.3.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.12.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@stylistic/eslint-plugin": "^5.6.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
@@ -26,7 +31,9 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "sass": "^1.97.1",
+    "json-server": "^0.17.4",
+    "json-server-auth": "^2.1.0",
+    "sass": "^1.97.2",
     "vite": "^7.2.4"
   }
 }

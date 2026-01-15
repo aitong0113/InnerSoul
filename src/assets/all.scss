@@ -1,3 +1,16 @@
-@import 'bootstrap/scss/functions';
-@import './variables';
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/functions";
+
+// 客制變數
+@import "./variables";
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// 自訂樣式
+
+// layout
+@import "./layout/header";
+@import "./layout/footer";
+
+// pages
+@import "./pages/index";

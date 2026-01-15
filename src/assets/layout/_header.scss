@@ -1,0 +1,107 @@
+/* =========================================
+   Header 基本設定
+========================================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: $BG-01; /* 滾動前藍色 */
+  transition: all 0.35s ease;
+  height: 120px; /* 固定高度 */
+}
+
+/* =========================================
+   滾動前（預設）：兩行 Header（Grid）
+========================================= */
+
+.site-header .header-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    ". nav ."
+    "logo . auth";
+
+  row-gap: 12px;
+  align-items: center;
+
+  padding: 24px 0; /* 兩層 padding 的來源 */
+}
+
+/* LOGO（第二行左） */
+.site-logo {
+  grid-area: logo;
+  height: 50px;
+  transition: all 0.35s ease;
+}
+
+/* 主選單（第一行置中） */
+.main-nav {
+  grid-area: nav;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: $gray-700;
+  font-weight: 500;
+}
+
+/* 登入 / 註冊（第二行右） */
+.auth-buttons {
+  grid-area: auth;
+  display: flex;
+  gap: 8px;
+}
+
+/* =========================================
+   滾動後：白色膠囊 Header（Flex）
+========================================= */
+
+.site-header.scrolled {
+  background-color: transparent;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* 關鍵：整組 layout 切換 */
+.site-header.scrolled .header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  /* 清除 Grid 影響 */
+  grid-template-areas: none;
+  grid-template-columns: none;
+  grid-template-rows: none;
+
+  background-color: $white;
+  border-radius: 100px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  padding: 20px 40px; /* 視覺高度貼近 Figma 120px */
+}
+
+/* LOGO 縮小 */
+.site-header.scrolled .site-logo {
+  height: 40px;
+}
+
+/* 主選單置中 */
+.site-header.scrolled .main-nav {
+  flex: 1;
+  justify-content: center;
+}
+
+/* 登入註冊靠右 */
+.site-header.scrolled .auth-buttons {
+  margin-left: auto;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+}
