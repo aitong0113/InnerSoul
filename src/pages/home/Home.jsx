@@ -35,25 +35,101 @@ function Home() {
         </div>
       </section>
       {/* 關於心途 */}
-      <section>
+      <section className="">
         <div className="container py-11">
-          <div className="row row-cols-4 text-center">
-            <div className="col py-9 px-10 fs-5 tag text-primary-05 fw-bold">
-              <i className="bi bi-headphones me-6"></i>語音陪伴身邊
+          <div className="row justify-content-center mb-9">
+            <div className="col-8 text-center">
+              <h2 className="fw-bold text-primary-05 mb-5">關於心途</h2>
+              <p className="text-black-700 fs-5 lh-lg">
+                心途是一個陪你梳理情緒、重新與自己連結的溫柔空間。<br />
+                在忙碌的生活裡，我們常常忘記停下腳步，聽聽自己內心真正的聲音。<br />
+                心途透過語音陪伴、心情日記、情緒標籤與個人觀察，<br />
+                提供你一個不需要完美，只需要誠實的地方。
+              </p>
+            </div>
+          </div>
+          <h5 className="text-primary-04 mb-5">在這裡，你可以</h5>
+          <div className="row row-cols-2 row-cols-md-4 g-6 text-center">
+            <div className="col">
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
+                <i className="bi bi-headphones fs-3 px-3"></i>
+                語音陪伴身邊
+              </div>
+            </div>
+            <div className="col">
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
+                <i className="bi bi-pencil fs-3 px-3"></i>
+                用文字整理自己
+              </div>
+            </div>
+            <div className="col">
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
+                <i className="bi bi-tag fs-3 px-3"></i>
+                標籤理解情緒
+              </div>
+            </div>
+            <div className="col">
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
+                <i className="bi bi-search fs-3 px-3"></i>
+                用洞察陪伴前進
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+
+      
       {/* 加入心途 */}
       <section>
         <div className="container py-11 text-center">
-          <div className="row row-cols-3">
-            <div className="col card card-linerBG py-9 border-0">
-              <i className="bi bi-play-fill d-block mb-3"></i>
-              <p className="text-black-700 h5 mb-7">音頻播放次數</p>
-              <p className="text-primary-05 h2">12,483 次</p>
+          <h2 className="fw-bold text-primary-05 mb-5">
+            已經有 99999 人加入心途
+          </h2>
+
+          <h5 className="text-black-700 mb-10">
+            一起在這裡練習理解自己、照顧自己
+          </h5>
+
+          <div className="row row-cols-1 row-cols-md-3 g-6 mb-11">
+            <div className="col">
+              <div className="card card-linerBG py-9 border-0 h-100">
+                <i className="bi bi-play-fill d-block mb-3 fs-1"></i>
+                <p className="text-black-700 h5 mb-7">音頻播放次數</p>
+                <p className="text-primary-05 h2">12,483 次</p>
+              </div>
+            </div>
+
+            <div className="col">
+              <div className="card card-linerBG py-9 border-0 h-100">
+                <i className="bi bi-journal-bookmark d-block mb-3 fs-1"></i>
+                <p className="text-black-700 h5 mb-7">心情日記數量</p>
+                <p className="text-primary-05 h2">8,294 則</p>
+              </div>
+            </div>
+
+            <div className="col">
+              <div className="card card-linerBG py-9 border-0 h-100">
+                <i className="bi bi-emoji-heart-eyes d-block mb-3 fs-1"></i>
+                <p className="text-black-700 h5 mb-7">累計情緒蓋章</p>
+                <p className="text-primary-05 h2">32,112 枚</p>
+              </div>
             </div>
           </div>
+
+          <h4 className="fw-bold text-primary-05 mb-7">
+            準備好開始練習與自己好好相處了嗎？
+          </h4>
+          <section>
+        <div className="container">
+          <button
+            type="button"
+            className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3 bg-white fw-bold"
+          >
+            開始訂閱你的心途
+          </button>
+        </div>
+      </section>
         </div>
       </section>
       {/* 常見問題 */}

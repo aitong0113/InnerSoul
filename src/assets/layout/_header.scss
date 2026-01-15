@@ -8,6 +8,7 @@
   z-index: 1000;
   background-color: $BG-01; /* 滾動前藍色 */
   transition: all 0.35s ease;
+  height: 120px; /* 固定高度 */
 }
 
 /* =========================================
@@ -64,7 +65,6 @@
   background-color: transparent;
   padding-top: 12px;
   padding-bottom: 12px;
-  top: 20px; /* 與設計稿距離頂端 20px */
 }
 
 /* 關鍵：整組 layout 切換 */
@@ -99,4 +99,9 @@
 /* 登入註冊靠右 */
 .site-header.scrolled .auth-buttons {
   margin-left: auto;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
 }
