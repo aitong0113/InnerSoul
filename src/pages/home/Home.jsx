@@ -51,27 +51,27 @@ function Home() {
           <h5 className="text-primary-04 mb-5">在這裡，你可以</h5>
           <div className="row row-cols-2 row-cols-md-4 g-6 text-center">
             <div className="col">
-              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
-                <i className="bi bi-headphones fs-3 px-3"></i>
-                語音陪伴身邊
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
+                <i className="bi bi-headphones fs-3"></i>
+                <h5 className="mb-0">語音陪伴身邊</h5>
               </div>
             </div>
             <div className="col">
-              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
-                <i className="bi bi-pencil fs-3 px-3"></i>
-                用文字整理自己
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
+                <i className="bi bi-pencil fs-3"></i>
+                <h5 className="mb-0">用文字整理自己</h5>
               </div>
             </div>
             <div className="col">
-              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
-                <i className="bi bi-tag fs-3 px-3"></i>
-                標籤理解情緒
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
+                <i className="bi bi-tag fs-3"></i>
+                <h5 className="mb-0">標籤理解情緒</h5>
               </div>
             </div>
             <div className="col">
-              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05">
-                <i className="bi bi-search fs-3 px-3"></i>
-                用洞察陪伴前進
+              <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
+                <i className="bi bi-search fs-3"></i>
+                <h5 className="mb-0">用洞察陪伴前進</h5>
               </div>
             </div>
           </div>
@@ -94,7 +94,7 @@ function Home() {
           <div className="row row-cols-1 row-cols-md-3 g-6 mb-11">
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
-                <i className="bi bi-play-fill d-block mb-3 fs-1"></i>
+                <i className="bi bi-play-fill text-primary-05 mb-3 fs-1"></i>
                 <p className="text-black-700 h5 mb-7">音頻播放次數</p>
                 <p className="text-primary-05 h2">12,483 次</p>
               </div>
@@ -102,7 +102,7 @@ function Home() {
 
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
-                <i className="bi bi-journal-bookmark d-block mb-3 fs-1"></i>
+                <i className="bi bi-journal-bookmark text-primary-05 mb-3 fs-1"></i>
                 <p className="text-black-700 h5 mb-7">心情日記數量</p>
                 <p className="text-primary-05 h2">8,294 則</p>
               </div>
@@ -110,7 +110,7 @@ function Home() {
 
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
-                <i className="bi bi-emoji-heart-eyes d-block mb-3 fs-1"></i>
+                <i className="bi bi-emoji-heart-eyes text-primary-05 mb-3 fs-1"></i>
                 <p className="text-black-700 h5 mb-7">累計情緒蓋章</p>
                 <p className="text-primary-05 h2">32,112 枚</p>
               </div>
