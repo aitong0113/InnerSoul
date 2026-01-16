@@ -9,7 +9,7 @@ import SignUp from "./pages/auth/SignUp";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Header />
       <Routes>
         <Route path={ROUTES.home} element={<Home />} />
