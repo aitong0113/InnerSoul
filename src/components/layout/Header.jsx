@@ -4,7 +4,6 @@ import { ROUTES } from "../../constants/routes";
 import { logout } from "../../services/auth/authService";
 
 import logo from "../../assets/logo.png";
-// import "./header.scss";
 import { useEffect, useState } from "react";
 
 function Header() {
@@ -37,7 +36,9 @@ function Header() {
 
         {/* 主選單 */}
         <nav className="main-nav">
-          <a href="#">語音陪伴</a>
+          <Link to={ROUTES.playlist} className="nav-link">
+            語音陪伴
+          </Link>
           <a href="#">心情日記</a>
           <a href="#">常見問題</a>
           <a href="#">訂閱方案</a>
