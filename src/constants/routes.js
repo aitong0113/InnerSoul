@@ -4,4 +4,5 @@ export const ROUTES = {
   signup: "/signup",
   payment: "/payment",
   notFound: "*",
+  playlist: "/playlist",
 };
