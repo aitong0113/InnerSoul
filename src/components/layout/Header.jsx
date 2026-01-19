@@ -24,7 +24,7 @@ function Header() {
 
   function handleLogout() {
     logout();
-    navigate(ROUTES.home);
+    navigate(0);
   }
 
   return (
