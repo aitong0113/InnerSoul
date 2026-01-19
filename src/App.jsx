@@ -7,6 +7,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Diary from "./pages/diary/Diary";
+import Playlist from "./pages/playlist/Playlist";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signup} element={<SignUp />} />
         <Route path={ROUTES.diary} element={<Diary />} />
+        <Route path={ROUTES.playlist} element={<Playlist />} />
       </Routes>
 
       <footer className="site-footer">

@@ -8,6 +8,7 @@ import HomeDiary from "../../components/features/homeDiary/HomeDiary.jsx";
 // （如果你想包卡片，可用 component）
 // import Card from '../components/Card';
 import Button from "../../components/common/Button/Button.jsx";
+import FAQList from "../../components/features/faq/FAQList.jsx";
 
 function Home() {
   return (
@@ -137,36 +138,7 @@ function Home() {
         </div>
       </section>
       {/* 常見問題 */}
-      <section className="bg-liner">
-        <div className="container py-11">
-          <div className="accordion" id="faqList">
-            <div className="accordion-item">
-              <h2 className="accordion-header" id="headingOne">
-                <button
-                  className="accordion-button fs-5 fw-bold text-primary-05"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                  aria-expanded="true"
-                  aria-controls="collapseOne"
-                >
-                  心途需要付費嗎？
-                </button>
-              </h2>
-              <div
-                id="collapseOne"
-                className="accordion-collapse collapse show"
-                aria-labelledby="headingOne"
-                data-bs-parent="#faqList"
-              >
-                <div className="accordion-body text-black-700 fs-5">
-                  心途的核心功能可部分免費使用；若你希望獲得更多深度陪伴（如完整語音陪伴聆聽、不限次數心情日記..等），歡迎查看我們的訂閱方案，選擇最適合你的方式繼續前進。
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <FAQList />
     </main>
   );
 }

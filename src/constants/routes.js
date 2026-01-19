@@ -6,4 +6,5 @@ export const ROUTES = {
   diaryBase: "/diary",
   diary: "/diary/*",
   notFound: "*",
+  playlist: "/playlist",
 };
