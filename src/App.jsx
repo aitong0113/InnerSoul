@@ -6,6 +6,7 @@ import BackToTop from "./components/common/BackToTop/BackToTop";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
+import Diary from "./pages/diary/Diary";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path={ROUTES.home} element={<Home />} />
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signup} element={<SignUp />} />
+        <Route path={ROUTES.diary} element={<Diary />} />
       </Routes>
 
       <footer className="site-footer">

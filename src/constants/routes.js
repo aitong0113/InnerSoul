@@ -3,5 +3,7 @@ export const ROUTES = {
   login: "/login",
   signup: "/signup",
   payment: "/payment",
+  diaryBase: "/diary",
+  diary: "/diary/*",
   notFound: "*",
 };
