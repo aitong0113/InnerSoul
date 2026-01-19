@@ -23,7 +23,7 @@ function Header() {
 
   function handleLogout() {
     logout();
-    navigate(ROUTES.home);
+    navigate(0);
   }
 
   return (
@@ -39,7 +39,9 @@ function Header() {
           <Link to={ROUTES.playlist} className="nav-link">
             語音陪伴
           </Link>
-          <a href="#">心情日記</a>
+          <Link to={ROUTES.diaryBase} className="nav-link">
+            心情日記
+          </Link>
           <a href="#">常見問題</a>
           <a href="#">訂閱方案</a>
         </nav>

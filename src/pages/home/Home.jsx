@@ -3,12 +3,12 @@
 // 引入功能模組（整個功能）
 import HomeMoodText from "../../components/features/homeMoodText/HomeMoodText.jsx";
 import HomeHero from "../../components/features/homehero/HomeHero.jsx";
+import HomeDiary from "../../components/features/homeDiary/HomeDiary.jsx";
 
 // （如果你想包卡片，可用 component）
 // import Card from '../components/Card';
 import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
-
 
 function Home() {
   return (
@@ -36,6 +36,8 @@ function Home() {
           </button>
         </div>
       </section>
+      {/* 從撰寫日記開始陪伴自己 */}
+      <HomeDiary />
       {/* 關於心途 */}
       <section className="">
         <div className="container py-11">
@@ -43,9 +45,12 @@ function Home() {
             <div className="col-8 text-center">
               <h2 className="fw-bold text-primary-05 mb-5">關於心途</h2>
               <p className="text-black-700 fs-5 lh-lg">
-                心途是一個陪你梳理情緒、重新與自己連結的溫柔空間。<br />
-                在忙碌的生活裡，我們常常忘記停下腳步，聽聽自己內心真正的聲音。<br />
-                心途透過語音陪伴、心情日記、情緒標籤與個人觀察，<br />
+                心途是一個陪你梳理情緒、重新與自己連結的溫柔空間。
+                <br />
+                在忙碌的生活裡，我們常常忘記停下腳步，聽聽自己內心真正的聲音。
+                <br />
+                心途透過語音陪伴、心情日記、情緒標籤與個人觀察，
+                <br />
                 提供你一個不需要完美，只需要誠實的地方。
               </p>
             </div>
@@ -79,8 +84,6 @@ function Home() {
           </div>
         </div>
       </section>
-
-
 
       {/* 加入心途 */}
       <section>
@@ -135,7 +138,7 @@ function Home() {
         </div>
       </section>
       {/* 常見問題 */}
-        <FAQList />
+      <FAQList />
     </main>
   );
 }
