@@ -57,9 +57,7 @@ const DiaryHome = () => {
   const ymdKey = (year, month, day) => {
     return `${year}/${pad2(month + 1)}/${pad2(day)}`;
   };
-  const todayKey = `${today.getFullYear()}/${pad2(
-    today.getMonth() + 1,
-  )}/${pad2(today.getDate())}`;
+  const todayKey = `${today.getFullYear()}/${pad2(today.getMonth() + 1)}/${pad2(today.getDate())}`;
 
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());

@@ -8,6 +8,7 @@ import "./sidebar.css";
 //   fileName: "",
 //   fileUrl: "",
 //   thumb: "",
+//   liked:false,
 // },
 // 模擬資料
 const mediaData = [
@@ -74,6 +75,8 @@ const listData = [
     listID: "",
     listName: "冷靜",
     songsID: ["1", "4", "3"], //放入歌曲id後去抓資料
+    owner: "",
+    follower: [],
   },
 ];
 
@@ -119,7 +122,6 @@ function Player() {
     if (!audioRef.current) {
       audioRef.current = new Audio(song.fileUrl);
       setPlayerType("bar");
-      console.log(playerType);
     } else if (currentSong?.fileUrl !== song.fileUrl) {
       audioRef.current.src = song.fileUrl;
     }
@@ -128,66 +130,6 @@ function Player() {
     setCurrentIndex(index);
     setIsPlaying(true);
   };
-  // 上一首選擇
-  const prevSong = () => {
-    switch (repeatType) {
-      case "singleRepeat":
-        // 不要走playMusic()直接操控
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-        setIsPlaying(true);
-        break;
-      case "listRepeat":
-        const prevIndex =
-          currentIndex > 0 ? currentIndex - 1 : songList.length - 1;
-        playMusic(songList[prevIndex], prevIndex);
-        break;
-      default:
-        if (currentIndex > 0) {
-          playMusic(songList[currentIndex - 1], currentIndex - 1);
-        } else {
-          setIsPlaying(false);
-          audioRef.current.pause();
-        }
-        break;
-    }
-  };
-  // 下一首選擇
-  const nextSong = () => {
-    switch (repeatType) {
-      case "singleRepeat":
-        // 不要走playMusic()直接操控
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-        setIsPlaying(true);
-        break;
-      case "listRepeat":
-        const nextIndex =
-          currentIndex + 1 < songList.length ? currentIndex + 1 : 0;
-        playMusic(songList[nextIndex], nextIndex);
-        break;
-      default:
-        // 順著播但到最後就停
-        if (currentIndex + 1 < songList.length) {
-          playMusic(songList[currentIndex + 1], currentIndex + 1);
-        } else {
-          setIsPlaying(false);
-          audioRef.current.pause();
-        }
-        break;
-    }
-  };
-  // 自動播放
-  useEffect(() => {
-    if (!audioRef.current) return;
-    //onended告訴瀏覽器，音樂播完要做什麼
-    audioRef.current.onended = () => {
-      nextSong();
-    };
-    return () => {
-      audioRef.current.onended = null;
-    };
-  }, [nextSong]); //即repeatType,currentIndex,songList改變時刷新
 
   // 重複播放功能
   const [repeatType, setRepeatType] = useState("none");
@@ -207,6 +149,70 @@ function Player() {
       }
     });
   };
+  // 上一首選擇
+  const prevSong = () => {
+    switch (repeatType) {
+      case "singleRepeat": {
+        // 不要走playMusic()直接操控
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+        setIsPlaying(true);
+        break;
+      }
+      case "listRepeat": {
+        const prevIndex = currentIndex > 0 ? currentIndex - 1 : songList.length - 1;
+        playMusic(songList[prevIndex], prevIndex);
+        break;
+      }
+      default: {
+        if (currentIndex > 0) {
+          playMusic(songList[currentIndex - 1], currentIndex - 1);
+        } else {
+          setIsPlaying(false);
+          audioRef.current.pause();
+        }
+        break;
+      }
+    }
+  };
+  // 下一首選擇
+  const nextSong = () => {
+    switch (repeatType) {
+      case "singleRepeat": {
+        // 不要走playMusic()直接操控
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+        setIsPlaying(true);
+        break;
+      }
+      case "listRepeat": {
+        const nextIndex = currentIndex + 1 < songList.length ? currentIndex + 1 : 0;
+        playMusic(songList[nextIndex], nextIndex);
+        break;
+      }
+      default: {
+        // 順著播但到最後就停
+        if (currentIndex + 1 < songList.length) {
+          playMusic(songList[currentIndex + 1], currentIndex + 1);
+        } else {
+          setIsPlaying(false);
+          audioRef.current.pause();
+        }
+        break;
+      }
+    }
+  };
+  // 自動播放
+  useEffect(() => {
+    if (!audioRef.current) return;
+    //onended告訴瀏覽器，音樂播完要做什麼
+    audioRef.current.onended = () => {
+      nextSong();
+    };
+    return () => {
+      audioRef.current.onended = null;
+    };
+  }, [nextSong]); //即repeatType,currentIndex,songList改變時刷新
 
   // 切換播放器
   const changePlayer = () => {
@@ -261,10 +267,7 @@ function Player() {
               <div className="d-flex align-items-center justify-content-center">
                 <p>播放清單</p>
                 <div className="btn ms-auto">
-                  <i
-                    className="bi bi-chevron-down ms-auto"
-                    onClick={() => changePlayer()}
-                  ></i>
+                  <i className="bi bi-chevron-down ms-auto" onClick={() => changePlayer()}></i>
                 </div>
               </div>
               <ul className="text-start px-0">
@@ -299,23 +302,17 @@ function Player() {
               </ul>
               {/* 正在播放，有播放才顯示*/}
               {currentSong && (
-                <div
-                  className="text-start d-flex"
-                  style={{ background: "gray" }}
-                >
+                <div className="text-start d-flex" style={{ background: "gray" }}>
                   <p className="me-auto">{`${currentSong.category} | ${currentSong.fileName}`}</p>
                   <button className="btn border-0" onClick={() => favorite()}>
-                    <i
-                      className={
-                        currentSong.liked ? "bi bi-heart-fill" : "bi bi-heart "
-                      }
-                    ></i>
+                    <i className={currentSong.liked ? "bi bi-heart-fill" : "bi bi-heart "}></i>
                   </button>
                 </div>
               )}
             </div>
             {/* 進度條 */}
             <input
+              className="sidebar"
               type="range"
               min="0"
               max={duration || 0}
@@ -334,15 +331,9 @@ function Player() {
                 </div>
                 <div
                   className="btn border-0"
-                  onClick={() =>
-                    playMusic(songList[currentIndex], currentIndex)
-                  }
+                  onClick={() => playMusic(songList[currentIndex], currentIndex)}
                 >
-                  <i
-                    className={
-                      isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"
-                    }
-                  ></i>
+                  <i className={isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"}></i>
                 </div>
                 <div className="btn border-0" onClick={() => nextSong()}>
                   <i className="bi bi-chevron-bar-right"></i>
@@ -350,19 +341,16 @@ function Player() {
                 <div className="btn border-0" onClick={() => repeat()}>
                   <i
                     className={
-                      repeatType == "none"
+                      repeatType === "none"
                         ? "bi bi-ban"
-                        : repeatType == "singleRepeat"
+                        : repeatType === "singleRepeat"
                           ? "bi bi-repeat-1"
                           : "bi bi-repeat"
                     }
                   ></i>
                 </div>
                 <div className="btn border-0">
-                  <i
-                    className="bi bi-list-task"
-                    onClick={() => changePlayer()}
-                  ></i>
+                  <i className="bi bi-list-task" onClick={() => changePlayer()}></i>
                 </div>
               </div>
             </div>
@@ -389,15 +377,10 @@ function Player() {
                 className="btn border-0"
                 onClick={() => playMusic(songList[currentIndex], currentIndex)}
               >
-                <i
-                  className={isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"}
-                ></i>
+                <i className={isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"}></i>
               </div>
               <div className="btn border-0">
-                <i
-                  className="bi bi-list-task"
-                  onClick={() => changePlayer()}
-                ></i>
+                <i className="bi bi-list-task" onClick={() => changePlayer()}></i>
               </div>
             </div>
           </div>

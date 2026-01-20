@@ -1,4 +1,4 @@
-input {
+input.sidebar {
   --c: lightblue; /* active color */
   --g: 0px; /* the gap */
   --l: 3px; /* line thickness*/
@@ -14,16 +14,19 @@ input {
   cursor: pointer;
   overflow: hidden;
 }
-input:focus-visible,
-input:hover {
+
+input.sidebar:focus-visible,
+input.sidebar:hover {
   --p: 25%;
 }
-input:active,
-input:focus-visible {
+
+input.sidebar:active,
+input.sidebar:focus-visible {
   --_b: var(--s);
 }
+
 /* chromium */
-input[type="range" i]::-webkit-slider-thumb {
+input.sidebar[type="range" i]::-webkit-slider-thumb {
   height: var(--s);
   aspect-ratio: 1;
   border-radius: 50%;
@@ -34,8 +37,9 @@ input[type="range" i]::-webkit-slider-thumb {
   appearance: none;
   transition: 0.3s;
 }
+
 /* Firefox */
-input[type="range"]::-moz-range-thumb {
+input.sidebar[type="range"]::-moz-range-thumb {
   height: var(--s);
   width: var(--s);
   background: none;
@@ -47,8 +51,9 @@ input[type="range"]::-moz-range-thumb {
   appearance: none;
   transition: 0.3s;
 }
+
 @supports not (color: color-mix(in srgb, red, red)) {
-  input {
+  input.sidebar {
     --_c: var(--c);
   }
 }
