@@ -1,3 +1,43 @@
+.player {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 999;
+}
+
+.list-item {
+  &:hover {
+    .item-play {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  .item-play {
+    opacity: 0;
+    pointer-events: none; /* 避免誤點 */
+    transition: opacity 0.2s ease;
+  }
+}
+/*  */
+.volume-panel {
+  position: absolute;
+  width: 120px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: rotate(-90deg);
+}
+.volume-panel-bar {
+  bottom: 70px;
+  left: -40px;
+}
+
+.volume-panel-mini {
+  left: 80px;
+  bottom: 70px;
+}
+
 input.sidebar {
   --c: lightblue; /* active color */
   --g: 0px; /* the gap */
@@ -31,8 +71,8 @@ input.sidebar[type="range" i]::-webkit-slider-thumb {
   aspect-ratio: 1;
   border-radius: 50%;
   box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
-  border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 /
-    calc(50% - var(--l) / 2) 100vw/0 calc(100vw + var(--g));
+  border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 / calc(50% - var(--l) / 2)
+    100vw/0 calc(100vw + var(--g));
   -webkit-appearance: none;
   appearance: none;
   transition: 0.3s;
@@ -45,8 +85,8 @@ input.sidebar[type="range"]::-moz-range-thumb {
   background: none;
   border-radius: 50%;
   box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
-  border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 /
-    calc(50% - var(--l) / 2) 100vw/0 calc(100vw + var(--g));
+  border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 / calc(50% - var(--l) / 2)
+    100vw/0 calc(100vw + var(--g));
   -moz-appearance: none;
   appearance: none;
   transition: 0.3s;

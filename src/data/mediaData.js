@@ -1,0 +1,72 @@
+// {
+//   id:""
+//   author: "",
+//   authorUrl: "",
+//   category: "",
+//   fileName: "",
+//   fileUrl: "",
+//   thumb: "",
+//   liked:false,
+// },
+// 模擬資料
+const mediaData = [
+  {
+    id: 1,
+    author: "raindrops",
+    authorUrl: "",
+    category: "calm",
+    fileName: "calm-heavenly-raindrops",
+    fileUrl: "src/assets/music/m02.mp3",
+    thumb: "",
+    liked: true,
+  },
+  {
+    id: 2,
+    author: "piano",
+    authorUrl: "",
+    category: "joy",
+    fileName: "a-quiet-joy-stevekaldes-piano",
+    fileUrl: "src/assets/music/m01.mp3",
+    thumb: "",
+    liked: true,
+  },
+  {
+    id: 3,
+    author: "piano",
+    authorUrl: "",
+    category: "calm",
+    fileName: "majestic-sky-healing-meditative-cello-and-piano",
+    fileUrl: "src/assets/music/m03.mp3",
+    thumb: "",
+    liked: false,
+  },
+  {
+    id: 4,
+    author: "chill",
+    authorUrl: "",
+    category: "chill",
+    fileName: "chill-chill-background-music",
+    fileUrl: "src/assets/music/m04.mp3",
+    thumb: "",
+  },
+  {
+    id: 5,
+    author: "132371",
+    authorUrl: "",
+    category: "chill",
+    fileName: "chill-music",
+    fileUrl: "src/assets/music/m05.mp3",
+    thumb: "",
+  },
+  {
+    id: 6,
+    author: "coffee",
+    authorUrl: "",
+    category: "chill",
+    fileName: "coffee-chill-out",
+    fileUrl: "src/assets/music/m06.mp3",
+    thumb: "",
+  },
+];
+
+export default mediaData;

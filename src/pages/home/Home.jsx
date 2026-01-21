@@ -11,14 +11,14 @@ import AudioPreviewSection from "../../components/features/previewSection/";
 import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
 
-function Home() {
+function Home({ selectPlaylist }) {
   return (
     <main className="bg-BG-01">
       {/* Hero 區塊 */}
       <HomeHero />
       <HomeMoodText />
       {/* 試聽區塊 */}
-      <AudioPreviewSection />
+      <AudioPreviewSection selectPlaylist={selectPlaylist} />
       {/* 從撰寫日記開始陪伴自己 */}
       <HomeDiary />
       {/* 關於心途 */}
@@ -71,13 +71,9 @@ function Home() {
       {/* 加入心途 */}
       <section>
         <div className="container py-11 text-center">
-          <h2 className="fw-bold text-primary-05 mb-5">
-            已經有 99999 人加入心途
-          </h2>
+          <h2 className="fw-bold text-primary-05 mb-5">已經有 99999 人加入心途</h2>
 
-          <h5 className="text-black-700 mb-10">
-            一起在這裡練習理解自己、照顧自己
-          </h5>
+          <h5 className="text-black-700 mb-10">一起在這裡練習理解自己、照顧自己</h5>
 
           <div className="row row-cols-1 row-cols-md-3 g-6 mb-11">
             <div className="col">
@@ -105,9 +101,7 @@ function Home() {
             </div>
           </div>
 
-          <h4 className="fw-bold text-primary-05 mb-7">
-            準備好開始練習與自己好好相處了嗎？
-          </h4>
+          <h4 className="fw-bold text-primary-05 mb-7">準備好開始練習與自己好好相處了嗎？</h4>
           <section>
             <div className="container">
               <button

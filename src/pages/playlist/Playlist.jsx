@@ -1,19 +1,29 @@
+import { useState } from "react";
 import Button from "../../components/common/Button/Button";
 import Player from "../../components/features/player/Player";
 import "./playlist.scss";
 
-function Playlist() {
+function Playlist({ selectPlaylist }) {
+  const [keyword, setKeyword] = useState("");
   return (
     <>
       <section>
         <div className="container py-11">
+          <input
+            type="text"
+            placeholder="搜尋歌曲或情緒"
+            onChange={(e) => setKeyword(e.target.value)}
+            value={keyword}
+            // 按enter才搜尋
+          />
           <div className="bg-playlist d-flex" style={{ borderRadius: "20px" }}>
             <div className="p-7">
-              <Button text="孤獨" imgUrl="/Union.png"></Button>
+              <Button text="孤獨" imgUrl="/Union.png" onClick={() => selectPlaylist(1)}></Button>
             </div>
             <div>
               <ul>
-                <li>在需要被理解的時刻</li>
+                {/* 取得清單資料，並渲染到畫面 */}
+                <li onClick={() => selectPlaylist(7)}>在需要被理解的時刻 </li>
               </ul>
             </div>
           </div>
@@ -42,7 +52,7 @@ function Playlist() {
             right: "20px",
           }}
         >
-          <Player></Player>
+          {/* <Player></Player> */}
         </div>
       </div>
     </>
