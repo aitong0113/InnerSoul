@@ -1,96 +1,19 @@
 import { useEffect, useState, useRef } from "react";
-import "./sidebar.css";
-// {
-//   id:""
-//   author: "",
-//   authorUrl: "",
-//   category: "",
-//   fileName: "",
-//   fileUrl: "",
-//   thumb: "",
-//   liked:false,
-// },
-// 模擬資料
-const mediaData = [
-  {
-    id: 1,
-    author: "raindrops",
-    authorUrl: "",
-    category: "calm",
-    fileName: "calm-heavenly-raindrops",
-    fileUrl: "src/assets/music/m02.mp3",
-    thumb: "",
-    liked: true,
-  },
-  {
-    id: 2,
-    author: "piano",
-    authorUrl: "",
-    category: "joy",
-    fileName: "a-quiet-joy-stevekaldes-piano",
-    fileUrl: "src/assets/music/m01.mp3",
-    thumb: "",
-    liked: true,
-  },
-  {
-    id: 3,
-    author: "piano",
-    authorUrl: "",
-    category: "calm",
-    fileName: "majestic-sky-healing-meditative-cello-and-piano",
-    fileUrl: "src/assets/music/m03.mp3",
-    thumb: "",
-    liked: false,
-  },
-  {
-    id: 4,
-    author: "chill",
-    authorUrl: "",
-    category: "chill",
-    fileName: "chill-chill-background-music",
-    fileUrl: "src/assets/music/m04.mp3",
-    thumb: "",
-  },
-  {
-    id: 5,
-    author: "132371",
-    authorUrl: "",
-    category: "chill",
-    fileName: "chill-music",
-    fileUrl: "src/assets/music/m05.mp3",
-    thumb: "",
-  },
-  {
-    id: 6,
-    author: "coffee",
-    authorUrl: "",
-    category: "chill",
-    fileName: "coffee-chill-out",
-    fileUrl: "src/assets/music/m06.mp3",
-    thumb: "",
-  },
-];
-const listData = [
-  {
-    listID: "",
-    listName: "冷靜",
-    songsID: ["1", "4", "3"], //放入歌曲id後去抓資料
-    owner: "",
-    follower: [],
-  },
-];
+import "./player.css";
+import * as bootstrap from "bootstrap";
 
-function Player() {
+function Player({ songList }) {
   // 播放器狀態
   const [playerType, setPlayerType] = useState("none");
+  const playerRef = useRef(null);
   // 清單歌曲
-  const [songList, setSongList] = useState([]);
-  // 抓清單資料
-  const [listData, setListData] = useState({});
   useEffect(() => {
-    setSongList(mediaData);
-    const listSearch = "";
-  }, []);
+    if (!songList || songList.length === 0) return;
+    // 如果現在播的歌已經是這個清單的第一首，就不要重播
+    if (currentSong?.fileUrl === songList[0].fileUrl) return;
+    playMusic(songList[0], 0);
+  }, [songList]);
+
   // 播放單曲
   const [currentSong, setCurrentSong] = useState(null);
   //音檔位置
@@ -227,6 +150,19 @@ function Player() {
         break;
     }
   };
+  // 點擊外部收合player
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (playerType !== "mini") return;
+      if (playerRef.current && !playerRef.current.contains(e.target)) {
+        setPlayerType("bar");
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [playerType]);
 
   // 進度條
   const [barValue, setBarValue] = useState(0);
@@ -256,9 +192,37 @@ function Player() {
       audio.removeEventListener("loadedmetadata", onLoadedMetadata);
     };
   }, [currentSong]);
+
+  // 音量控制 =>不要用modal有點醜，會全域暗調
+  const [volume, setVolume] = useState(0.5);
+  const miniVolumeRef = useRef(null);
+  const barVolumeRef = useRef(null);
+  const [showVolume, setShowVolume] = useState(false);
+  const changeVolume = (e) => {
+    const value = Number(e.target.value);
+    setVolume(value);
+    if (audioRef.current) {
+      audioRef.current.volume = value;
+    }
+  };
+  // 收合音量彈窗
+  useEffect(() => {
+    if (!showVolume) return;
+    const handleClickOutside = (e) => {
+      const currentRef = playerType === "mini" ? miniVolumeRef.current : barVolumeRef.current;
+      if (currentRef && !currentRef.contains(e.target)) {
+        setShowVolume(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showVolume, playerType]);
+
   return (
     <>
-      <section>
+      <section className="player" ref={playerRef}>
         {playerType === "mini" ? (
           /* mini player */
           <div className="px-4">
@@ -274,19 +238,15 @@ function Player() {
                 {songList.map((song, index) => {
                   return (
                     <li
-                      className={
-                        isPlaying && currentSong?.fileUrl === song.fileUrl
-                          ? "d-flex w-100 align-items-center text-primary"
-                          : "d-flex w-100 align-items-center"
-                      }
+                      onClick={() => playMusic(song, index)}
+                      className={`d-flex w-100 align-items-center  ${currentSong?.fileUrl === song.fileUrl ? " text-primary" : "list-item"}`}
                       key={index}
                     >
                       <p className="m-0">
                         {song.category} | {song.fileName}
                       </p>
                       <button
-                        className="btn border-0 ms-auto"
-                        onClick={() => playMusic(song, index)}
+                        className={`btn border-0 ms-auto item-play ${currentSong?.fileUrl === song.fileUrl ? " text-primary" : "list-item"}`}
                       >
                         <i
                           className={
@@ -323,8 +283,21 @@ function Player() {
             {/* 下方按鈕 */}
             <div>
               <div className="d-flex justify-content-center">
-                <div className="btn border-0">
-                  <i className="bi bi-volume-up-fill"></i>
+                <div className="btn border-0" ref={miniVolumeRef}>
+                  <i className="bi bi-volume-up-fill" onClick={() => setShowVolume((v) => !v)}></i>
+                  {showVolume && (
+                    <div className="volume-panel volume-panel-mini">
+                      <input
+                        className="w-100"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={volume}
+                        onChange={changeVolume}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="btn border-0" onClick={() => prevSong()}>
                   <i className="bi bi-chevron-bar-left"></i>
@@ -360,7 +333,7 @@ function Player() {
           <div>
             <div style={{ marginBottom: "-10px" }}>
               <input
-                className="w-100"
+                className="w-100 sidebar"
                 type="range"
                 min="0"
                 max={duration || 0}
@@ -370,8 +343,21 @@ function Player() {
               />
             </div>
             <div>
-              <div className="btn border-0">
-                <i className="bi bi-volume-up-fill"></i>
+              <div className="btn border-0" ref={barVolumeRef}>
+                <i className="bi bi-volume-up-fill" onClick={() => setShowVolume((v) => !v)}></i>
+                {showVolume && (
+                  <div className="volume-panel volume-panel-bar">
+                    <input
+                      className="w-100 "
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={changeVolume}
+                    />
+                  </div>
+                )}
               </div>
               <div
                 className="btn border-0"
