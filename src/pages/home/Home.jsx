@@ -4,6 +4,7 @@
 import HomeMoodText from "../../components/features/homeMoodText/HomeMoodText.jsx";
 import HomeHero from "../../components/features/homehero/HomeHero.jsx";
 import HomeDiary from "../../components/features/homeDiary/HomeDiary.jsx";
+import AudioPreviewSection from "../../components/features/previewSection/";
 
 // （如果你想包卡片，可用 component）
 // import Card from '../components/Card';
@@ -15,27 +16,9 @@ function Home() {
     <main className="bg-BG-01">
       {/* Hero 區塊 */}
       <HomeHero />
-      <div className="container py-11">
-        {/* 心途小語換一換功能待處理 */}
-        <HomeMoodText />
-      </div>
+      <HomeMoodText />
       {/* 試聽區塊 */}
-      <section>
-        <div className="container py-11">
-          <Button text="孤獨" imgUrl="/Union.png"></Button>
-        </div>
-      </section>
-      {/* 功能區塊 */}
-      <section>
-        <div className="container py-11">
-          <button
-            type="button"
-            className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3 bg-white fw-bold"
-          >
-            開始訂閱你的心途
-          </button>
-        </div>
-      </section>
+      <AudioPreviewSection />
       {/* 從撰寫日記開始陪伴自己 */}
       <HomeDiary />
       {/* 關於心途 */}

@@ -7,4 +7,5 @@ export const ROUTES = {
   diary: "/diary/*",
   notFound: "*",
   playlist: "/playlist",
+  subscription: "/subscription",
 };

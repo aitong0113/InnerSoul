@@ -43,7 +43,9 @@ function Header() {
             心情日記
           </Link>
           <a href="#">常見問題</a>
-          <a href="#">訂閱方案</a>
+          <Link to={ROUTES.subscription} className="nav-link">
+            訂閱方案
+          </Link>
         </nav>
 
         {/* 登入註冊 */}

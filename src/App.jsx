@@ -8,6 +8,7 @@ import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Diary from "./pages/diary/Diary";
 import Playlist from "./pages/playlist/Playlist";
+import Subscription from "./pages/subscription/Subscription";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path={ROUTES.signup} element={<SignUp />} />
         <Route path={ROUTES.diary} element={<Diary />} />
         <Route path={ROUTES.playlist} element={<Playlist />} />
+        <Route path={ROUTES.subscription} element={<Subscription />} />
       </Routes>
 
       <footer className="site-footer">
