@@ -14,7 +14,7 @@ export default function FAQItem({ question, answer }) {
       </div>
 
       <div className="faq-answer">
-        <p>{answer}</p>
+        {answer}
       </div>
     </div>
   );

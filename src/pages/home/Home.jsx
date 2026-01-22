@@ -10,6 +10,7 @@ import AudioPreviewSection from "../../components/features/previewSection/";
 // import Card from '../components/Card';
 import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
+import Contact from "../../components/features/contact/Contact.jsx";
 
 function Home({ selectPlaylist }) {
   return (
@@ -116,6 +117,8 @@ function Home({ selectPlaylist }) {
       </section>
       {/* 常見問題 */}
       <FAQList />
+      {/* 聯絡我們 */}
+      <Contact />
     </main>
   );
 }
