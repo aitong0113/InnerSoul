@@ -1,5 +1,5 @@
 /* =========================
-   FAQ Section
+  FAQ Section
 ========================= */
 
 .faq-section {
@@ -16,23 +16,24 @@
 }
 
 /* =========================
-   FAQ 清單
+  FAQ 清單
 ========================= */
 
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 24px; // 加寬題目間間距
 }
 
 /* =========================
-   單一 FAQ Item
+  單一 FAQ Item
 ========================= */
 
 .faq-item {
   position: relative;
-  padding: 23px 40px 30px 40px;
+  padding: 23px 40px; // 統一 padding
   overflow: visible;
+  transition: padding 0.3s ease, min-height 0.3s ease;
 }
 
 /* 預設（收合）雲朵背景 */
@@ -43,19 +44,21 @@
 
   background-image: url("../../../assets/faq/faq-cloud1.png");
   background-repeat: no-repeat;
-  background-size: 100% auto;
-  background-position: top center;
+  background-size: 100% 100%;
+  background-position: center; // 定位雲朵圖片位置
 
   pointer-events: none;
   z-index: 0;
+  transition: background-image 0.3s ease;
 }
 
 /* =========================
-   展開狀態
+  展開狀態
 ========================= */
 
 .faq-item.is-open {
   padding-top: 40px;
+  padding-bottom: 40px; // 展開後上下 padding 一致
 }
 
 .faq-item.is-open::before {
@@ -65,7 +68,7 @@
 
 
 /* =========================
-   問題列
+  問題列
 ========================= */
 
 .faq-question {
@@ -78,8 +81,7 @@
 
   font-size: 20px;
   font-weight: 600;
-  line-height: 1;          // 🔥 關鍵：避免縮放時 baseline 漂移
-  padding-top: -4%;        // 🔥 視覺校正值（100% 最準）
+  line-height: 1.5;
 
   color: rgb(16, 71, 84);
   cursor: pointer;
@@ -96,7 +98,7 @@
 }
 
 /* =========================
-   答案區
+  答案區
 ========================= */
 
 .faq-answer {
@@ -104,7 +106,6 @@
   z-index: 1;
   font-size: 20px;
 
-  margin-top: 20px;
   line-height: 1.7;
   color: #555;
 
@@ -115,13 +116,14 @@
 .faq-item.is-open .faq-answer {
   max-height: 800px;
   opacity: 1;
+  margin-top: 20px; // 展開後補上 margin，拉開題目與內文間距
   transition:
     max-height 0.35s ease,
     opacity 0.25s ease;
 }
 
 /* =========================
-   RWD
+  RWD
 ========================= */
 
 @media (max-width: 768px) {
