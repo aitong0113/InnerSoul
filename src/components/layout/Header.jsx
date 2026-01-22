@@ -33,16 +33,20 @@ function Header() {
         <Link to={ROUTES.home} className="site-logo">
           <img src={logo} alt="Inner Soul" className="site-logo" />
         </Link>
-
-        {/* 主選單 */}
         <nav className="main-nav">
           <Link to={ROUTES.playlist} className="nav-link">
             語音陪伴
           </Link>
+
           <Link to={ROUTES.diaryBase} className="nav-link">
             心情日記
           </Link>
-          <a href="#">常見問題</a>
+
+          
+          <Link to="/#faq" className="nav-link">
+            常見問題
+          </Link>
+
           <Link to={ROUTES.subscription} className="nav-link">
             訂閱方案
           </Link>
