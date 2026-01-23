@@ -284,7 +284,16 @@ function Player({ songList }) {
             <div>
               <div className="d-flex justify-content-center">
                 <div className="btn border-0" ref={miniVolumeRef}>
-                  <i className="bi bi-volume-up-fill" onClick={() => setShowVolume((v) => !v)}></i>
+                  <i
+                    className={`bi ${
+                      volume === 0
+                        ? "bi-volume-mute-fill"
+                        : volume > 0.5
+                          ? "bi-volume-up-fill"
+                          : "bi-volume-down-fill"
+                    }`}
+                    onClick={() => setShowVolume((v) => !v)}
+                  ></i>
                   {showVolume && (
                     <div className="volume-panel volume-panel-mini">
                       <input
@@ -344,7 +353,16 @@ function Player({ songList }) {
             </div>
             <div>
               <div className="btn border-0" ref={barVolumeRef}>
-                <i className="bi bi-volume-up-fill" onClick={() => setShowVolume((v) => !v)}></i>
+                <i
+                  className={`bi ${
+                    volume === 0
+                      ? "bi-volume-mute-fill"
+                      : volume > 0.5
+                        ? "bi-volume-up-fill"
+                        : "bi-volume-down-fill"
+                  }`}
+                  onClick={() => setShowVolume((v) => !v)}
+                ></i>
                 {showVolume && (
                   <div className="volume-panel volume-panel-bar">
                     <input
