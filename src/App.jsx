@@ -13,6 +13,7 @@ import Player from "./components/features/player/Player";
 import listData from "./data/listData";
 import mediaData from "./data/mediaData";
 import { useMemo, useState } from "react";
+import FAQPage from "./pages/faq/faq";
 
 function App() {
   // 播放清單（給 Player 用）
@@ -42,6 +43,7 @@ function App() {
         <Route path={ROUTES.diary} element={<Diary />} />
         <Route path={ROUTES.playlist} element={<Playlist selectPlaylist={selectPlaylist} />} />
         <Route path={ROUTES.subscription} element={<Subscription />} />
+        <Route path={ROUTES.faq} element={<FAQPage />} />
       </Routes>
 
       <footer className="site-footer">

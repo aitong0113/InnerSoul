@@ -11,6 +11,7 @@ import AudioPreviewSection from "../../components/features/previewSection/";
 import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
 import Contact from "../../components/features/contact/Contact.jsx";
+import { faqData } from '../../components/features/faq/faqData';
 
 function Home({ selectPlaylist }) {
   return (
@@ -116,7 +117,12 @@ function Home({ selectPlaylist }) {
         </div>
       </section>
       {/* 常見問題 */}
-      <FAQList />
+      <section className="home-faq bg-liner pb-11">
+        <div className="container">
+          <h2 className="fw-bold text-center text-primary-05 mb-5">常見問題</h2>
+          <FAQList data={faqData.slice(0, 3)} />
+        </div>
+      </section>
       {/* 聯絡我們 */}
       <Contact />
     </main>
