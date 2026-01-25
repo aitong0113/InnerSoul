@@ -8,4 +8,5 @@ export const ROUTES = {
   notFound: "*",
   playlist: "/playlist",
   subscription: "/subscription",
+  faq: "/faq",
 };

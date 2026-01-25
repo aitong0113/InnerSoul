@@ -10,7 +10,7 @@ import {
 
 export default function ContactSection() {
   return (
-    <section className="contact-section bg-BG-02 pt-5">
+    <section className="contact-section bg-BG-02 pt-11">
       <img src={cloudRight} className="contact-cloud-right" alt="" />
 
       <div className="container pb-8">

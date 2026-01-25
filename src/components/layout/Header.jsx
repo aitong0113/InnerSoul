@@ -43,7 +43,7 @@ function Header() {
           </Link>
 
           
-          <Link to="/#faq" className="nav-link">
+          <Link to={ROUTES.faq} className="nav-link">
             常見問題
           </Link>
 
