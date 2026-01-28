@@ -138,3 +138,20 @@
   display: flex;
   align-items: center;
 }
+
+.user-greeting {
+  .member-link {
+    color: $gray-800;           // 你想要的深色
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      color: $black;         // hover 再深一點
+      text-decoration: none;
+    }
+
+    i {
+      margin-right: 4px;   // icon 跟文字拉開
+    }
+  }
+}
