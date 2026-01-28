@@ -8,6 +8,14 @@ import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Diary from "./pages/diary/Diary";
 import Playlist from "./pages/playlist/Playlist";
+import Subscription from "./pages/subscription/Subscription";
+import Player from "./components/features/player/Player";
+import listData from "./data/listData";
+import mediaData from "./data/mediaData";
+import { useMemo, useState } from "react";
+import FAQPage from "./pages/faq/faq";
+import NotFound from "./pages/not-found/NotFound";
+import MemberPage from "./pages/Member/MemberPage";
 
 function App() {
   return (
@@ -18,7 +26,11 @@ function App() {
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.signup} element={<SignUp />} />
         <Route path={ROUTES.diary} element={<Diary />} />
-        <Route path={ROUTES.playlist} element={<Playlist />} />
+        <Route path={ROUTES.playlist} element={<Playlist selectPlaylist={selectPlaylist} />} />
+        <Route path={ROUTES.subscription} element={<Subscription />} />
+        <Route path={ROUTES.faq} element={<FAQPage />} />
+        <Route path="/member" element={<MemberPage />} />
+        <Route path="*" element={<NotFound />} /> {/* 404 */}
       </Routes>
 
       <footer className="site-footer">

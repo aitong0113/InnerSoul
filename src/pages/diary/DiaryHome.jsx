@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
+import api from "../../services/api.js";
+import { MOODS } from "../../constants/moods.js";
+import { authStore } from "../../services/auth/authStore.js";
 
 const DiaryHome = () => {
   const MONTH_SHORT = [
@@ -83,6 +86,64 @@ const DiaryHome = () => {
     const d = new Date(year, month + 1, 1);
     setYear(d.getFullYear());
     setMonth(d.getMonth());
+  };
+
+  const [diary, setDiary] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const hasDiary = !!diary;
+  const userId = authStore.getUserId();
+
+  useEffect(() => {
+    const fetchMonthMood = async () => {
+      if (!userId) return;
+
+      const start = `${year}-${pad2(month + 1)}-01`;
+      const lastDay = new Date(year, month + 1, 0).getDate();
+      const end = `${year}-${pad2(month + 1)}-${pad2(lastDay)}`;
+      try {
+        const res = await api.get(
+          `/diaries?userId=${userId}&diaryDate_gte=${start}&diaryDate_lte=${end}`
+        );
+
+        const map = {};
+        for (const d of res.data || []) {
+          const dayNum = Number(String(d.diaryDate).slice(8, 10));
+          map[dayNum] = d.mood;
+        }
+        setMoodByDay(map);
+      } catch (err) {
+        console.error("讀取當月心情失敗", err);
+        setMoodByDay({});
+      }
+    };
+
+    fetchMonthMood();
+  }, [userId, year, month]);
+
+  useEffect(() => {
+    const fetchDiary = async () => {
+      if (!userId || !selectedKey) return;
+      setLoading(true);
+
+      try {
+        const res = await api.get(`/diaries?userId=${userId}&diaryDate=${selectedKey}`);
+        setDiary(res.data[0] || null);
+      } catch (err) {
+        console.error("讀取日記失敗", err);
+        setDiary(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDiary();
+  }, [userId, selectedKey]);
+
+  const renderMood = (moodId) => {
+    const key = String(moodId).toLowerCase();
+    const mood = moodDict[key];
+    if (!mood) return null;
+    return <img src={mood.icon} alt={mood.chName} className="mood-stamp" />;
   };
 
   return (
