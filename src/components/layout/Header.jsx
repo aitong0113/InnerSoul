@@ -42,7 +42,6 @@ function Header() {
             心情日記
           </Link>
 
-          
           <Link to={ROUTES.faq} className="nav-link">
             常見問題
           </Link>
