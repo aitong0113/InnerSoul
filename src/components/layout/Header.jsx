@@ -56,7 +56,19 @@ function Header() {
         <div className="auth-buttons">
           {isLoggedIn ? (
             <>
-              <span>你好! {userName}</span>
+              <span className="user-greeting">
+                <Link
+                  to="/member"
+                  className="member-link"
+                  aria-label="前往會員中心"
+                  title="會員中心"
+                  style={{ marginLeft: "8px" }}
+                >
+                  <i className="bi bi-house-heart-fill"></i>
+
+                你好! {userName}
+                </Link>
+              </span>
               <button className="btn btn-outline" onClick={handleLogout}>
                 登出
               </button>
