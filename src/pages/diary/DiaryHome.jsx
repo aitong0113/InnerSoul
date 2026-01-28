@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
 import api from "../../services/api.js";
@@ -20,11 +20,6 @@ const DiaryHome = () => {
     "Nov",
     "Dec",
   ];
-  const WEEKDAYS = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
-  const moodDict = MOODS.reduce((acc, m) => {
-    acc[m.id] = m;
-    return acc;
-  }, {});
 
   const calendar = (year, month, moodMap) => {
     const firstDay = new Date(year, month, 1);
@@ -54,19 +49,25 @@ const DiaryHome = () => {
     }
     return weeks;
   };
+  const moodMap = {
+    3: "happy",
+    6: "sad",
+    12: "angry",
+  };
 
+  const today = new Date();
   const pad2 = (n) => String(n).padStart(2, "0");
   const ymdKey = (year, month, day) => {
-    return `${year}-${pad2(month + 1)}-${pad2(day)}`;
+    return `${year}/${pad2(month + 1)}/${pad2(day)}`;
   };
-  const today = new Date();
-  const todayKey = `${today.getFullYear()}-${pad2(today.getMonth() + 1)}-${pad2(today.getDate())}`;
+  const todayKey = `${today.getFullYear()}/${pad2(
+    today.getMonth() + 1,
+  )}/${pad2(today.getDate())}`;
 
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
-  const [moodByDay, setMoodByDay] = useState({});
   const [selectedKey, setSelectedKey] = useState(todayKey);
-  const weeks = calendar(year, month, moodByDay);
+  const weeks = calendar(year, month, moodMap);
   const yearMonth = `${year} ${MONTH_SHORT[month]}`;
 
   const onSelectDate = (cell) => {
@@ -74,9 +75,6 @@ const DiaryHome = () => {
     const key = ymdKey(year, month, cell.date);
     setSelectedKey(key);
   };
-  const dateObj = new Date(selectedKey);
-  const displayDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
-  const weekday = WEEKDAYS[dateObj.getDay()];
 
   const onPrevMonth = () => {
     const d = new Date(year, month - 1, 1);
@@ -153,19 +151,21 @@ const DiaryHome = () => {
       <DiaryLayout
         year_month={yearMonth}
         weeks={weeks}
-        renderMood={renderMood}
-        diaryMood={diary?.mood ?? null}
+        // renderMood={renderMood}
         onPrevMonth={onPrevMonth}
         onNextMonth={onNextMonth}
         onSelectDate={onSelectDate}
-        diaryDate={displayDate}
-        weekday={weekday}
-        diaryTitle={hasDiary ? diary?.diaryTitle || "" : ""}
-        diaryContent={hasDiary ? diary?.diaryContent || "" : "尚未填寫日記"}
-        diaryImg={diary?.diaryImg}
+        diaryDate={selectedKey || todayKey}
+        diaryTitle="今天的步伐有點慢，但沒關係"
+        diaryContent={`最近好像有點累，連呼吸都慢了半拍。
+    不是討厭現在的生活，而是有些事情還沒想清楚，情緒在心裡輕輕敲了一整天。
+       我知道自己已經努力了，但偶爾還是會覺得「不夠好」。
+           今天沒有逼自己想通，也沒有逼自己堅強。
+           我只是靜靜坐，把那些還沒整理好的心情放下來。`}
+        diaryImg="https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         footer={
-          <Link to={`/diary/edit/${selectedKey}`} className="btn btn-primary-05">
-            {hasDiary ? "編輯" : "新增"}
+          <Link to="/diary/edit" className="btn btn-primary-05">
+            編輯
           </Link>
         }
       />
