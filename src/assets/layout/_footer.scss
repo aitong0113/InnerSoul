@@ -1,43 +1,29 @@
-.footer-nav {
-  font-family: "Noto Sans TC", sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-
-  a {
-    color: inherit;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.footer-Body-B2 {
-  font-family: "Noto Sans TC", sans-serif;
-  font-size: 16px; // Body / B2
-  font-weight: 400; // Regular
-  line-height: 1.5; // 150%
-  letter-spacing: 0.02em; // 2%
-  text-align: center;
-}
-
+/* =========================
+   Footer 雲朵定位（全站）
+   ========================= */
 .site-footer {
   position: relative;
   overflow: hidden;
   background-color: var(--bs-BG-02);
-  padding-top: 20px;
-  padding-bottom: 20px;
 }
 
 /* 左下雲 */
 .footer-cloud-left {
   position: absolute;
-  left: 5%;
+  left: 10%x;
   bottom: 40px;
-  width: 250px;
+  width: 300px;
+  opacity: 0.9;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 右上雲 */
+.footer-cloud-right {
+  position: absolute;
+  right: -7%;
+  top: 10px; /* 往下些，避免被地圖覆蓋 */
+  width: 200px;
   opacity: 0.9;
   z-index: 0;
   pointer-events: none;
@@ -49,8 +35,13 @@
   z-index: 1;
 }
 
-/* RWD */
+/* RWD：避免在窄版蓋到內容 */
 @media (max-width: 992px) {
+  .footer-cloud-right {
+    right: 24px;
+    top: 48px;
+    width: 200px;
+  }
   .footer-cloud-left {
     left: 16px;
     bottom: 16px;

@@ -1,5 +1,4 @@
 import api from "../api";
-import { authStore } from "./authStore";
 
 /**
  * 登入
@@ -45,5 +44,7 @@ export async function updatePassword(userId, newPassword) {
  * 登出
  */
 export function logout() {
-  authStore.clear();
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userName");
 }
