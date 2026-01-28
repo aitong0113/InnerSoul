@@ -1,39 +1,51 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
-import stylistic from '@stylistic/eslint-plugin'
+import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import prettierPlugin from "eslint-plugin-prettier";
+import prettierConfig from "eslint-config-prettier";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  stylistic.configs.recommended,
-  globalIgnores(['dist']),
+  js.configs.recommended,
+  reactHooks.configs.flat.recommended,
+  reactRefresh.configs.vite,
+
+  // 關掉所有會和 Prettier 衝突的 ESLint 規則
+  prettierConfig,
+
+  globalIgnores(["dist"]),
+
   {
-    files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-    ],
+    files: ["**/*.{js,jsx}"],
     plugins: {
-      '@stylistic': stylistic
+      prettier: prettierPlugin,
     },
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: "latest",
       globals: globals.browser,
       parserOptions: {
-        ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+        sourceType: "module",
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      'eqeqeq': ['error', 'always'],
-      'no-console': 'warn',
-      '@stylistic/indent': ['warn', 2],
-      '@stylistic/comma-spacing:': ['warn', { before: false, after: true }],
+      // 邏輯 / 品質
+      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
+      eqeqeq: ["error", "always"],
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-useless-catch": "off",
+
+      // Prettier 結果如果不一致 → 顯示成 ESLint 問題
+      "prettier/prettier": "warn",
     },
   },
-  ,
-])
+
+  // Node 環境（vite.config.js）
+  {
+    files: ["vite.config.js"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+]);

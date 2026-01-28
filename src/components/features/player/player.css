@@ -1,0 +1,99 @@
+.player {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 999;
+}
+
+.list-item {
+  &:hover {
+    .item-play {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+  .item-play {
+    opacity: 0;
+    pointer-events: none; /* 避免誤點 */
+    transition: opacity 0.2s ease;
+  }
+}
+/*  */
+.volume-panel {
+  position: absolute;
+  width: 120px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: rotate(-90deg);
+}
+.volume-panel-bar {
+  bottom: 70px;
+  left: -40px;
+}
+
+.volume-panel-mini {
+  left: 80px;
+  bottom: 70px;
+}
+
+input.sidebar {
+  --c: lightblue; /* active color */
+  --g: 0px; /* the gap */
+  --l: 3px; /* line thickness*/
+  --s: 10px; /* thumb size*/
+
+  width: 400px;
+  height: var(--s); /* needed for Firefox*/
+  --_c: color-mix(in srgb, var(--c), #000 var(--p, 0%));
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+input.sidebar:focus-visible,
+input.sidebar:hover {
+  --p: 25%;
+}
+
+input.sidebar:active,
+input.sidebar:focus-visible {
+  --_b: var(--s);
+}
+
+/* chromium */
+input.sidebar[type="range" i]::-webkit-slider-thumb {
+  height: var(--s);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
+  border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 / calc(50% - var(--l) / 2)
+    100vw/0 calc(100vw + var(--g));
+  -webkit-appearance: none;
+  appearance: none;
+  transition: 0.3s;
+}
+
+/* Firefox */
+input.sidebar[type="range"]::-moz-range-thumb {
+  height: var(--s);
+  width: var(--s);
+  background: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
+  border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 / calc(50% - var(--l) / 2)
+    100vw/0 calc(100vw + var(--g));
+  -moz-appearance: none;
+  appearance: none;
+  transition: 0.3s;
+}
+
+@supports not (color: color-mix(in srgb, red, red)) {
+  input.sidebar {
+    --_c: var(--c);
+  }
+}
