@@ -2,17 +2,18 @@ import { useEffect, useState, useRef } from "react";
 import "./player.css";
 import * as bootstrap from "bootstrap";
 
-function Player({ songList }) {
+function Player({ songList, startIndex }) {
   // 播放器狀態
   const [playerType, setPlayerType] = useState("none");
   const playerRef = useRef(null);
   // 清單歌曲
   useEffect(() => {
     if (!songList || songList.length === 0) return;
-    // 如果現在播的歌已經是這個清單的第一首，就不要重播
-    if (currentSong?.fileUrl === songList[0].fileUrl) return;
-    playMusic(songList[0], 0);
-  }, [songList]);
+    const song = songList[startIndex];
+    if (!song) return;
+    if (currentSong?.fileUrl === song.fileUrl) return;
+    playMusic(song, startIndex);
+  }, [songList, startIndex]);
 
   // 播放單曲
   const [currentSong, setCurrentSong] = useState(null);
@@ -284,7 +285,16 @@ function Player({ songList }) {
             <div>
               <div className="d-flex justify-content-center">
                 <div className="btn border-0" ref={miniVolumeRef}>
-                  <i className="bi bi-volume-up-fill" onClick={() => setShowVolume((v) => !v)}></i>
+                  <i
+                    className={`bi ${
+                      volume === 0
+                        ? "bi-volume-mute-fill"
+                        : volume > 0.5
+                          ? "bi-volume-up-fill"
+                          : "bi-volume-down-fill"
+                    }`}
+                    onClick={() => setShowVolume((v) => !v)}
+                  ></i>
                   {showVolume && (
                     <div className="volume-panel volume-panel-mini">
                       <input
@@ -344,7 +354,16 @@ function Player({ songList }) {
             </div>
             <div>
               <div className="btn border-0" ref={barVolumeRef}>
-                <i className="bi bi-volume-up-fill" onClick={() => setShowVolume((v) => !v)}></i>
+                <i
+                  className={`bi ${
+                    volume === 0
+                      ? "bi-volume-mute-fill"
+                      : volume > 0.5
+                        ? "bi-volume-up-fill"
+                        : "bi-volume-down-fill"
+                  }`}
+                  onClick={() => setShowVolume((v) => !v)}
+                ></i>
                 {showVolume && (
                   <div className="volume-panel volume-panel-bar">
                     <input
