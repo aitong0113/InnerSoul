@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
 import api from "../../services/api.js";
 import { MOODS } from "../../constants/moods.js";
+import { authStore } from "../../services/auth/authStore.js";
 
 const DiaryHome = () => {
   const MONTH_SHORT = [
@@ -92,17 +93,16 @@ const DiaryHome = () => {
   const [diary, setDiary] = useState(null);
   const [loading, setLoading] = useState(false);
   const hasDiary = !!diary;
+  const userId = authStore.getUserId();
 
   useEffect(() => {
     const fetchMonthMood = async () => {
-      const userId = Number(localStorage.getItem("userId"));
       if (!userId) return;
 
       const start = `${year}-${pad2(month + 1)}-01`;
-      const end = `${year}-${pad2(month + 1)}-31`;
-
+      const lastDay = new Date(year, month + 1, 0).getDate();
+      const end = `${year}-${pad2(month + 1)}-${pad2(lastDay)}`;
       try {
-        // json-server 常用：_gte/_lte
         const res = await api.get(
           `/diaries?userId=${userId}&diaryDate_gte=${start}&diaryDate_lte=${end}`
         );
@@ -120,11 +120,10 @@ const DiaryHome = () => {
     };
 
     fetchMonthMood();
-  }, [year, month]);
+  }, [userId, year, month]);
 
   useEffect(() => {
     const fetchDiary = async () => {
-      const userId = Number(localStorage.getItem("userId"));
       if (!userId || !selectedKey) return;
       setLoading(true);
 
@@ -140,7 +139,7 @@ const DiaryHome = () => {
     };
 
     fetchDiary();
-  }, [selectedKey]);
+  }, [userId, selectedKey]);
 
   const renderMood = (moodId) => {
     const key = String(moodId).toLowerCase();

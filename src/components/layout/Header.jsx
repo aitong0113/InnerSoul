@@ -1,16 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { logout } from "../../services/auth/authService";
+import { authStore } from "../../services/auth/authStore";
 
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const token = localStorage.getItem("accessToken");
-  const userName = localStorage.getItem("userName");
-  const isLoggedIn = !!token;
+  const isLoggedIn = authStore.isLoggedIn();
+  const userName = authStore.getUserName();
   const navigate = useNavigate();
 
   useEffect(() => {
