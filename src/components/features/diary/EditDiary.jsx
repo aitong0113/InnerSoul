@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { MOODS } from "../../../constants/moods";
 import api from "../../../services/api";
+import { authStore } from "../../../services/auth/authStore";
 import "./editDiary.scss";
 
 function EditDiary() {
   const { date } = useParams();
   const navigate = useNavigate();
   const dateObj = new Date(date);
-  const userId = Number(localStorage.getItem("userId"));
+  const userId = authStore.getUserId();
 
   const emptyDiary = {
     id: null,
@@ -33,6 +34,7 @@ function EditDiary() {
   const hasContent = diary.diaryTitle || diary.diaryContent || diary.mood || diary.diaryImg;
   useEffect(() => {
     if (!date || !userId) return;
+
     const loadDiary = async () => {
       try {
         const res = await api.get(`/diaries?userId=${userId}&diaryDate=${date}`);
@@ -86,7 +88,6 @@ function EditDiary() {
 
       if (diary.id) {
         res = await api.patch(`/diaries/${diary.id}`, payload);
-        alert;
       } else {
         res = await api.post(`/diaries`, payload);
       }
