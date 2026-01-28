@@ -19,7 +19,7 @@ import NotFound from "./pages/not-found/NotFound";
 function App() {
   // 播放清單（給 Player 用）
   const [songList, setSongList] = useState(null);
-
+  const [startIndex, setStartIndex] = useState(0);
   // 讓頁面可以用 listID 抓歌
   const mediaMap = useMemo(() => {
     const map = new Map();
@@ -27,12 +27,13 @@ function App() {
     return map;
   }, []);
 
-  const selectPlaylist = (listID) => {
+  const selectPlaylist = (listID, index = 0) => {
     const list = listData.find((p) => p.listID === listID);
     if (!list) return;
 
     const songs = list.songsID.map((id) => mediaMap.get(id)).filter(Boolean);
     setSongList(songs);
+    setStartIndex(index);
   };
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
@@ -45,14 +46,13 @@ function App() {
         <Route path={ROUTES.playlist} element={<Playlist selectPlaylist={selectPlaylist} />} />
         <Route path={ROUTES.subscription} element={<Subscription />} />
         <Route path={ROUTES.faq} element={<FAQPage />} />
-
         <Route path="*" element={<NotFound />} /> {/* 404 */}
       </Routes>
 
       <footer className="site-footer">
         <Footer />
       </footer>
-      {songList === null ? <BackToTop /> : <Player songList={songList} />}
+      {songList === null ? <BackToTop /> : <Player songList={songList} startIndex={startIndex} />}
     </BrowserRouter>
   );
 }
