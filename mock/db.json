@@ -18,5 +18,141 @@
       "userName": "憂憂",
       "id": 3
     }
+  ],
+  "diaries": [
+    {
+      "id": 1,
+      "userId": 3,
+      "diaryDate": "2025-12-19",
+      "diaryTitle": "終於星期五了！！",
+      "diaryContent": "好開心 \n好開心",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1498673394965-85cb14905c89?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2026-12-19T10:58:35.465Z",
+      "updatedAt": "2026-12-19T10:58:35.465Z"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "diaryDate": "2026-01-23",
+      "diaryTitle": "放假卻下雨",
+      "diaryContent": "原本想出去走走\n結果只能待在家",
+      "mood": "notgood",
+      "diaryImg": "https://images.unsplash.com/photo-1501696461415-6bd6660c6742?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2026-01-23T11:05:10.112Z",
+      "updatedAt": "2026-01-26T11:05:10.112Z"
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "diaryDate": "2026-01-24",
+      "diaryTitle": "和朋友吃飯",
+      "diaryContent": "聊了很多以前的事\n心情變好了",
+      "mood": "good",
+      "diaryImg": "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2026-01-24T11:12:48.900Z",
+      "updatedAt": "2026-01-26T11:12:48.900Z"
+    },
+    {
+      "id": 4,
+      "userId": 3,
+      "diaryDate": "2026-01-25",
+      "diaryTitle": "工作有點累",
+      "diaryContent": "事情好多\n但還是慢慢完成了",
+      "mood": "notgood",
+      "diaryImg": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2026-01-25T11:20:03.301Z",
+      "updatedAt": "2026-01-27T13:23:41.405Z"
+    },
+    {
+      "id": 5,
+      "userId": 3,
+      "diaryDate": "2026-01-26",
+      "diaryTitle": "早點睡的一天",
+      "diaryContent": "沒有滑手機\n睡前讀了一點書\n很平靜的一天！！",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1492052722242-2554d0e99e3a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVhY2VmdWx8ZW58MHx8MHx8fDA%3D",
+      "createdAt": "2026-01-26T11:28:55.777Z",
+      "updatedAt": "2026-01-27T14:32:10.123Z"
+    }
+  ],
+  "songs": [
+    {
+      "id": 1,
+      "author": "raindrops",
+      "authorUrl": "",
+      "category": "calm",
+      "fileName": "calm-heavenly-raindrops",
+      "fileUrl": "src/assets/music/m02.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 2,
+      "author": "piano",
+      "authorUrl": "",
+      "category": "joy",
+      "fileName": "a-quiet-joy-stevekaldes-piano",
+      "fileUrl": "src/assets/music/m01.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 3,
+      "author": "piano",
+      "authorUrl": "",
+      "category": "calm",
+      "fileName": "majestic-sky-healing-meditative-cello-and-piano",
+      "fileUrl": "src/assets/music/m03.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 4,
+      "author": "chill",
+      "authorUrl": "",
+      "category": "chill",
+      "fileName": "chill-chill-background-music",
+      "fileUrl": "src/assets/music/m04.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 5,
+      "author": "132371",
+      "authorUrl": "",
+      "category": "chill",
+      "fileName": "chill-music",
+      "fileUrl": "src/assets/music/m05.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 6,
+      "author": "coffee",
+      "authorUrl": "",
+      "category": "chill",
+      "fileName": "coffee-chill-out",
+      "fileUrl": "src/assets/music/m06.mp3",
+      "thumb": ""
+    }
+  ],
+  "listData": [
+    {
+      "listID": 7,
+      "listName": "平靜",
+      "songsID": [1, 4, 3],
+      "owner": 3,
+      "follower": [2]
+    },
+    {
+      "listID": 1,
+      "listName": "孤獨",
+      "songsID": [2, 6, 5],
+      "ownerID": 3,
+      "follower": [1, 2]
+    },
+    {
+      "listID": 2,
+      "listName": "憤怒",
+      "songsID": [4, 1, 2],
+      "ownerID": 3,
+      "follower": [1, 2]
+    }
   ]
 }
