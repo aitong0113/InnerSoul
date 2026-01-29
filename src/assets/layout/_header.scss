@@ -14,6 +14,40 @@
 /* =========================================
    滾動前（預設）：兩行 Header（Grid）
 ========================================= */
+.nav-link {
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 20px;         
+  font-weight: 700;
+  line-height: 1.5;         
+  letter-spacing: 0.02em;  
+  color: #505050;
+
+  display: inline-flex;     
+  align-items: center;  
+  height: 30px;           
+}
+
+.auth-buttons {
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 20px;         
+  font-weight: 700;
+  line-height: 1.5;         
+  letter-spacing: 0.02em;  
+  color: #505050;
+
+  display: inline-flex;     
+  align-items: center;  
+  height: 30px;    
+}
+
+.auth-buttons .btn {
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 20px;       
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
 
 .site-header .header-inner {
   display: grid;
@@ -32,7 +66,7 @@
 /* LOGO（第二行左） */
 .site-logo {
   grid-area: logo;
-  height: 50px;
+  width: 150px;
   transition: all 0.35s ease;
 }
 
@@ -47,7 +81,6 @@
 .main-nav a {
   text-decoration: none;
   color: $gray-700;
-  font-weight: 500;
 }
 
 /* 登入 / 註冊（第二行右） */
@@ -87,7 +120,7 @@
 
 /* LOGO 縮小 */
 .site-header.scrolled .site-logo {
-  height: 40px;
+  width: 100px;
 }
 
 /* 主選單置中 */
@@ -104,4 +137,21 @@
 .auth-buttons {
   display: flex;
   align-items: center;
+}
+
+.user-greeting {
+  .member-link {
+    color: $gray-800;           // 你想要的深色
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      color: $black;         // hover 再深一點
+      text-decoration: none;
+    }
+
+    i {
+      margin-right: 4px;   // icon 跟文字拉開
+    }
+  }
 }

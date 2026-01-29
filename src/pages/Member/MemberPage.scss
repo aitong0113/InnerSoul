@@ -1,0 +1,58 @@
+.member-page {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* tabs */
+.member-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+
+  button {
+    flex: 1;
+    padding: 12px 0;
+    border-radius: 12px;
+    background: #f3f3f3;
+    border: none;
+    font-weight: 600;
+    color: #555;
+
+    &.active {
+      background: #6b5cff;
+      color: #fff;
+    }
+  }
+}
+
+/* profile */
+.member-profile {
+  background: #fafafa;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 40px;
+
+  h2 {
+    color: #222;
+    font-size: 20px;
+  }
+
+  .edit {
+    font-size: 14px;
+    cursor: pointer;
+  }
+}
+
+/* 本月回顧 */
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* 收藏區 */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}

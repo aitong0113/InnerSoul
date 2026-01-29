@@ -1,16 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { logout } from "../../services/auth/authService";
+import { authStore } from "../../services/auth/authStore";
 
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const token = localStorage.getItem("accessToken");
-  const userName = localStorage.getItem("userName");
-  const isLoggedIn = !!token;
+  const isLoggedIn = authStore.isLoggedIn();
+  const userName = authStore.getUserName();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,24 +32,41 @@ function Header() {
         <Link to={ROUTES.home} className="site-logo">
           <img src={logo} alt="Inner Soul" className="site-logo" />
         </Link>
-
-        {/* 主選單 */}
         <nav className="main-nav">
           <Link to={ROUTES.playlist} className="nav-link">
             語音陪伴
           </Link>
+
           <Link to={ROUTES.diaryBase} className="nav-link">
             心情日記
           </Link>
-          <a href="#">常見問題</a>
-          <a href="#">訂閱方案</a>
+
+          <Link to={ROUTES.faq} className="nav-link">
+            常見問題
+          </Link>
+
+          <Link to={ROUTES.subscription} className="nav-link">
+            訂閱方案
+          </Link>
         </nav>
 
         {/* 登入註冊 */}
         <div className="auth-buttons">
           {isLoggedIn ? (
             <>
-              <span>你好! {userName}</span>
+              <span className="user-greeting">
+                <Link
+                  to="/member"
+                  className="member-link"
+                  aria-label="前往會員中心"
+                  title="會員中心"
+                  style={{ marginLeft: "8px" }}
+                >
+                  <i className="bi bi-house-heart-fill"></i>
+
+                你好! {userName}
+                </Link>
+              </span>
               <button className="btn btn-outline" onClick={handleLogout}>
                 登出
               </button>
