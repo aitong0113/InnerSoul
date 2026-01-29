@@ -7,7 +7,7 @@ const USER_NAME_KEY = "userName";
 export const authStore = {
   setAuth({ accessToken, userId, userName, days = 3 }) {
     if (accessToken) Cookies.set(TOKEN_KEY, accessToken, { expires: days });
-    if (userId != null) Cookies.set(USER_ID_KEY, String(userId), { expires: days });
+    if (userId !== null) Cookies.set(USER_ID_KEY, String(userId), { expires: days });
     if (userName) Cookies.set(USER_NAME_KEY, userName, { expires: days });
   },
 
