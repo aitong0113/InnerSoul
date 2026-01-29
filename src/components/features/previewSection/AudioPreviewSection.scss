@@ -1,0 +1,217 @@
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.sky-container {
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
+}
+
+.clouds-stage-outer {
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 40px;
+}
+
+.clouds-wrapper {
+  position: relative;
+  max-width: 1320px;
+  width: 100%;
+  margin: 0 auto;
+  height: 850px;
+}
+
+// RWD 定位
+
+@media (min-width: 577px) and (max-width: 1440px) {
+
+  // 孤獨 (ID:1)
+  .cloud-style-1 {
+    left: -3%;
+  }
+
+  // 悲傷 (ID:5)
+  .cloud-style-5 {
+    left: 86%;
+  }
+
+  // 焦慮 (ID:8)
+  .cloud-style-8 {
+    top: 40%;
+    left: 15%;
+  }
+
+  // 興奮 (ID:9)
+  .cloud-style-9 {
+    left: -8%;
+  }
+
+  // 壓力過大 (ID:11)
+  .cloud-style-11 {
+    left: 72%;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 991px) {
+
+  .clouds-wrapper {
+    height: 750px;
+    transform: scale(0.9);
+    transform-origin: top center;
+    width: 100%;
+  }
+
+  // 孤獨 (ID:1)
+  .cloud-style-1 {
+    top: 5%;
+    left: 5%;
+  }
+
+  // 憤怒 (ID:2)
+  .cloud-style-2 {
+    top: 25%;
+    left: 2%;
+  }
+
+  // 自我懷疑 (ID:3)
+  .cloud-style-3 {
+    top: 0%;
+    left: 30%;
+    width: 40%;
+  }
+
+  // 開心 (ID:4)
+  .cloud-style-4 {
+    top: 10%;
+    left: 65%;
+  }
+
+  // 悲傷 (ID:5)
+  .cloud-style-5 {
+    top: 30%;
+    left: 75%;
+  }
+
+
+  // 喜悅 (ID:6)
+  .cloud-style-6 {
+    top: 35%;
+    left: 35%;
+    width: 35%;
+    z-index: 5;
+  }
+
+  // 平靜 (ID:7)
+  .cloud-style-7 {
+    top: 48%;
+    left: 70%;
+    width: 25%;
+  }
+
+  // 焦慮 (ID:8)
+  .cloud-style-8 {
+    top: 36%;
+    left: 15%;
+    width: 20%;
+  }
+
+  // 興奮 (ID:9)
+  .cloud-style-9 {
+    top: 55%;
+    left: -5%;
+    width: 45%;
+  }
+
+  // 低落 (ID:10)
+  .cloud-style-10 {
+    top: 60%;
+    left: 37%;
+  }
+
+  // 壓力過大 (ID:11)
+  .cloud-style-11 {
+    top: 65%;
+    left: 55%;
+    width: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .cloud-btn {
+    width: 55%;
+  }
+
+  // 孤獨 (ID:1)
+  .cloud-style-1 {
+    top: 2%;
+    left: -5%;
+    width: 64%;
+  }
+
+  // 憤怒 (ID:2)
+  .cloud-style-2 {
+    top: 18%;
+    left: -5%;
+  }
+
+  // 自我懷疑 (ID:3)
+  .cloud-style-3 {
+    top: 8%;
+    left: 45%;
+    width: 60%;
+  }
+
+  // 開心 (ID:4)
+  .cloud-style-4 {
+    top: 75%;
+    left: 5%;
+  }
+
+  // 悲傷 (ID:5)
+  .cloud-style-5 {
+    top: 82%;
+    left: 55%;
+  }
+
+  // 喜悅 (ID:6)
+  .cloud-style-6 {
+    top: 65%;
+    left: 50%;
+  }
+
+  // 平靜 (ID:7)
+  .cloud-style-7 {
+    top: 58%;
+    left: 10%;
+  }
+
+  // 焦慮 (ID:8)
+  .cloud-style-8 {
+    top: 32%;
+    left: 25%;
+    z-index: 5;
+  }
+
+  // 興奮 (ID:9)
+  .cloud-style-9 {
+    top: 22%;
+    left: 50%;
+    width: 55%;
+  }
+
+  // 低落 (ID:10)
+  .cloud-style-10 {
+    top: 42%;
+    left: 0%;
+  }
+
+  // 壓力過大 (ID:11)
+  .cloud-style-11 {
+    top: 45%;
+    left: 45%;
+    width: 60%;
+  }
+}

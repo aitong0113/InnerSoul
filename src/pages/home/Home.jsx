@@ -4,38 +4,23 @@
 import HomeMoodText from "../../components/features/homeMoodText/HomeMoodText.jsx";
 import HomeHero from "../../components/features/homehero/HomeHero.jsx";
 import HomeDiary from "../../components/features/homeDiary/HomeDiary.jsx";
+import AudioPreviewSection from "../../components/features/previewSection/";
 
 // （如果你想包卡片，可用 component）
 // import Card from '../components/Card';
 import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
+import Contact from "../../components/features/contact/Contact.jsx";
+import { faqData } from '../../components/features/faq/faqData';
 
-function Home() {
+function Home({ selectPlaylist }) {
   return (
     <main className="bg-BG-01">
       {/* Hero 區塊 */}
       <HomeHero />
-      <div className="container py-11">
-        {/* 心途小語換一換功能待處理 */}
-        <HomeMoodText />
-      </div>
+      <HomeMoodText />
       {/* 試聽區塊 */}
-      <section>
-        <div className="container py-11">
-          <Button text="孤獨" imgUrl="/Union.png"></Button>
-        </div>
-      </section>
-      {/* 功能區塊 */}
-      <section>
-        <div className="container py-11">
-          <button
-            type="button"
-            className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3 bg-white fw-bold"
-          >
-            開始訂閱你的心途
-          </button>
-        </div>
-      </section>
+      <AudioPreviewSection selectPlaylist={selectPlaylist} />
       {/* 從撰寫日記開始陪伴自己 */}
       <HomeDiary />
       {/* 關於心途 */}
@@ -88,13 +73,9 @@ function Home() {
       {/* 加入心途 */}
       <section>
         <div className="container py-11 text-center">
-          <h2 className="fw-bold text-primary-05 mb-5">
-            已經有 99999 人加入心途
-          </h2>
+          <h2 className="fw-bold text-primary-05 mb-5">已經有 99999 人加入心途</h2>
 
-          <h5 className="text-black-700 mb-10">
-            一起在這裡練習理解自己、照顧自己
-          </h5>
+          <h5 className="text-black-700 mb-10">一起在這裡練習理解自己、照顧自己</h5>
 
           <div className="row row-cols-1 row-cols-md-3 g-6 mb-11">
             <div className="col">
@@ -122,9 +103,7 @@ function Home() {
             </div>
           </div>
 
-          <h4 className="fw-bold text-primary-05 mb-7">
-            準備好開始練習與自己好好相處了嗎？
-          </h4>
+          <h4 className="fw-bold text-primary-05 mb-7">準備好開始練習與自己好好相處了嗎？</h4>
           <section>
             <div className="container">
               <button
@@ -138,7 +117,14 @@ function Home() {
         </div>
       </section>
       {/* 常見問題 */}
-      <FAQList />
+      <section className="home-faq bg-liner pb-11">
+        <div className="container">
+          <h2 className="fw-bold text-center text-primary-05 mb-5">常見問題</h2>
+          <FAQList data={faqData.slice(0, 3)} />
+        </div>
+      </section>
+      {/* 聯絡我們 */}
+      <Contact />
     </main>
   );
 }
