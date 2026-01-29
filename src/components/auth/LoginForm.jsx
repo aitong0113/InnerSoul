@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { login } from "../../services/auth/authService";
-import { authStore } from "../../services/auth/authStore";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -25,12 +24,9 @@ function LoginForm() {
 
     try {
       const res = await login({ email, password });
-      authStore.setAuth({
-        accessToken: res.accessToken,
-        userId: res.user.id,
-        userName: res.user.userName,
-        days: 3,
-      });
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("userId", String(res.user.id));
+      localStorage.setItem("userName", res.user.userName);
       alert("登入成功！");
       navigate(ROUTES.home);
     } catch (err) {
@@ -63,11 +59,14 @@ function LoginForm() {
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
+            if (errors.password)
+              setErrors((prev) => ({ ...prev, password: "" }));
           }}
           placeholder="請輸入6-12位英數字"
         />
-        {errors.password && <small className="text-danger">{errors.password}</small>}
+        {errors.password && (
+          <small className="text-danger">{errors.password}</small>
+        )}
       </div>
 
       <button type="submit" className="btn btn-primary">

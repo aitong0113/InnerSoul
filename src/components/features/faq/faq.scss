@@ -1,95 +1,62 @@
-/* =========================
-  FAQ Section
-========================= */
 
-.faq-section {
-  padding: 120px 0;
+.faq {
+  padding: 0;
 }
-
-/* 標題 */
-.faq-title {
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.25;
-  color: rgb(16, 71, 84);
-  margin-bottom: 24px;
-}
-
-/* =========================
-  FAQ 清單
-========================= */
 
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 24px; // 加寬題目間間距
+  gap: 0;
 }
-
-/* =========================
-  單一 FAQ Item
-========================= */
 
 .faq-item {
   position: relative;
-  padding: 23px 40px; // 統一 padding
-  overflow: visible;
-  transition: padding 0.3s ease, min-height 0.3s ease;
+  padding: 15px 40px;
 }
 
-/* 預設（收合）雲朵背景 */
 .faq-item::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 
-  background-image: url("../../../assets/faq/faq-cloud1.png");
+  background-image: url("../../../assets/faq/faq-cloud1.svg");
   background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position: center; // 定位雲朵圖片位置
+  background-size: 100% auto;
+  background-position: top center;
 
-  pointer-events: none;
   z-index: 0;
-  transition: background-image 0.3s ease;
+  pointer-events: none;
 }
 
-/* =========================
-  展開狀態
-========================= */
-
 .faq-item.is-open {
-  padding-top: 40px;
-  padding-bottom: 40px; // 展開後上下 padding 一致
+  min-height: 220px;
+  padding-top: 38px;
 }
 
 .faq-item.is-open::before {
-  background-image: url("../../../assets/faq/faq-cloud2.png");
-  background-size: 100% 100%;
+  background-image: url("../../../assets/faq/faq-cloud2.svg");
 }
 
 
-/* =========================
-  問題列
-========================= */
-
 .faq-question {
-  position: relative;
-  z-index: 1;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.5;
-
   color: rgb(16, 71, 84);
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
+
+  position: relative;
+  z-index: 1;
 }
 
-/* 箭頭 icon */
+
 .faq-question .icon {
-  line-height: 1;
   transition: transform 0.3s ease;
 }
 
@@ -97,50 +64,32 @@
   transform: rotate(180deg);
 }
 
-/* =========================
-  答案區
-========================= */
 
 .faq-answer {
   position: relative;
   z-index: 1;
-  font-size: 20px;
 
+  margin-top: 12px;
   line-height: 1.7;
   color: #555;
 
   max-height: 0;
+  overflow: hidden;
   opacity: 0;
 }
 
 .faq-item.is-open .faq-answer {
   max-height: 800px;
   opacity: 1;
-  margin-top: 20px; // 展開後補上 margin，拉開題目與內文間距
+
   transition:
     max-height 0.35s ease,
     opacity 0.25s ease;
 }
 
-/* =========================
-  RWD
-========================= */
 
 @media (max-width: 768px) {
-  .faq-section {
-    padding: 64px 0;
-  }
-
-  .faq-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-
   .faq-item {
     padding: 24px;
-  }
-
-  .faq-question {
-    font-size: 20px;
   }
 }
