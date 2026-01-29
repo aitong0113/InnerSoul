@@ -1,17 +1,11 @@
-import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import DiaryHome from "./DiaryHome";
 import EditDiary from "../../components/features/diary/EditDiary";
-import { authStore } from "../../services/auth/authStore";
 
 export default function Diary() {
-  const [isLoggedIn, setIsLoggedIn] = useState(authStore.isLoggedIn());
+  const isLogin = Boolean(localStorage.getItem("accessToken"));
 
-  useEffect(() => {
-    setIsLoggedIn(authStore.isLoggedIn());
-  }, []);
-
-  if (!isLoggedIn) {
+  if (!isLogin) {
     return <div>未登入的日記頁</div>;
   }
 

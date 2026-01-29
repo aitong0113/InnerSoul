@@ -1,15 +1,16 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { logout } from "../../services/auth/authService";
-import { authStore } from "../../services/auth/authStore";
 
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const isLoggedIn = authStore.isLoggedIn();
-  const userName = authStore.getUserName();
+  const token = localStorage.getItem("accessToken");
+  const userName = localStorage.getItem("userName");
+  const isLoggedIn = !!token;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,19 +50,7 @@ function Header() {
         <div className="auth-buttons">
           {isLoggedIn ? (
             <>
-              <span className="user-greeting">
-                <Link
-                  to="/member"
-                  className="member-link"
-                  aria-label="前往會員中心"
-                  title="會員中心"
-                  style={{ marginLeft: "8px" }}
-                >
-                  <i className="bi bi-house-heart-fill"></i>
-
-                你好! {userName}
-                </Link>
-              </span>
+              <span>你好! {userName}</span>
               <button className="btn btn-outline" onClick={handleLogout}>
                 登出
               </button>

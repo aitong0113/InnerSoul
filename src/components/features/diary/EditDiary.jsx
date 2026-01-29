@@ -1,16 +1,7 @@
-import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { MOODS } from "../../../constants/moods";
-import api from "../../../services/api";
-import { authStore } from "../../../services/auth/authStore";
-import "./editDiary.scss";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function EditDiary() {
-  const { date } = useParams();
-  const navigate = useNavigate();
-  const dateObj = new Date(date);
-  const userId = authStore.getUserId();
-
   const emptyDiary = {
     id: "2025-02-16",
     day: "02/16",
@@ -38,35 +29,7 @@ function EditDiary() {
   };
 
   const [diary, setDiary] = useState(emptyDiary);
-  const previewD = diary;
-  const month = dateObj.getMonth() + 1;
-  const day = dateObj.getDate();
-  const dayText = `${month}/${day}`;
-  const weekday = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"][dateObj.getDay()];
-  const hasContent = diary.diaryTitle || diary.diaryContent || diary.mood || diary.diaryImg;
-  useEffect(() => {
-    if (!date || !userId) return;
-
-    const loadDiary = async () => {
-      try {
-        const res = await api.get(`/diaries?userId=${userId}&diaryDate=${date}`);
-        const found = res.data?.[0];
-        if (found) {
-          setDiary(found);
-        } else {
-          setDiary((prev) => ({
-            ...prev,
-            userId,
-            diaryDate: date,
-          }));
-        }
-      } catch (err) {
-        console.log("讀取日記失敗", err);
-      }
-    };
-
-    loadDiary();
-  }, [date, userId]);
+  const [previewD, setPreviewD] = useState(null);
 
   const imgUpload = (e) => {
     const file = e.target.files?.[0];
@@ -74,21 +37,9 @@ function EditDiary() {
     const previewURL = URL.createObjectURL(file);
     setDiary({
       ...diary,
-      userId,
-      updatedAt: now,
-      createdAt: diary.createdAt || now,
-    };
-
-    try {
-      let res;
-
-      if (diary.id) {
-        res = await api.patch(`/diaries/${diary.id}`, payload);
-      } else {
-        res = await api.post(`/diaries`, payload);
-      }
-
-      setDiary(res.data);
+      imageUrl: previewURL,
+    });
+  };
 
   const saveDiary = (e) => {
     alert("save!!");
