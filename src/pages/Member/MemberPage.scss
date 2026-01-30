@@ -1,58 +1,176 @@
 .member-page {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 32px 16px 80px;
 }
 
-/* tabs */
 .member-tabs {
   display: flex;
   gap: 12px;
+  justify-content: center;
   margin-bottom: 32px;
 
   button {
-    flex: 1;
-    padding: 12px 0;
-    border-radius: 12px;
-    background: #f3f3f3;
+    padding: 10px 20px;
+    border-radius: 999px;
     border: none;
+    background: #e6f3fb;
     font-weight: 600;
-    color: #555;
 
     &.active {
-      background: #6b5cff;
+      background: #6bb7e9;
       color: #fff;
     }
   }
 }
 
-/* profile */
-.member-profile {
-  background: #fafafa;
+.member-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
   border-radius: 16px;
-  padding: 24px;
+  padding: 20px;
   margin-bottom: 40px;
 
-  h2 {
-    color: #222;
-    font-size: 20px;
+  .avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #ddd;
+    object-fit: cover;
   }
 
-  .edit {
-    font-size: 14px;
-    cursor: pointer;
+  .info {
+    flex: 1;
+
+    h2 {
+      margin: 0 0 4px;
+      font-size: 18px;
+    }
+
+    .quote-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      line-height: 1.2;
+    }
+
+    .quote {
+      font-size: 14px;
+      color: #666;
+      transition: opacity 0.3s ease;
+    }
+
+    .quote.fade-out {
+      opacity: 0;
+    }
+
+    .quote.fade-in {
+      opacity: 1;
+    }
+
+    .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      transform: translateY(1px);
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      color: #104754;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+    }
+
+    .rotate-once {
+      animation: rotateOnce 0.6s ease;
+    }
+
+    @keyframes rotateOnce {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
   }
 }
 
-/* 本月回顧 */
+.month-review {
+  text-align: center;
+  margin-bottom: 48px;
+
+  h3 {
+    margin-bottom: 24px;
+  }
+}
+
 .review-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+
+  .review-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    min-height: 180px;
+  }
+
+  .empty {
+    background: rgba(255,255,255,0.6);
+  }
 }
 
-/* 收藏區 */
-.collection-grid {
+.emotion-block {
+  text-align: center;
+  margin-bottom: 56px;
+
+  .emotion-title {
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .emotion-list {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .emotion-cloud {
+    background: #fff;
+    border-radius: 999px;
+    padding: 24px 32px;
+  }
+}
+
+.member-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 24px;
+
+  .stat-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    font-size: 24px;
+
+    span {
+      display: block;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+  }
+}
+
+.placeholder {
+  text-align: center;
+  padding: 80px 0;
 }

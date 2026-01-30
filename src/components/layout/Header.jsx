@@ -4,12 +4,22 @@ import { logout } from "../../services/auth/authService";
 import { authStore } from "../../services/auth/authStore";
 
 import logo from "../../assets/logo.png";
+import avatarYouyou from "../../assets/userImg/悠悠.png";
 import { useEffect, useState } from "react";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const isLoggedIn = authStore.isLoggedIn();
   const userName = authStore.getUserName();
+
+  const userImgKey = localStorage.getItem("userImg");
+
+  const avatarMap = {
+    "悠悠.png": avatarYouyou,
+  };
+
+  const avatarSrc = avatarMap[userImgKey] || avatarYouyou;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,21 +64,23 @@ function Header() {
         <div className="auth-buttons">
           {isLoggedIn ? (
             <>
-              <span className="user-greeting">
-                <Link
-                  to="/member"
-                  className="member-link"
-                  aria-label="前往會員中心"
-                  title="會員中心"
-                  style={{ marginLeft: "8px" }}
-                >
-                  <i className="bi bi-house-heart-fill"></i>
-
-                你好! {userName}
-                </Link>
-              </span>
+              <Link
+                to="/member"
+                className="member-link member-profile"
+                aria-label="前往會員中心"
+                title="會員中心"
+              >
+                <img
+                  className="member-avatar"
+                  src={avatarSrc}
+                  alt={`${userName || "會員"} 的頭像`}
+                />
+                <span className="member-name">
+                  {userName || "會員"}
+                </span>
+              </Link>
               <button className="btn btn-outline" onClick={handleLogout}>
-                登出
+                <i class="bi bi-box-arrow-right"></i>
               </button>
             </>
           ) : (
