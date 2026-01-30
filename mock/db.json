@@ -3,13 +3,17 @@
     {
       "email": "abc@gmail.com",
       "password": "$2a$10$FF90Vp4quKMPngfzAENqKObrcHx.IUPBSkXYjrmYHuJqTPzsK0iG.",
-      "userName": "小熊",
+      "userName": "小熊忘記密碼了",
+      "userImg": "小兔.png",
+      "plan": "free",
       "id": 1
     },
     {
-      "email": "zz@gmail.com",
+      "email": "innersoul_admin@gmail.com",
       "password": "$2a$10$DPY5Xjwe22jn5swLiNsPJuIw.uW.KPplW0G8H3FpVUya5ciQWDcC.",
-      "userName": "王小明",
+      "userName": "Admin",
+      "userImg": "小兔.png",
+      "plan": "free",
       "id": 2
     },
     {
@@ -17,7 +21,16 @@
       "password": "$2a$10$fzvZtxO767Urko4BaXhzAuo7N5Dty1o196jxgYXwhhNVws1pGV2Au",
       "userName": "悠悠",
       "userImg": "悠悠.png",
+      "plan": "pro",
       "id": 3
+    },
+    {
+      "email": "happy@gmail.com",
+      "password": "$2a$10$BHXIztJbsdLGggO2L8rq2O60GYqjs536R95SFN8chgMWBLkiZ0X3S",
+      "userName": "黑皮",
+      "userImg": "小兔.png",
+      "plan": "free",
+      "id": 4
     }
   ],
   "diaries": [
