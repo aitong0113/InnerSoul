@@ -1,1 +1,432 @@
-// 訂閱方案樣式
+// 定義顏色變數
+$primary-teal: #398C9F; 
+$gray-border: #e0e0e0;
+$text-dark: #333;
+
+// 容器設定
+.subscription-container {
+  padding-top: 80px;
+  padding-bottom: 60px;
+
+  .header-section {
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+  }
+}
+
+// 卡片核心樣式
+.subscription-card {
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 40px;
+  padding: 40px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  .card-header-area .title {
+      color: #353535;
+    }
+
+
+  &:hover {
+    transform: scale(1.04) translateY(-10px); 
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    border-color: $primary-teal; 
+  }
+
+  // 推薦版樣式
+  &.highlight {
+    border: 2px solid #398C9F;
+    background: linear-gradient(to bottom, #f2f9fa 0%, #ffffff 150px);
+    box-shadow: 0 15px 40px rgba(57, 140, 159, 0.15);
+    z-index: 2;
+
+    &:hover {
+      transform: scale(1.04) translateY(-10px); 
+    }
+    
+    .card-header-area .title {
+      color: #398C9F;
+    }
+  }
+
+  // Badge
+  .badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  // Header Area
+  .card-header-area {
+    text-align: center;
+    margin-bottom: 30px;
+    
+    .title {
+      font-weight: bold;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  // Price
+  .price-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    
+    .free-text {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .currency {
+      font-size: 1.2rem;
+      margin-right: 4px;
+      font-weight: bold;
+    }
+    .amount {
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 1;
+    }
+    .freq {
+      margin-left: 8px;
+      font-size: 1rem;
+    }
+  }
+
+  // Feature List
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0; 
+    flex-grow: 1; 
+
+    li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 1rem;
+      line-height: 1.5;
+      
+      .icon-wrapper {
+        width: 24px;
+        margin-right: 16px;
+        font-weight: bold;
+        text-align: center;
+        flex-shrink: 0;
+        display: flex;            
+        align-items: center;      
+        justify-content: center;  
+      }
+
+      &.included {
+        color: #333;
+        .icon-wrapper { color: $primary-teal; }
+      }
+
+      &.excluded {
+        color: #bbb; 
+        .icon-wrapper { color: #ddd; font-weight: normal; }
+      }
+    }
+  }
+} 
+
+// --- 訂閱條款按鈕 ---
+.terms-trigger-area {
+  text-align: center;
+
+  .terms-btn {
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+    padding: 10px;
+
+    &:hover {
+      color: #398C9F;
+    }
+  }
+}
+
+// --- Modal 樣式 ---
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+
+  // Header
+  .modal-header {
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: $text-dark;
+      margin: 0;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 50%;
+      transition: background 0.2s;
+      display: flex;
+
+      &:hover {
+        background-color: #f0f0f0;
+        color: #333;
+      }
+    }
+  }
+
+  // Body
+  .modal-body {
+    padding: 32px;
+    overflow-y: auto;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: left;
+
+    .info-box {
+      background-color: #F0F7F9;
+      border: 1px solid rgba(57, 140, 159, 0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;;
+
+      .info-icon {
+        color: #398C9F;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .info-text {
+        .info-title {
+          font-weight: bold;
+          color: #333;
+          margin-top: 4px;
+          margin-bottom: 4px;
+          font-size: 1rem;
+        }
+        p { margin: 0; font-size: 0.9rem; color: #666; }
+        strong { color: #398C9F; }
+      }
+    }
+
+    .terms-section {
+      margin-bottom: 24px;
+      h4 { font-size: 1rem; font-weight: bold; color: #333; margin-bottom: 8px; }
+      ul { padding-left: 40px; margin-bottom: 0; li { margin-bottom: 6px; list-style-type: disc; }}
+      strong { color: #333; font-weight: bold; }
+    }
+  }
+
+  // Footer
+  .modal-footer {
+    padding: 32px 0px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    justify-content: center;
+
+    .confirm-btn {
+      background-color: #398C9F;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 40px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background-color: darken(#398C9F, 10%);
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// --- 會員狀態橫幅 ---
+.subscription-status-banner {
+  background-color: #ffffff;
+  border: 1px solid rgba(57, 140, 159, 0.2);
+  border-radius: 40px; 
+  padding: 32px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(57, 140, 159, 0.08);
+  color: #333;
+
+  // 手機版響應式
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  // 左側內容
+  .content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  // Icon 圓圈樣式
+  .icon-box {
+    background-color: #398C9F;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(57, 140, 159, 0.3);
+    
+    // Icon 顏色
+    .text-secondary {
+      color: #ffffff !important;
+    }
+  }
+
+  // 文字區域
+  .text-info {
+    .status-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin: 0;
+      color: #2c2c2c;
+    }
+    .status-desc {
+      font-size: 0.9rem;
+      margin: 0;
+      color: #4a4a4a;
+    }
+  }
+
+  // 右側升級按鈕
+  .upgrade-btn {
+    background-color: transparent;
+    color: #398C9F;
+    border: 2px solid #398C9F;
+    border-radius: 50px;
+    padding: 8px 24px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #398C9F;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(57, 140, 159, 0.25);
+    }
+  }
+}
+
+// --- 卡片按鈕樣式 ---
+.card-action-btn {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: 2px solid $primary-teal;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  margin-top: auto;
+  font-size: 20px;
+  
+  // Hover 效果
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(57, 140, 159, 0.3);
+  }
+
+  // --- 立即註冊 ---
+  &.mode-outline {
+    background-color: transparent;
+    color: $primary-teal;
+
+    &:hover {
+      background-color: $primary-teal;
+      color: #ffffff;
+    }
+  }
+
+  // --- 立即訂閱 ---
+  &.mode-solid {
+    background-color: $primary-teal;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #104754;
+      border: 2px solid #104754;
+    }
+  }
+}

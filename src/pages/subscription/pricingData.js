@@ -1,0 +1,38 @@
+export const PRICING_PLANS = [
+  {
+    id: 'plan_free',
+    title: '輕量體驗',
+    subtitle: '適合初次接觸心途旅程的你',
+    price: 0, 
+    currency: 'NT$',
+    frequency: '/ 月',
+    isRecommended: false,
+    buttonText: '立即註冊',
+    features: [
+      { text: '語音內容庫：僅瀏覽目錄，可試聽免費音檔', included: true },
+      { text: '播放清單：可播放現有語音清單', included: true },
+      { text: '心情日記：體驗版 (上限 3 篇)', included: true },
+      { text: '情緒儀表板', included: false },
+      { text: '語音收藏功能', included: false },
+      { text: '無廣告干擾體驗', included: false },
+    ],
+  },
+  {
+    id: 'plan_pro',
+    title: '深度陪伴',
+    subtitle: '完整解鎖所有陪伴功能',
+    price: 199,
+    currency: 'NT$',
+    frequency: '/ 月',
+    isRecommended: true,
+    buttonText: '立即訂閱',
+    features: [
+      { text: '語音內容庫：全庫解鎖', included: true },
+      { text: '播放清單：可建立專屬個人播放清單', included: true },
+      { text: '心情日記：無限篇數、完整紀錄', included: true },
+      { text: '情緒儀表板：情緒趨勢分析 / 月曆回顧', included: true },
+      { text: '所有語音收藏', included: true },
+      { text: '沈浸式無廣告干擾體驗', included: true },
+    ],
+  },
+];
