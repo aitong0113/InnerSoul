@@ -38,12 +38,18 @@ function SignUpForm() {
     setErrors({});
 
     try {
-      await signUp({ userName, email, password });
+      const DEFAULT_PROFILE = {
+        userImg: "小兔.png",
+        plan: "free",
+      };
+      await signUp({ userName, email, password, ...DEFAULT_PROFILE });
       const res = await login({ email, password });
       authStore.setAuth({
         accessToken: res.accessToken,
         userId: res.user.id,
         userName: res.user.userName,
+        userImg: res.user.userImg,
+        plan: res.user.plan,
         days: 3,
       });
       navigate(ROUTES.home);
