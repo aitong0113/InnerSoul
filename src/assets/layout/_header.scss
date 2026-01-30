@@ -139,19 +139,30 @@
   align-items: center;
 }
 
-.user-greeting {
-  .member-link {
-    color: $gray-800;           // 你想要的深色
-    font-weight: 500;
+.member-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: $gray-800;
+
+  &:hover {
+    color: $black;
     text-decoration: none;
-
-    &:hover {
-      color: $black;         // hover 再深一點
-      text-decoration: none;
-    }
-
-    i {
-      margin-right: 4px;   // icon 跟文字拉開
-    }
   }
+}
+
+.member-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px $white;
+}
+
+.member-name {
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
 }
