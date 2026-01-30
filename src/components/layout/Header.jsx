@@ -75,12 +75,10 @@ function Header() {
                   src={avatarSrc}
                   alt={`${userName || "會員"} 的頭像`}
                 />
-                <span className="member-name">
-                  {userName || "會員"}
-                </span>
+                <span className="member-name">{userName || "會員"}</span>
               </Link>
               <button className="btn btn-outline" onClick={handleLogout}>
-                <i class="bi bi-box-arrow-right"></i>
+                <i className="bi bi-box-arrow-right"></i>
               </button>
             </>
           ) : (
