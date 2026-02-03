@@ -88,6 +88,39 @@
       "diaryImg": "https://images.unsplash.com/photo-1492052722242-2554d0e99e3a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVhY2VmdWx8ZW58MHx8MHx8fDA%3D",
       "createdAt": "2026-01-26T11:28:55.777Z",
       "updatedAt": "2026-01-27T14:32:10.123Z"
+    },
+    {
+      "id": 6,
+      "userId": 4,
+      "diaryDate": "2026-02-02",
+      "diaryTitle": "有點累但撐過去了",
+      "diaryContent": "早上其實不太想起床\n工作事情很多\n中途有點煩躁\n但晚上走了一小段路\n心情有稍微好一點",
+      "mood": "notgood",
+      "diaryImg": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&auto=format&fit=crop&q=60",
+      "createdAt": "2026-02-02T09:12:30.421Z",
+      "updatedAt": "2026-02-02T09:12:30.421Z"
+    },
+    {
+      "id": 7,
+      "userId": 4,
+      "diaryDate": "2026-02-03",
+      "diaryTitle": "被一句話安慰到",
+      "diaryContent": "今天有人跟我說\n「你已經很努力了」\n那一瞬間差點想哭\n原來被理解真的很重要",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=900&auto=format&fit=crop&q=60",
+      "createdAt": "2026-02-03T15:46:12.908Z",
+      "updatedAt": "2026-02-03T20:03:45.002Z"
+    },
+    {
+      "id": 8,
+      "userId": "4",
+      "diaryDate": "2026-02-04",
+      "diaryTitle": "慢慢找回自己的節奏",
+      "diaryContent": "沒有特別發生什麼事\n只是照著自己的步調過一天\n吃了喜歡的東西～\n也記得提醒自己休息！",
+      "mood": "good",
+      "diaryImg": "https://images.unsplash.com/photo-1422205512921-12dac7b3b603?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGNhbG18ZW58MHx8MHx8fDA%3D",
+      "createdAt": "2026-02-04T07:25:08.342Z",
+      "updatedAt": "2026-02-04T07:25:08.342Z"
     }
   ],
   "lists": [
