@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { MOODS } from "../../../constants/moods";
 import api from "../../../services/api";
 import { authStore } from "../../../services/auth/authStore";
-import "./editDiary.scss";
+import style from "./editDiary.module.scss";
 
 function EditDiary() {
   const { date } = useParams();
@@ -49,7 +49,7 @@ function EditDiary() {
           }));
         }
       } catch (err) {
-        console.log("讀取日記失敗", err);
+        console.error("讀取日記失敗", err);
       }
     };
 
@@ -93,9 +93,7 @@ function EditDiary() {
       }
 
       setDiary(res.data);
-
-      console.log("存檔成功", res.data);
-      alert("已存檔");
+      alert("已保存");
       navigate(`/diary`);
     } catch (err) {
       console.error("存檔失敗", err);
@@ -167,7 +165,7 @@ function EditDiary() {
                             className="btn btn-sm btn-outline-secondary d-flex flex-column align-items-center"
                             htmlFor={m.id}
                           >
-                            <img src={m.icon} alt={m.chName} className="mood-stamp" />
+                            <img src={m.icon} alt={m.chName} className={style.moodStamp} />
                             <span className="small lh-sm">{m.chName}</span>
                           </label>
                         </div>
@@ -225,7 +223,7 @@ function EditDiary() {
                         <img
                           src={getMood(previewD.mood)?.icon}
                           alt={getMood(previewD.mood)?.chName}
-                          className="mood-stamp"
+                          className={style.moodStamp}
                         />
                       ) : (
                         ""
@@ -233,7 +231,9 @@ function EditDiary() {
                     </span>
                   </div>
                   <div className="fs-3 mb-3">{previewD.diaryTitle || ""}</div>
-                  <div className="mb-3 diary-preview-content">{previewD.diaryContent || ""}</div>
+                  <div className={`mb-3 ${style.diaryPreviewContent}`}>
+                    {previewD.diaryContent || ""}
+                  </div>
                   <div className="mb-3">
                     {previewD.diaryImg ? (
                       <img

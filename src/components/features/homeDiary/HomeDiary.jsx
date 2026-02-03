@@ -60,7 +60,7 @@ const HomeDiary = () => {
     const src = moodMap[mood];
     if (!src) return null;
 
-    return <img src={src} alt={mood} className="mood-stamp" />;
+    return <img src={src} alt={mood} />;
   };
 
   return (

@@ -4,6 +4,8 @@ import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
 import api from "../../services/api.js";
 import { MOODS } from "../../constants/moods.js";
 import { authStore } from "../../services/auth/authStore.js";
+import EmptyDiaryState from "../../components/features/diary/EmptyDiaryState.jsx";
+import SubscribeNotice from "../../components/features/diary/SubscribeNotice.jsx";
 
 const DiaryHome = () => {
   const MONTH_SHORT = [
@@ -52,6 +54,9 @@ const DiaryHome = () => {
       }
       weeks.push(week);
     }
+    while (weeks.length < 6) {
+      weeks.push(Array.from({ length: 7 }, () => ({ date: null })));
+    }
     return weeks;
   };
 
@@ -77,6 +82,8 @@ const DiaryHome = () => {
   const dateObj = new Date(selectedKey);
   const displayDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
   const weekday = WEEKDAYS[dateObj.getDay()];
+  const selectedDay =
+    dateObj.getFullYear() === year && dateObj.getMonth() === month ? dateObj.getDate() : null;
 
   const onPrevMonth = () => {
     const d = new Date(year, month - 1, 1);
@@ -94,6 +101,11 @@ const DiaryHome = () => {
   const [loading, setLoading] = useState(false);
   const hasDiary = !!diary;
   const userId = authStore.getUserId();
+  const [diaryCount, setDiaryCount] = useState(0);
+  const plan = authStore.getUserPlan();
+  const isFree = plan === "free";
+  const isLimited = diaryCount >= 3;
+  const showSubscribe = isFree && isLimited && !hasDiary;
 
   useEffect(() => {
     const fetchMonthMood = async () => {
@@ -141,11 +153,25 @@ const DiaryHome = () => {
     fetchDiary();
   }, [userId, selectedKey]);
 
+  useEffect(() => {
+    const fetchDiaryCount = async () => {
+      if (!userId) return;
+      try {
+        const res = await api.get(`/diaries?userId=${userId}`);
+        setDiaryCount(Array.isArray(res.data) ? res.data.length : 0);
+      } catch (err) {
+        console.error("讀取日記數量失敗", err);
+        setDiaryCount(0);
+      }
+    };
+    fetchDiaryCount();
+  }, [userId]);
+
   const renderMood = (moodId) => {
     const key = String(moodId).toLowerCase();
     const mood = moodDict[key];
     if (!mood) return null;
-    return <img src={mood.icon} alt={mood.chName} className="mood-stamp" />;
+    return <img src={mood.icon} alt={mood.chName} />;
   };
 
   return (
@@ -158,15 +184,29 @@ const DiaryHome = () => {
         onPrevMonth={onPrevMonth}
         onNextMonth={onNextMonth}
         onSelectDate={onSelectDate}
+        selectedDay={selectedDay}
         diaryDate={displayDate}
         weekday={weekday}
         diaryTitle={hasDiary ? diary?.diaryTitle || "" : ""}
-        diaryContent={hasDiary ? diary?.diaryContent || "" : "尚未填寫日記"}
+        diaryContent={
+          hasDiary ? (
+            diary?.diaryContent || ""
+          ) : showSubscribe ? (
+            <SubscribeNotice to={`/subscription`} />
+          ) : (
+            <EmptyDiaryState to={`/diary/edit/${selectedKey}`} />
+          )
+        }
         diaryImg={diary?.diaryImg}
+        loading={loading}
         footer={
-          <Link to={`/diary/edit/${selectedKey}`} className="btn btn-primary-05">
-            {hasDiary ? "編輯" : "新增"}
-          </Link>
+          hasDiary ? (
+            <Link to={`/diary/edit/${selectedKey}`} className="btn btn-primary-05">
+              編輯
+            </Link>
+          ) : (
+            ""
+          )
         }
       />
     </main>
