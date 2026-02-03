@@ -1,0 +1,115 @@
+/* users.scss */
+
+.users-page {
+  padding: 32px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 24px;
+  }
+}
+
+/* ===== 表格本體 ===== */
+.users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+
+  thead {
+    background: #f9fafb;
+
+    th {
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      padding: 14px 16px;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #f3f6ff;
+      }
+    }
+
+    td {
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #111827;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* ===== 使用者欄位（頭像＋名字）===== */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e5e7eb;
+  }
+
+  .name {
+    font-weight: 500;
+  }
+}
+
+/* ===== 方案標籤 ===== */
+.plan-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 999px;
+
+  &.free {
+    background: #eef2ff;
+    color: #4338ca;
+  }
+
+  &.pro {
+    background: #ecfdf5;
+    color: #047857;
+  }
+}
+
+/* ===== 操作按鈕 ===== */
+.action-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  background: #eef2ff;
+  color: #4338ca;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #4338ca;
+    color: #fff;
+  }
+}
