@@ -9,4 +9,5 @@ export const ROUTES = {
   playlist: "/playlist",
   subscription: "/subscription",
   faq: "/faq",
+  singlePlaylist: "/playlist/:id",
 };

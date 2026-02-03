@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FrontLayout from "./components/layout/FrontLayout";
 import AdminLayout from "./pages/admin/AdminLayout";
 import { ROUTES } from "./constants/routes";
+import axios from "axios";
 
 // 前台 pages
 import BackToTop from "./components/common/BackToTop/BackToTop";
@@ -12,37 +13,57 @@ import Diary from "./pages/diary/Diary";
 import Playlist from "./pages/playlist/Playlist";
 import Subscription from "./pages/subscription/Subscription";
 import Player from "./components/features/player/Player";
-import listData from "./data/listData";
-import mediaData from "./data/mediaData";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import FAQPage from "./pages/faq/faq";
 import NotFound from "./pages/not-found/NotFound";
 import MemberPage from "./pages/Member/MemberPage";
+import SinglePlaylist from "./pages/playlist/SinglePlaylist";
 
 // 後台 pages
 import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
 
+const API_BASE = "http://localhost:3001";
+
 function App() {
+  const [lists, setLists] = useState([]);
+  const [songs, setSongs] = useState([]);
   // 播放清單（給 Player 用）
   const [songList, setSongList] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
   // 讓頁面可以用 listID 抓歌
   const mediaMap = useMemo(() => {
     const map = new Map();
-    mediaData.forEach((s) => map.set(s.id, s));
+    songs.forEach((s) => map.set(s.id, s));
     return map;
+  }, [songs]);
+
+  // 抓資料
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [listsRes, songsRes] = await Promise.all([
+          axios.get(`${API_BASE}/lists`),
+          axios.get(`${API_BASE}/songs`),
+        ]);
+        setLists(listsRes.data);
+        setSongs(songsRes.data);
+      } catch (error) {
+        console.error("初始化資料失敗", error);
+      }
+    };
+    fetchData();
   }, []);
 
   const selectPlaylist = (listID, index = 0) => {
-    const list = listData.find((p) => p.listID === listID);
+    const list = lists.find((l) => l.id === listID);
     if (!list) return;
-
-    const songs = list.songsID.map((id) => mediaMap.get(id)).filter(Boolean);
-    setSongList(songs);
+    const songsInList = list.songsID.map((id) => mediaMap.get(id)).filter(Boolean);
+    setSongList(songsInList);
     setStartIndex(index);
   };
+
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
@@ -52,7 +73,11 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="diary" element={<Diary />} />
-          <Route path="playlist" element={<Playlist selectPlaylist={selectPlaylist} />} />
+          <Route path="playlist" element={<Playlist />} />
+          <Route
+            path="playlist/:id"
+            element={<SinglePlaylist lists={lists} songs={songs} selectPlaylist={selectPlaylist} />}
+          />
           <Route path="subscription" element={<Subscription />} />
           <Route path="faq" element={<FAQPage />} />
           <Route path="member" element={<MemberPage />} />
