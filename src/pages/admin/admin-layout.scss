@@ -1,0 +1,88 @@
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+/* ===== Sidebar ===== */
+.admin-sidebar {
+  width: 220px;
+  background-color: #1f2937;
+  color: #fff;
+  padding: 24px 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Logo */
+.admin-logo {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+/* Nav */
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-link {
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 15px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.admin-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.admin-link.active {
+  background-color: #3b82f6;
+  color: #fff;
+}
+
+/* Logout */
+.admin-logout {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+  button {
+    width: 100%;
+    padding: 10px 0;
+    border-radius: 10px;
+    border: none;
+
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba(239, 68, 68, 0.3);
+      color: #fee2e2;
+    }
+
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+}
+
+/* ===== Main ===== */
+.admin-main {
+  flex: 1;
+  padding: 32px;
+  background-color: #f5f7fa;
+}

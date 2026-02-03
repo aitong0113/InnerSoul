@@ -2,7 +2,7 @@ import "./MemberPage.scss";
 import { useState } from "react";
 import { IconRotateClockwise } from "@tabler/icons-react";
 import { getMoodText } from "../../components/features/homeMoodText/getMoodText";
-import avatarYouyou from "../../assets/userImg/悠悠.png";
+<img src="/userImg/悠悠.png" alt="悠悠" />
 import { authStore } from "../../services/auth/authStore";
 
 function MemberPage() {
