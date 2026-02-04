@@ -29,12 +29,15 @@ function LoginForm() {
         accessToken: res.accessToken,
         userId: res.user.id,
         userName: res.user.userName,
+        userImg: res.user.userImg,
+        plan: res.user.plan,
         days: 3,
       });
       alert("登入成功！");
       navigate(ROUTES.home);
     } catch (err) {
-      alert("帳號或密碼錯誤，請再試一次");
+      console.error("登入失敗", err);
+      alert("登入失敗，請再試一次");
     }
   }
 

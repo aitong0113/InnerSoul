@@ -21,7 +21,7 @@ export const authStore = {
   },
 
   getUserId() {
-    return Cookies.get(USER_ID_KEY) || "";
+    return Number(Cookies.get(USER_ID_KEY) || 0);
   },
 
   getUserName() {

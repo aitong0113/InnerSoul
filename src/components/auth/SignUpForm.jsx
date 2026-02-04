@@ -54,6 +54,7 @@ function SignUpForm() {
       });
       navigate(ROUTES.home);
     } catch (err) {
+      console.error("註冊失敗", err);
       alert("註冊失敗");
     }
   }

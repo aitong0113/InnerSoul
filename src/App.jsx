@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import FrontLayout from "./components/layout/FrontLayout";
 import AdminLayout from "./pages/admin/AdminLayout";
 import { ROUTES } from "./constants/routes";
@@ -10,6 +10,8 @@ import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Diary from "./pages/diary/Diary";
+import DiaryHome from "./pages/diary/DiaryHome";
+import EditDiary from "./components/features/diary/EditDiary";
 import Playlist from "./pages/playlist/Playlist";
 import Subscription from "./pages/subscription/Subscription";
 import Player from "./components/features/player/Player";
@@ -65,14 +67,18 @@ function App() {
   };
 
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <HashRouter>
       <Routes>
         {/* 前台 */}
         <Route path="/" element={<FrontLayout />}>
           <Route index element={<Home selectPlaylist={selectPlaylist} />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
-          <Route path="diary" element={<Diary />} />
+          <Route path="diary" element={<Diary />}>
+            <Route index element={<DiaryHome />} />
+            <Route path="edit" element={<EditDiary />} />
+            <Route path="edit/:date" element={<EditDiary />} />
+          </Route>
           <Route path="playlist" element={<Playlist />} />
           <Route
             path="playlist/:id"
@@ -95,7 +101,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       {songList === null ? <BackToTop /> : <Player songList={songList} startIndex={startIndex} />}
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
