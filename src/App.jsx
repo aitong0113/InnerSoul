@@ -20,6 +20,7 @@ import FAQPage from "./pages/faq/faq";
 import NotFound from "./pages/not-found/NotFound";
 import MemberPage from "./pages/Member/MemberPage";
 import SinglePlaylist from "./pages/playlist/SinglePlaylist";
+import Checkout from './pages/checkout/Checkout';
 
 // 後台 pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -87,6 +88,7 @@ function App() {
           <Route path="subscription" element={<Subscription />} />
           <Route path="faq" element={<FAQPage />} />
           <Route path="member" element={<MemberPage />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Route>
 
         {/* 後台 */}

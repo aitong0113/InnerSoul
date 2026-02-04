@@ -1,10 +1,10 @@
-import { IconX, IconInfoCircleFilled } from '@tabler/icons-react';
+import { IconX, IconInfoCircleFilled } from "@tabler/icons-react";
 
 const SubscriptionTermsModal = ({ onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content bg-white rounded-4" onClick={(e) => e.stopPropagation()}>
-        
+
         {/* Header */}
         <div className="modal-header">
           <h3 className="modal-title">
@@ -20,7 +20,7 @@ const SubscriptionTermsModal = ({ onClose }) => {
           {/* Info Box */}
           <div className="info-box">
             <div>
-              <IconInfoCircleFilled size={20} className="info-icon"/>
+              <IconInfoCircleFilled size={20} className="info-icon" />
             </div>
             <div className="info-text">
               <h4 className="info-title">非醫療行為聲明</h4>

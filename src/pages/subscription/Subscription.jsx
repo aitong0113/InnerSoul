@@ -1,14 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { IconInfoCircleFilled } from '@tabler/icons-react';
-import SubscriptionCard from './SubscriptionCard';
-import SubscriptionTermsModal from './SubscriptionTermsModal';
-import SubscriptionStatusBanner from './SubscriptionStatusBanner';
-import { PRICING_PLANS } from './pricingData';
-import './subscription.scss';
+import SubscriptionCard from '../../components/features/subscription/SubscriptionCard';
+import SubscriptionTermsModal from '../../components/features/subscription/SubscriptionTermsModal';
+import SubscriptionStatusBanner from '../../components/features/subscription/SubscriptionStatusBanner';
+import '../../components/features/subscription/subscription.scss';
 
 const Subscription = () => {
-
   const [showModal, setShowModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const [plans, setPlans] = useState([]);
+
+  useEffect(() => {
+
+    const userId = Cookies.get("userId");
+
+    if (userId) {
+      fetch(`http://localhost:3001/users/${userId}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("User not found");
+          return res.json();
+        })
+        .then((data) => setCurrentUser(data))
+        .catch((err) => {
+          console.error(err);
+          setCurrentUser(null);
+        });
+    } else {
+      setCurrentUser(null);
+    }
+
+    fetch('http://localhost:3001/plans')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("成功抓取方案:", data);
+        setPlans(data);
+      })
+      .catch((err) => console.error("抓取方案失敗:", err));
+
+  }, []);
 
   return (
     <section className="subscription-container bg-liner">
@@ -17,29 +48,39 @@ const Subscription = () => {
         <div className="text-center mb-5 header-section">
           <h2 className="fw-bold fs-1 text-primary-05 mb-0">選擇適合你​的​陪伴​方案​</h2>
           <p className="fs-5 text-black-700 py-5">
-            無論​你需要​輕量​的​放鬆，​還是​深度​的​情緒​支持，​心途​都​在​這裡​
+            無論​你需要​輕量​的​放鬆，​還是​深度​的​情緒​支持，​心途​都​在​這裡
           </p>
         </div>
 
-        {/* 會員狀態橫幅 */}
-        <div className="row justify-content-center mb-4">
-          <div className="col-lg-10">
-            <SubscriptionStatusBanner />
-          </div>
-        </div>
-
-        {/* 卡片列表區塊 */}
-        <div className="row justify-content-center g-4 py-10"> 
-          {PRICING_PLANS.map((plan) => (
-            <div className="col-lg-5 col-md-6 d-flex" key={plan.id}>
-              <SubscriptionCard {...plan} />
+        {/* 會員訂閱狀態 */}
+        {currentUser && (
+          <div className="row justify-content-center mb-4">
+            <div className="col-lg-10">
+              <SubscriptionStatusBanner userPlan={currentUser.plan} />
             </div>
-          ))}
+          </div>
+        )}
+
+        {/* 卡片區塊 */}
+        <div className="row justify-content-center g-4 py-10">
+          {plans.length > 0 ? (
+            plans.map((plan) => (
+              <div className="col-lg-5 col-md-6 d-flex" key={plan.id}>
+                <SubscriptionCard
+                  {...plan}
+                  features={plan.uiFeatures}
+                  userPlan={currentUser?.plan}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-5">載入方案中...</div>
+          )}
         </div>
         {/* 訂閱條款 */}
         <div className="terms-trigger-area">
-          <button 
-            className="terms-btn fw-bold" 
+          <button
+            className="terms-btn fw-bold"
             onClick={() => setShowModal(true)}
           >
             <IconInfoCircleFilled size={18} className="me-1" />

@@ -1,6 +1,4 @@
-// 定義顏色變數
-$primary-teal: #398C9F; 
-$gray-border: #e0e0e0;
+$primary-04: #398C9F;
 $text-dark: #333;
 
 // 容器設定
@@ -14,7 +12,7 @@ $text-dark: #333;
   }
 }
 
-// 卡片核心樣式
+// 卡片樣式
 .subscription-card {
   background: #fff;
   border: 1px solid #eaeaea;
@@ -28,14 +26,14 @@ $text-dark: #333;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   .card-header-area .title {
-      color: #353535;
-    }
+    color: #353535;
+  }
 
 
   &:hover {
-    transform: scale(1.04) translateY(-10px); 
+    transform: scale(1.04) translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    border-color: $primary-teal; 
+    border-color: $primary-04;
   }
 
   // 推薦版樣式
@@ -46,9 +44,9 @@ $text-dark: #333;
     z-index: 2;
 
     &:hover {
-      transform: scale(1.04) translateY(-10px); 
+      transform: scale(1.04) translateY(-10px);
     }
-    
+
     .card-header-area .title {
       color: #398C9F;
     }
@@ -72,11 +70,12 @@ $text-dark: #333;
   .card-header-area {
     text-align: center;
     margin-bottom: 30px;
-    
-    .title {
+
+    .caed-title {
       font-weight: bold;
     }
-    .subtitle {
+
+    .card-subtitle {
       font-size: 0.9rem;
     }
   }
@@ -86,21 +85,24 @@ $text-dark: #333;
     display: flex;
     justify-content: center;
     align-items: baseline;
-    
+
     .free-text {
       font-size: 2.5rem;
       font-weight: bold;
     }
+
     .currency {
       font-size: 1.2rem;
       margin-right: 4px;
       font-weight: bold;
     }
+
     .amount {
       font-size: 3rem;
       font-weight: bold;
       line-height: 1;
     }
+
     .freq {
       margin-left: 8px;
       font-size: 1rem;
@@ -111,8 +113,8 @@ $text-dark: #333;
   .feature-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 20px 0; 
-    flex-grow: 1; 
+    margin: 0 0 20px 0;
+    flex-grow: 1;
 
     li {
       display: flex;
@@ -120,32 +122,39 @@ $text-dark: #333;
       margin-bottom: 16px;
       font-size: 1rem;
       line-height: 1.5;
-      
+
       .icon-wrapper {
         width: 24px;
         margin-right: 16px;
         font-weight: bold;
         text-align: center;
         flex-shrink: 0;
-        display: flex;            
-        align-items: center;      
-        justify-content: center;  
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       &.included {
         color: #333;
-        .icon-wrapper { color: $primary-teal; }
+
+        .icon-wrapper {
+          color: $primary-04;
+        }
       }
 
       &.excluded {
-        color: #bbb; 
-        .icon-wrapper { color: #ddd; font-weight: normal; }
+        color: #bbb;
+
+        .icon-wrapper {
+          color: #ddd;
+          font-weight: normal;
+        }
       }
     }
   }
-} 
+}
 
-// --- 訂閱條款按鈕 ---
+// 訂閱條款按鈕
 .terms-trigger-area {
   text-align: center;
 
@@ -168,7 +177,7 @@ $text-dark: #333;
   }
 }
 
-// --- Modal 樣式 ---
+// 訂閱條款 Modal 樣式
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -245,7 +254,8 @@ $text-dark: #333;
       margin-bottom: 24px;
       display: flex;
       gap: 16px;
-      align-items: flex-start;;
+      align-items: flex-start;
+      ;
 
       .info-icon {
         color: #398C9F;
@@ -261,16 +271,43 @@ $text-dark: #333;
           margin-bottom: 4px;
           font-size: 1rem;
         }
-        p { margin: 0; font-size: 0.9rem; color: #666; }
-        strong { color: #398C9F; }
+
+        p {
+          margin: 0;
+          font-size: 0.9rem;
+          color: #666;
+        }
+
+        strong {
+          color: #398C9F;
+        }
       }
     }
 
     .terms-section {
       margin-bottom: 24px;
-      h4 { font-size: 1rem; font-weight: bold; color: #333; margin-bottom: 8px; }
-      ul { padding-left: 40px; margin-bottom: 0; li { margin-bottom: 6px; list-style-type: disc; }}
-      strong { color: #333; font-weight: bold; }
+
+      h4 {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      ul {
+        padding-left: 40px;
+        margin-bottom: 0;
+
+        li {
+          margin-bottom: 6px;
+          list-style-type: disc;
+        }
+      }
+
+      strong {
+        color: #333;
+        font-weight: bold;
+      }
     }
   }
 
@@ -300,15 +337,22 @@ $text-dark: #333;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-// --- 會員狀態橫幅 ---
+// 會員狀態橫幅
 .subscription-status-banner {
   background-color: #ffffff;
-  border: 1px solid rgba(57, 140, 159, 0.2);
-  border-radius: 40px; 
+  border: none;
+  border-radius: 40px;
   padding: 32px 32px;
   display: flex;
   justify-content: space-between;
@@ -347,7 +391,7 @@ $text-dark: #333;
     justify-content: center;
     flex-shrink: 0;
     box-shadow: 0 4px 10px rgba(57, 140, 159, 0.3);
-    
+
     // Icon 顏色
     .text-secondary {
       color: #ffffff !important;
@@ -362,6 +406,7 @@ $text-dark: #333;
       margin: 0;
       color: #2c2c2c;
     }
+
     .status-desc {
       font-size: 0.9rem;
       margin: 0;
@@ -387,9 +432,40 @@ $text-dark: #333;
       box-shadow: 0 4px 12px rgba(57, 140, 159, 0.25);
     }
   }
+
+  // 🎨 Free 會員樣式 (對應圖 3-1)
+  &.is-free {
+    background-color: #e8e8e8; // 深灰色背景
+    color: #333; // 文字深色
+
+    .icon-box {
+      background-color: #fff;
+      // Icon 顏色在 JSX 控制
+    }
+
+    .upgrade-btn {
+      background-color: #fff;
+      color: #333;
+    }
+  }
+
+  // 🎨 Pro 會員樣式 (對應圖 3-2)
+  &.is-pro {
+    background-color: #fff; // 淺 Teal 色背景 (吸管取色類似款)
+    color: #000;
+
+    .icon-box {
+      background-color: #fff;
+    }
+
+    .upgrade-btn {
+      background-color: #fff;
+      color: #333;
+    }
+  }
 }
 
-// --- 卡片按鈕樣式 ---
+// 卡片按鈕樣式
 .card-action-btn {
   width: 100%;
   padding: 12px 24px;
@@ -397,31 +473,30 @@ $text-dark: #333;
   font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
-  border: 2px solid $primary-teal;
+  border: 2px solid $primary-04;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   margin-top: auto;
   font-size: 20px;
-  
-  // Hover 效果
+
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 15px rgba(57, 140, 159, 0.3);
   }
 
-  // --- 立即註冊 ---
+  // 立即註冊
   &.mode-outline {
     background-color: transparent;
-    color: $primary-teal;
+    color: $primary-04;
 
     &:hover {
-      background-color: $primary-teal;
+      background-color: $primary-04;
       color: #ffffff;
     }
   }
 
-  // --- 立即訂閱 ---
+  // 立即訂閱
   &.mode-solid {
-    background-color: $primary-teal;
+    background-color: $primary-04;
     color: #ffffff;
 
     &:hover {
