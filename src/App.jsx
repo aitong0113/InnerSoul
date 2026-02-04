@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import FrontLayout from "./components/layout/FrontLayout";
 import AdminLayout from "./pages/admin/AdminLayout";
 import { ROUTES } from "./constants/routes";
@@ -67,7 +67,7 @@ function App() {
   };
 
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <HashRouter>
       <Routes>
         {/* 前台 */}
         <Route path="/" element={<FrontLayout />}>
@@ -101,7 +101,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       {songList === null ? <BackToTop /> : <Player songList={songList} startIndex={startIndex} />}
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
