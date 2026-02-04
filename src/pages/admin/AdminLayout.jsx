@@ -21,11 +21,18 @@ export default function AdminLayout() {
           <h2 className="admin-logo">Inner Soul</h2>
 
           <nav className="admin-nav">
-            <NavLink to="/admin" end className={({ isActive }) => isActive ? "admin-link active" : "admin-link"}>
+            <NavLink
+              to="/admin"
+              end
+              className={({ isActive }) => (isActive ? "admin-link active" : "admin-link")}
+            >
               Dashboard
             </NavLink>
 
-            <NavLink to="/admin/users" className={({ isActive }) => isActive ? "admin-link active" : "admin-link"}>
+            <NavLink
+              to="/admin/users"
+              className={({ isActive }) => (isActive ? "admin-link active" : "admin-link")}
+            >
               Users
             </NavLink>
           </nav>

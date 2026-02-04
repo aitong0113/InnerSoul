@@ -2,7 +2,7 @@ import "./MemberPage.scss";
 import { useState } from "react";
 import { IconRotateClockwise } from "@tabler/icons-react";
 import { getMoodText } from "../../components/features/homeMoodText/getMoodText";
-<img src="/userImg/悠悠.png" alt="悠悠" />
+import avatarYouyou from "../../assets/userImg/悠悠.png";
 import { authStore } from "../../services/auth/authStore";
 
 function MemberPage() {
@@ -43,26 +43,35 @@ function MemberPage() {
     <main className="member-page">
       {/* 頂部頁籤 */}
       <nav className="member-tabs">
-        <button className={activeTab === "member" ? "active" : ""} onClick={() => setActiveTab("member")}>心途會員</button>
-        <button className={activeTab === "favorite" ? "active" : ""} onClick={() => setActiveTab("favorite")}>語音收藏</button>
-        <button className={activeTab === "playlist" ? "active" : ""} onClick={() => setActiveTab("playlist")}>播放清單</button>
+        <button
+          className={activeTab === "member" ? "active" : ""}
+          onClick={() => setActiveTab("member")}
+        >
+          心途會員
+        </button>
+        <button
+          className={activeTab === "favorite" ? "active" : ""}
+          onClick={() => setActiveTab("favorite")}
+        >
+          語音收藏
+        </button>
+        <button
+          className={activeTab === "playlist" ? "active" : ""}
+          onClick={() => setActiveTab("playlist")}
+        >
+          播放清單
+        </button>
       </nav>
 
       {activeTab === "member" && (
         <>
           {/* 會員卡片 */}
           <section className="member-card">
-            <img
-              className="avatar"
-              src={avatarSrc}
-              alt={`${userName || "會員"} 的頭像`}
-            />
+            <img className="avatar" src={avatarSrc} alt={`${userName || "會員"} 的頭像`} />
             <div className="info">
               <h2>你好，{userName || "會員"}</h2>
               <div className="quote-row">
-                <p className={`quote ${isFading ? "fade-out" : "fade-in"}`}>
-                  {text}
-                </p>
+                <p className={`quote ${isFading ? "fade-out" : "fade-in"}`}>{text}</p>
                 <button className="refresh-btn" onClick={handleChangeMood} disabled={isDisabled}>
                   <IconRotateClockwise size={18} className={isRotating ? "rotate-once" : ""} />
                 </button>
@@ -74,7 +83,10 @@ function MemberPage() {
           <section className="month-review">
             <h3>讓我們一起回顧本月心情點滴吧</h3>
             <div className="review-grid">
-              <div className="review-card">12 月<br/>心情打卡率 100%</div>
+              <div className="review-card">
+                12 月<br />
+                心情打卡率 100%
+              </div>
               <div className="review-card empty" />
             </div>
           </section>
@@ -94,9 +106,21 @@ function MemberPage() {
 
           {/* 底部統計 */}
           <section className="member-stats">
-            <div className="stat-card">9,420<br/><span>小時</span></div>
-            <div className="stat-card">10<br/><span>播放清單</span></div>
-            <div className="stat-card">520<br/><span>日記</span></div>
+            <div className="stat-card">
+              9,420
+              <br />
+              <span>小時</span>
+            </div>
+            <div className="stat-card">
+              10
+              <br />
+              <span>播放清單</span>
+            </div>
+            <div className="stat-card">
+              520
+              <br />
+              <span>日記</span>
+            </div>
           </section>
         </>
       )}
