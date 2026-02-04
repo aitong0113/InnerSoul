@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import api from "../../services/api.js";
 import { IconInfoCircleFilled } from '@tabler/icons-react';
 import SubscriptionCard from '../../components/features/subscription/SubscriptionCard';
 import SubscriptionTermsModal from '../../components/features/subscription/SubscriptionTermsModal';
@@ -9,36 +10,28 @@ import '../../components/features/subscription/subscription.scss';
 const Subscription = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
   const [plans, setPlans] = useState([]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const plansRes = await api.get('/plans');
+        setPlans(plansRes.data);
+        console.log("成功抓取方案:", plansRes.data);
 
-    const userId = Cookies.get("userId");
-
-    if (userId) {
-      fetch(`http://localhost:3001/users/${userId}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("User not found");
-          return res.json();
-        })
-        .then((data) => setCurrentUser(data))
-        .catch((err) => {
-          console.error(err);
+        const userId = Cookies.get("userId");
+        if (userId) {
+          const userRes = await api.get(`/users/${userId}`);
+          setCurrentUser(userRes.data);
+        } else {
           setCurrentUser(null);
-        });
-    } else {
-      setCurrentUser(null);
-    }
+        }
+      } catch (error) {
+        console.error("資料載入發生錯誤:", error);
+      }
+    };
 
-    fetch('http://localhost:3001/plans')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("成功抓取方案:", data);
-        setPlans(data);
-      })
-      .catch((err) => console.error("抓取方案失敗:", err));
-
+    fetchData();
   }, []);
 
   return (

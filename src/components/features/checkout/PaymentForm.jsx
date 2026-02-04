@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { IconCreditCard, IconLock, IconAlertCircle, IconBolt } from "@tabler/icons-react";
+import { IconCreditCard, IconLock, IconAlertCircle } from "@tabler/icons-react";
 import SubscriptionTermsModal from "../subscription/SubscriptionTermsModal";
 import PaymentSuccessModal from "./PaymentSuccessModal";
 
