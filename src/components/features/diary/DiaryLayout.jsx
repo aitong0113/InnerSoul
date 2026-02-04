@@ -23,7 +23,7 @@ const DiaryLayout = ({
   const canSelect = typeof onSelectDate === "function";
 
   return (
-    <div className="container">
+    <div className="container mt-5 pt-5">
       <div className="row justify-content-center">
         <div className={`col-12 ${style.diaryBlur}`}>
           <div className={style.diaryCardBottom}>
@@ -32,18 +32,18 @@ const DiaryLayout = ({
               <div
                 className={`${style.diaryCardTop} ${style.diaryLeft} col-lg-6 d-flex flex-column justify-content-between p-7`}
               >
-                <div className="d-flex flex-column">
+                <div className="d-flex flex-column ps-4">
                   <h4 className="text-primary-04 text-center fw-bold">{year_month}</h4>
                   <table className={`text-center my-3 ${style.calendarTable}`}>
                     <thead className="text-primary-05 fs-5">
                       <tr>
-                        <th>日</th>
-                        <th>一</th>
-                        <th>二</th>
-                        <th>三</th>
-                        <th>四</th>
-                        <th>五</th>
-                        <th>六</th>
+                        <th className="text-start ps-4">日</th>
+                        <th className="text-start ps-4">一</th>
+                        <th className="text-start ps-4">二</th>
+                        <th className="text-start ps-4">三</th>
+                        <th className="text-start ps-4">四</th>
+                        <th className="text-start ps-4">五</th>
+                        <th className="text-start ps-4">六</th>
                       </tr>
                     </thead>
                     <tbody className="fs-sm">
@@ -59,7 +59,7 @@ const DiaryLayout = ({
                                 const isNoMoodDate = hasDate && !hasMood;
                                 return (
                                   <div
-                                    className={`${style.calCell} d-flex flex-column align-items-center gap-1 ${
+                                    className={`${style.calCell} d-flex flex-column align-items-center  ${
                                       isSelectable ? "cursor-pointer" : ""
                                     } ${isSelectable ? style.calCellSelectable : ""} ${
                                       isSelected ? style.calCellSelected : ""
@@ -69,7 +69,7 @@ const DiaryLayout = ({
                                     tabIndex={isSelectable ? 0 : undefined}
                                   >
                                     <div
-                                      className={`${style.calDate} ${
+                                      className={`w-100 text-start ms-3 ps-1 ${style.calDate} ${
                                         isNoMoodDate ? style.calDateNoMood : ""
                                       }`}
                                     >
@@ -95,7 +95,7 @@ const DiaryLayout = ({
                 <div className="d-flex justify-content-between">
                   <button
                     type="button"
-                    className={`${style.calendarBtn} my-3`}
+                    className={`${style.calendarBtn}`}
                     onClick={onPrevMonth}
                     disabled={!canPrev}
                   >
@@ -103,7 +103,7 @@ const DiaryLayout = ({
                   </button>
                   <button
                     type="button"
-                    className={`${style.calendarBtn} my-3`}
+                    className={`${style.calendarBtn}`}
                     onClick={onNextMonth}
                     disabled={!canNext}
                   >
@@ -157,7 +157,7 @@ const DiaryLayout = ({
                 </div>
 
                 {footer ? (
-                  <div className="d-flex justify-content-end  mt-4 mt-lg-0">{footer}</div>
+                  <div className="d-flex justify-content-end my-4 mt-lg-0">{footer}</div>
                 ) : null}
               </div>
             </div>
