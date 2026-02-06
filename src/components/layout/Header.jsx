@@ -2,23 +2,17 @@ import { useNavigate, Link } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { logout } from "../../services/auth/authService";
 import { authStore } from "../../services/auth/authStore";
+import UserProfile from "../shared/UserProfile";
+import { IconSparkles } from "@tabler/icons-react";
 
 import logo from "../../assets/logo.png";
-import avatarYouyou from "../../assets/userImg/悠悠.png";
 import { useEffect, useState } from "react";
+import "./Header.scss";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const isLoggedIn = authStore.isLoggedIn();
-  const userName = authStore.getUserName();
-
-  const userImgKey = localStorage.getItem("userImg");
-
-  const avatarMap = {
-    "悠悠.png": avatarYouyou,
-  };
-
-  const avatarSrc = avatarMap[userImgKey] || avatarYouyou;
+  const userPlan = authStore.getUserPlan();
 
   const navigate = useNavigate();
 
@@ -64,20 +58,25 @@ function Header() {
         <div className="auth-buttons">
           {isLoggedIn ? (
             <>
+              {/* 升級方案按鈕（僅免費會員顯示） */}
+              {(!userPlan || userPlan === "free") && (
+                <Link to={ROUTES.subscription} className="upgrade-btn">
+                  <IconSparkles size={18} />
+                  升級方案
+                </Link>
+              )}
+
+              {/* 使用者資訊 */}
               <Link
                 to="/member"
-                className="member-link member-profile"
+                className="member-link"
                 aria-label="前往會員中心"
                 title="會員中心"
               >
-                <img
-                  className="member-avatar"
-                  src={avatarSrc}
-                  alt={`${userName || "會員"} 的頭像`}
-                />
-                <span className="member-name">{userName || "會員"}</span>
+                <UserProfile variant="header" />
               </Link>
-              <button className="btn btn-outline" onClick={handleLogout}>
+
+              <button className="btn btn-outline logout-btn" onClick={handleLogout}>
                 <i className="bi bi-box-arrow-right"></i>
               </button>
             </>
