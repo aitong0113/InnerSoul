@@ -1,0 +1,203 @@
+.site-header {
+    background: linear-gradient(135deg, #dae9f3 0%, #f0f4f8 100%);
+    padding: 1.5rem 0;
+    min-height: 120px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    button {
+        border: none;
+        outline: none !important;
+
+        &:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    &.scrolled {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .site-logo {
+        height: 50px;
+        width: auto;
+    }
+
+    .main-nav {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+
+        .nav-link {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+
+            &:hover {
+                color: #2d3748;
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background-color: #5a9fd4;
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after {
+                width: 100%;
+            }
+        }
+    }
+
+    .auth-buttons {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .upgrade-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #5a9fd4 0%, #4a8fc4 100%);
+            color: white;
+            border: none;
+            outline: none;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(90, 159, 212, 0.25);
+
+            &:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 3px 10px rgba(90, 159, 212, 0.35);
+            }
+
+            &:focus {
+                outline: none !important;
+            }
+        }
+
+        .member-link {
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+
+        .logout-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            background-color: transparent;
+            border: none !important;
+            outline: none !important;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: #f7fafc;
+            }
+
+            &:focus {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+
+            i {
+                font-size: 18px;
+            }
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+
+            &:focus {
+                outline: none;
+            }
+
+            &.btn-outline {
+                border: 1px solid #5a9fd4;
+                color: #5a9fd4;
+                background-color: transparent;
+
+                &:hover {
+                    background-color: #5a9fd4;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    // Responsive design
+    @media (max-width: 768px) {
+        .header-inner {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .site-logo {
+            height: 40px;
+        }
+
+        .main-nav {
+            width: 100%;
+            order: 3;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+
+            .nav-link {
+                font-size: 14px;
+            }
+        }
+
+        .auth-buttons {
+            gap: 0.5rem;
+
+            .upgrade-btn {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+
+            .user-profile {
+                .user-profile__avatar {
+                    width: 36px;
+                    height: 36px;
+                }
+
+                .user-profile__name {
+                    font-size: 13px;
+                }
+
+                .user-profile__plan {
+                    font-size: 10px;
+                    padding: 2px 8px;
+                }
+            }
+        }
+    }
+}

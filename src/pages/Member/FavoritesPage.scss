@@ -1,0 +1,56 @@
+.favorites-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 16px;
+
+    &.loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #104754;
+        margin: 0 0 32px;
+        text-align: center;
+    }
+
+    .favorites-section {
+        margin-bottom: 56px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #104754;
+            margin: 0 0 20px;
+        }
+    }
+
+    .playlist-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 24px;
+    }
+
+    .song-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+
+        .playlist-grid,
+        .song-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+    }
+}
