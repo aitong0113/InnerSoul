@@ -14,10 +14,30 @@
   }
   .item-play {
     opacity: 0;
-    pointer-events: none; /* 避免誤點 */
+    pointer-events: none;
     transition: opacity 0.2s ease;
   }
 }
+
+/* playlist預設不顯示 */
+.playlist-play-btn {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* hover 歌單卡片時顯示 */
+.tag-playlist:hover .playlist-play-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* current list：永遠顯示 */
+.playlist-play-btn.is-current {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /*  */
 .volume-panel {
   position: absolute;
@@ -39,7 +59,7 @@
 }
 
 input.sidebar {
-  --c: lightblue; /* active color */
+  --c: #104754; /* active color */
   --g: 0px; /* the gap */
   --l: 3px; /* line thickness*/
   --s: 10px; /* thumb size*/
@@ -70,7 +90,8 @@ input.sidebar[type="range" i]::-webkit-slider-thumb {
   height: var(--s);
   aspect-ratio: 1;
   border-radius: 50%;
-  box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
+  /* box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c); */
+  background: var(--_c);
   border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 / calc(50% - var(--l) / 2)
     100vw/0 calc(100vw + var(--g));
   -webkit-appearance: none;
@@ -84,7 +105,8 @@ input.sidebar[type="range"]::-moz-range-thumb {
   width: var(--s);
   background: none;
   border-radius: 50%;
-  box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
+  /* box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c); */
+  background: var(--_c);
   border-image: linear-gradient(90deg, var(--_c) 50%, #ababab 0) 0 1 / calc(50% - var(--l) / 2)
     100vw/0 calc(100vw + var(--g));
   -moz-appearance: none;

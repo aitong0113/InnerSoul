@@ -635,7 +635,8 @@ $border-radius-lg: 0.5rem !default;
 // $border-radius-xl: 1rem !default;
 $border-radius-xl: 20px !default;
 $border-radius-xxl: 2rem !default;
-$border-radius-pill: 50rem !default;
+// $border-radius-pill: 50rem !default;
+$border-radius-pill: 100px !default;
 // scss-docs-end border-radius-variables
 // fusv-disable
 $border-radius-2xl: $border-radius-xxl !default; // Deprecated in v5.3.0
