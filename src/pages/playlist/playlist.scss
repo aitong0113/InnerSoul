@@ -1,7 +1,68 @@
-.bg-playlist {
-  background: linear-gradient(to bottom, #cde8fa, #ffffff80);
+.tag-playlist {
+  background: radial-gradient(
+    circle at center,
+    #b9e5e8 0%,
+    rgba(255, 255, 255, 0.4) 40%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  border-radius: 16px;
+}
+.btn-cloud {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  .btn-action {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+    font-size: 14px;
+  }
+
+  &.is-hovered {
+    transform: translateY(-4px);
+
+    .btn-action {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(0, 0, 0, 0.25);
+    outline-offset: 4px;
+  }
 }
 
-.tag-playlist {
-  background: radial-gradient(circle, #b9e5e8, #ffffff66, #ffffff);
+.icon-hover {
+  display: none;
+  &:hover {
+    display: inline;
+  }
+}
+
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-40px);
+  }
+}
+
+.btn-content-wrapper {
+  animation: floatY 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* hover 時暫停，跟 cloud 一致 */
+.btn-cloud:hover .btn-content-wrapper,
+.btn-cloud:focus-visible .btn-content-wrapper {
+  animation-play-state: paused;
 }
