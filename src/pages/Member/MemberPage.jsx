@@ -4,6 +4,7 @@ import { IconRotateClockwise } from "@tabler/icons-react";
 import { getMoodText } from "../../components/features/homeMoodText/getMoodText";
 import avatarYouyou from "../../assets/userImg/悠悠.png";
 import { authStore } from "../../services/auth/authStore";
+import PlaylistView from "../playlist/PlaylistView";
 
 function MemberPage() {
   const [text, setText] = useState(getMoodText());
@@ -126,7 +127,7 @@ function MemberPage() {
       )}
 
       {activeTab === "favorite" && <section className="placeholder">我的語音收藏</section>}
-      {activeTab === "playlist" && <section className="placeholder">我的播放清單</section>}
+      {activeTab === "playlist" && <PlaylistView></PlaylistView>}
     </main>
   );
 }
