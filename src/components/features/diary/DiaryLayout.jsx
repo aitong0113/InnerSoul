@@ -53,7 +53,8 @@ const DiaryLayout = ({
                             <td key={colIndex}>
                               {(() => {
                                 const isSelectable = canSelect && !!cell?.date;
-                                const isSelected = isSelectable && cell.date === selectedDay;
+                                const isSelected = !!cell?.date && cell.date === selectedDay;
+
                                 const hasDate = !!cell?.date;
                                 const hasMood = !!cell?.mood;
                                 const isNoMoodDate = hasDate && !hasMood;
@@ -119,13 +120,15 @@ const DiaryLayout = ({
                   <span className="fw-bold h5">{diaryDate}</span>
                   <small className="fs-6 ms-2">{weekday}</small>
                   {diaryMood ? (
-                    <span className="border border-light rounded-pill p-2 ms-3 small fs-6">
-                      心情
-                    </span>
+                    <>
+                      <span className="border border-light rounded-pill p-2 ms-3 small fs-6">
+                        心情
+                      </span>
+                      <span className={`ms-2 ${style.moodStamp}`}>
+                        {diaryMood ? renderMood(diaryMood) : null}
+                      </span>
+                    </>
                   ) : null}
-                  <span className={`ms-2 ${style.moodStamp}`}>
-                    {diaryMood ? renderMood(diaryMood) : null}
-                  </span>
                 </div>
 
                 <div className="d-flex flex-column flex-grow-1">
