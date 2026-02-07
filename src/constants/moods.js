@@ -3,6 +3,7 @@ import happy from "../assets/moodStamp/happy.png";
 import mad from "../assets/moodStamp/mad.png";
 import notgood from "../assets/moodStamp/notgood.png";
 import sad from "../assets/moodStamp/sad.png";
+import messy from "../assets/moodStamp/messy.png";
 
 export const MOODS = [
   { id: "good", chName: "平靜", icon: good },
@@ -10,4 +11,5 @@ export const MOODS = [
   { id: "mad", chName: "憤怒", icon: mad },
   { id: "sad", chName: "悲傷", icon: sad },
   { id: "notgood", chName: "糟糕", icon: notgood },
+  { id: "messy", chName: "混亂", icon: messy },
 ];
