@@ -1,0 +1,67 @@
+.marginY {
+  margin-top: 100px;
+}
+
+.mainPhoto {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 20px;
+}
+
+.btnOutline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  color: var(--bs-primary-05);
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: bold;
+  border: 2px solid var(--bs-primary-05);
+  border-radius: 100px;
+  padding: 8px 16px;
+}
+
+.btnOutline:hover {
+  background-color: var(--bs-primary-02);
+  transition: 0.5s ease;
+}
+
+.btnFilled {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  color: white;
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: bold;
+  border: none;
+  background-color: var(--bs-primary-05);
+  border-radius: 100px;
+  padding: 8px 16px;
+}
+
+.btnFilled:hover {
+  border: none;
+  background-color: var(--bs-primary-03);
+  transition: 0.5s ease;
+  text-shadow: 1px;
+}
+
+.text {
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.calBg {
+  background: radial-gradient(
+    circle closest-side at center,
+    #b9e5e8,
+    rgba(255, 255, 255, 0.479) 35%,
+    rgba(255, 255, 255, 0.217) 80%,
+    #cde8fa
+  );
+}
