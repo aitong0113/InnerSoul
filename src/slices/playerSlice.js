@@ -5,19 +5,17 @@ const initialState = {
   startIndex: 0, // 從第幾首開始
   currentSong: null, // 目前播放的歌曲物件
   isPlaying: false, // 播放中？
-  playTrigger: 0, // 先保留：用來對齊你原本的 useEffect([playTrigger])
 };
 
 const playerSlice = createSlice({
   name: "player",
   initialState,
   reducers: {
-    // 設定播放清單 + 指定起播 index，並觸發 Player 的 playTrigger
+    // 設定播放清單 + 指定起播 index
     setPlaylist(state, action) {
       const { songList, startIndex = 0 } = action.payload;
       state.songList = songList;
       state.startIndex = startIndex;
-      state.playTrigger += 1;
     },
 
     setCurrentSong(state, action) {

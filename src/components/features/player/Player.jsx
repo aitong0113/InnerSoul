@@ -19,15 +19,7 @@ import {
   IconChevronDown,
 } from "@tabler/icons-react";
 
-function Player({
-  songList,
-  startIndex,
-  currentSong,
-  setCurrentSong,
-  isPlaying,
-  setIsPlaying,
-  playTrigger,
-}) {
+function Player({ songList, startIndex, currentSong, setCurrentSong, isPlaying, setIsPlaying }) {
   // 訂閱方案
   const plan = authStore.getUserPlan();
   const isPro = plan === "pro";
@@ -41,6 +33,12 @@ function Player({
   const audioRef = useRef(null);
   // 清單中的第幾首
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const autoPlayRef = useRef({
+    songUrl: null,
+    index: null,
+  });
+
   // 收藏功能
   const favorite = () => {
     if (currentSong.liked) {
@@ -81,21 +79,20 @@ function Player({
 
   useEffect(() => {
     if (!songList || !songList[startIndex]) return;
-    playMusic(songList[startIndex], startIndex);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playTrigger]);
-
-  const lastPlayedUrlRef = useRef(null);
-  // 清單歌曲
-  useEffect(() => {
-    if (!songList || songList.length === 0) return;
-    const song = songList[startIndex];
-    if (!song) return;
-    if (lastPlayedUrlRef.current === song.fileUrl) return;
-    lastPlayedUrlRef.current = song.fileUrl;
-    setTimeout(() => {
-      playMusic(song, startIndex);
-    }, 0);
+    const targetSong = songList[startIndex];
+    // 🔒 同一首歌 + 同一 index，只自動播一次
+    if (
+      autoPlayRef.current.songUrl === targetSong.fileUrl &&
+      autoPlayRef.current.index === startIndex
+    ) {
+      return;
+    }
+    autoPlayRef.current = {
+      songUrl: targetSong.fileUrl,
+      index: startIndex,
+    };
+    setCurrentIndex(startIndex);
+    playMusic(targetSong, startIndex);
   }, [songList, startIndex, playMusic]);
 
   // 重複播放功能
