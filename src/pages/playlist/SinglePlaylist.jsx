@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Button from "../../components/common/Button/Button";
 import {
   IconMusic,
@@ -11,7 +12,8 @@ import {
   IconChevronRight,
 } from "@tabler/icons-react";
 
-function SinglePlaylist({ lists, songs, selectPlaylist, currentSong, isPlaying }) {
+function SinglePlaylist({ lists, songs, selectPlaylist }) {
+  const { currentSong, isPlaying } = useSelector((state) => state.player);
   const { id } = useParams();
   const location = useLocation();
   const isMemberPage = location.pathname === "/member";
@@ -61,6 +63,7 @@ function SinglePlaylist({ lists, songs, selectPlaylist, currentSong, isPlaying }
                 const isPlayingThis = isCurrent && isPlaying;
                 return (
                   <li
+                    key={songId}
                     className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${isCurrent ? "text-primary-05" : ""}`}
                     onClick={() => selectPlaylist(targetList.id, index)}
                     style={{ listStyle: "none" }}

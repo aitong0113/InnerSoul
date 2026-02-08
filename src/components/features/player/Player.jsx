@@ -327,7 +327,7 @@ function Player({
                         className={`btn border-0 ms-auto item-play ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05" : "list-item"}`}
                       >
                         <playIcon size={24} />
-                        {isPlaying && currentSong?.fileUrl === song.fileUrl ? (
+                        {!isPlaying && currentSong?.fileUrl === song.fileUrl ? (
                           <IconPlayerPlayFilled size={24} />
                         ) : (
                           <IconPlayerPauseFilled size={24} />

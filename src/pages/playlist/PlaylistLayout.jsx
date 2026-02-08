@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { authStore } from "../../services/auth/authStore";
 import PlaylistRecommend from "./PlaylistRecommend";
 import api from "../../services/api.js";
+import { useSelector } from "react-redux";
 
-function PlaylistLayout({ selectPlaylist, isPlaying, currentListId }) {
+function PlaylistLayout({ selectPlaylist }) {
+  const { currentListId, isPlaying } = useSelector((state) => state.player);
   const plan = authStore.getUserPlan();
   const navigate = useNavigate();
   const location = useLocation();
