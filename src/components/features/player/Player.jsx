@@ -19,7 +19,16 @@ import {
   IconChevronDown,
 } from "@tabler/icons-react";
 
-function Player({ songList, startIndex, currentSong, setCurrentSong, isPlaying, setIsPlaying }) {
+function Player({
+  songList,
+  startIndex,
+  currentSong,
+  setCurrentSong,
+  isPlaying,
+  setIsPlaying,
+  currentIndex,
+  setCurrentIndex,
+}) {
   // 訂閱方案
   const plan = authStore.getUserPlan();
   const isPro = plan === "pro";
@@ -31,9 +40,6 @@ function Player({ songList, startIndex, currentSong, setCurrentSong, isPlaying, 
 
   //音檔位置
   const audioRef = useRef(null);
-  // 清單中的第幾首
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   const autoPlayRef = useRef({
     songUrl: null,
     index: null,

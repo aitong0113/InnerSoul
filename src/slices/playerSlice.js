@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   songList: null, // 播放清單（Player 需要）
   startIndex: 0, // 從第幾首開始
+  currentIndex: 0,
   currentSong: null, // 目前播放的歌曲物件
   isPlaying: false, // 播放中？
 };
@@ -16,10 +17,15 @@ const playerSlice = createSlice({
       const { songList, startIndex = 0 } = action.payload;
       state.songList = songList;
       state.startIndex = startIndex;
+      state.currentIndex = startIndex;
     },
 
     setCurrentSong(state, action) {
       state.currentSong = action.payload;
+    },
+
+    setCurrentIndex(state, action) {
+      state.currentIndex = action.payload;
     },
 
     play(state) {
@@ -32,5 +38,5 @@ const playerSlice = createSlice({
   },
 });
 
-export const { setPlaylist, setCurrentSong, play, pause } = playerSlice.actions;
+export const { setPlaylist, setCurrentSong, play, pause, setCurrentIndex } = playerSlice.actions;
 export default playerSlice.reducer;
