@@ -38,7 +38,7 @@ function PlaylistLayout({ selectPlaylist, isPlaying, currentListId }) {
           placeholder="搜尋歌單"
         />
       </div>
-      <Outlet context={{ plan, keyword, lists }} />
+      <Outlet context={{ plan, keyword, lists, selectPlaylist }} />
       <PlaylistRecommend
         lists={lists}
         selectPlaylist={selectPlaylist}
