@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleSongLike } from "../../slices/userLikeSlice";
 import Button from "../../components/common/Button/Button";
 import {
   IconMusic,
@@ -10,10 +11,16 @@ import {
   IconPlayerPauseFilled,
   IconChevronLeft,
   IconChevronRight,
+  IconHeartFilled,
+  IconHeart,
 } from "@tabler/icons-react";
 
 function SinglePlaylist({ lists, songs, selectPlaylist }) {
+  const dispatch = useDispatch();
+
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
+  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
+
   const { id } = useParams();
   const location = useLocation();
   const isMemberPage = location.pathname === "/member";
@@ -59,11 +66,9 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
             <ul style={{ width: "800px" }} className="mb-6">
               {targetList.songsID.map((songId, index) => {
                 const song = songMap.get(songId);
-
                 const isCurrent = currentListId === targetList.id && currentIndex === index;
-
                 const showPause = isCurrent && isPlaying;
-
+                const isLiked = likedSongIds.includes(songId);
                 return (
                   <li
                     key={songId}
@@ -99,14 +104,23 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
                           <IconPlayerPlayFilled size={24} />
                         )}
                       </button>
-
-                      <button
-                        type="button"
-                        className="btn border-0"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <IconDots size={24} />
-                      </button>
+                      {!isMemberPage && (
+                        <button
+                          type="button"
+                          className="btn border-0"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(toggleSongLike(songId));
+                          }}
+                          aria-label="喜歡"
+                        >
+                          {isLiked ? (
+                            <IconHeartFilled size={24} className="text-danger" />
+                          ) : (
+                            <IconHeart size={24} className="text-black-300" />
+                          )}
+                        </button>
+                      )}
                     </div>
                   </li>
                 );

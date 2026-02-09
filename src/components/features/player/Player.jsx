@@ -28,7 +28,6 @@ function Player() {
   const currentSong = songList[currentIndex] || null;
 
   // 訂閱方案
-  // const isPro = plan === "pro";
   const FREE_PLAY_LIMIT = 3;
 
   const canPlayIndex = useCallback((index) => {
@@ -48,15 +47,29 @@ function Player() {
   );
 
   const onNext = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (repeatType === "single") {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+      return;
+    }
     const nextIndex = currentIndex + 1;
     if (nextIndex >= songList.length) {
       dispatch(next());
       return;
     }
     tryPlayIndex(nextIndex, () => dispatch(next()));
-  }, [currentIndex, songList.length, tryPlayIndex, dispatch]);
+  }, [repeatType, currentIndex, songList.length, tryPlayIndex, dispatch]);
 
   const onPrev = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (repeatType === "single") {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+      return;
+    }
     let targetIndex;
     if (currentIndex === 0) {
       if (repeatType === "list") {
@@ -74,7 +87,7 @@ function Player() {
       return;
     }
     dispatch(prev());
-  }, [currentIndex, repeatType, songList.length, canPlayIndex, dispatch]);
+  }, [repeatType, currentIndex, songList.length, canPlayIndex, dispatch]);
 
   const onTogglePlay = useCallback(() => {
     dispatch(toggle());
@@ -97,21 +110,30 @@ function Player() {
   //   }
   // };
 
+  // 切歌用
   useEffect(() => {
     if (!currentSong) return;
-
     if (!audioRef.current) {
       audioRef.current = new Audio(currentSong.fileUrl);
     } else {
       audioRef.current.src = currentSong.fileUrl;
     }
-
+    audioRef.current.currentTime = 0;
     if (isPlaying) {
       audioRef.current.play().catch(() => {});
-    } else {
-      audioRef.current.pause();
     }
-  }, [currentSong, isPlaying]);
+  }, [currentIndex]);
+
+  // 播放用
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
 
   // 重複播放
   const onRepeat = () => {
@@ -122,13 +144,21 @@ function Player() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
     audio.onended = () => {
+      if (repeatType === "single") {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        return;
+      }
+
       onNext();
     };
+
     return () => {
       audio.onended = null;
     };
-  }, [onNext]);
+  }, [onNext, repeatType]);
 
   // 播放器狀態
   const changePlayer = () => {
