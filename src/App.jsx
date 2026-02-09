@@ -5,8 +5,8 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import { ROUTES } from "./constants/routes";
 import api from "./services/api.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setPlaylist } from "./slices/playerSlice";
-import PlayerContainer from "./components/features/player/PlayerContainer";
+import { setPlaylist, toggle } from "./slices/playerSlice";
+// import PlayerContainer from "./components/features/player/PlayerContainer";
 
 // 前台 pages
 import BackToTop from "./components/common/BackToTop/BackToTop";
@@ -35,6 +35,7 @@ import PlaylistView from "./pages/playlist/PlaylistView.jsx";
 
 function App() {
   const dispatch = useDispatch();
+  const { currentIndex, currentListId } = useSelector((state) => state.player);
   const [lists, setLists] = useState([]);
   const [songs, setSongs] = useState([]);
   // 讓頁面可以用 listID 抓歌
@@ -61,11 +62,19 @@ function App() {
   const selectPlaylist = (listID, index = 0) => {
     const list = lists.find((l) => l.id === listID);
     if (!list) return;
+    const isSameSong = currentListId === listID && currentIndex === index;
+    // 點同一首歌：只 toggle
+    if (isSameSong) {
+      dispatch(toggle());
+      return;
+    }
+    // 點不同歌：切歌 + 播放
     const songsInList = list.songsID.map((id) => mediaMap.get(id)).filter(Boolean);
     dispatch(
       setPlaylist({
         songList: songsInList,
         startIndex: index,
+        listId: listID,
       })
     );
   };
@@ -112,7 +121,9 @@ function App() {
         {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {songList === null ? <BackToTop /> : <PlayerContainer />}
+      {/* {songList === null ? <BackToTop /> : <PlayerContainer />} */}
+
+      {!songList.length ? <BackToTop /> : <Player />}
     </HashRouter>
   );
 }

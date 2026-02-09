@@ -13,7 +13,7 @@ import {
 } from "@tabler/icons-react";
 
 function SinglePlaylist({ lists, songs, selectPlaylist }) {
-  const { currentSong, isPlaying } = useSelector((state) => state.player);
+  const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const { id } = useParams();
   const location = useLocation();
   const isMemberPage = location.pathname === "/member";
@@ -59,14 +59,19 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
             <ul style={{ width: "800px" }} className="mb-6">
               {targetList.songsID.map((songId, index) => {
                 const song = songMap.get(songId);
-                const isCurrent = currentSong?.id === song?.id;
-                const isPlayingThis = isCurrent && isPlaying;
+
+                const isCurrent = currentListId === targetList.id && currentIndex === index;
+
+                const showPause = isCurrent && isPlaying;
+
                 return (
                   <li
                     key={songId}
-                    className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${isCurrent ? "text-primary-05" : ""}`}
-                    onClick={() => selectPlaylist(targetList.id, index)}
+                    className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${
+                      isCurrent ? "text-primary-05" : ""
+                    }`}
                     style={{ listStyle: "none" }}
+                    onClick={() => selectPlaylist(targetList.id, index)}
                   >
                     <div>
                       <IconMusic size={15} className="me-2" />
@@ -75,19 +80,20 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
                       </span>
                       {song?.fileName}
                     </div>
+
                     <div className="hover-actions">
                       <button
                         type="button"
                         className={
-                          " me-3 btn border-0" + (isCurrent ? " text-primary-05" : " item-play")
+                          "me-3 btn border-0" + (isCurrent ? " text-primary-05" : " item-play")
                         }
                         onClick={(e) => {
                           e.stopPropagation();
                           selectPlaylist(targetList.id, index);
                         }}
-                        aria-label="播放/暫停"
+                        aria-label="播放 / 暫停"
                       >
-                        {isPlayingThis ? (
+                        {showPause ? (
                           <IconPlayerPauseFilled size={24} />
                         ) : (
                           <IconPlayerPlayFilled size={24} />
@@ -96,9 +102,8 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
 
                       <button
                         type="button"
-                        className=" btn border-0"
+                        className="btn border-0"
                         onClick={(e) => e.stopPropagation()}
-                        aria-label="更多選項"
                       >
                         <IconDots size={24} />
                       </button>

@@ -1,42 +1,55 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  songList: null, // 播放清單（Player 需要）
-  startIndex: 0, // 從第幾首開始
+  songList: [],
   currentIndex: 0,
-  currentSong: null, // 目前播放的歌曲物件
-  isPlaying: false, // 播放中？
+  isPlaying: false,
+  currentListId: null,
 };
 
 const playerSlice = createSlice({
   name: "player",
   initialState,
   reducers: {
-    // 設定播放清單 + 指定起播 index
     setPlaylist(state, action) {
-      const { songList, startIndex = 0 } = action.payload;
-      state.songList = songList;
-      state.startIndex = startIndex;
+      const { songList, startIndex = 0, listId } = action.payload;
+      state.songList = songList || [];
       state.currentIndex = startIndex;
+      state.isPlaying = true;
+      state.currentListId = listId;
     },
-
-    setCurrentSong(state, action) {
-      state.currentSong = action.payload;
-    },
-
-    setCurrentIndex(state, action) {
-      state.currentIndex = action.payload;
-    },
-
     play(state) {
       state.isPlaying = true;
     },
-
     pause(state) {
       state.isPlaying = false;
+    },
+    toggle(state) {
+      state.isPlaying = !state.isPlaying;
+    },
+    playAtIndex(state, action) {
+      state.currentIndex = action.payload;
+      state.isPlaying = true;
+    },
+    next(state) {
+      if (!state.songList.length) return;
+      const nextIndex = state.currentIndex + 1;
+      if (nextIndex < state.songList.length) {
+        state.currentIndex = nextIndex;
+        state.isPlaying = true;
+      }
+    },
+    prev(state) {
+      if (!state.songList.length) return;
+      const prevIndex = state.currentIndex - 1;
+      if (prevIndex >= 0) {
+        state.currentIndex = prevIndex;
+        state.isPlaying = true;
+      }
     },
   },
 });
 
-export const { setPlaylist, setCurrentSong, play, pause, setCurrentIndex } = playerSlice.actions;
+export const { setPlaylist, play, pause, toggle, playAtIndex, next, prev } = playerSlice.actions;
+
 export default playerSlice.reducer;
