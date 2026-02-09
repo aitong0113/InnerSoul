@@ -27,6 +27,7 @@ import MemberPage from "./pages/Member/MemberPage";
 import SinglePlaylist from "./pages/playlist/SinglePlaylist";
 import Checkout from "./pages/checkout/Checkout";
 import PlaylistLayout from "./pages/playlist/PlaylistLayout";
+import MemberAccountEdit from "./pages/Member/MemberAccountEdit";
 
 // 後台 pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -126,6 +127,7 @@ function App() {
             <Route path=":id" element={<SinglePlaylist />} />
           </Route>
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/member-account-edit" element={<MemberAccountEdit />} />
         </Route>
 
         {/* 後台 */}
