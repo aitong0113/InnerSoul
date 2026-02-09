@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { authStore } from "../../../services/auth/authStore";
 import { useDispatch, useSelector } from "react-redux";
-import { toggle, next, prev, playAtIndex } from "../../../slices/playerSlice";
+import { toggle, next, prev, playAtIndex, cycleRepeat } from "../../../slices/playerSlice";
 
 import "./player.css";
 import {
@@ -24,6 +24,7 @@ import {
 function Player() {
   const dispatch = useDispatch();
   const { songList, currentIndex, isPlaying } = useSelector((state) => state.player);
+  const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
 
   const onNext = useCallback(() => {
@@ -84,22 +85,26 @@ function Player() {
   }, [currentSong, isPlaying]);
 
   // 重複播放功能
-  const [repeatType, setRepeatType] = useState("none");
-  const repeat = () => {
-    // 狀態判斷
-    setRepeatType((pre) => {
-      switch (pre) {
-        // 不循環
-        case "none":
-          return "singleRepeat";
-        // 單曲循環
-        case "singleRepeat":
-          return "listRepeat";
-        // 清單循環
-        case "listRepeat":
-          return "none";
-      }
-    });
+  // const [repeatType, setRepeatType] = useState("none");
+  // const repeat = () => {
+  //   // 狀態判斷
+  //   setRepeatType((pre) => {
+  //     switch (pre) {
+  //       // 不循環
+  //       case "none":
+  //         return "singleRepeat";
+  //       // 單曲循環
+  //       case "singleRepeat":
+  //         return "listRepeat";
+  //       // 清單循環
+  //       case "listRepeat":
+  //         return "none";
+  //     }
+  //   });
+  // };
+  const onRepeat = () => {
+    console.log("repeat click");
+    dispatch(cycleRepeat());
   };
 
   // 自動播放
@@ -205,7 +210,7 @@ function Player() {
   let RepeatIcon;
   repeatType === "none"
     ? (RepeatIcon = IconRepeatOff)
-    : repeatType === "singleRepeat"
+    : repeatType === "single"
       ? (RepeatIcon = IconRepeatOnce)
       : (RepeatIcon = IconRepeat);
 
@@ -237,12 +242,7 @@ function Player() {
                       <button
                         className={`btn border-0 ms-auto item-play ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05" : "list-item"}`}
                       >
-                        <playIcon size={24} />
-                        {!isPlaying && currentSong?.fileUrl === song.fileUrl ? (
-                          <IconPlayerPlayFilled size={24} />
-                        ) : (
-                          <IconPlayerPauseFilled size={24} />
-                        )}
+                        <PlayIcon size={24} />
                       </button>
                     </li>
                   );
@@ -299,7 +299,7 @@ function Player() {
                 <div className="btn border-0  text-primary-05" onClick={onNext}>
                   <IconPlayerSkipForwardFilled size={32} />
                 </div>
-                <div className="btn border-0  text-primary-05" onClick={() => repeat()}>
+                <div className="btn border-0  text-primary-05" onClick={onRepeat}>
                   <RepeatIcon size={32} />
                 </div>
                 <div className="btn border-0 text-primary-05">
