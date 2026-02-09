@@ -4,6 +4,11 @@ import FrontLayout from "./components/layout/FrontLayout";
 import AdminLayout from "./pages/admin/AdminLayout";
 import { ROUTES } from "./constants/routes";
 import api from "./services/api.js";
+import { useSelector, useDispatch } from "react-redux";
+import { authStore } from "./services/auth/authStore.js";
+// Slice
+import { setPlaylist, toggle } from "./slices/playerSlice";
+import { fetchLikedSongs } from "./slices/userLikeSlice";
 
 // 前台 pages
 import BackToTop from "./components/common/BackToTop/BackToTop";
@@ -31,16 +36,17 @@ import PlaylistRoute from "./pages/playlist/PlaylistRoute.jsx";
 import PlaylistView from "./pages/playlist/PlaylistView.jsx";
 
 function App() {
+  const dispatch = useDispatch();
+  const userId = authStore.getUserId();
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchLikedSongs(userId));
+    }
+  }, [userId, dispatch]);
+
+  const { currentIndex, currentListId } = useSelector((state) => state.player);
   const [lists, setLists] = useState([]);
   const [songs, setSongs] = useState([]);
-  // 播放清單（給 Player 用）
-  const [songList, setSongList] = useState(null);
-  const [startIndex, setStartIndex] = useState(0);
-  const [playTrigger, setPlayTrigger] = useState(0);
-  // 播放狀態
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentSong, setCurrentSong] = useState(null);
-  const [currentListId, setCurrentListId] = useState(null);
   // 讓頁面可以用 listID 抓歌
   const mediaMap = useMemo(() => {
     const map = new Map();
@@ -61,17 +67,37 @@ function App() {
     };
     fetchData();
   }, []);
+  const canPlayIndex = (index, plan) => {
+    if (plan === "pro") return true;
+    return index < 3;
+  };
 
   const selectPlaylist = (listID, index = 0) => {
     const list = lists.find((l) => l.id === listID);
     if (!list) return;
+    const plan = authStore.getUserPlan();
+    if (!canPlayIndex(index, plan)) {
+      alert("請升級付費");
+      return;
+    }
+    const isSameSong = currentListId === listID && currentIndex === index;
+    // 點同一首歌：只 toggle
+    if (isSameSong) {
+      dispatch(toggle());
+      return;
+    }
+    // 點不同歌：切歌 + 播放
     const songsInList = list.songsID.map((id) => mediaMap.get(id)).filter(Boolean);
-    setSongList(songsInList);
-    setStartIndex(index);
-    setCurrentListId(listID);
-    setPlayTrigger((n) => n + 1);
+    dispatch(
+      setPlaylist({
+        songList: songsInList,
+        startIndex: index,
+        listId: listID,
+      })
+    );
   };
 
+  const songList = useSelector((state) => state.player.songList);
   return (
     <HashRouter>
       <Routes>
@@ -85,27 +111,12 @@ function App() {
             <Route path="edit" element={<EditDiary />} />
             <Route path="edit/:date" element={<EditDiary />} />
           </Route>
-          <Route
-            path="playlist"
-            element={
-              <PlaylistLayout
-                selectPlaylist={selectPlaylist}
-                currentListId={currentListId}
-                isPlaying={isPlaying}
-              />
-            }
-          >
+          <Route path="playlist" element={<PlaylistLayout selectPlaylist={selectPlaylist} />}>
             <Route index element={<Playlist />} />
             <Route
               path=":id"
               element={
-                <SinglePlaylist
-                  lists={lists}
-                  songs={songs}
-                  selectPlaylist={selectPlaylist}
-                  currentSong={currentSong}
-                  isPlaying={isPlaying}
-                />
+                <SinglePlaylist lists={lists} songs={songs} selectPlaylist={selectPlaylist} />
               }
             />
           </Route>
@@ -128,20 +139,9 @@ function App() {
         {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {songList === null ? (
-        <BackToTop />
-      ) : (
-        <Player
-          songList={songList}
-          startIndex={startIndex}
-          setStartIndex={setStartIndex}
-          currentSong={currentSong}
-          setCurrentSong={setCurrentSong}
-          isPlaying={isPlaying}
-          setIsPlaying={setIsPlaying}
-          playTrigger={playTrigger}
-        />
-      )}
+      {/* {songList === null ? <BackToTop /> : <PlayerContainer />} */}
+
+      {!songList.length ? <BackToTop /> : <Player />}
     </HashRouter>
   );
 }

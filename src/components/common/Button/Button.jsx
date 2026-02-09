@@ -15,7 +15,7 @@ function Button({ text = "按鈕", onClick, imgUrl }) {
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
     >
-      <div className="btn-content-wrapper">
+      <div className="btn-content-wrapper position-relative">
         {/* 背景圖 */}
         {imgUrl && <img src={imgUrl} alt="" aria-hidden="true" />}
 

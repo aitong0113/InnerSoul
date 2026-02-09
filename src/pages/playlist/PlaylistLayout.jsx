@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { authStore } from "../../services/auth/authStore";
 import PlaylistRecommend from "./PlaylistRecommend";
 import api from "../../services/api.js";
+import { useSelector } from "react-redux";
 
-function PlaylistLayout({ selectPlaylist, isPlaying, currentListId }) {
+function PlaylistLayout({ selectPlaylist }) {
+  const { currentListId, isPlaying } = useSelector((state) => state.player);
   const plan = authStore.getUserPlan();
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,7 +40,7 @@ function PlaylistLayout({ selectPlaylist, isPlaying, currentListId }) {
           placeholder="搜尋歌單"
         />
       </div>
-      <Outlet context={{ plan, keyword, lists }} />
+      <Outlet context={{ plan, keyword, lists, selectPlaylist }} />
       <PlaylistRecommend
         lists={lists}
         selectPlaylist={selectPlaylist}

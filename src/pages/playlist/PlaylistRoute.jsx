@@ -33,7 +33,7 @@ function PlaylistRoute() {
                     type="button"
                     imgUrl="/Union.png"
                     onClick={() => navigate(`/playlist/${item.id}`)}
-                  />
+                  ></Button>
                 </li>
               ))}
           </ul>
