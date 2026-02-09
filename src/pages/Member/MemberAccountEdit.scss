@@ -1,0 +1,310 @@
+/* src/pages/Member/MemberAccountEdit.scss */
+.bg-sky-gradient {
+  background: linear-gradient(180deg, #d7edf8 0%, #a2d9fa 100%);
+}
+
+.member-edit {
+  padding: 120px 0;
+  padding-bottom: 80px;
+}
+.member-edit .container {
+  max-width: 1100px;
+}
+
+/* 左側使用者區 */
+.member-profile {
+  margin-top: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 16px;
+  }
+
+  .username {
+    font-size: 20px;
+    font-weight: 600;
+    color: #104754;
+    margin-bottom: 4px;
+  }
+
+  .plan {
+    font-size: 14px;
+    color: #104754;
+    margin-bottom: 12px;
+  }
+
+  .btn-manage {
+    background: #104754;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+  }
+}
+
+/* 右側表單 */
+.member-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.member-form-card {
+  border-radius: 24px;
+  padding: 32px 32px 36px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 14px;
+    color: #104754;
+  }
+}
+
+.react-datepicker-wrapper input:disabled {
+  background: rgba(255, 255, 255, 0.35);
+  color: #8aa9ad;
+  cursor: not-allowed;
+}
+
+/* 🔥 白色半透明輸入框 */
+.member-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  font-size: 16px;
+  color: #104754;
+
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 12px;
+
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+  }
+}
+
+/* 包住整個 datepicker */
+.datepicker-wrapper {
+  width: 100%;
+
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+
+  input {
+    width: 100%;
+    height: 52px;
+    padding: 0 16px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255, 255, 255, 0.6);
+    color: #104754;
+    font-size: 16px;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(16, 71, 84, 0.25);
+    }
+  }
+}
+
+/* 日曆本體 */
+.inner-datepicker {
+  border-radius: 16px;
+  border: none;
+  background: #f4fbff;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.inner-datepicker {
+  .react-datepicker__header {
+    background: transparent;
+    border-bottom: none;
+    padding-bottom: 8px;
+  }
+
+  .react-datepicker__current-month {
+    font-size: 16px;
+    font-weight: 600;
+    color: #104754;
+  }
+
+  .react-datepicker__navigation {
+    top: 16px;
+  }
+}
+.inner-datepicker {
+  .react-datepicker__day-names {
+    margin-top: 8px;
+  }
+
+  .react-datepicker__day-name {
+    color: #8aa9b0;
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
+
+.inner-datepicker {
+  .react-datepicker__day {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin: 2px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #104754;
+
+    &:hover {
+      background: #d8eef7;
+    }
+  }
+
+  .react-datepicker__day--selected,
+  .react-datepicker__day--keyboard-selected {
+    background: #104754;
+    color: #fff;
+  }
+
+  .react-datepicker__day--outside-month {
+    color: #b5cdd3;
+  }
+}
+
+.datepicker-wrapper .react-datepicker-wrapper,
+.datepicker-wrapper .react-datepicker__input-container {
+  width: 100%;
+}
+
+.datepicker-wrapper input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 16px;
+  border: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* === 編輯前：鎖定狀態 === */
+.member-input:disabled,
+.member-input[disabled] {
+  background: rgba(255, 255, 255, 0.35);
+  color: #8aa9ad;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* select 也一起處理 */
+select.member-input:disabled {
+  appearance: none;
+}
+
+.password-row {
+  position: relative;
+
+  .member-input {
+    padding-right: 48px;
+  }
+
+  .password-eye {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    color: #8aa5ad;
+    cursor: pointer;
+
+    &:disabled {
+      color: #cfdfe0;
+      cursor: default;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+}
+
+/* 手機欄位 */
+.phone-field {
+  width: 100%;
+}
+
+.phone-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .member-input {
+    flex: 1;
+  }
+}
+
+/* 解除綁定 */
+.btn-unbind {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn-unbind.bound {
+  background: #e8f3f3;
+  color: #104754;
+}
+
+.btn-unbind.unbound {
+  background: #104754;
+  color: #ffffff;
+}
+
+/* 按鈕列 */
+.action-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* 取消 */
+.btn-cancel {
+  flex: 1;
+  height: 46px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #cfdfe0;
+  color: #104754;
+  font-size: 16px;
+}
+
+/* 確定 */
+.btn-confirm {
+  flex: 1;
+  height: 46px;
+  border-radius: 999px;
+  background: #104754;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+}
