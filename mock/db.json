@@ -375,6 +375,108 @@
       "id": 18
     }
   ],
+  "playlistFollowers": [
+    {
+      "id": 1,
+      "playlistId": 7,
+      "userId": 2
+    },
+    {
+      "id": 2,
+      "playlistId": 1,
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "playlistId": 1,
+      "userId": 2
+    },
+    {
+      "id": 4,
+      "playlistId": 2,
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "playlistId": 2,
+      "userId": 2
+    },
+    {
+      "id": 6,
+      "playlistId": 3,
+      "userId": 2
+    },
+    {
+      "id": 7,
+      "playlistId": 3,
+      "userId": 3
+    },
+    {
+      "id": 9,
+      "playlistId": 3,
+      "userId": 4
+    },
+    {
+      "id": 10,
+      "playlistId": 4,
+      "userId": 2
+    },
+    {
+      "id": 11,
+      "playlistId": 4,
+      "userId": 3
+    },
+    {
+      "id": 12,
+      "playlistId": 4,
+      "userId": 4
+    },
+    {
+      "id": 14,
+      "playlistId": 5,
+      "userId": 1
+    },
+    {
+      "id": 15,
+      "playlistId": 5,
+      "userId": 3
+    },
+    {
+      "id": 16,
+      "playlistId": 5,
+      "userId": 4
+    },
+    {
+      "id": 18,
+      "playlistId": 6,
+      "userId": 1
+    },
+    {
+      "id": 19,
+      "playlistId": 6,
+      "userId": 2
+    },
+    {
+      "id": 20,
+      "playlistId": 6,
+      "userId": 3
+    },
+    {
+      "id": 25,
+      "playlistId": 8,
+      "userId": 2
+    },
+    {
+      "userId": 3,
+      "playlistId": 8,
+      "id": 27
+    },
+    {
+      "userId": 3,
+      "playlistId": 1,
+      "id": 28
+    }
+  ],
   "plans": [
     {
       "id": "plan_free",

@@ -24,7 +24,7 @@ import {
 
 function Player() {
   const dispatch = useDispatch();
-  const { songList, currentIndex, isPlaying } = useSelector((state) => state.player);
+  const { songList, currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
 
@@ -103,30 +103,27 @@ function Player() {
 
   //音檔位置
   const audioRef = useRef(null);
-
-  // 收藏功能
-  // const favorite = () => {
-  //   if (currentSong.liked) {
-  //     // 記得用{}，不然會報錯
-  //     setCurrentSong({ ...currentSong, liked: false });
-  //   } else {
-  //     setCurrentSong({ ...currentSong, liked: true });
-  //   }
-  // };
+  const lastListIdRef = useRef(null);
 
   // 切歌用
   useEffect(() => {
     if (!currentSong) return;
-    if (!audioRef.current) {
+
+    const isListChanged = lastListIdRef.current !== currentListId;
+    lastListIdRef.current = currentListId;
+    // 切清單
+    if (!audioRef.current || isListChanged) {
+      audioRef.current?.pause();
       audioRef.current = new Audio(currentSong.fileUrl);
     } else {
+      // 同清單
       audioRef.current.src = currentSong.fileUrl;
     }
     audioRef.current.currentTime = 0;
     if (isPlaying) {
       audioRef.current.play().catch(() => {});
     }
-  }, [currentIndex]);
+  }, [currentIndex, currentListId, currentSong]);
 
   // 播放用
   useEffect(() => {

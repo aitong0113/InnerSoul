@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSongLike } from "../../slices/userLikeSlice";
+import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+
 import Button from "../../components/common/Button/Button";
 import {
   IconMusic,
@@ -19,8 +21,14 @@ import { authStore } from "../../services/auth/authStore";
 function SinglePlaylist({ lists, songs, selectPlaylist }) {
   const dispatch = useDispatch();
   const userId = authStore.getUserId();
+
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
+
+  const followedPlaylistIds = useSelector(
+    (state) => state.playlistFollow?.followedPlaylistIds ?? []
+  );
+  // const isFollowed = followedPlaylistIds.includes(targetList.id);
 
   const { id } = useParams();
   const location = useLocation();
@@ -41,6 +49,7 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
   if (!targetList) {
     return <p className="text-center">載入中...</p>;
   }
+  const isFollowed = followedPlaylistIds.includes(targetList.id);
 
   return (
     <>
@@ -52,9 +61,30 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
               <p>世界再吵，我都在</p>
               <p>陪你一起聆聽內心的聲音</p>
             </div>
-            <p className="text-black-700">
-              <small>23 人在線</small>
-            </p>
+            <div className="d-flex justify-content-around align-items-center">
+              <p className="text-black-700 mb-0">
+                <small>23 人在線</small>
+              </p>
+              <button
+                className={`btn ${isFollowed ? "btn-primary-05" : "btn-primary"}`}
+                type="button"
+                onClick={() => {
+                  if (!userId) {
+                    alert("請先登入");
+                    return;
+                  }
+
+                  dispatch(
+                    togglePlaylistFollow({
+                      userId,
+                      playlistId: targetList.id,
+                    })
+                  );
+                }}
+              >
+                {isFollowed ? "已追蹤" : "追蹤"}
+              </button>
+            </div>
           </div>
           {isMemberPage && (
             <button className="btn p-2 pe-4 btn-primary-05 fs-5 fw-bold position-absolute top-0 end-0 d-inline-flex align-items-center">
