@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { authStore } from "../../../services/auth/authStore";
 import { useDispatch, useSelector } from "react-redux";
-import { toggle, next, prev, playAtIndex, cycleRepeat } from "../../../slices/playerSlice";
+import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../slices/playerSlice";
 
 import "./player.css";
 import {
@@ -27,29 +27,58 @@ function Player() {
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
 
+  // 訂閱方案
+  // const isPro = plan === "pro";
+  const FREE_PLAY_LIMIT = 3;
+
+  const canPlayIndex = useCallback((index) => {
+    const plan = authStore.getUserPlan() || "free";
+    return plan === "pro" || index < FREE_PLAY_LIMIT;
+  }, []);
+  const tryPlayIndex = useCallback(
+    (index, fallbackAction) => {
+      if (!canPlayIndex(index)) {
+        dispatch(pause());
+        alert("請升級方案");
+        return;
+      }
+      fallbackAction();
+    },
+    [canPlayIndex, dispatch]
+  );
+
   const onNext = useCallback(() => {
-    dispatch(next());
-  }, [dispatch]);
+    const nextIndex = currentIndex + 1;
+    if (nextIndex >= songList.length) {
+      dispatch(next());
+      return;
+    }
+    tryPlayIndex(nextIndex, () => dispatch(next()));
+  }, [currentIndex, songList.length, tryPlayIndex, dispatch]);
 
   const onPrev = useCallback(() => {
+    let targetIndex;
+    if (currentIndex === 0) {
+      if (repeatType === "list") {
+        targetIndex = songList.length - 1;
+      } else {
+        dispatch(prev());
+        return;
+      }
+    } else {
+      targetIndex = currentIndex - 1;
+    }
+    if (!canPlayIndex(targetIndex)) {
+      dispatch(pause());
+      alert("請升級方案");
+      return;
+    }
     dispatch(prev());
-  }, [dispatch]);
+  }, [currentIndex, repeatType, songList.length, canPlayIndex, dispatch]);
 
   const onTogglePlay = useCallback(() => {
     dispatch(toggle());
   }, [dispatch]);
-
-  const onPlayAtIndex = useCallback(
-    (i) => {
-      dispatch(playAtIndex(i));
-    },
-    [dispatch]
-  );
-
-  // 訂閱方案
-  const plan = authStore.getUserPlan();
-  const isPro = plan === "pro";
-  const FREE_PLAY_LIMIT = 3;
 
   // 播放器狀態
   const [playerType, setPlayerType] = useState(() => (songList.length ? "bar" : "none"));
@@ -84,26 +113,8 @@ function Player() {
     }
   }, [currentSong, isPlaying]);
 
-  // 重複播放功能
-  // const [repeatType, setRepeatType] = useState("none");
-  // const repeat = () => {
-  //   // 狀態判斷
-  //   setRepeatType((pre) => {
-  //     switch (pre) {
-  //       // 不循環
-  //       case "none":
-  //         return "singleRepeat";
-  //       // 單曲循環
-  //       case "singleRepeat":
-  //         return "listRepeat";
-  //       // 清單循環
-  //       case "listRepeat":
-  //         return "none";
-  //     }
-  //   });
-  // };
+  // 重複播放
   const onRepeat = () => {
-    console.log("repeat click");
     dispatch(cycleRepeat());
   };
 
@@ -122,6 +133,15 @@ function Player() {
   // 播放器狀態
   const changePlayer = () => {
     setPlayerType((prev) => (prev === "mini" ? "bar" : "mini"));
+  };
+
+  const handleClickSong = (index) => {
+    if (currentIndex === index) {
+      dispatch(toggle());
+      return;
+    }
+
+    tryPlayIndex(index, () => dispatch(playAtIndex(index)));
   };
 
   // 點擊外部收合player
@@ -230,9 +250,11 @@ function Player() {
               </div>
               <ul className="text-start px-6 pt-5">
                 {songList.map((song, index) => {
+                  const isCurrent = currentIndex === index;
+                  const showPause = isCurrent && isPlaying;
                   return (
                     <li
-                      onClick={() => onPlayAtIndex(index)}
+                      onClick={() => handleClickSong(index)}
                       className={`d-flex w-100 align-items-center  ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05 fw-bold" : "list-item"}`}
                       key={index}
                     >
@@ -242,7 +264,11 @@ function Player() {
                       <button
                         className={`btn border-0 ms-auto item-play ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05" : "list-item"}`}
                       >
-                        <PlayIcon size={24} />
+                        {showPause ? (
+                          <IconPlayerPauseFilled size={24} />
+                        ) : (
+                          <IconPlayerPlayFilled size={24} />
+                        )}
                       </button>
                     </li>
                   );

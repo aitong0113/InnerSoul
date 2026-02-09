@@ -6,7 +6,7 @@ import { ROUTES } from "./constants/routes";
 import api from "./services/api.js";
 import { useSelector, useDispatch } from "react-redux";
 import { setPlaylist, toggle } from "./slices/playerSlice";
-// import PlayerContainer from "./components/features/player/PlayerContainer";
+import { authStore } from "./services/auth/authStore.js";
 
 // 前台 pages
 import BackToTop from "./components/common/BackToTop/BackToTop";
@@ -58,10 +58,19 @@ function App() {
     };
     fetchData();
   }, []);
+  const canPlayIndex = (index, plan) => {
+    if (plan === "pro") return true;
+    return index < 3;
+  };
 
   const selectPlaylist = (listID, index = 0) => {
     const list = lists.find((l) => l.id === listID);
     if (!list) return;
+    const plan = authStore.getUserPlan();
+    if (!canPlayIndex(index, plan)) {
+      alert("請升級付費");
+      return;
+    }
     const isSameSong = currentListId === listID && currentIndex === index;
     // 點同一首歌：只 toggle
     if (isSameSong) {
