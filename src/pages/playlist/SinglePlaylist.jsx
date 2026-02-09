@@ -14,10 +14,11 @@ import {
   IconHeartFilled,
   IconHeart,
 } from "@tabler/icons-react";
+import { authStore } from "../../services/auth/authStore";
 
 function SinglePlaylist({ lists, songs, selectPlaylist }) {
   const dispatch = useDispatch();
-
+  const userId = authStore.getUserId();
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
 
@@ -110,14 +111,23 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
                           className="btn border-0"
                           onClick={(e) => {
                             e.stopPropagation();
-                            dispatch(toggleSongLike(songId));
+                            if (!userId) {
+                              alert("請先登入");
+                              return;
+                            }
+                            dispatch(
+                              toggleSongLike({
+                                userId,
+                                songId,
+                              })
+                            );
                           }}
                           aria-label="喜歡"
                         >
                           {isLiked ? (
-                            <IconHeartFilled size={24} className="text-danger" />
+                            <IconHeartFilled size={24} className="text-primary-05" />
                           ) : (
-                            <IconHeart size={24} className="text-black-300" />
+                            <IconHeart size={24} className="text-primary-05" />
                           )}
                         </button>
                       )}

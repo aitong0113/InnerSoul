@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { authStore } from "../../../services/auth/authStore";
 import { useDispatch, useSelector } from "react-redux";
 import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../slices/playerSlice";
+import { toggleSongLike } from "../../../slices/userLikeSlice";
 
 import "./player.css";
 import {
@@ -26,6 +27,9 @@ function Player() {
   const { songList, currentIndex, isPlaying } = useSelector((state) => state.player);
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
+
+  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
+  const isLiked = currentSong && likedSongIds.includes(currentSong.id);
 
   // 訂閱方案
   const FREE_PLAY_LIMIT = 3;
@@ -311,9 +315,29 @@ function Player() {
                   style={{ background: "linear-gradient(to top, #F5F5DC50, #fff)" }}
                 >
                   <p className="me-auto mb-0 text-primary-05 fw-bold">{`${currentSong.category} | ${currentSong.fileName}`}</p>
-                  {/* <button className="btn border-0 text-primary-05" onClick={() => favorite()}>
-                    {currentSong.liked ? <IconHeartFilled size={24} /> : <IconHeart size={24} />}
-                  </button> */}
+                  <button
+                    className="btn border-0 text-primary-05"
+                    onClick={() => {
+                      const userId = authStore.getUserId();
+                      if (!userId) {
+                        alert("請先登入");
+                        return;
+                      }
+                      dispatch(
+                        toggleSongLike({
+                          userId,
+                          songId: currentSong.id,
+                        })
+                      );
+                    }}
+                    aria-label="喜歡"
+                  >
+                    {isLiked ? (
+                      <IconHeartFilled size={24} className="text-primary-05" />
+                    ) : (
+                      <IconHeart size={24} className="text-primary-05" />
+                    )}
+                  </button>
                 </div>
               )}
             </div>

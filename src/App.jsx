@@ -5,8 +5,10 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import { ROUTES } from "./constants/routes";
 import api from "./services/api.js";
 import { useSelector, useDispatch } from "react-redux";
-import { setPlaylist, toggle } from "./slices/playerSlice";
 import { authStore } from "./services/auth/authStore.js";
+// Slice
+import { setPlaylist, toggle } from "./slices/playerSlice";
+import { fetchLikedSongs } from "./slices/userLikeSlice";
 
 // 前台 pages
 import BackToTop from "./components/common/BackToTop/BackToTop";
@@ -35,6 +37,13 @@ import PlaylistView from "./pages/playlist/PlaylistView.jsx";
 
 function App() {
   const dispatch = useDispatch();
+  const userId = authStore.getUserId();
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchLikedSongs(userId));
+    }
+  }, [userId, dispatch]);
+
   const { currentIndex, currentListId } = useSelector((state) => state.player);
   const [lists, setLists] = useState([]);
   const [songs, setSongs] = useState([]);
