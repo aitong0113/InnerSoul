@@ -31,7 +31,7 @@ const moodConfig = {
   mad: { emoji: "😠", name: "憤怒", img: madImg },
 };
 
-function MemberPage() {
+function MemberPage({ selectPlaylist }) {
   const navigate = useNavigate();
 
   // 原有狀態
@@ -180,7 +180,7 @@ function MemberPage() {
   }
 
   return (
-    <main className="member-page">
+    <main className="member-page ">
       {/* 頂部頁籤 */}
       <nav className="member-tabs">
         <button
@@ -440,7 +440,7 @@ function MemberPage() {
       )}
 
       {activeTab === "favorite" && <FavoritesPage />}
-      {activeTab === "playlist" && <PlaylistsPage />}
+      {activeTab === "playlist" && <PlaylistsPage selectPlaylist={selectPlaylist} />}
     </main>
   );
 }

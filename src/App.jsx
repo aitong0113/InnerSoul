@@ -123,7 +123,12 @@ function App() {
           </Route>
           <Route path="subscription" element={<Subscription />} />
           <Route path="faq" element={<FAQPage />} />
-          <Route path="/member" element={<MemberPage />}>
+          <Route
+            path="/member"
+            lists={lists}
+            songs={songs}
+            element={<MemberPage selectPlaylist={selectPlaylist} />}
+          >
             <Route path=":id" element={<SinglePlaylist />} />
           </Route>
           <Route path="/checkout" element={<Checkout />} />
