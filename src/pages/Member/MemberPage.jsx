@@ -1,7 +1,13 @@
 import "./MemberPage.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { IconRotateClockwise, IconPencil, IconPlayerPlay, IconHeart, IconChevronRight } from "@tabler/icons-react";
+import {
+  IconRotateClockwise,
+  IconPencil,
+  IconPlayerPlay,
+  IconHeart,
+  IconChevronRight,
+} from "@tabler/icons-react";
 import { getMoodText } from "../../components/features/homeMoodText/getMoodText";
 import { authStore } from "../../services/auth/authStore";
 import { getUserDiaries, getUserPlaylists } from "../../services/member.service";
@@ -22,7 +28,7 @@ const moodConfig = {
   good: { emoji: "🙂", name: "平靜", img: goodImg },
   notgood: { emoji: "😔", name: "混亂", img: notGoodImg },
   sad: { emoji: "😢", name: "低落", img: sadImg },
-  mad: { emoji: "😠", name: "憤怒", img: madImg }
+  mad: { emoji: "😠", name: "憤怒", img: madImg },
 };
 
 function MemberPage() {
@@ -43,11 +49,11 @@ function MemberPage() {
     checkInRate: 0,
     moodStats: [],
     topMood: null,
-    totalDiaries: 0
+    totalDiaries: 0,
   });
   const [userStats, setUserStats] = useState({
     playlistCount: 0,
-    totalHours: 9420 // 暫時保持靜態
+    totalHours: 9420, // 暫時保持靜態
   });
 
   const userName = authStore.getUserName();
@@ -79,13 +85,13 @@ function MemberPage() {
       // 獲取日記和播放清單
       const [diariesData, playlistsData] = await Promise.all([
         getUserDiaries(userId),
-        getUserPlaylists(userId)
+        getUserPlaylists(userId),
       ]);
 
       setDiaries(diariesData);
-      setUserStats(prev => ({
+      setUserStats((prev) => ({
         ...prev,
-        playlistCount: playlistsData.length
+        playlistCount: playlistsData.length,
       }));
 
       // 計算日記統計
@@ -106,20 +112,18 @@ function MemberPage() {
     const daysInMonth = new Date(year, month, 0).getDate();
 
     // 篩選本月日記
-    const monthlyDiaries = diariesData.filter(diary => {
+    const monthlyDiaries = diariesData.filter((diary) => {
       const diaryDate = new Date(diary.diaryDate);
-      return diaryDate.getFullYear() === year &&
-        diaryDate.getMonth() + 1 === month;
+      return diaryDate.getFullYear() === year && diaryDate.getMonth() + 1 === month;
     });
 
     // 計算打卡率
-    const checkInRate = monthlyDiaries.length > 0
-      ? Math.round((monthlyDiaries.length / daysInMonth) * 100)
-      : 0;
+    const checkInRate =
+      monthlyDiaries.length > 0 ? Math.round((monthlyDiaries.length / daysInMonth) * 100) : 0;
 
     // 統計表情符號
     const moodCounts = {};
-    monthlyDiaries.forEach(diary => {
+    monthlyDiaries.forEach((diary) => {
       const mood = diary.mood;
       moodCounts[mood] = (moodCounts[mood] || 0) + 1;
     });
@@ -129,19 +133,20 @@ function MemberPage() {
     const moodStats = Object.entries(moodCounts).map(([mood, count]) => ({
       mood,
       count,
-      percentage: Math.round((count / total) * 100)
+      percentage: Math.round((count / total) * 100),
     }));
 
     // 找出最常用的表情
-    const topMood = moodStats.reduce((max, current) =>
-      current.count > (max?.count || 0) ? current : max, null
+    const topMood = moodStats.reduce(
+      (max, current) => (current.count > (max?.count || 0) ? current : max),
+      null
     );
 
     return {
       checkInRate,
       moodStats,
       topMood,
-      totalDiaries: diariesData.length
+      totalDiaries: diariesData.length,
     };
   };
 
@@ -208,8 +213,8 @@ function MemberPage() {
                 你好,{userName || "會員"}
                 <button
                   className="edit-btn"
-                  onClick={() => {/* TODO: 編輯功能 */ }}
-                  style={{ border: 'none', outline: 'none' }}
+                  onClick={() => navigate("/member-account-edit")}
+                  style={{ border: "none", outline: "none" }}
                 >
                   <IconPencil size={16} />
                 </button>
@@ -227,7 +232,11 @@ function MemberPage() {
                   <span className="current-plan-label">目前方案</span>
                   <span className="plan-name">深度方案</span>
                 </div>
-                <button className="upgrade-plan-btn" onClick={() => navigate('/subscription')} aria-label="升級方案">
+                <button
+                  className="upgrade-plan-btn"
+                  onClick={() => navigate("/subscription")}
+                  aria-label="升級方案"
+                >
                   <IconChevronRight size={22} />
                 </button>
               </div>
@@ -253,7 +262,7 @@ function MemberPage() {
                     {/* 心情統計列表 */}
                     <div className="mood-stats-grid">
                       {Object.entries(moodConfig).map(([moodKey, moodData]) => {
-                        const stat = diaryStats.moodStats.find(s => s.mood === moodKey);
+                        const stat = diaryStats.moodStats.find((s) => s.mood === moodKey);
                         const percentage = stat ? stat.percentage : 0;
 
                         return (
@@ -277,7 +286,11 @@ function MemberPage() {
                 <section className="emotion-block">
                   <p className="emotion-title">
                     這個月你按下了 {diaryStats.topMood.percentage}% 的{" "}
-                    <img src={moodConfig[diaryStats.topMood.mood]?.img} alt="" className="inline-mood-icon" />{" "}
+                    <img
+                      src={moodConfig[diaryStats.topMood.mood]?.img}
+                      alt=""
+                      className="inline-mood-icon"
+                    />{" "}
                     {moodConfig[diaryStats.topMood.mood]?.name}
                   </p>
                   <p className="emotion-subtitle">要不要聽些放鬆的聲音陪伴你呢？</p>
@@ -286,7 +299,9 @@ function MemberPage() {
                     <div className="emotion-cloud-wrapper">
                       <div className="emotion-cloud">
                         <img src="/Union.png" alt="雲朵" className="cloud-bg" />
-                        <div className="cloud-text">{moodConfig[diaryStats.topMood.mood]?.name}</div>
+                        <div className="cloud-text">
+                          {moodConfig[diaryStats.topMood.mood]?.name}
+                        </div>
                       </div>
                       <div className="cloud-footer">
                         <span className="audio-count">17 則語音</span>
@@ -430,4 +445,3 @@ function MemberPage() {
   );
 }
 export default MemberPage;
-
