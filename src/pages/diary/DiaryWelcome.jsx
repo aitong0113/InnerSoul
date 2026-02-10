@@ -1,4 +1,5 @@
 import { IconArrowNarrowRight } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 import style from "./diaryWelcome.module.scss";
 
 const DiaryWelcome = () => {
@@ -12,12 +13,16 @@ const DiaryWelcome = () => {
         <div className="row row-cols-1 row-cols-lg-2 gx-lg-5 align-items-stretch mb-5">
           <div className="col">
             <div className="h-100 d-flex">
-              <img src="src/assets/diaryWelcome_main.avif" alt="首圖" className={style.mainPhoto} />
+              <img
+                src="src/assets/diary/diaryWelcome_main.avif"
+                alt="首圖"
+                className={style.mainPhoto}
+              />
             </div>
           </div>
           <div className="col">
             <div className="h-100 d-flex flex-column">
-              <div className={`d-grid ${style.text}`}>
+              <div className={`d-grid flex-grow-1 ${style.text}`}>
                 <div className="p-2 mb-2 text-primary-05 fw-bold">今天，不需要想太多</div>
                 <div className="my-3 d-flex flex-column justify-content-center text-black-700">
                   <span className="py-1">沒有規定字數</span>
@@ -29,10 +34,12 @@ const DiaryWelcome = () => {
                 </div>
               </div>
               <div className="mt-3">
-                <button type="button" className={`${style.btnOutline}`}>
-                  <span>開始寫日記</span>
-                  <IconArrowNarrowRight size={24} className={style.calendarArrow} />
-                </button>
+                <Link to={`/login`}>
+                  <button type="button" className={`${style.btnOutline}`}>
+                    <span>開始寫日記</span>
+                    <IconArrowNarrowRight size={24} className={style.calendarArrow} />
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -43,27 +50,31 @@ const DiaryWelcome = () => {
         <h2 className="text-primary-05 my-5 fw-bold ">寫下日記，就是給自己的每日簽到</h2>
         <div className="row row-cols-1 row-cols-lg-2 gx-lg-5 align-items-stretch mb-5">
           <div className="col">
-            <div className="h-100 d-flex">
-              <img src="src/assets/diaryWelcome_main.avif" alt="首圖" className={style.mainPhoto} />
+            <div className="h-100 d-flex justify-content-center align-items-center">
+              <img
+                src="src/assets/diary/diaryCalendar_Demo3.png"
+                alt="diaryCalendar_Demo"
+                className={style.calPhoto}
+              />
             </div>
           </div>
           <div className="col">
             <div className={`h-100 d-flex flex-column ${style.calBg}`}>
-              <div className={`d-grid ${style.text}`}>
-                <div className="my-3 d-flex flex-column justify-content-center text-black-700">
+              <div className={`d-grid flex-grow-1 ${style.text}`}>
+                <div className="my-2 d-flex flex-column justify-content-center text-black-700">
                   <span className="py-1">日記本左側為簽到區</span>
                   <span className="py-1">寫下一篇日記，完成今日簽到</span>
                   <span className="py-1 fw-bold">讓每一天，都有屬於它的顏色</span>
                 </div>
-                <div className="my-3 d-flex flex-column justify-content-center text-black-700">
+                <div className="my-2 d-flex flex-column justify-content-center text-black-700">
                   <span className="py-1">尚未留下紀錄的日子</span>
                   <span className="py-1">將靜靜地以灰色保留。</span>
                 </div>
 
-                <div className="my-3 d-flex flex-column justify-content-center text-black-700  fw-bold">
+                <div className="my-2 d-flex flex-column justify-content-center text-black-700  fw-bold">
                   <span className="py-1">回頭看的時候，</span>
                   <span className="py-1">也能慢慢發現，</span>
-                  <span className="py-1 mb-5">自己走過的情緒軌跡。</span>
+                  <span className="py-1 ">自己走過的情緒軌跡。</span>
                 </div>
               </div>
             </div>
@@ -73,17 +84,19 @@ const DiaryWelcome = () => {
       <div className="text-center border border-danger">
         <div className="d-flex flex-column gap-3">
           <h2 className="text-primary-05 my-5 fw-bold">把今天的心情，溫柔的留下來</h2>
-          <div className="d-flex my-3">
+          <div className="d-flex my-3 justify-content-center align-items-center">
             <img
-              src="src/assets/diaryWelcome_main.avif"
-              alt="首圖"
-              className={`${style.mainPhoto}`}
+              src="src/assets/diary/diaryContent_Demo2.png"
+              alt="diaryContent_Demo"
+              className={`${style.diaryDemoPhoto}`}
             />
           </div>
           <div className="my-5">
-            <button type="button" className={`${style.btnFilled}`}>
-              <span>開始自己的心途旅行</span>
-            </button>
+            <Link to={`/login`}>
+              <button type="button" className={`${style.btnFilled}`}>
+                <span>開始自己的心途旅行</span>
+              </button>
+            </Link>
           </div>
         </div>
       </div>
