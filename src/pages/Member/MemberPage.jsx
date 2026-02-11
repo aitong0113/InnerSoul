@@ -439,7 +439,7 @@ function MemberPage({ selectPlaylist }) {
         </>
       )}
 
-      {activeTab === "favorite" && <FavoritesPage />}
+      {activeTab === "favorite" && <FavoritesPage selectPlaylist={selectPlaylist} />}
       {activeTab === "playlist" && <PlaylistsPage selectPlaylist={selectPlaylist} />}
     </main>
   );

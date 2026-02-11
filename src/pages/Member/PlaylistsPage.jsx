@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import api from "../../services/api";
 import { useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { useDispatch } from "react-redux";
-import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+import { toggleFollow } from "../../slices/memberPlaylistSlice";
+import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
 
 import {
-  IconPlayerPlay,
   IconPlus,
   IconChevronLeft,
   IconChevronRight,
@@ -20,89 +19,31 @@ import "./PlaylistsPage.scss";
 function PlaylistsPage({ selectPlaylist }) {
   const userId = authStore.getUserId();
   const dispatch = useDispatch();
+
+  const status = useSelector((state) => state.playlists.status);
+
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
-  const followedPlaylistIds = useSelector(
-    (state) => state.playlistFollow?.followedPlaylistIds ?? []
-  );
-  const isFollowed = (playlistId) => followedPlaylistIds.includes(playlistId);
-
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
-  const [allPlaylists, setAllPlaylists] = useState([]);
 
-  const followedPlaylists = allPlaylists.filter((list) => followedPlaylistIds.includes(list.id));
-
-  const currentPlaylist =
-    followedPlaylists.length > 0
-      ? followedPlaylists[Math.min(currentPlaylistIndex, followedPlaylists.length - 1)]
-      : null;
+  const allPlaylists = useSelector((state) => state.playlists.allPlaylists);
+  // const followedPlaylists = allPlaylists.filter((list) => followedPlaylistIds.includes(list.id));
+  const followedPlaylists = allPlaylists.filter((list) => list.followerUserIds.includes(userId));
+  const currentPlaylist = followedPlaylists[currentPlaylistIndex] ?? null;
   const playlistSongs = currentPlaylist?.songs || [];
 
+  const isFollowed = (playlistId) => {
+    const target = allPlaylists.find((p) => p.id === playlistId);
+    return target?.followerUserIds.includes(userId);
+  };
   const recommendedPlaylists = allPlaylists
-    .filter((playlist) => !followedPlaylistIds.includes(playlist.id))
+    .filter((list) => !list.followerUserIds.includes(userId))
     .slice(0, 4);
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  // 拿資料
-  const fetchPlaylists = async () => {
-    setIsLoading(true);
-    try {
-      const [listRes, songRes, followerRes] = await Promise.all([
-        api.get("/lists"),
-        api.get("/songs"),
-        api.get("/playlistFollowers"),
-      ]);
-
-      const lists = listRes.data;
-      const songs = songRes.data;
-      const followers = followerRes.data;
-
-      const songMap = new Map(songs.map((s) => [Number(s.id), s]));
-      const followerMap = new Map();
-
-      followers.forEach((f) => {
-        if (!followerMap.has(f.playlistId)) {
-          followerMap.set(f.playlistId, []);
-        }
-        followerMap.get(f.playlistId).push(f.userId);
-      });
-
-      // 組裝 playlist 完整資料
-      const enrichedLists = lists.map((list) => {
-        const playlistSongs = (list.songsID || [])
-          .map((id) => songMap.get(Number(id)))
-          .filter(Boolean);
-
-        const followerUserIds = followerMap.get(list.id) || [];
-
-        return {
-          ...list,
-          songs: playlistSongs,
-          followerUserIds,
-        };
-      });
-
-      setAllPlaylists(enrichedLists);
-    } catch (error) {
-      console.error("獲取播放清單失敗", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // 計算followerCount
-  const followerCount =
-    allPlaylists.filter((p) => p.id === currentPlaylist.id)[0]?.followerUserIds?.length ?? 0;
-
   useEffect(() => {
-    fetchPlaylists();
-  }, []);
-
-  useEffect(() => {
-    if (currentPlaylistIndex >= followedPlaylists.length) {
-      setCurrentPlaylistIndex(0);
+    if (status === "idle") {
+      dispatch(fetchPlaylists());
     }
-  }, [followedPlaylists.length]);
+  }, [status, userId, dispatch]);
 
   const handlePrevPlaylist = () => {
     setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : followedPlaylists.length - 1));
@@ -122,7 +63,7 @@ function PlaylistsPage({ selectPlaylist }) {
     // TODO: 實作新增清單功能
   };
 
-  if (isLoading) {
+  if (status === "loading") {
     return (
       <div className="playlists-page loading">
         <div className="spinner-border text-primary" role="status">
@@ -158,13 +99,13 @@ function PlaylistsPage({ selectPlaylist }) {
                   isFollowed={isFollowed(currentPlaylist.id)}
                   onToggleFollow={() =>
                     dispatch(
-                      togglePlaylistFollow({
+                      toggleFollow({
                         userId,
                         playlistId: currentPlaylist.id,
                       })
                     )
                   }
-                  followerCount={followerCount}
+                  followerCount={currentPlaylist?.followerUserIds?.length ?? 0}
                   size="large"
                 />
               )}
@@ -252,7 +193,7 @@ function PlaylistsPage({ selectPlaylist }) {
                     className="add-playlist-btn"
                     onClick={() =>
                       dispatch(
-                        togglePlaylistFollow({
+                        toggleFollow({
                           userId,
                           playlistId: playlist.id,
                         })
