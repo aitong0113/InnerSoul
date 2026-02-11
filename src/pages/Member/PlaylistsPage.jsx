@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { useSelector } from "react-redux";
+import { authStore } from "../../services/auth/authStore";
+import { useDispatch } from "react-redux";
+import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
 
 import {
   IconPlayerPlay,
@@ -15,30 +18,71 @@ import PlaylistCard from "../../components/features/member/PlaylistCard";
 import "./PlaylistsPage.scss";
 
 function PlaylistsPage({ selectPlaylist }) {
+  const userId = authStore.getUserId();
+  const dispatch = useDispatch();
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
+  const followedPlaylistIds = useSelector(
+    (state) => state.playlistFollow?.followedPlaylistIds ?? []
+  );
+  const isFollowed = (playlistId) => followedPlaylistIds.includes(playlistId);
 
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
-  const [userPlaylists, setUserPlaylists] = useState([]);
-  const [playlistSongs, setPlaylistSongs] = useState([]);
-  const [recommendedPlaylists, setRecommendedPlaylists] = useState([]);
+  const [allPlaylists, setAllPlaylists] = useState([]);
+
+  const followedPlaylists = allPlaylists.filter((list) => followedPlaylistIds.includes(list.id));
+
+  const currentPlaylist =
+    followedPlaylists.length > 0
+      ? followedPlaylists[Math.min(currentPlaylistIndex, followedPlaylists.length - 1)]
+      : null;
+  const playlistSongs = currentPlaylist?.songs || [];
+
+  const recommendedPlaylists = allPlaylists
+    .filter((playlist) => !followedPlaylistIds.includes(playlist.id))
+    .slice(0, 4);
+
   const [isLoading, setIsLoading] = useState(true);
 
-  //   const followedPlaylistIds = useSelector((state) => state.playlistFollows.followedPlaylistIds);
-
-  //   api 清單
+  // 拿資料
   const fetchPlaylists = async () => {
     setIsLoading(true);
     try {
-      const res = await api.get("/lists");
-      // 如果 API 回來已經有 songsID，直接用
-      setUserPlaylists(res.data);
-      // 推薦清單：
-      setRecommendedPlaylists(
-        res.data
-          .slice()
-          .sort((a, b) => b.popularity - a.popularity)
-          .slice(0, 4)
-      );
+      const [listRes, songRes, followerRes] = await Promise.all([
+        api.get("/lists"),
+        api.get("/songs"),
+        api.get("/playlistFollowers"),
+      ]);
+
+      const lists = listRes.data;
+      const songs = songRes.data;
+      const followers = followerRes.data;
+
+      const songMap = new Map(songs.map((s) => [Number(s.id), s]));
+      const followerMap = new Map();
+
+      followers.forEach((f) => {
+        if (!followerMap.has(f.playlistId)) {
+          followerMap.set(f.playlistId, []);
+        }
+        followerMap.get(f.playlistId).push(f.userId);
+      });
+
+      // 組裝 playlist 完整資料
+      const enrichedLists = lists.map((list) => {
+        const playlistSongs = (list.songsID || [])
+          .map((id) => songMap.get(Number(id)))
+          .filter(Boolean);
+
+        const followerUserIds = followerMap.get(list.id) || [];
+
+        return {
+          ...list,
+          songs: playlistSongs,
+          followerUserIds,
+        };
+      });
+
+      setAllPlaylists(enrichedLists);
     } catch (error) {
       console.error("獲取播放清單失敗", error);
     } finally {
@@ -46,48 +90,27 @@ function PlaylistsPage({ selectPlaylist }) {
     }
   };
 
-  //   api歌曲
-  const fetchPlaylistSongs = async (playlist) => {
-    if (!playlist) return;
-    try {
-      const res = await api.get("/songs");
-      // 查找歌曲
-      const songMap = new Map(res.data.map((song) => [Number(song.id), song]));
-      const songs = (playlist.songsID || [])
-        .map((id) => songMap.get(Number(id)))
-        .filter(Boolean)
-        .map((song) => ({
-          ...song,
-          isPlaying: false,
-        }));
-      setPlaylistSongs(songs);
-    } catch (error) {
-      console.error("獲取歌曲列表失敗", error);
-    }
-  };
+  // 計算followerCount
+  const followerCount =
+    allPlaylists.filter((p) => p.id === currentPlaylist.id)[0]?.followerUserIds?.length ?? 0;
 
   useEffect(() => {
     fetchPlaylists();
   }, []);
 
   useEffect(() => {
-    if (userPlaylists.length > 0) {
-      fetchPlaylistSongs(userPlaylists[currentPlaylistIndex]);
+    if (currentPlaylistIndex >= followedPlaylists.length) {
+      setCurrentPlaylistIndex(0);
     }
-  }, [currentPlaylistIndex, userPlaylists]);
+  }, [followedPlaylists.length]);
 
   const handlePrevPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : userPlaylists.length - 1));
+    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : followedPlaylists.length - 1));
   };
 
   const handleNextPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev < userPlaylists.length - 1 ? prev + 1 : 0));
+    setCurrentPlaylistIndex((prev) => (prev < followedPlaylists.length - 1 ? prev + 1 : 0));
   };
-
-  //   const handlePlaySong = (song) => {
-  //     console.log("播放歌曲", song);
-  //     // TODO: 整合播放器
-  //   };
 
   const handleAddSong = () => {
     console.log("新增語音到清單");
@@ -99,11 +122,6 @@ function PlaylistsPage({ selectPlaylist }) {
     // TODO: 實作新增清單功能
   };
 
-  const handleRecommendedClick = (playlist) => {
-    console.log("查看推薦清單", playlist);
-    // TODO: 導向清單詳情
-  };
-
   if (isLoading) {
     return (
       <div className="playlists-page loading">
@@ -113,7 +131,6 @@ function PlaylistsPage({ selectPlaylist }) {
       </div>
     );
   }
-  const currentPlaylist = userPlaylists[currentPlaylistIndex];
 
   return (
     <div className="playlists-page ">
@@ -127,82 +144,99 @@ function PlaylistsPage({ selectPlaylist }) {
           新增播放清單
         </button>
       </div>
+      {followedPlaylists.length === 0 ? (
+        <p>你還沒有追蹤任何播放清單</p>
+      ) : (
+        <section className="playlist-detail-section">
+          {/* 播放清單詳情區域 */}
+          <div className="playlist-detail-grid">
+            {/* 左側：播放清單大卡片 */}
+            <div className="playlist-detail-card">
+              {currentPlaylist && (
+                <PlaylistCard
+                  playlist={currentPlaylist}
+                  isFollowed={isFollowed(currentPlaylist.id)}
+                  onToggleFollow={() =>
+                    dispatch(
+                      togglePlaylistFollow({
+                        userId,
+                        playlistId: currentPlaylist.id,
+                      })
+                    )
+                  }
+                  followerCount={followerCount}
+                  size="large"
+                />
+              )}
+            </div>
 
-      {/* 播放清單詳情區域 */}
-      <section className="playlist-detail-section">
-        <div className="playlist-detail-grid">
-          {/* 左側：播放清單大卡片 */}
-          <div className="playlist-detail-card">
-            {currentPlaylist && <PlaylistCard playlist={currentPlaylist} size="large" />}
+            {/* 右側：歌曲列表 */}
+            <div className="playlist-songs">
+              <ul className="song-list">
+                {playlistSongs.map((song, index) => {
+                  //   icon控制
+                  const isCurrent = currentListId === currentPlaylist?.id && currentIndex === index;
+                  const showPause = isCurrent && isPlaying;
+                  return (
+                    <li
+                      key={song.id}
+                      className={`song-item ${isCurrent ? "fw-bold text-primary-05" : null}`}
+                    >
+                      <div className="song-info-row">
+                        <span className="music-icon">🎵</span>
+                        <span className="mood-tag">{song.author}</span>
+                        <span className="song-name">{song.fileName}</span>
+                      </div>
+                      <div className="song-actions-row">
+                        <button
+                          className={`play-pause-btn ${isCurrent ? " text-primary-05" : null}`}
+                          onClick={() => selectPlaylist(currentPlaylist.id, index)}
+                        >
+                          {showPause ? (
+                            <IconPlayerPauseFilled size={24} />
+                          ) : (
+                            <IconPlayerPlayFilled size={24} />
+                          )}
+                        </button>
+                        <button className="menu-btn">
+                          <IconDotsVertical size={18} />
+                        </button>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+              <button className="add-song-btn" onClick={handleAddSong}>
+                <IconPlus size={20} />
+                新增語音
+              </button>
+            </div>
           </div>
 
-          {/* 右側：歌曲列表 */}
-          <div className="playlist-songs">
-            <ul className="song-list">
-              {playlistSongs.map((song, index) => {
-                //   icon控制
-                const isCurrent = currentListId === currentPlaylist.id && currentIndex === index;
-                const showPause = isCurrent && isPlaying;
-                return (
-                  <li
-                    key={song.id}
-                    className={`song-item ${isCurrent ? "fw-bold text-primary-05" : null}`}
-                  >
-                    <div className="song-info-row">
-                      <span className="music-icon">🎵</span>
-                      <span className="mood-tag">{song.author}</span>
-                      <span className="song-name">{song.fileName}</span>
-                    </div>
-                    <div className="song-actions-row">
-                      <button
-                        className={`play-pause-btn ${isCurrent ? " text-primary-05" : null}`}
-                        onClick={() => selectPlaylist(currentPlaylist.id, index)}
-                      >
-                        {showPause ? (
-                          <IconPlayerPauseFilled size={24} />
-                        ) : (
-                          <IconPlayerPlayFilled size={24} />
-                        )}
-                      </button>
-                      <button className="menu-btn">
-                        <IconDotsVertical size={18} />
-                      </button>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-            <button className="add-song-btn" onClick={handleAddSong}>
-              <IconPlus size={20} />
-              新增語音
-            </button>
-          </div>
-        </div>
-
-        {/* 分頁控制 */}
-        {userPlaylists.length > 1 && (
-          <div className="pagination-controls">
-            <button
-              className="pagination-btn"
-              onClick={handlePrevPlaylist}
-              disabled={userPlaylists.length <= 1}
-            >
-              <IconChevronLeft size={20} />
-            </button>
-            <span className="page-indicator">
-              {currentPlaylistIndex + 1} / {userPlaylists.length}
-            </span>
-            <button
-              className="pagination-btn"
-              onClick={handleNextPlaylist}
-              disabled={userPlaylists.length <= 1}
-            >
-              <IconChevronRight size={20} />
-            </button>
-          </div>
-        )}
-      </section>
-
+          {/* 分頁控制 */}
+          {followedPlaylists.length > 1 && (
+            <div className="pagination-controls">
+              <button
+                className="pagination-btn"
+                onClick={handlePrevPlaylist}
+                disabled={followedPlaylists.length <= 1}
+              >
+                <IconChevronLeft size={20} />
+              </button>
+              <span className="page-indicator">
+                {currentPlaylistIndex + 1} / {followedPlaylists.length}
+              </span>
+              <button
+                className="pagination-btn"
+                onClick={handleNextPlaylist}
+                disabled={followedPlaylists.length <= 1}
+              >
+                <IconChevronRight size={20} />
+              </button>
+            </div>
+          )}
+        </section>
+      )}
       {/* 推薦清單區域 */}
       <section className="recommended-section">
         <h3 className="section-title">這裡一收錄看相似的共鳴</h3>
@@ -216,10 +250,14 @@ function PlaylistsPage({ selectPlaylist }) {
                   {playlist.category && <span className="playlist-tag">{playlist.category}</span>}
                   <button
                     className="add-playlist-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      console.log("加入播放清單", playlist);
-                    }}
+                    onClick={() =>
+                      dispatch(
+                        togglePlaylistFollow({
+                          userId,
+                          playlistId: playlist.id,
+                        })
+                      )
+                    }
                   >
                     <IconPlus size={18} />
                   </button>

@@ -395,11 +395,6 @@
       "userId": 2
     },
     {
-      "id": 7,
-      "playlistId": 3,
-      "userId": 3
-    },
-    {
       "id": 9,
       "playlistId": 3,
       "userId": 4
@@ -410,11 +405,6 @@
       "userId": 2
     },
     {
-      "id": 11,
-      "playlistId": 4,
-      "userId": 3
-    },
-    {
       "id": 12,
       "playlistId": 4,
       "userId": 4
@@ -423,11 +413,6 @@
       "id": 14,
       "playlistId": 5,
       "userId": 1
-    },
-    {
-      "id": 15,
-      "playlistId": 5,
-      "userId": 3
     },
     {
       "id": 16,
@@ -445,24 +430,19 @@
       "userId": 2
     },
     {
-      "id": 20,
-      "playlistId": 6,
-      "userId": 3
-    },
-    {
       "id": 25,
       "playlistId": 8,
       "userId": 2
     },
     {
       "userId": 3,
-      "playlistId": 8,
-      "id": 27
+      "playlistId": 9,
+      "id": 31
     },
     {
       "userId": 3,
-      "playlistId": 1,
-      "id": 28
+      "playlistId": 2,
+      "id": 32
     }
   ],
   "plans": [
