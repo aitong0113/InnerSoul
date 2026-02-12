@@ -32,18 +32,18 @@ const DiaryLayout = ({
               <div
                 className={`${style.diaryCardTop} ${style.diaryLeft} col-lg-6 d-flex flex-column justify-content-between p-7`}
               >
-                <div className="d-flex flex-column ps-4">
+                <div className="d-flex flex-column">
                   <h4 className="text-primary-04 text-center fw-bold">{year_month}</h4>
                   <table className={`text-center my-3 ${style.calendarTable}`}>
                     <thead className="text-primary-05 fs-5">
                       <tr>
-                        <th className="text-start ps-4">日</th>
-                        <th className="text-start ps-4">一</th>
-                        <th className="text-start ps-4">二</th>
-                        <th className="text-start ps-4">三</th>
-                        <th className="text-start ps-4">四</th>
-                        <th className="text-start ps-4">五</th>
-                        <th className="text-start ps-4">六</th>
+                        <th className="text-center">日</th>
+                        <th className="text-center">一</th>
+                        <th className="text-center">二</th>
+                        <th className="text-center">三</th>
+                        <th className="text-center">四</th>
+                        <th className="text-center">五</th>
+                        <th className="text-center">六</th>
                       </tr>
                     </thead>
                     <tbody className="fs-sm">
@@ -53,7 +53,8 @@ const DiaryLayout = ({
                             <td key={colIndex}>
                               {(() => {
                                 const isSelectable = canSelect && !!cell?.date;
-                                const isSelected = isSelectable && cell.date === selectedDay;
+                                const isSelected = !!cell?.date && cell.date === selectedDay;
+
                                 const hasDate = !!cell?.date;
                                 const hasMood = !!cell?.mood;
                                 const isNoMoodDate = hasDate && !hasMood;
@@ -69,7 +70,7 @@ const DiaryLayout = ({
                                     tabIndex={isSelectable ? 0 : undefined}
                                   >
                                     <div
-                                      className={`w-100 text-start ms-3 ps-1 ${style.calDate} ${
+                                      className={`w-100 text-center ${style.calDate} ${
                                         isNoMoodDate ? style.calDateNoMood : ""
                                       }`}
                                     >
@@ -115,28 +116,30 @@ const DiaryLayout = ({
               <div
                 className={`${style.diaryCardTop} ${style.diaryRight} col-lg-6 p-7 d-flex flex-column justify-content-between`}
               >
-                <div className="mb-5 fw-bold text-primary-05">
-                  <span className="fw-bold h5">{diaryDate}</span>
+                <div className="mb-5 fw-bold text-black-500">
+                  <span className="fw-bold fs-4 text-decoration-underline">{diaryDate}</span>
                   <small className="fs-6 ms-2">{weekday}</small>
                   {diaryMood ? (
-                    <span className="border border-light rounded-pill p-2 ms-3 small fs-6">
-                      心情
-                    </span>
+                    <>
+                      <span className="border border-light rounded-pill p-2 ms-3 small fs-6  text-primary-05">
+                        心情
+                      </span>
+                      <span className={`ms-2 ${style.moodStamp}`}>
+                        {diaryMood ? renderMood(diaryMood) : null}
+                      </span>
+                    </>
                   ) : null}
-                  <span className={`ms-2 ${style.moodStamp}`}>
-                    {diaryMood ? renderMood(diaryMood) : null}
-                  </span>
                 </div>
 
-                <div className="d-flex flex-column flex-grow-1">
+                <div key={diaryDate} className={`d-flex flex-column flex-grow-1 ${style.fadeIn}`}>
                   {loading ? (
-                    <div className="d-flex flex-grow-1 justify-content-center align-items-center">
-                      <p className={style.diaryText}>讀取中...</p>
-                    </div>
+                    <div
+                      className={`d-flex flex-grow-1 justify-content-center align-items-center ${style.loadingDiv}`}
+                    ></div>
                   ) : (
-                    <>
-                      <div className="d-flex flex-column flex-grow-1">
-                        <h5 className="text-primary-05 fw-bold my-3">{diaryTitle}</h5>
+                    <div className={`d-flex flex-column h-100 justify-content-between`}>
+                      <div className={`d-flex flex-column flex-grow-1`}>
+                        <h5 className="text-primary-05 fw-bold mt-3 mb-5">{diaryTitle}</h5>
                         <div
                           className={`d-flex flex-column flex-grow-1 ${
                             typeof diaryContent === "string"
@@ -152,7 +155,7 @@ const DiaryLayout = ({
                           <img src={diaryImg} alt="日記圖" className={`mb-5 ${style.diaryImg}`} />
                         ) : null}
                       </div>
-                    </>
+                    </div>
                   )}
                 </div>
 

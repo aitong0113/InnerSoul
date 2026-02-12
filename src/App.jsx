@@ -11,6 +11,7 @@ import { setPlaylist, toggle } from "./slices/playerSlice";
 import { fetchLikedSongs } from "./slices/userLikeSlice";
 
 // 前台 pages
+import ScrollToTop from "./helpers/ScrollToTop.jsx";
 import BackToTop from "./components/common/BackToTop/BackToTop";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
@@ -101,6 +102,7 @@ function App() {
   const songList = useSelector((state) => state.player.songList);
   return (
     <HashRouter>
+      <ScrollToTop />
       <Routes>
         {/* 前台 */}
         <Route path="/" element={<FrontLayout />}>
