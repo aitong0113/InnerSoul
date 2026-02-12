@@ -1,6 +1,9 @@
 import { IconArrowNarrowRight } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import style from "./diaryWelcome.module.scss";
+import mainPhoto from "../../assets/diary/diaryWelcome_main.avif";
+import diaryCalendar from "../../assets/diary/diaryCalendar_Demo3.png";
+import diaryContent from "../../assets/diary/diaryContent_Demo2.png";
 
 const DiaryWelcome = () => {
   return (
@@ -14,11 +17,7 @@ const DiaryWelcome = () => {
         <div className="row row-cols-1 row-cols-lg-2 gx-lg-5 align-items-stretch mb-5">
           <div className="col">
             <div className="h-100 d-flex">
-              <img
-                src="src/assets/diary/diaryWelcome_main.avif"
-                alt="首圖"
-                className={style.mainPhoto}
-              />
+              <img src={mainPhoto} alt="首圖" className={style.mainPhoto} />
             </div>
           </div>
           <div className="col">
@@ -96,11 +95,7 @@ const DiaryWelcome = () => {
             <div
               className={`${style.leftCard} h-100 d-flex justify-content-center align-items-center`}
             >
-              <img
-                src="src/assets/diary/diaryCalendar_Demo3.png"
-                alt="diaryCalendar_Demo"
-                className={style.calPhoto}
-              />
+              <img src={diaryCalendar} alt="diaryCalendar_Demo" className={style.calPhoto} />
             </div>
           </div>
           <div className="col">
@@ -221,11 +216,7 @@ const DiaryWelcome = () => {
         <div className="d-flex flex-column gap-3 pb-5 mb-5">
           <h2 className="text-primary-05 my-5 fw-bold">把今天的心情，溫柔的留下來</h2>
           <div className="d-flex my-3 justify-content-center align-items-center">
-            <img
-              src="src/assets/diary/diaryContent_Demo2.png"
-              alt="diaryContent_Demo"
-              className={`${style.diaryDemoPhoto}`}
-            />
+            <img src={diaryContent} alt="diaryContent_Demo" className={`${style.diaryDemoPhoto}`} />
           </div>
           <div className="my-5 pb-5">
             <Link to={`/login`}>
