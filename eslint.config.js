@@ -48,4 +48,17 @@ export default defineConfig([
       globals: globals.node,
     },
   },
+  // Node 環境（json-server / mock server）
+  {
+    files: ["mock/**/*.js", "mock/**/*.cjs", "server.js"],
+    languageOptions: {
+      globals: globals.node,
+      parserOptions: {
+        sourceType: "commonjs",
+      },
+    },
+    rules: {
+      "no-console": "off",
+    },
+  },
 ]);
