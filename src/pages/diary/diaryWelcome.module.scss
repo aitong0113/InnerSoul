@@ -16,6 +16,7 @@
   gap: 4px;
 
   color: var(--bs-primary-05);
+  background-color: white;
   font-size: 20px;
   line-height: 1.5;
   font-weight: bold;
@@ -81,4 +82,33 @@
   height: auto;
   display: block;
   border-radius: 20px;
+}
+
+.section2 {
+  position: relative;
+  width: 100%;
+}
+// .leftCard {
+//   border: 1px solid #008000;
+// }
+// .rightText {
+//   border: 1px solid brown;
+// }
+.lineSvg2 {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.section3 {
+  position: relative;
+}
+.lineSvg3 {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
