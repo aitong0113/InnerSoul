@@ -1,17 +1,21 @@
 import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
-import "./diaryLayout.scss";
+import style from "./diaryLayout.module.scss";
 
 const DiaryLayout = ({
   year_month = "",
   weeks = [],
+  diaryMood = "",
   renderMood = () => null,
   onPrevMonth,
   onNextMonth,
   onSelectDate,
+  selectedDay = null,
   diaryDate = "",
+  weekday = "",
   diaryTitle = "",
   diaryContent = "",
   diaryImg = "",
+  loading = false,
   footer = "",
 }) => {
   const canPrev = typeof onPrevMonth === "function";
@@ -19,27 +23,27 @@ const DiaryLayout = ({
   const canSelect = typeof onSelectDate === "function";
 
   return (
-    <div className="container">
+    <div className="container mt-5 pt-5">
       <div className="row justify-content-center">
-        <div className="col-12 diary-blur">
-          <div className="diary-card-bottom">
-            <div className="d-flex flex-column flex-lg-row p-3 gap-2 card-position">
+        <div className={`col-12 ${style.diaryBlur}`}>
+          <div className={style.diaryCardBottom}>
+            <div className={`d-flex flex-column flex-lg-row p-3 gap-2 ${style.cardPosition}`}>
               {/* 左側月曆 */}
-              <div className="diary-card-top diary-left col-lg-6 d-flex flex-column justify-content-between p-7">
-                <div className="d-flex flex-column gap-3 ">
-                  <h4 className="text-primary-04 text-center fw-bold">
-                    {year_month}
-                  </h4>
-                  <table className="text-center my-3">
-                    <thead>
+              <div
+                className={`${style.diaryCardTop} ${style.diaryLeft} col-lg-6 d-flex flex-column justify-content-between p-7`}
+              >
+                <div className="d-flex flex-column">
+                  <h4 className="text-primary-04 text-center fw-bold">{year_month}</h4>
+                  <table className={`text-center my-3 ${style.calendarTable}`}>
+                    <thead className="text-primary-05 fs-5">
                       <tr>
-                        <th>日</th>
-                        <th>一</th>
-                        <th>二</th>
-                        <th>三</th>
-                        <th>四</th>
-                        <th>五</th>
-                        <th>六</th>
+                        <th className="text-center">日</th>
+                        <th className="text-center">一</th>
+                        <th className="text-center">二</th>
+                        <th className="text-center">三</th>
+                        <th className="text-center">四</th>
+                        <th className="text-center">五</th>
+                        <th className="text-center">六</th>
                       </tr>
                     </thead>
                     <tbody className="fs-sm">
@@ -47,21 +51,41 @@ const DiaryLayout = ({
                         <tr key={rowIndex}>
                           {week.map((cell, colIndex) => (
                             <td key={colIndex}>
-                              <div
-                                className={`d-flex flex-column align-items-center gap-1 ${
-                                  canSelect ? "cursor-pointer" : ""
-                                }`}
-                                onClick={() => canSelect && onSelectDate(cell)}
-                                role={canSelect ? "button" : undefined}
-                                tabIndex={canSelect ? 0 : undefined}
-                              >
-                                <div className="cal-date">
-                                  {cell.date ?? ""}
-                                </div>
-                                <div className="cal-mood">
-                                  {cell?.mood ? renderMood(cell.mood) : null}
-                                </div>
-                              </div>
+                              {(() => {
+                                const isSelectable = canSelect && !!cell?.date;
+                                const isSelected = !!cell?.date && cell.date === selectedDay;
+
+                                const hasDate = !!cell?.date;
+                                const hasMood = !!cell?.mood;
+                                const isNoMoodDate = hasDate && !hasMood;
+                                return (
+                                  <div
+                                    className={`${style.calCell} d-flex flex-column align-items-center  ${
+                                      isSelectable ? "cursor-pointer" : ""
+                                    } ${isSelectable ? style.calCellSelectable : ""} ${
+                                      isSelected ? style.calCellSelected : ""
+                                    } ${!cell?.date ? style.calCellDisabled : ""}`}
+                                    onClick={() => isSelectable && onSelectDate(cell)}
+                                    role={isSelectable ? "button" : undefined}
+                                    tabIndex={isSelectable ? 0 : undefined}
+                                  >
+                                    <div
+                                      className={`w-100 text-center ${style.calDate} ${
+                                        isNoMoodDate ? style.calDateNoMood : ""
+                                      }`}
+                                    >
+                                      {cell.date ?? ""}
+                                    </div>
+                                    <div className={`${style.moodStamp} ${style.calMood}`}>
+                                      {cell?.mood ? (
+                                        renderMood(cell.mood)
+                                      ) : (
+                                        <span className={style.moodPlaceholder} />
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              })()}
                             </td>
                           ))}
                         </tr>
@@ -72,41 +96,71 @@ const DiaryLayout = ({
                 <div className="d-flex justify-content-between">
                   <button
                     type="button"
-                    className="calendar-btn my-3 "
+                    className={`${style.calendarBtn}`}
                     onClick={onPrevMonth}
                     disabled={!canPrev}
                   >
-                    <IconArrowNarrowLeft size={24} className="calendar-arrow" />
+                    <IconArrowNarrowLeft size={24} className={style.calendarArrow} />
                   </button>
                   <button
                     type="button"
-                    className="calendar-btn my-3 "
+                    className={`${style.calendarBtn}`}
                     onClick={onNextMonth}
                     disabled={!canNext}
                   >
-                    <IconArrowNarrowRight
-                      size={24}
-                      className="calendar-arrow"
-                    />
+                    <IconArrowNarrowRight size={24} className={style.calendarArrow} />
                   </button>
                 </div>
               </div>
               {/* 右側日記 */}
-              <div className="diary-card-top diary-right col-lg-6 p-7 d-flex flex-column justify-content-between">
-                <div>
-                  <p className="text-black-500 fw-bold">{diaryDate}</p>
-                  <h5 className="text-primary-05 fw-bold">{diaryTitle}</h5>
-                  <p className="diary-text">{diaryContent}</p>
-
-                  {diaryImg ? (
-                    <img src={diaryImg} alt="日記圖" className="diary-img" />
+              <div
+                className={`${style.diaryCardTop} ${style.diaryRight} col-lg-6 p-7 d-flex flex-column justify-content-between`}
+              >
+                <div className="mb-5 fw-bold text-black-500">
+                  <span className="fw-bold fs-4 text-decoration-underline">{diaryDate}</span>
+                  <small className="fs-6 ms-2">{weekday}</small>
+                  {diaryMood ? (
+                    <>
+                      <span className="border border-light rounded-pill p-2 ms-3 small fs-6  text-primary-05">
+                        心情
+                      </span>
+                      <span className={`ms-2 ${style.moodStamp}`}>
+                        {diaryMood ? renderMood(diaryMood) : null}
+                      </span>
+                    </>
                   ) : null}
                 </div>
 
+                <div key={diaryDate} className={`d-flex flex-column flex-grow-1 ${style.fadeIn}`}>
+                  {loading ? (
+                    <div
+                      className={`d-flex flex-grow-1 justify-content-center align-items-center ${style.loadingDiv}`}
+                    ></div>
+                  ) : (
+                    <div className={`d-flex flex-column h-100 justify-content-between`}>
+                      <div className={`d-flex flex-column flex-grow-1`}>
+                        <h5 className="text-primary-05 fw-bold mt-3 mb-5">{diaryTitle}</h5>
+                        <div
+                          className={`d-flex flex-column flex-grow-1 ${
+                            typeof diaryContent === "string"
+                              ? `justify-content-start ${style.diaryText}`
+                              : "justify-content-center"
+                          }`}
+                        >
+                          {diaryContent}
+                        </div>
+                      </div>
+                      <div className="my-5">
+                        {diaryImg ? (
+                          <img src={diaryImg} alt="日記圖" className={`mb-5 ${style.diaryImg}`} />
+                        ) : null}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 {footer ? (
-                  <div className="d-flex justify-content-end  mt-4 mt-lg-0">
-                    {footer}
-                  </div>
+                  <div className="d-flex justify-content-end my-4 mt-lg-0">{footer}</div>
                 ) : null}
               </div>
             </div>

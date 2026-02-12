@@ -1,0 +1,66 @@
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &__avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__name {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    &__plan {
+        font-size: 11px;
+        padding: 3px 10px;
+        border-radius: 12px;
+        font-weight: 500;
+
+        &--free {
+            background-color: #e8e8e8;
+            color: #666;
+        }
+
+        &--pro {
+            background-color: #d4e7f5;
+            color: #2c5f8d;
+        }
+    }
+
+    // Header variant
+    &--header {
+        .user-profile__avatar {
+            width: 44px;
+            height: 44px;
+        }
+
+        .user-profile__name {
+            font-size: 15px;
+        }
+    }
+
+    // Card variant
+    &--card {
+        .user-profile__avatar {
+            width: 60px;
+            height: 60px;
+        }
+
+        .user-profile__name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+    }
+}

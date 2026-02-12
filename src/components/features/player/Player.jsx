@@ -1,226 +1,193 @@
-import { useEffect, useState, useRef } from "react";
-import "./sidebar.css";
-// {
-//   id:""
-//   author: "",
-//   authorUrl: "",
-//   category: "",
-//   fileName: "",
-//   fileUrl: "",
-//   thumb: "",
-// },
-// 模擬資料
-const mediaData = [
-  {
-    id: 1,
-    author: "raindrops",
-    authorUrl: "",
-    category: "calm",
-    fileName: "calm-heavenly-raindrops",
-    fileUrl: "src/assets/music/m02.mp3",
-    thumb: "",
-    liked: true,
-  },
-  {
-    id: 2,
-    author: "piano",
-    authorUrl: "",
-    category: "joy",
-    fileName: "a-quiet-joy-stevekaldes-piano",
-    fileUrl: "src/assets/music/m01.mp3",
-    thumb: "",
-    liked: true,
-  },
-  {
-    id: 3,
-    author: "piano",
-    authorUrl: "",
-    category: "calm",
-    fileName: "majestic-sky-healing-meditative-cello-and-piano",
-    fileUrl: "src/assets/music/m03.mp3",
-    thumb: "",
-    liked: false,
-  },
-  {
-    id: 4,
-    author: "chill",
-    authorUrl: "",
-    category: "chill",
-    fileName: "chill-chill-background-music",
-    fileUrl: "src/assets/music/m04.mp3",
-    thumb: "",
-  },
-  {
-    id: 5,
-    author: "132371",
-    authorUrl: "",
-    category: "chill",
-    fileName: "chill-music",
-    fileUrl: "src/assets/music/m05.mp3",
-    thumb: "",
-  },
-  {
-    id: 6,
-    author: "coffee",
-    authorUrl: "",
-    category: "chill",
-    fileName: "coffee-chill-out",
-    fileUrl: "src/assets/music/m06.mp3",
-    thumb: "",
-  },
-];
-const listData = [
-  {
-    listID: "",
-    listName: "冷靜",
-    songsID: ["1", "4", "3"], //放入歌曲id後去抓資料
-  },
-];
+import { useEffect, useState, useRef, useCallback } from "react";
+import { authStore } from "../../../services/auth/authStore";
+import { useDispatch, useSelector } from "react-redux";
+import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../slices/playerSlice";
+import { toggleSongLike } from "../../../slices/userLikeSlice";
+
+import "./player.css";
+import {
+  IconVolume2,
+  IconVolumeOff,
+  IconVolume,
+  IconPlayerPlayFilled,
+  IconPlayerPauseFilled,
+  IconList,
+  IconRepeat,
+  IconRepeatOnce,
+  IconRepeatOff,
+  IconPlayerSkipBackFilled,
+  IconPlayerSkipForwardFilled,
+  IconHeartFilled,
+  IconHeart,
+  IconChevronDown,
+} from "@tabler/icons-react";
 
 function Player() {
-  // 播放器狀態
-  const [playerType, setPlayerType] = useState("none");
-  // 清單歌曲
-  const [songList, setSongList] = useState([]);
-  // 抓清單資料
-  const [listData, setListData] = useState({});
-  useEffect(() => {
-    setSongList(mediaData);
-    const listSearch = "";
+  const dispatch = useDispatch();
+  const { songList, currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
+  const repeatType = useSelector((state) => state.player.repeatType);
+  const currentSong = songList[currentIndex] || null;
+
+  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
+  const isLiked = currentSong && likedSongIds.includes(currentSong.id);
+
+  // 訂閱方案
+  const FREE_PLAY_LIMIT = 3;
+
+  const canPlayIndex = useCallback((index) => {
+    const plan = authStore.getUserPlan() || "free";
+    return plan === "pro" || index < FREE_PLAY_LIMIT;
   }, []);
-  // 播放單曲
-  const [currentSong, setCurrentSong] = useState(null);
+  const tryPlayIndex = useCallback(
+    (index, fallbackAction) => {
+      if (!canPlayIndex(index)) {
+        dispatch(pause());
+        alert("請升級方案");
+        return;
+      }
+      fallbackAction();
+    },
+    [canPlayIndex, dispatch]
+  );
+
+  const onNext = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (repeatType === "single") {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+      return;
+    }
+    const nextIndex = currentIndex + 1;
+    if (nextIndex >= songList.length) {
+      dispatch(next());
+      return;
+    }
+    tryPlayIndex(nextIndex, () => dispatch(next()));
+  }, [repeatType, currentIndex, songList.length, tryPlayIndex, dispatch]);
+
+  const onPrev = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (repeatType === "single") {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+      return;
+    }
+    let targetIndex;
+    if (currentIndex === 0) {
+      if (repeatType === "list") {
+        targetIndex = songList.length - 1;
+      } else {
+        dispatch(prev());
+        return;
+      }
+    } else {
+      targetIndex = currentIndex - 1;
+    }
+    if (!canPlayIndex(targetIndex)) {
+      dispatch(pause());
+      alert("請升級方案");
+      return;
+    }
+    dispatch(prev());
+  }, [repeatType, currentIndex, songList.length, canPlayIndex, dispatch]);
+
+  const onTogglePlay = useCallback(() => {
+    dispatch(toggle());
+  }, [dispatch]);
+
+  // 播放器狀態
+  const [playerType, setPlayerType] = useState(() => (songList.length ? "bar" : "none"));
+  const playerRef = useRef(null);
+
   //音檔位置
   const audioRef = useRef(null);
-  // 播放狀態
-  const [isPlaying, setIsPlaying] = useState(false);
-  // 清單中的第幾首
-  const [currentIndex, setCurrentIndex] = useState(0);
-  // 收藏功能
-  const favorite = () => {
-    if (currentSong.liked) {
-      // 記得用{}，不然會報錯
-      setCurrentSong({ ...currentSong, liked: false });
+  const lastListIdRef = useRef(null);
+
+  // 切歌用
+  useEffect(() => {
+    if (!currentSong) return;
+
+    const isListChanged = lastListIdRef.current !== currentListId;
+    lastListIdRef.current = currentListId;
+    // 切清單
+    if (!audioRef.current || isListChanged) {
+      audioRef.current?.pause();
+      audioRef.current = new Audio(currentSong.fileUrl);
     } else {
-      setCurrentSong({ ...currentSong, liked: true });
+      // 同清單
+      audioRef.current.src = currentSong.fileUrl;
     }
+    audioRef.current.currentTime = 0;
+    if (isPlaying) {
+      audioRef.current.play().catch(() => {});
+    }
+  }, [currentIndex, currentListId, currentSong]);
+
+  // 播放用
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
+
+  // 重複播放
+  const onRepeat = () => {
+    dispatch(cycleRepeat());
   };
 
-  // 播放功能
-  const playMusic = (song, index) => {
-    // 播放中 + 同一首 → pause
-    if (isPlaying && currentSong?.fileUrl === song.fileUrl) {
-      audioRef.current.pause();
-      setIsPlaying(false);
+  // 自動播放
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.onended = () => {
+      if (repeatType === "single") {
+        audio.currentTime = 0;
+        audio.play().catch(() => {});
+        return;
+      }
+
+      onNext();
+    };
+
+    return () => {
+      audio.onended = null;
+    };
+  }, [onNext, repeatType]);
+
+  // 播放器狀態
+  const changePlayer = () => {
+    setPlayerType((prev) => (prev === "mini" ? "bar" : "mini"));
+  };
+
+  const handleClickSong = (index) => {
+    if (currentIndex === index) {
+      dispatch(toggle());
       return;
     }
 
-    // 播新歌 or 從暫停狀態播放
-    if (!audioRef.current) {
-      audioRef.current = new Audio(song.fileUrl);
-      setPlayerType("bar");
-      console.log(playerType);
-    } else if (currentSong?.fileUrl !== song.fileUrl) {
-      audioRef.current.src = song.fileUrl;
-    }
-    audioRef.current.play();
-    setCurrentSong(song);
-    setCurrentIndex(index);
-    setIsPlaying(true);
+    tryPlayIndex(index, () => dispatch(playAtIndex(index)));
   };
-  // 上一首選擇
-  const prevSong = () => {
-    switch (repeatType) {
-      case "singleRepeat":
-        // 不要走playMusic()直接操控
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-        setIsPlaying(true);
-        break;
-      case "listRepeat":
-        const prevIndex =
-          currentIndex > 0 ? currentIndex - 1 : songList.length - 1;
-        playMusic(songList[prevIndex], prevIndex);
-        break;
-      default:
-        if (currentIndex > 0) {
-          playMusic(songList[currentIndex - 1], currentIndex - 1);
-        } else {
-          setIsPlaying(false);
-          audioRef.current.pause();
-        }
-        break;
-    }
-  };
-  // 下一首選擇
-  const nextSong = () => {
-    switch (repeatType) {
-      case "singleRepeat":
-        // 不要走playMusic()直接操控
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-        setIsPlaying(true);
-        break;
-      case "listRepeat":
-        const nextIndex =
-          currentIndex + 1 < songList.length ? currentIndex + 1 : 0;
-        playMusic(songList[nextIndex], nextIndex);
-        break;
-      default:
-        // 順著播但到最後就停
-        if (currentIndex + 1 < songList.length) {
-          playMusic(songList[currentIndex + 1], currentIndex + 1);
-        } else {
-          setIsPlaying(false);
-          audioRef.current.pause();
-        }
-        break;
-    }
-  };
-  // 自動播放
+
+  // 點擊外部收合player
   useEffect(() => {
-    if (!audioRef.current) return;
-    //onended告訴瀏覽器，音樂播完要做什麼
-    audioRef.current.onended = () => {
-      nextSong();
-    };
-    return () => {
-      audioRef.current.onended = null;
-    };
-  }, [nextSong]); //即repeatType,currentIndex,songList改變時刷新
-
-  // 重複播放功能
-  const [repeatType, setRepeatType] = useState("none");
-  const repeat = () => {
-    // 狀態判斷
-    setRepeatType((pre) => {
-      switch (pre) {
-        // 不循環
-        case "none":
-          return "singleRepeat";
-        // 單曲循環
-        case "singleRepeat":
-          return "listRepeat";
-        // 清單循環
-        case "listRepeat":
-          return "none";
-      }
-    });
-  };
-
-  // 切換播放器
-  const changePlayer = () => {
-    switch (playerType) {
-      case "mini":
+    const handleClickOutside = (e) => {
+      if (playerType !== "mini") return;
+      if (playerRef.current && !playerRef.current.contains(e.target)) {
         setPlayerType("bar");
-        break;
-      case "bar":
-        setPlayerType("mini");
-        break;
-      default:
-        break;
-    }
-  };
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [playerType]);
 
   // 進度條
   const [barValue, setBarValue] = useState(0);
@@ -250,48 +217,89 @@ function Player() {
       audio.removeEventListener("loadedmetadata", onLoadedMetadata);
     };
   }, [currentSong]);
+
+  // 音量控制 =>不要用modal有點醜，會全域暗調
+  const [volume, setVolume] = useState(0.5);
+  const miniVolumeRef = useRef(null);
+  const barVolumeRef = useRef(null);
+  const [showVolume, setShowVolume] = useState(false);
+  const changeVolume = (e) => {
+    const value = Number(e.target.value);
+    setVolume(value);
+    if (audioRef.current) {
+      audioRef.current.volume = value;
+    }
+  };
+  // 收合音量彈窗
+  useEffect(() => {
+    if (!showVolume) return;
+    const handleClickOutside = (e) => {
+      const currentRef = playerType === "mini" ? miniVolumeRef.current : barVolumeRef.current;
+      if (currentRef && !currentRef.contains(e.target)) {
+        setShowVolume(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showVolume, playerType]);
+
+  // icon管理
+  let VolumeIcon;
+  if (volume === 0) {
+    VolumeIcon = IconVolumeOff;
+  } else if (volume > 0.5) {
+    VolumeIcon = IconVolume;
+  } else {
+    VolumeIcon = IconVolume2;
+  }
+
+  let PlayIcon;
+  !isPlaying ? (PlayIcon = IconPlayerPlayFilled) : (PlayIcon = IconPlayerPauseFilled);
+
+  let RepeatIcon;
+  repeatType === "none"
+    ? (RepeatIcon = IconRepeatOff)
+    : repeatType === "single"
+      ? (RepeatIcon = IconRepeatOnce)
+      : (RepeatIcon = IconRepeat);
+
   return (
     <>
-      <section>
+      <section className="player" ref={playerRef}>
         {playerType === "mini" ? (
           /* mini player */
-          <div className="px-4">
+          <div className="px-4 " style={{ width: "548px" }}>
             {/* 播放清單 */}
-            <div className="bg-white">
-              <div className="d-flex align-items-center justify-content-center">
-                <p>播放清單</p>
-                <div className="btn ms-auto">
-                  <i
-                    className="bi bi-chevron-down ms-auto"
-                    onClick={() => changePlayer()}
-                  ></i>
+            <div className="bg-white rounded-top rounded-3">
+              <div className="d-flex align-items-center justify-content-center bg-BG-01 ps-6 py-3">
+                <p className="mb-0 text-primary-05 fw-bold">播放清單</p>
+                <div className="btn ms-auto border-0 text-primary-05">
+                  <IconChevronDown size={32} onClick={() => changePlayer()} />
                 </div>
               </div>
-              <ul className="text-start px-0">
+              <ul className="text-start px-6 pt-5">
                 {songList.map((song, index) => {
+                  const isCurrent = currentIndex === index;
+                  const showPause = isCurrent && isPlaying;
                   return (
                     <li
-                      className={
-                        isPlaying && currentSong?.fileUrl === song.fileUrl
-                          ? "d-flex w-100 align-items-center text-primary"
-                          : "d-flex w-100 align-items-center"
-                      }
+                      onClick={() => handleClickSong(index)}
+                      className={`d-flex w-100 align-items-center  ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05 fw-bold" : "list-item"}`}
                       key={index}
                     >
                       <p className="m-0">
                         {song.category} | {song.fileName}
                       </p>
                       <button
-                        className="btn border-0 ms-auto"
-                        onClick={() => playMusic(song, index)}
+                        className={`btn border-0 ms-auto item-play ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05" : "list-item"}`}
                       >
-                        <i
-                          className={
-                            isPlaying && currentSong?.fileUrl === song.fileUrl
-                              ? "bi bi-pause-fill"
-                              : "bi bi-play-fill"
-                          }
-                        ></i>
+                        {showPause ? (
+                          <IconPlayerPauseFilled size={24} />
+                        ) : (
+                          <IconPlayerPlayFilled size={24} />
+                        )}
                       </button>
                     </li>
                   );
@@ -300,69 +308,79 @@ function Player() {
               {/* 正在播放，有播放才顯示*/}
               {currentSong && (
                 <div
-                  className="text-start d-flex"
-                  style={{ background: "gray" }}
+                  className="text-start d-flex px-6 align-items-center "
+                  style={{ background: "linear-gradient(to top, #F5F5DC50, #fff)" }}
                 >
-                  <p className="me-auto">{`${currentSong.category} | ${currentSong.fileName}`}</p>
-                  <button className="btn border-0" onClick={() => favorite()}>
-                    <i
-                      className={
-                        currentSong.liked ? "bi bi-heart-fill" : "bi bi-heart "
+                  <p className="me-auto mb-0 text-primary-05 fw-bold">{`${currentSong.category} | ${currentSong.fileName}`}</p>
+                  <button
+                    className="btn border-0 text-primary-05"
+                    onClick={() => {
+                      const userId = authStore.getUserId();
+                      if (!userId) {
+                        alert("請先登入");
+                        return;
                       }
-                    ></i>
+                      dispatch(
+                        toggleSongLike({
+                          userId,
+                          songId: currentSong.id,
+                        })
+                      );
+                    }}
+                    aria-label="喜歡"
+                  >
+                    {isLiked ? (
+                      <IconHeartFilled size={24} className="text-primary-05" />
+                    ) : (
+                      <IconHeart size={24} className="text-primary-05" />
+                    )}
                   </button>
                 </div>
               )}
             </div>
             {/* 進度條 */}
-            <input
-              type="range"
-              min="0"
-              max={duration || 0}
-              step="0.1"
-              value={barValue}
-              onChange={changeBar}
-            />
             {/* 下方按鈕 */}
-            <div>
-              <div className="d-flex justify-content-center">
-                <div className="btn border-0">
-                  <i className="bi bi-volume-up-fill"></i>
+            <div className="position-relative">
+              <input
+                className="sidebar position-absolute top-0 w-100 translate-middle start-50"
+                type="range"
+                min="0"
+                max={duration || 0}
+                step="0.1"
+                value={barValue}
+                onChange={changeBar}
+              />
+              <div className="d-flex justify-content-center bg-white">
+                <div className="btn border-0  text-primary-05" ref={miniVolumeRef}>
+                  <VolumeIcon size={32} onClick={() => setShowVolume((v) => !v)} />
+                  {showVolume && (
+                    <div className="volume-panel volume-panel-mini">
+                      <input
+                        className="w-100"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value={volume}
+                        onChange={changeVolume}
+                      />
+                    </div>
+                  )}
                 </div>
-                <div className="btn border-0" onClick={() => prevSong()}>
-                  <i className="bi bi-chevron-bar-left"></i>
+                <div className="btn border-0  text-primary-05" onClick={onPrev}>
+                  <IconPlayerSkipBackFilled size={32} />
                 </div>
-                <div
-                  className="btn border-0"
-                  onClick={() =>
-                    playMusic(songList[currentIndex], currentIndex)
-                  }
-                >
-                  <i
-                    className={
-                      isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"
-                    }
-                  ></i>
+                <div className="btn border-0  text-primary-05" onClick={onTogglePlay}>
+                  <PlayIcon size={32} />
                 </div>
-                <div className="btn border-0" onClick={() => nextSong()}>
-                  <i className="bi bi-chevron-bar-right"></i>
+                <div className="btn border-0  text-primary-05" onClick={onNext}>
+                  <IconPlayerSkipForwardFilled size={32} />
                 </div>
-                <div className="btn border-0" onClick={() => repeat()}>
-                  <i
-                    className={
-                      repeatType == "none"
-                        ? "bi bi-ban"
-                        : repeatType == "singleRepeat"
-                          ? "bi bi-repeat-1"
-                          : "bi bi-repeat"
-                    }
-                  ></i>
+                <div className="btn border-0  text-primary-05" onClick={onRepeat}>
+                  <RepeatIcon size={32} />
                 </div>
-                <div className="btn border-0">
-                  <i
-                    className="bi bi-list-task"
-                    onClick={() => changePlayer()}
-                  ></i>
+                <div className="btn border-0 text-primary-05">
+                  <IconList size={32} onClick={() => changePlayer()} />
                 </div>
               </div>
             </div>
@@ -370,9 +388,9 @@ function Player() {
         ) : (
           /* bar player */
           <div>
-            <div style={{ marginBottom: "-10px" }}>
+            <div>
               <input
-                className="w-100"
+                className="w-100 sidebar sidebar position-absolute top-0 w-100 translate-middle start-50"
                 type="range"
                 min="0"
                 max={duration || 0}
@@ -381,23 +399,28 @@ function Player() {
                 onChange={changeBar}
               />
             </div>
-            <div>
-              <div className="btn border-0">
-                <i className="bi bi-volume-up-fill"></i>
+            <div className="bg-white">
+              <div className="btn border-0  text-primary-05" ref={barVolumeRef}>
+                <VolumeIcon size={32} onClick={() => setShowVolume((v) => !v)} />
+                {showVolume && (
+                  <div className="volume-panel volume-panel-bar">
+                    <input
+                      className="w-100 "
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={changeVolume}
+                    />
+                  </div>
+                )}
               </div>
-              <div
-                className="btn border-0"
-                onClick={() => playMusic(songList[currentIndex], currentIndex)}
-              >
-                <i
-                  className={isPlaying ? "bi bi-pause-fill" : "bi bi-play-fill"}
-                ></i>
+              <div className="btn border-0  text-primary-05" onClick={onTogglePlay}>
+                <PlayIcon size={32} />
               </div>
-              <div className="btn border-0">
-                <i
-                  className="bi bi-list-task"
-                  onClick={() => changePlayer()}
-                ></i>
+              <div className="btn border-0  text-primary-05" onClick={() => changePlayer()}>
+                <IconList size={32} />
               </div>
             </div>
           </div>

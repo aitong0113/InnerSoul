@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { login } from "../../services/auth/authService";
+import { authStore } from "../../services/auth/authStore";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -24,13 +25,19 @@ function LoginForm() {
 
     try {
       const res = await login({ email, password });
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("userId", String(res.user.id));
-      localStorage.setItem("userName", res.user.userName);
+      authStore.setAuth({
+        accessToken: res.accessToken,
+        userId: res.user.id,
+        userName: res.user.userName,
+        userImg: res.user.userImg,
+        plan: res.user.plan,
+        days: 3,
+      });
       alert("登入成功！");
       navigate(ROUTES.home);
     } catch (err) {
-      alert("帳號或密碼錯誤，請再試一次");
+      console.error("登入失敗", err);
+      alert("登入失敗，請再試一次");
     }
   }
 
@@ -59,14 +66,11 @@ function LoginForm() {
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            if (errors.password)
-              setErrors((prev) => ({ ...prev, password: "" }));
+            if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
           }}
           placeholder="請輸入6-12位英數字"
         />
-        {errors.password && (
-          <small className="text-danger">{errors.password}</small>
-        )}
+        {errors.password && <small className="text-danger">{errors.password}</small>}
       </div>
 
       <button type="submit" className="btn btn-primary">

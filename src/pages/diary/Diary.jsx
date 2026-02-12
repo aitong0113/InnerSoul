@@ -1,19 +1,13 @@
-import { Routes, Route } from "react-router-dom";
-import DiaryHome from "./DiaryHome";
-import EditDiary from "../../components/features/diary/EditDiary";
+import { Outlet } from "react-router-dom";
+import { authStore } from "../../services/auth/authStore";
+import DiaryWelcome from "./DiaryWelcome";
 
 export default function Diary() {
-  const isLogin = Boolean(localStorage.getItem("accessToken"));
+  const isLoggedIn = authStore.isLoggedIn();
 
-  if (!isLogin) {
-    return <div>未登入的日記頁</div>;
+  if (!isLoggedIn) {
+    return <DiaryWelcome />;
   }
 
-  return (
-    <Routes>
-      <Route index element={<DiaryHome />} />
-      <Route path="edit" element={<EditDiary />} />
-      <Route path="edit/:date" element={<EditDiary />} />
-    </Routes>
-  );
+  return <Outlet />;
 }

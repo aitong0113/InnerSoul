@@ -60,7 +60,7 @@ const HomeDiary = () => {
     const src = moodMap[mood];
     if (!src) return null;
 
-    return <img src={src} alt={mood} className="mood-stamp" />;
+    return <img src={src} alt={mood} />;
   };
 
   return (
@@ -73,7 +73,9 @@ const HomeDiary = () => {
         year_month="2026 Feb"
         weeks={weeks}
         renderMood={renderMood}
-        diaryDate="2026/02/10"
+        diaryMood="good"
+        selectedDay={10}
+        diaryDate="02/10"
         diaryTitle="今天的步伐有點慢，但沒關係"
         diaryContent={`最近好像有點累，連呼吸都慢了半拍。
   不是討厭現在的生活，而是有些事情還沒想清楚，情緒在心裡輕輕敲了一整天。

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { IconPlus, IconMinus } from '@tabler/icons-react';
 
 export default function FAQItem({ question, answer }) {
   const [open, setOpen] = useState(false);
@@ -10,11 +11,13 @@ export default function FAQItem({ question, answer }) {
         onClick={() => setOpen(!open)}
       >
         <span>{question}</span>
-        <span className="icon">⌄</span>
+        <span className="icon">
+          {open ? <IconMinus size={24} /> : <IconPlus size={24} />}
+        </span>
       </div>
 
       <div className="faq-answer">
-        <p>{answer}</p>
+        {answer}
       </div>
     </div>
   );

@@ -3,20 +3,663 @@
     {
       "email": "abc@gmail.com",
       "password": "$2a$10$FF90Vp4quKMPngfzAENqKObrcHx.IUPBSkXYjrmYHuJqTPzsK0iG.",
-      "userName": "小熊",
+      "userName": "小熊忘記密碼了",
+      "userImg": "小兔.png",
+      "plan": "free",
       "id": 1
     },
     {
-      "email": "zz@gmail.com",
+      "email": "innersoul_admin@gmail.com",
       "password": "$2a$10$DPY5Xjwe22jn5swLiNsPJuIw.uW.KPplW0G8H3FpVUya5ciQWDcC.",
-      "userName": "王小明",
+      "userName": "Admin",
+      "userImg": "小兔.png",
+      "plan": "free",
       "id": 2
     },
     {
       "email": "sad@gmail.com",
       "password": "$2a$10$fzvZtxO767Urko4BaXhzAuo7N5Dty1o196jxgYXwhhNVws1pGV2Au",
-      "userName": "憂憂",
+      "userName": "悠悠",
+      "userImg": "悠悠.png",
+      "plan": "pro",
       "id": 3
+    },
+    {
+      "email": "happy@gmail.com",
+      "password": "$2a$10$BHXIztJbsdLGggO2L8rq2O60GYqjs536R95SFN8chgMWBLkiZ0X3S",
+      "userName": "黑皮",
+      "userImg": "小兔.png",
+      "plan": "free",
+      "id": 4
+    }
+  ],
+  "diaries": [
+    {
+      "id": 1,
+      "userId": 3,
+      "diaryDate": "2025-12-19",
+      "diaryTitle": "終於星期五了！！",
+      "diaryContent": "好開心 \n好開心",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1498673394965-85cb14905c89?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2026-12-19T10:58:35.465Z",
+      "updatedAt": "2026-12-19T10:58:35.465Z"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "diaryDate": "2026-01-23",
+      "diaryTitle": "放假卻下雨",
+      "diaryContent": "原本想出去走走\n結果只能待在家",
+      "mood": "notgood",
+      "diaryImg": "https://res.cloudinary.com/dlx6slnbd/image/upload/v1770877298/esrg5ryvtolh5r9nllwn.avif",
+      "createdAt": "2026-01-23T11:05:10.112Z",
+      "updatedAt": "2026-02-12T06:21:39.664Z"
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "diaryDate": "2026-01-24",
+      "diaryTitle": "和朋友吃飯",
+      "diaryContent": "聊了很多以前的事\n心情變好了",
+      "mood": "good",
+      "diaryImg": "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2026-01-24T11:12:48.900Z",
+      "updatedAt": "2026-01-26T11:12:48.900Z"
+    },
+    {
+      "id": 4,
+      "userId": 3,
+      "diaryDate": "2026-01-25",
+      "diaryTitle": "工作有點累",
+      "diaryContent": "事情好多\n但還是慢慢完成了",
+      "mood": "notgood",
+      "diaryImg": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=60",
+      "createdAt": "2026-01-25T11:20:03.301Z",
+      "updatedAt": "2026-01-27T13:23:41.405Z"
+    },
+    {
+      "id": 5,
+      "userId": 3,
+      "diaryDate": "2026-01-26",
+      "diaryTitle": "早點睡的一天",
+      "diaryContent": "沒有滑手機\n睡前讀了一點書\n很平靜的一天！！",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1492052722242-2554d0e99e3a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVhY2VmdWx8ZW58MHx8MHx8fDA%3D",
+      "createdAt": "2026-01-26T11:28:55.777Z",
+      "updatedAt": "2026-01-27T14:32:10.123Z"
+    },
+    {
+      "id": 6,
+      "userId": 4,
+      "diaryDate": "2026-02-02",
+      "diaryTitle": "有點累但撐過去了",
+      "diaryContent": "早上其實不太想起床\n工作事情很多\n中途有點煩躁\n但晚上走了一小段路\n心情有稍微好一點",
+      "mood": "good",
+      "diaryImg": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=900&auto=format&fit=crop&q=60",
+      "createdAt": "2026-02-02T09:12:30.421Z",
+      "updatedAt": "2026-02-12T08:45:46.302Z"
+    },
+    {
+      "id": 7,
+      "userId": 4,
+      "diaryDate": "2026-02-03",
+      "diaryTitle": "被一句話安慰到",
+      "diaryContent": "今天有人跟我說\n「你已經很努力了」\n那一瞬間差點想哭\n原來被理解真的很重要",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=900&auto=format&fit=crop&q=60",
+      "createdAt": "2026-02-03T15:46:12.908Z",
+      "updatedAt": "2026-02-03T20:03:45.002Z"
+    },
+    {
+      "id": 8,
+      "userId": 4,
+      "diaryDate": "2026-02-04",
+      "diaryTitle": "慢慢找回自己的節奏",
+      "diaryContent": "沒有特別發生什麼事\n只是照著自己的步調過一天\n吃了喜歡的東西～\n也記得提醒自己休息～～",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1422205512921-12dac7b3b603?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGNhbG18ZW58MHx8MHx8fDA%3D",
+      "createdAt": "2026-02-04T07:25:08.342Z",
+      "updatedAt": "2026-02-12T08:45:33.783Z"
+    },
+    {
+      "id": 9,
+      "userId": 3,
+      "diaryDate": "2026-02-24",
+      "diaryTitle": "日落之前，我與自由私奔",
+      "diaryContent": "今天坐在公園發呆\n陽光灑在筆記本上\n這種漫無目的的流浪感\n讓我覺得靈魂自由得像風～\n真是完美的一天！",
+      "mood": "happy",
+      "diaryImg": "https://res.cloudinary.com/dlx6slnbd/image/upload/v1770877628/xnswovzg8wua8jjbjwjo.avif",
+      "createdAt": "2026-02-24T06:16:27.109Z",
+      "updatedAt": "2026-02-24T06:27:09.086Z"
+    },
+    {
+      "id": 10,
+      "userId": 3,
+      "diaryDate": "2026-03-01",
+      "diaryTitle": "三月的第一口空氣",
+      "diaryContent": "今天是三月的開始\n早晨的空氣有點涼\n卻帶著新的氣息\n站在陽台深呼吸\n突然覺得一切都能重新開始。",
+      "mood": "good",
+      "diaryImg": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+      "createdAt": "2026-03-01T08:12:15.000Z",
+      "updatedAt": "2026-03-01T08:12:15.000Z"
+    },
+    {
+      "id": 11,
+      "userId": 3,
+      "diaryDate": "2026-03-04",
+      "diaryTitle": "咖啡灑翻的午後",
+      "diaryContent": "下午趕著寫報告\n結果咖啡整杯翻倒\n鍵盤濕了一半\n心情瞬間炸裂\n只能一邊擦一邊苦笑。",
+      "mood": "mad",
+      "diaryImg": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085",
+      "createdAt": "2026-03-04T14:25:10.000Z",
+      "updatedAt": "2026-03-04T14:25:10.000Z"
+    },
+    {
+      "id": 12,
+      "userId": 3,
+      "diaryDate": "2026-03-07",
+      "diaryTitle": "雨聲裡的沉默",
+      "diaryContent": "晚上突然下起大雨\n窗外滴滴答答\n原本約好的聚會取消了\n一個人待在房間\n心裡有點空空的。",
+      "mood": "sad",
+      "diaryImg": "https://images.unsplash.com/photo-1501594907352-04cda38ebc29",
+      "createdAt": "2026-03-07T20:40:33.000Z",
+      "updatedAt": "2026-03-07T20:40:33.000Z"
+    },
+    {
+      "id": 13,
+      "userId": 3,
+      "diaryDate": "2026-03-10",
+      "diaryTitle": "腦袋像打結的毛線",
+      "diaryContent": "今天事情好多\n訊息一直跳出來\n待辦清單越寫越長\n思緒亂成一團\n只想躲進被窩裡。",
+      "mood": "messy",
+      "diaryImg": "https://images.unsplash.com/photo-1492724441997-5dc865305da7",
+      "createdAt": "2026-03-10T18:05:44.000Z",
+      "updatedAt": "2026-03-10T18:05:44.000Z"
+    },
+    {
+      "id": 14,
+      "userId": 3,
+      "diaryDate": "2026-03-12",
+      "diaryTitle": "小確幸的午後陽光",
+      "diaryContent": "中午和朋友去吃早午餐\n聊著彼此最近的煩惱\n卻也笑得很開心\n原來陪伴就是最好的療癒\n今天真的很幸福。",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+      "createdAt": "2026-03-12T13:22:18.000Z",
+      "updatedAt": "2026-03-12T13:22:18.000Z"
+    },
+    {
+      "id": 15,
+      "userId": 3,
+      "diaryDate": "2026-03-17",
+      "diaryTitle": "有點提不起勁",
+      "diaryContent": "早上醒來特別疲倦\n明明沒有熬夜\n卻怎麼都打不起精神\n整天做事都慢半拍\n希望明天會好一點。",
+      "mood": "notgood",
+      "diaryImg": "https://images.unsplash.com/photo-1495567720989-cebdbdd97913",
+      "createdAt": "2026-03-17T09:50:02.000Z",
+      "updatedAt": "2026-03-17T09:50:02.000Z"
+    },
+    {
+      "id": 16,
+      "userId": 3,
+      "diaryDate": "2026-03-20",
+      "diaryTitle": "夜晚的城市燈火",
+      "diaryContent": "晚上散步到河濱\n城市燈光倒映在水面\n微風吹過很舒服\n突然覺得自己很渺小\n卻也很自由。",
+      "mood": "good",
+      "diaryImg": "https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHN0YXJ8ZW58MHx8MHx8fDA%3D",
+      "createdAt": "2026-03-20T21:11:27.000Z",
+      "updatedAt": "2026-03-20T21:11:27.000Z"
+    },
+    {
+      "id": 17,
+      "userId": 3,
+      "diaryDate": "2026-03-05",
+      "diaryTitle": "被誤解的瞬間",
+      "diaryContent": "今天在會議上被誤會\n明明不是我的問題\n卻一時不知道怎麼解釋\n心裡悶悶的\n有種說不出的委屈。",
+      "mood": "sad",
+      "diaryImg": "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+      "createdAt": "2026-03-05T16:33:12.000Z",
+      "updatedAt": "2026-03-05T16:33:12.000Z"
+    },
+    {
+      "id": 18,
+      "userId": 3,
+      "diaryDate": "2026-03-08",
+      "diaryTitle": "亂中有序的一天",
+      "diaryContent": "早上手忙腳亂\n手機差點忘在家裡\n午餐吃得太趕\n但晚上終於把待辦清單清完\n原來混亂裡也能找到節奏。",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1496307653780-42ee777d4833",
+      "createdAt": "2026-03-08T19:18:45.000Z",
+      "updatedAt": "2026-02-12T08:44:33.033Z"
+    },
+    {
+      "id": 19,
+      "userId": 3,
+      "diaryDate": "2026-03-19",
+      "diaryTitle": "突然的小驚喜",
+      "diaryContent": "下午收到一封久違的訊息\n是很久沒聯絡的朋友\n聊著聊著竟然笑出聲\n原來有些連結從未消失\n今天的心情亮了起來。",
+      "mood": "happy",
+      "diaryImg": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429",
+      "createdAt": "2026-03-19T15:07:21.000Z",
+      "updatedAt": "2026-03-19T15:07:21.000Z"
+    }
+  ],
+  "lists": [
+    {
+      "id": 1,
+      "listName": "孤獨",
+      "category": "",
+      "songsID": [
+        2,
+        6,
+        5
+      ],
+      "ownerID": 2,
+      "followerID": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "listName": "憤怒",
+      "category": "",
+      "songsID": [
+        4,
+        1,
+        2,
+        6,
+        5
+      ],
+      "ownerID": 2,
+      "followerID": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 3,
+      "category": "小編推薦",
+      "listName": "早晨精選",
+      "songsID": [
+        3,
+        5,
+        6
+      ],
+      "ownerID": 1,
+      "followerID": [
+        2,
+        3,
+        5,
+        4
+      ]
+    },
+    {
+      "id": 4,
+      "category": "小編推薦",
+      "listName": "睡前放鬆",
+      "songsID": [
+        1,
+        2,
+        3
+      ],
+      "ownerID": 1,
+      "followerID": [
+        2,
+        3,
+        4,
+        10
+      ]
+    },
+    {
+      "id": 5,
+      "listName": "工作專注",
+      "songsID": [
+        4,
+        5,
+        6
+      ],
+      "ownerID": 3,
+      "followerID": [
+        1,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": 6,
+      "category": "心情推薦",
+      "listName": "Work Work Work",
+      "songsID": [
+        2,
+        3,
+        1
+      ],
+      "ownerID": 3,
+      "followerID": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "id": 7,
+      "listName": "平靜",
+      "category": "",
+      "songsID": [
+        1,
+        4,
+        3
+      ],
+      "ownerID": 2,
+      "followerID": [
+        2
+      ]
+    },
+    {
+      "id": 8,
+      "listName": "放鬆",
+      "songsID": [
+        1,
+        4,
+        3
+      ],
+      "ownerID": 2,
+      "followerID": [
+        2
+      ]
+    },
+    {
+      "id": 9,
+      "listName": "水過鴨 20 輯門",
+      "category": "熱播 Top 20",
+      "songsID": [
+        2,
+        6,
+        5
+      ],
+      "ownerID": 2,
+      "followerID": [
+        1,
+        2
+      ]
+    }
+  ],
+  "songs": [
+    {
+      "id": 1,
+      "author": "raindrops",
+      "authorUrl": "",
+      "category": "calm",
+      "fileName": "calm-heavenly-raindrops",
+      "fileUrl": "src/assets/music/m02.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 2,
+      "author": "piano",
+      "authorUrl": "",
+      "category": "joy",
+      "fileName": "a-quiet-joy-stevekaldes-piano",
+      "fileUrl": "src/assets/music/m01.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 3,
+      "author": "piano",
+      "authorUrl": "",
+      "category": "calm",
+      "fileName": "majestic-sky-healing-meditative-cello-and-piano",
+      "fileUrl": "src/assets/music/m03.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 4,
+      "author": "chill",
+      "authorUrl": "",
+      "category": "chill",
+      "fileName": "chill-chill-background-music",
+      "fileUrl": "src/assets/music/m04.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 5,
+      "author": "132371",
+      "authorUrl": "",
+      "category": "chill",
+      "fileName": "chill-music",
+      "fileUrl": "src/assets/music/m05.mp3",
+      "thumb": ""
+    },
+    {
+      "id": 6,
+      "author": "coffee",
+      "authorUrl": "",
+      "category": "chill",
+      "fileName": "coffee-chill-out",
+      "fileUrl": "src/assets/music/m06.mp3",
+      "thumb": ""
+    }
+  ],
+  "songLikes": [
+    {
+      "id": 3,
+      "userId": 1,
+      "songId": 1
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "songId": 2
+    },
+    {
+      "id": 5,
+      "userId": 2,
+      "songId": 3
+    },
+    {
+      "userId": 3,
+      "songId": 2,
+      "id": 7
+    },
+    {
+      "userId": 3,
+      "songId": 5,
+      "id": 12
+    },
+    {
+      "userId": 3,
+      "songId": 3,
+      "id": 13
+    }
+  ],
+  "playlistFollowers": [
+    {
+      "id": 1,
+      "playlistId": 7,
+      "userId": 2
+    },
+    {
+      "id": 2,
+      "playlistId": 1,
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "playlistId": 1,
+      "userId": 2
+    },
+    {
+      "id": 4,
+      "playlistId": 2,
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "playlistId": 2,
+      "userId": 2
+    },
+    {
+      "id": 6,
+      "playlistId": 3,
+      "userId": 2
+    },
+    {
+      "id": 9,
+      "playlistId": 3,
+      "userId": 4
+    },
+    {
+      "id": 10,
+      "playlistId": 4,
+      "userId": 2
+    },
+    {
+      "id": 12,
+      "playlistId": 4,
+      "userId": 4
+    },
+    {
+      "id": 14,
+      "playlistId": 5,
+      "userId": 1
+    },
+    {
+      "id": 16,
+      "playlistId": 5,
+      "userId": 4
+    },
+    {
+      "id": 18,
+      "playlistId": 6,
+      "userId": 1
+    },
+    {
+      "id": 19,
+      "playlistId": 6,
+      "userId": 2
+    },
+    {
+      "id": 25,
+      "playlistId": 8,
+      "userId": 2
+    },
+    {
+      "userId": 3,
+      "playlistId": 9,
+      "id": 31
+    },
+    {
+      "userId": 3,
+      "playlistId": 3,
+      "id": 56
+    },
+    {
+      "userId": 3,
+      "playlistId": 4,
+      "id": 57
+    },
+    {
+      "userId": 3,
+      "playlistId": 5,
+      "id": 58
+    },
+    {
+      "userId": 3,
+      "playlistId": 7,
+      "id": 59
+    },
+    {
+      "userId": 3,
+      "playlistId": 8,
+      "id": 61
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan_free",
+      "title": "輕量體驗",
+      "subtitle": "適合初次接觸心途旅程的你",
+      "price": 0,
+      "currency": "NT$",
+      "frequency": "/ 月",
+      "isRecommended": false,
+      "buttonText": "立即註冊",
+      "uiFeatures": [
+        {
+          "text": "語音內容庫：僅瀏覽目錄，可試聽免費音檔",
+          "included": true
+        },
+        {
+          "text": "播放清單：可播放現有語音清單",
+          "included": true
+        },
+        {
+          "text": "心情日記：體驗版 (上限 3 篇)",
+          "included": true
+        },
+        {
+          "text": "情緒儀表板",
+          "included": false
+        },
+        {
+          "text": "語音收藏功能",
+          "included": false
+        },
+        {
+          "text": "無廣告干擾體驗",
+          "included": false
+        }
+      ],
+      "logicFeatures": {
+        "diaryLimit": 3,
+        "canAccessFullAudio": false
+      }
+    },
+    {
+      "id": "plan_pro",
+      "title": "深度陪伴",
+      "subtitle": "完整解鎖所有陪伴功能",
+      "price": 199,
+      "currency": "NT$",
+      "frequency": "/ 月",
+      "isRecommended": true,
+      "buttonText": "立即訂閱",
+      "uiFeatures": [
+        {
+          "text": "語音內容庫：全庫解鎖",
+          "included": true
+        },
+        {
+          "text": "播放清單：可建立專屬個人播放清單",
+          "included": true
+        },
+        {
+          "text": "心情日記：無限篇數、完整紀錄",
+          "included": true
+        },
+        {
+          "text": "情緒儀表板：情緒趨勢分析 / 月曆回顧",
+          "included": true
+        },
+        {
+          "text": "所有語音收藏",
+          "included": true
+        },
+        {
+          "text": "沈浸式無廣告干擾體驗",
+          "included": true
+        }
+      ],
+      "logicFeatures": {
+        "diaryLimit": 9999,
+        "canAccessFullAudio": true
+      }
     }
   ]
 }

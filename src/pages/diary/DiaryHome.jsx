@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
+import api from "../../services/api.js";
+import { MOODS } from "../../constants/moods.js";
+import { authStore } from "../../services/auth/authStore.js";
+import EmptyDiaryState from "../../components/features/diary/EmptyDiaryState.jsx";
+import SubscribeNotice from "../../components/features/diary/SubscribeNotice.jsx";
 
 const DiaryHome = () => {
   const MONTH_SHORT = [
@@ -17,6 +22,11 @@ const DiaryHome = () => {
     "Nov",
     "Dec",
   ];
+  const WEEKDAYS = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
+  const moodDict = MOODS.reduce((acc, m) => {
+    acc[m.id] = m;
+    return acc;
+  }, {});
 
   const calendar = (year, month, moodMap) => {
     const firstDay = new Date(year, month, 1);
@@ -44,27 +54,24 @@ const DiaryHome = () => {
       }
       weeks.push(week);
     }
+    while (weeks.length < 6) {
+      weeks.push(Array.from({ length: 7 }, () => ({ date: null })));
+    }
     return weeks;
   };
-  const moodMap = {
-    3: "happy",
-    6: "sad",
-    12: "angry",
-  };
 
-  const today = new Date();
   const pad2 = (n) => String(n).padStart(2, "0");
   const ymdKey = (year, month, day) => {
-    return `${year}/${pad2(month + 1)}/${pad2(day)}`;
+    return `${year}-${pad2(month + 1)}-${pad2(day)}`;
   };
-  const todayKey = `${today.getFullYear()}/${pad2(
-    today.getMonth() + 1,
-  )}/${pad2(today.getDate())}`;
+  const today = new Date();
+  const todayKey = `${today.getFullYear()}-${pad2(today.getMonth() + 1)}-${pad2(today.getDate())}`;
 
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
+  const [moodByDay, setMoodByDay] = useState({});
   const [selectedKey, setSelectedKey] = useState(todayKey);
-  const weeks = calendar(year, month, moodMap);
+  const weeks = calendar(year, month, moodByDay);
   const yearMonth = `${year} ${MONTH_SHORT[month]}`;
 
   const onSelectDate = (cell) => {
@@ -72,6 +79,11 @@ const DiaryHome = () => {
     const key = ymdKey(year, month, cell.date);
     setSelectedKey(key);
   };
+  const dateObj = new Date(selectedKey);
+  const displayDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
+  const weekday = WEEKDAYS[dateObj.getDay()];
+  const selectedDay =
+    dateObj.getFullYear() === year && dateObj.getMonth() === month ? dateObj.getDate() : null;
 
   const onPrevMonth = () => {
     const d = new Date(year, month - 1, 1);
@@ -85,27 +97,116 @@ const DiaryHome = () => {
     setMonth(d.getMonth());
   };
 
+  const [diary, setDiary] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const hasDiary = !!diary;
+  const userId = authStore.getUserId();
+  const [diaryCount, setDiaryCount] = useState(0);
+  const plan = authStore.getUserPlan();
+  const isFree = plan === "free";
+  const isLimited = diaryCount >= 3;
+  const showSubscribe = isFree && isLimited && !hasDiary;
+
+  useEffect(() => {
+    const fetchMonthMood = async () => {
+      if (!userId) return;
+
+      const start = `${year}-${pad2(month + 1)}-01`;
+      const lastDay = new Date(year, month + 1, 0).getDate();
+      const end = `${year}-${pad2(month + 1)}-${pad2(lastDay)}`;
+      try {
+        const res = await api.get(
+          `/diaries?userId=${userId}&diaryDate_gte=${start}&diaryDate_lte=${end}`
+        );
+
+        const map = {};
+        for (const d of res.data || []) {
+          const dayNum = Number(String(d.diaryDate).slice(8, 10));
+          map[dayNum] = d.mood;
+        }
+        setMoodByDay(map);
+      } catch (err) {
+        console.error("讀取當月心情失敗", err);
+        setMoodByDay({});
+      }
+    };
+
+    fetchMonthMood();
+  }, [userId, year, month]);
+
+  useEffect(() => {
+    const fetchDiary = async () => {
+      if (!userId || !selectedKey) return;
+      setLoading(true);
+
+      try {
+        const res = await api.get(`/diaries?userId=${userId}&diaryDate=${selectedKey}`);
+        setDiary(res.data[0] || null);
+      } catch (err) {
+        console.error("讀取日記失敗", err);
+        setDiary(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDiary();
+  }, [userId, selectedKey]);
+
+  useEffect(() => {
+    const fetchDiaryCount = async () => {
+      if (!userId) return;
+      try {
+        const res = await api.get(`/diaries?userId=${userId}`);
+        setDiaryCount(Array.isArray(res.data) ? res.data.length : 0);
+      } catch (err) {
+        console.error("讀取日記數量失敗", err);
+        setDiaryCount(0);
+      }
+    };
+    fetchDiaryCount();
+  }, [userId]);
+
+  const renderMood = (moodId) => {
+    const key = String(moodId).toLowerCase();
+    const mood = moodDict[key];
+    if (!mood) return null;
+    return <img src={mood.icon} alt={mood.chName} />;
+  };
+
   return (
     <main className="bg-BG-01 pt-8 pb-12">
       <DiaryLayout
         year_month={yearMonth}
         weeks={weeks}
-        // renderMood={renderMood}
+        renderMood={renderMood}
+        diaryMood={diary?.mood ?? null}
         onPrevMonth={onPrevMonth}
         onNextMonth={onNextMonth}
         onSelectDate={onSelectDate}
-        diaryDate={selectedKey || todayKey}
-        diaryTitle="今天的步伐有點慢，但沒關係"
-        diaryContent={`最近好像有點累，連呼吸都慢了半拍。
-    不是討厭現在的生活，而是有些事情還沒想清楚，情緒在心裡輕輕敲了一整天。
-       我知道自己已經努力了，但偶爾還是會覺得「不夠好」。
-           今天沒有逼自己想通，也沒有逼自己堅強。
-           我只是靜靜坐，把那些還沒整理好的心情放下來。`}
-        diaryImg="https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        selectedDay={selectedDay}
+        diaryDate={displayDate}
+        weekday={weekday}
+        diaryTitle={hasDiary ? diary?.diaryTitle || "" : ""}
+        diaryContent={
+          hasDiary ? (
+            diary?.diaryContent || ""
+          ) : showSubscribe ? (
+            <SubscribeNotice to={`/subscription`} />
+          ) : (
+            <EmptyDiaryState to={`/diary/edit/${selectedKey}`} />
+          )
+        }
+        diaryImg={diary?.diaryImg}
+        loading={loading}
         footer={
-          <Link to="/diary/edit" className="btn btn-primary-05">
-            編輯
-          </Link>
+          hasDiary ? (
+            <Link to={`/diary/edit/${selectedKey}`} className="btn btn-primary-05">
+              編輯
+            </Link>
+          ) : (
+            ""
+          )
         }
       />
     </main>

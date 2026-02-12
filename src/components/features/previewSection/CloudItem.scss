@@ -1,0 +1,116 @@
+// 飄動動畫
+@keyframes floatY {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.cloud-btn {
+  position: absolute;
+  top: var(--cloud-top, 0);
+  left: var(--cloud-left, 0);
+  width: var(--cloud-width, auto);
+
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  padding: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &:hover,
+  &:focus-visible {
+    transform: translate(0%, -10%);
+    z-index: 20;
+  }
+
+  &:active {
+    transform: translate(0%, -10%) scale(0.95);
+    transition: transform 0.05s ease-out;
+
+    .cloud-action {
+      transform: translateY(18px);
+      opacity: 0.8;
+      transition: all 0.05s ease-out;
+    }
+  }
+
+  &.cloud-style-9 {
+    .cloud-action {
+      transform: translateY(32px);
+    }
+  }
+
+  &.cloud-style-7 {
+    .cloud-action {
+      transform: translateY(0px);
+    }
+  }
+}
+
+.cloud-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  place-items: center;
+  width: 100%;
+  animation: floatY var(--float-duration, 6s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  will-change: transform;
+}
+
+.cloud-svg {
+  grid-area: 1 / 1;
+  overflow: visible;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.cloud-path {
+
+  transition: all 0.3s ease;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.cloud-label {
+  grid-area: 1 / 1;
+  z-index: 10;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  color: #353535;
+}
+
+.cloud-action {
+  z-index: 11;
+  align-self: end;
+  pointer-events: none;
+  margin-bottom: 0;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+
+  &.visible {
+    opacity: 1;
+    text-align: center;
+    transform: translateY(16px);
+  }
+
+  font-size: 20px;
+}
+
+.cloud-btn:hover,
+.cloud-btn:focus-visible {
+  .cloud-content-wrapper {
+    animation-play-state: paused;
+  }
+}
