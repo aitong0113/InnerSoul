@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { useDispatch } from "react-redux";
@@ -61,6 +61,15 @@ function PlaylistsPage({ selectPlaylist }) {
   const handleCreatePlaylist = () => {
     console.log("新增播放清單");
     // TODO: 實作新增清單功能
+  };
+
+  // Audio Ref
+  const audioRef = useRef(null);
+  const playAudio = (url) => {
+    if (audioRef.current) {
+      audioRef.current.src = url;
+      audioRef.current.play();
+    }
   };
 
   if (status === "loading") {
@@ -131,7 +140,7 @@ function PlaylistsPage({ selectPlaylist }) {
                       <div className="song-actions-row">
                         <button
                           className={`play-pause-btn ${isCurrent ? " text-primary-05" : null}`}
-                          onClick={() => selectPlaylist(currentPlaylist.id, index)}
+                          onClick={() => playAudio(song.audioUrl)}
                         >
                           {showPause ? (
                             <IconPlayerPauseFilled size={24} />
@@ -203,12 +212,12 @@ function PlaylistsPage({ selectPlaylist }) {
                     <IconPlus size={18} />
                   </button>
                   <div className="cloud-placeholder">
-                    <img src="/Union.png" alt="雲朵" />
+                    <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
                   </div>
                   <h4 className="playlist-name">{playlist.listName}</h4>
                   <button
                     className="play-recommended-btn"
-                    onClick={() => selectPlaylist(playlist.id)}
+                    onClick={() => playAudio(playlist.songs?.[0]?.audioUrl)}
                   >
                     {isCurrent && isPlaying ? (
                       <IconPlayerPauseFilled size={24} />
@@ -222,6 +231,7 @@ function PlaylistsPage({ selectPlaylist }) {
           })}
         </div>
       </section>
+      <audio ref={audioRef} />
     </div>
   );
 }

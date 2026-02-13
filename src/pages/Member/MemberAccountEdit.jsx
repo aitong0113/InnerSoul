@@ -64,7 +64,7 @@ export default function MemberAccountEdit() {
 
               <div className="plan">
                 目前方案｜
-                {userPlan === "pro" ? "深度方案" : "輕量體驗"}
+                {userPlan === "pro" ? "深度方案" : userPlan === "free" ? "輕量體驗" : "未訂閱"}
               </div>
 
               <button className="btn-manage" onClick={() => navigate("/subscription")}>

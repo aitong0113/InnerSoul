@@ -1,5 +1,5 @@
 import "./MemberPage.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   IconRotateClockwise,
@@ -22,13 +22,16 @@ import notGoodImg from "../../assets/moodStamp/notGood.png";
 import sadImg from "../../assets/moodStamp/sad.png";
 import madImg from "../../assets/moodStamp/mad.png";
 
-// 表情符號配置（加入圖片）
+import messyImg from "../../assets/moodStamp/messy.png";
+
+
 const moodConfig = {
   happy: { emoji: "😊", name: "喜悅", img: happyImg },
   good: { emoji: "🙂", name: "平靜", img: goodImg },
   notgood: { emoji: "😔", name: "混亂", img: notGoodImg },
   sad: { emoji: "😢", name: "低落", img: sadImg },
   mad: { emoji: "😠", name: "憤怒", img: madImg },
+  messy: { emoji: "😵‍💫", name: "混亂", img: messyImg },
 };
 
 function MemberPage({ selectPlaylist }) {
@@ -62,6 +65,9 @@ function MemberPage({ selectPlaylist }) {
   const userPlan = authStore.getUserPlan();
 
   const avatarSrc = getUserAvatar(userImgKey);
+
+  // Audio Ref
+  const audioRef = useRef(null);
 
   // 檢查登入狀態
   useEffect(() => {
@@ -168,6 +174,14 @@ function MemberPage({ selectPlaylist }) {
     }, 600);
   };
 
+  // 播放音訊
+  const playAudio = (url) => {
+    if (audioRef.current) {
+      audioRef.current.src = url;
+      audioRef.current.play();
+    }
+  };
+
   // 檢查登入中
   if (isCheckingAuth) {
     return (
@@ -230,7 +244,7 @@ function MemberPage({ selectPlaylist }) {
               <div className="plan-container">
                 <div className="plan-labels">
                   <span className="current-plan-label">目前方案</span>
-                  <span className="plan-name">深度方案</span>
+                  <span className="plan-name">{userPlan === "pro" ? "深度方案" : userPlan === "free" ? "輕量體驗" : "未訂閱"}</span>
                 </div>
                 <button
                   className="upgrade-plan-btn"
@@ -264,10 +278,14 @@ function MemberPage({ selectPlaylist }) {
                       {Object.entries(moodConfig).map(([moodKey, moodData]) => {
                         const stat = diaryStats.moodStats.find((s) => s.mood === moodKey);
                         const percentage = stat ? stat.percentage : 0;
-
                         return (
                           <div key={moodKey} className="mood-stat-item">
-                            <img src={moodData.img} alt={moodData.name} className="mood-icon" />
+                            <img
+                              src={moodData.img}
+                              alt={moodData.name}
+                              className="mood-icon fixed"
+                              
+                            />
                             <div className="mood-info">
                               <div className="mood-percentage">{percentage}%</div>
                               <div className="mood-name">{moodData.name}</div>
@@ -277,7 +295,43 @@ function MemberPage({ selectPlaylist }) {
                       })}
                     </div>
                   </div>
-                  <div className="review-card empty" />
+                  <div className="review-card right">
+                    <div className="mood-visual-panel layered">
+                      {Object.entries(moodConfig)
+                        .map(([moodKey, moodData]) => {
+                          const stat = diaryStats.moodStats.find((s) => s.mood === moodKey);
+                          const percentage = stat ? stat.percentage : 0;
+                          return {
+                            moodKey,
+                            moodData,
+                            percentage
+                          };
+                        })
+                        .filter(item => item.percentage > 0) // 0% 不顯示
+                        .sort((a, b) => b.percentage - a.percentage) // 權重排序
+                        .map((item, index) => {
+                          const { moodKey, moodData, percentage } = item;
+
+                          // 主 / 次 / 邊緣層級
+                          let layer = "minor";
+                          if (index === 0) layer = "main";
+                          else if (index <= 2) layer = "secondary";
+                          else layer = "minor";
+
+                          return (
+                            <img
+                              key={moodKey}
+                              src={moodData.img}
+                              alt={moodData.name}
+                              className={`mood-icon dynamic ${layer}`}
+                              style={{
+                                "--scale": `${1 + (percentage * 0.4) / 100}`
+                              }}
+                            />
+                          );
+                        })}
+                    </div>
+                  </div>
                 </div>
               </section>
 
@@ -298,7 +352,7 @@ function MemberPage({ selectPlaylist }) {
                   <div className="emotion-content">
                     <div className="emotion-cloud-wrapper">
                       <div className="emotion-cloud">
-                        <img src="/Union.png" alt="雲朵" className="cloud-bg" />
+                        <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
                         <div className="cloud-text">
                           {moodConfig[diaryStats.topMood.mood]?.name}
                         </div>
@@ -323,7 +377,8 @@ function MemberPage({ selectPlaylist }) {
                             <button className="heart-btn">
                               <IconHeart size={18} />
                             </button>
-                            <button className="play-btn">
+                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
+                              {/* 請替換 undefined 為正確的 audioUrl */}
                               <IconPlayerPlay size={18} fill="currentColor" />
                             </button>
                           </div>
@@ -354,7 +409,7 @@ function MemberPage({ selectPlaylist }) {
                             <button className="heart-btn">
                               <IconHeart size={18} />
                             </button>
-                            <button className="play-btn">
+                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
                               <IconPlayerPlay size={18} fill="currentColor" />
                             </button>
                           </div>
@@ -369,7 +424,7 @@ function MemberPage({ selectPlaylist }) {
                             <button className="heart-btn">
                               <IconHeart size={18} />
                             </button>
-                            <button className="play-btn">
+                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
                               <IconPlayerPlay size={18} fill="currentColor" />
                             </button>
                           </div>
@@ -384,7 +439,7 @@ function MemberPage({ selectPlaylist }) {
                             <button className="heart-btn">
                               <IconHeart size={18} />
                             </button>
-                            <button className="play-btn">
+                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
                               <IconPlayerPlay size={18} fill="currentColor" />
                             </button>
                           </div>
@@ -399,7 +454,7 @@ function MemberPage({ selectPlaylist }) {
                             <button className="heart-btn">
                               <IconHeart size={18} />
                             </button>
-                            <button className="play-btn">
+                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
                               <IconPlayerPlay size={18} fill="currentColor" />
                             </button>
                           </div>
@@ -417,21 +472,21 @@ function MemberPage({ selectPlaylist }) {
                   <div className="stat-number">{userStats.totalHours.toLocaleString()}</div>
                   <div className="stat-unit">小時</div>
                   <div className="stat-description">辛苦你這麼用心在守護身邊</div>
-                  <button className="stat-button">語音收藏 →</button>
+                  <button className="stat-button" onClick={()=>setActiveTab("favorite")}>語音收藏 →</button>
                 </div>
                 <div className="stat-card">
                   <div className="stat-header">不同情境你陪伴了？</div>
                   <div className="stat-number">{userStats.playlistCount}</div>
                   <div className="stat-unit">首播放清單</div>
                   <div className="stat-description">播放清單將會與音檔互相連結</div>
-                  <button className="stat-button">播放清單 →</button>
+                  <button className="stat-button" onClick={()=>setActiveTab("playlist")}>播放清單 →</button>
                 </div>
                 <div className="stat-card">
                   <div className="stat-header">你在心途日記寫了？</div>
                   <div className="stat-number">{diaryStats.totalDiaries}</div>
                   <div className="stat-unit">篇日記</div>
                   <div className="stat-description">今天的心情也寫了嗎？</div>
-                  <button className="stat-button">我的日記 →</button>
+                  <button className="stat-button" onClick={()=>navigate("/diary")}>我的日記 →</button>
                 </div>
               </section>
             </>
@@ -441,6 +496,7 @@ function MemberPage({ selectPlaylist }) {
 
       {activeTab === "favorite" && <FavoritesPage selectPlaylist={selectPlaylist} />}
       {activeTab === "playlist" && <PlaylistsPage selectPlaylist={selectPlaylist} />}
+      <audio ref={audioRef} />
     </main>
   );
 }
