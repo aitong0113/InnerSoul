@@ -22,6 +22,8 @@ import {
   IconChevronDown,
 } from "@tabler/icons-react";
 
+const BASE_URL = import.meta.env.BASE_URL;
+
 function Player() {
   const dispatch = useDispatch();
   const { songList, currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
@@ -70,8 +72,8 @@ function Player() {
     const audio = audioRef.current;
     if (!audio) return;
     if (repeatType === "single") {
-      audio.currentTime = 0;
-      audio.play().catch(() => {});
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
       return;
     }
     let targetIndex;
@@ -108,22 +110,22 @@ function Player() {
   // 切歌用
   useEffect(() => {
     if (!currentSong) return;
-
     const isListChanged = lastListIdRef.current !== currentListId;
     lastListIdRef.current = currentListId;
-    // 切清單
+    const fullUrl = import.meta.env.BASE_URL + currentSong.fileUrl;
     if (!audioRef.current || isListChanged) {
       audioRef.current?.pause();
-      audioRef.current = new Audio(currentSong.fileUrl);
+      audioRef.current = new Audio(fullUrl);
     } else {
-      // 同清單
-      audioRef.current.src = currentSong.fileUrl;
+      audioRef.current.src = fullUrl; //
     }
+
     audioRef.current.currentTime = 0;
+
     if (isPlaying) {
       audioRef.current.play().catch(() => {});
     }
-  }, [currentIndex, currentListId, currentSong]);
+  }, [currentIndex, currentListId, currentSong, isPlaying]);
 
   // 播放用
   useEffect(() => {

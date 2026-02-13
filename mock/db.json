@@ -397,7 +397,7 @@
       "authorUrl": "",
       "category": "calm",
       "fileName": "calm-heavenly-raindrops",
-      "fileUrl": "src/assets/music/m02.mp3",
+      "fileUrl": "music/m02.mp3",
       "thumb": ""
     },
     {
@@ -406,7 +406,7 @@
       "authorUrl": "",
       "category": "joy",
       "fileName": "a-quiet-joy-stevekaldes-piano",
-      "fileUrl": "src/assets/music/m01.mp3",
+      "fileUrl": "music/m01.mp3",
       "thumb": ""
     },
     {
@@ -415,7 +415,7 @@
       "authorUrl": "",
       "category": "calm",
       "fileName": "majestic-sky-healing-meditative-cello-and-piano",
-      "fileUrl": "src/assets/music/m03.mp3",
+      "fileUrl": "music/m03.mp3",
       "thumb": ""
     },
     {
@@ -424,7 +424,7 @@
       "authorUrl": "",
       "category": "chill",
       "fileName": "chill-chill-background-music",
-      "fileUrl": "src/assets/music/m04.mp3",
+      "fileUrl": "music/m04.mp3",
       "thumb": ""
     },
     {
@@ -433,7 +433,7 @@
       "authorUrl": "",
       "category": "chill",
       "fileName": "chill-music",
-      "fileUrl": "src/assets/music/m05.mp3",
+      "fileUrl": "music/m05.mp3",
       "thumb": ""
     },
     {
@@ -442,7 +442,7 @@
       "authorUrl": "",
       "category": "chill",
       "fileName": "coffee-chill-out",
-      "fileUrl": "src/assets/music/m06.mp3",
+      "fileUrl": "music/m06.mp3",
       "thumb": ""
     }
   ],

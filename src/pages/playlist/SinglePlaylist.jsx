@@ -56,7 +56,11 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
       <section>
         <div className="container py-11 d-flex align-items-center justify-content-between position-relative">
           <div className="mb-4 text-center">
-            <Button text={targetList.listName} imgUrl="/Union.png" className="mb-4" />
+            <Button
+              text={targetList.listName}
+              imgUrl={import.meta.env.BASE_URL + "images/Union.png"}
+              className="mb-4"
+            />
             <div className="fs-5 text-primary-05 fw-bold mb-7">
               <p>世界再吵，我都在</p>
               <p>陪你一起聆聽內心的聲音</p>
