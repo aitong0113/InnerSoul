@@ -1,3 +1,62 @@
+.mood-icon.fixed {
+  width: 40px;
+  height: 40px;
+  transform: none !important;
+  scale: 1 !important;
+  filter: none;
+  object-fit: contain;
+}
+
+.mood-icon.dynamic {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.6s ease;
+}
+
+.review-card.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mood-visual-panel {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 白色 blob 底圖 */
+// 1️⃣ 限制 icon 活動範圍在 bottle.png 內（210*600）
+.mood-visual-panel::before {
+  content: "";
+  position: absolute;
+  width: 210px;
+  height: 600px;
+  background-image: url("/public/bottle.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 0;
+  opacity: 0.95;
+}
+
+/* 瓶子內活動區域（裁切容器） */
+.mood-visual-panel.layered {
+  position: relative;
+  width: 210px;
+  height: 350px;
+  overflow: hidden;   /* 🔒 不可超出瓶子 */
+}
+
+/* 確保 icon 在 blob 上層 */
+.mood-visual-panel .mood-icon.dynamic {
+  z-index: 1;
+}
 .member-page {
   max-width: 1100px;
   margin: 0 auto;
@@ -254,7 +313,7 @@
   gap: 24px;
 
   .review-card {
-    background: rgba(189, 224, 236, 0.5);
+    background: linear-gradient(to bottom,  #ffffff3b, #ffffff);
     border-radius: 16px;
     padding: 32px 24px;
     min-height: 400px;
@@ -511,7 +570,7 @@
   gap: 24px;
 
   .stat-card {
-    background: rgba(189, 224, 236, 0.5);
+    background: linear-gradient(to bottom, #cde8fa, #e6f3fd);
     border-radius: 16px;
     padding: 32px 24px;
     text-align: center;
@@ -569,4 +628,74 @@
   text-align: center;
   padding: 80px 0;
   color: #666;
+}
+// 上方已覆蓋
+
+/* 通用動態 icon */
+// 3️⃣ 套用到動態 icon
+.mood-icon.dynamic {
+  position: absolute;
+  animation: floatUpDown 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
+  transition: opacity 0.6s ease;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+}
+
+/* 主情緒（最大、置中） */
+// 5️⃣ 層級 transform（避免動畫覆蓋 scale，scale 已由 --scale 控制，不再用 transform scale）
+.mood-icon.dynamic.main {
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  z-index: 3;
+}
+
+/* 次情緒（圍繞分布） */
+.mood-icon.dynamic.secondary:nth-of-type(2) {
+  top: 20%;
+  left: 30%;
+  z-index: 2;
+}
+.mood-icon.dynamic.secondary:nth-of-type(3) {
+  top: 25%;
+  right: 25%;
+  z-index: 2;
+}
+
+/* 低權重情緒（邊緣 + 淡出） */
+.mood-icon.dynamic.minor {
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.mood-icon.dynamic.minor:nth-of-type(4) {
+  bottom: 20%;
+  left: 15%;
+}
+.mood-icon.dynamic.minor:nth-of-type(5) {
+  bottom: 25%;
+  right: 20%;
+}
+.mood-icon.dynamic.minor:nth-of-type(6) {
+  top: 60%;
+  left: 10%;
+}
+// 2️⃣ 發光效果 + 漂浮動畫
+@keyframes floatUpDown {
+  0%   { transform: translateY(0) scale(var(--scale)); }
+  50%  { transform: translateY(-12px) scale(var(--scale)); }
+  100% { transform: translateY(0) scale(var(--scale)); }
+}
+
+@keyframes glowPulse {
+  0% {
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
+  }
+  100% {
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
+  }
 }
