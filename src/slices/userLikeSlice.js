@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../src/services/api";
 
-// 取得喜愛歌曲
+// 取得喜愛歌曲（照 id 排序，id 越大越新）
 export const fetchLikedSongs = createAsyncThunk("userLikes/fetchLikedSongs", async (userId) => {
-  const res = await api.get(`/songLikes?userId=${userId}`);
-  return res.data.map((item) => item.songId);
+  const res = await api.get(`/songLikes?userId=${userId}&_sort=id&_order=desc`);
+  return res.data;
 });
 
 // 切換喜愛
@@ -14,11 +14,16 @@ export const toggleSongLike = createAsyncThunk(
     const res = await api.get(`/songLikes?userId=${userId}&songId=${songId}`);
 
     if (res.data.length > 0) {
+      // 已存在 → 刪除
       await api.delete(`/songLikes/${res.data[0].id}`);
       return { songId, liked: false };
     } else {
-      await api.post(`/songLikes`, { userId, songId });
-      return { songId, liked: true };
+      // 不存在 → 新增
+      const created = await api.post(`/songLikes`, {
+        userId,
+        songId,
+      });
+      return { ...created.data, liked: true };
     }
   }
 );
@@ -26,24 +31,28 @@ export const toggleSongLike = createAsyncThunk(
 const userLikeSlice = createSlice({
   name: "userLikes",
   initialState: {
-    likedSongIds: [],
+    likedSongs: [],
     status: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
+
+      // 取得全部
       .addCase(fetchLikedSongs.fulfilled, (state, action) => {
-        state.likedSongIds = action.payload;
+        state.likedSongs = action.payload;
       })
+
+      // 切換
       .addCase(toggleSongLike.fulfilled, (state, action) => {
-        const { songId, liked } = action.payload;
+        const { liked, songId } = action.payload;
 
         if (liked) {
-          if (!state.likedSongIds.includes(songId)) {
-            state.likedSongIds.push(songId);
-          }
+          // 新增 → 放最前面（因為是最新）
+          state.likedSongs.unshift(action.payload);
         } else {
-          state.likedSongIds = state.likedSongIds.filter((id) => id !== songId);
+          // 刪除
+          state.likedSongs = state.likedSongs.filter((like) => like.songId !== songId);
         }
       });
   },
