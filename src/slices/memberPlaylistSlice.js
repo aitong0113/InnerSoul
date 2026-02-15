@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
 import api from "../services/api";
 
 /*取得所有播放清單（含歌曲與追蹤者）*/
@@ -53,34 +53,6 @@ export const fetchPlaylists = createAsyncThunk("playlists/fetchPlaylists", async
   });
 });
 
-//切換追蹤狀態（同步後端）
-export const toggleFollowAsync = createAsyncThunk(
-  "playlists/toggleFollowAsync",
-  async ({ userId, playlistId }, { getState }) => {
-    const state = getState();
-    const playlist = state.playlists.allPlaylists.find((p) => p.id === playlistId);
-
-    const isFollowed = playlist?.followerUserIds.includes(userId);
-
-    if (isFollowed) {
-      const res = await api.get(`/playlistFollowers?userId=${userId}&playlistId=${playlistId}`);
-
-      if (res.data.length > 0) {
-        await api.delete(`/playlistFollowers/${res.data[0].id}`);
-      }
-
-      return { userId, playlistId, followed: false };
-    } else {
-      await api.post("/playlistFollowers", {
-        userId,
-        playlistId,
-      });
-
-      return { userId, playlistId, followed: true };
-    }
-  }
-);
-
 //Slice
 const playlistSlice = createSlice({
   name: "playlists",
@@ -102,24 +74,15 @@ const playlistSlice = createSlice({
       })
       .addCase(fetchPlaylists.rejected, (state) => {
         state.status = "failed";
-      })
-
-      /* 切換追蹤 */
-      .addCase(toggleFollowAsync.fulfilled, (state, action) => {
-        const { userId, playlistId, followed } = action.payload;
-
-        const playlist = state.allPlaylists.find((p) => p.id === playlistId);
-        if (!playlist) return;
-
-        if (followed) {
-          if (!playlist.followerUserIds.includes(userId)) {
-            playlist.followerUserIds.push(userId);
-          }
-        } else {
-          playlist.followerUserIds = playlist.followerUserIds.filter((id) => id !== userId);
-        }
       });
   },
 });
 
 export default playlistSlice.reducer;
+
+export const selectAllPlaylists = (state) => state.playlists.allPlaylists;
+
+export const selectUserPlaylists = (userId) =>
+  createSelector([selectAllPlaylists], (allPlaylists) =>
+    allPlaylists.filter((playlist) => playlist.ownerID === userId)
+  );

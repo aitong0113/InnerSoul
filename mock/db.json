@@ -416,7 +416,7 @@
     {
       "id": 7,
       "listName": "平靜",
-      "category": "",
+      "category": "平靜",
       "songsID": [
         1,
         4,
@@ -453,6 +453,22 @@
       "followerID": [
         1,
         2
+      ]
+    },
+    {
+      "id": 10,
+      "listName": "喜悅",
+      "category": "喜悅",
+      "songsID": [
+        2,
+        6,
+        5,
+        1
+      ],
+      "ownerID": 2,
+      "followerID": [
+        2,
+        3
       ]
     }
   ],
@@ -531,22 +547,17 @@
     {
       "userId": 3,
       "songId": 5,
-      "id": 12
+      "id": 21
     },
     {
       "userId": 3,
-      "songId": 3,
-      "id": 15
+      "songId": 1,
+      "id": 22
     },
     {
       "userId": 3,
       "songId": 2,
-      "id": 16
-    },
-    {
-      "userId": 3,
-      "songId": 4,
-      "id": 17
+      "id": 23
     }
   ],
   "playlistFollowers": [

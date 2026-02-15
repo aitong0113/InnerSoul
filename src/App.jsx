@@ -29,13 +29,12 @@ import SinglePlaylist from "./pages/playlist/SinglePlaylist";
 import Checkout from "./pages/checkout/Checkout";
 import PlaylistLayout from "./pages/playlist/PlaylistLayout";
 import MemberAccountEdit from "./pages/Member/MemberAccountEdit";
+import PlaylistRoute from "./pages/playlist/PlaylistRoute.jsx";
 
 // 後台 pages
 import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
-import PlaylistRoute from "./pages/playlist/PlaylistRoute.jsx";
-import PlaylistView from "./pages/playlist/PlaylistView.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -148,7 +147,6 @@ function App() {
         {/* 404 */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {/* {songList === null ? <BackToTop /> : <PlayerContainer />} */}
 
       {!songList.length ? <BackToTop /> : <Player />}
     </HashRouter>

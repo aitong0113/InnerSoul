@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { useDispatch } from "react-redux";
-import { fetchPlaylists, toggleFollowAsync } from "../../slices/memberPlaylistSlice";
+import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
+import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
 
 import {
   IconPlus,
@@ -18,7 +19,6 @@ import "./PlaylistsPage.scss";
 function PlaylistsPage({ selectPlaylist }) {
   const userId = authStore.getUserId();
   const dispatch = useDispatch();
-
   const status = useSelector((state) => state.playlists.status);
 
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
@@ -101,7 +101,7 @@ function PlaylistsPage({ selectPlaylist }) {
                   isFollowed={isFollowed(currentPlaylist.id)}
                   onToggleFollow={() =>
                     dispatch(
-                      toggleFollowAsync({
+                      togglePlaylistFollow({
                         userId,
                         playlistId: currentPlaylist.id,
                       })
@@ -195,7 +195,7 @@ function PlaylistsPage({ selectPlaylist }) {
                     className="add-playlist-btn"
                     onClick={() =>
                       dispatch(
-                        toggleFollowAsync({
+                        togglePlaylistFollow({
                           userId,
                           playlistId: playlist.id,
                         })
