@@ -3,6 +3,7 @@ import { authStore } from "../../../services/auth/authStore";
 import { useDispatch, useSelector } from "react-redux";
 import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../slices/playerSlice";
 import { toggleSongLike } from "../../../slices/userLikeSlice";
+import { selectLikedSongIds } from "../../../slices/userLikeSlice";
 
 import "./player.css";
 import {
@@ -30,8 +31,8 @@ function Player() {
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
 
-  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
-  const isLiked = currentSong && likedSongIds.includes(currentSong.id);
+  const likedSongIds = useSelector(selectLikedSongIds);
+  const isLiked = currentSong && likedSongIds?.includes(currentSong.id);
 
   // 訂閱方案
   const FREE_PLAY_LIMIT = 3;

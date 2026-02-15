@@ -1,5 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSelector } from "@reduxjs/toolkit";
 import api from "../../src/services/api";
+
+export const selectLikedSongs = (state) => state.userLikes.likedSongs;
+export const selectLikedSongIds = createSelector([selectLikedSongs], (likedSongs) =>
+  likedSongs.map((like) => like.songId)
+);
 
 // 取得喜愛歌曲（照 id 排序，id 越大越新）
 export const fetchLikedSongs = createAsyncThunk("userLikes/fetchLikedSongs", async (userId) => {

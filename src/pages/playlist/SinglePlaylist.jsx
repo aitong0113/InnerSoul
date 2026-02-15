@@ -3,6 +3,8 @@ import { useParams, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSongLike } from "../../slices/userLikeSlice";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+import { selectLikedSongIds } from "../../slices/userLikeSlice";
+import { selectFollowedPlaylistIds } from "../../slices/playlistFollowSlice";
 
 import Button from "../../components/common/Button/Button";
 import {
@@ -23,12 +25,8 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
   const userId = authStore.getUserId();
 
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
-  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
-
-  const followedPlaylistIds = useSelector(
-    (state) => state.playlistFollow?.followedPlaylistIds ?? []
-  );
-  // const isFollowed = followedPlaylistIds.includes(targetList.id);
+  const likedSongIds = useSelector(selectLikedSongIds);
+  const followedPlaylistIds = useSelector(selectFollowedPlaylistIds);
 
   const { id } = useParams();
   const location = useLocation();

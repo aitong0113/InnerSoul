@@ -39,7 +39,7 @@ export const togglePlaylistFollow = createAsyncThunk(
 );
 
 const playlistFollowSlice = createSlice({
-  name: "playlistFollows",
+  name: "playlistFollow",
   initialState: {
     followedPlaylistsRaw: [],
     status: "idle",
@@ -65,3 +65,10 @@ const playlistFollowSlice = createSlice({
 });
 
 export default playlistFollowSlice.reducer;
+
+// 取得 raw 資料
+export const selectFollowedPlaylistsRaw = (state) => state.playlistFollow.followedPlaylistsRaw;
+
+// 轉換成 playlistId 陣列
+export const selectFollowedPlaylistIds = (state) =>
+  state.playlistFollow.followedPlaylistsRaw.map((f) => f.playlistId);
