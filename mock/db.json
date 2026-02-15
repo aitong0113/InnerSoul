@@ -530,18 +530,23 @@
     },
     {
       "userId": 3,
-      "songId": 2,
-      "id": 7
-    },
-    {
-      "userId": 3,
       "songId": 5,
       "id": 12
     },
     {
       "userId": 3,
       "songId": 3,
-      "id": 13
+      "id": 15
+    },
+    {
+      "userId": 3,
+      "songId": 2,
+      "id": 16
+    },
+    {
+      "userId": 3,
+      "songId": 4,
+      "id": 17
     }
   ],
   "playlistFollowers": [
@@ -617,33 +622,23 @@
     },
     {
       "userId": 3,
-      "playlistId": 9,
-      "id": 31
+      "playlistId": 4,
+      "id": 33
+    },
+    {
+      "userId": 3,
+      "playlistId": 6,
+      "id": 35
     },
     {
       "userId": 3,
       "playlistId": 3,
-      "id": 56
+      "id": 36
     },
     {
       "userId": 3,
-      "playlistId": 4,
-      "id": 57
-    },
-    {
-      "userId": 3,
-      "playlistId": 5,
-      "id": 58
-    },
-    {
-      "userId": 3,
-      "playlistId": 7,
-      "id": 59
-    },
-    {
-      "userId": 3,
-      "playlistId": 8,
-      "id": 61
+      "playlistId": 1,
+      "id": 37
     }
   ],
   "plans": [

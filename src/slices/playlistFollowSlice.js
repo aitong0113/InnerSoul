@@ -6,7 +6,7 @@ export const fetchFollowedPlaylists = createAsyncThunk(
   "playlistFollows/fetchFollowedPlaylists",
   async (userId) => {
     const res = await api.get(`/playlistFollowers?userId=${userId}`);
-    return res.data.map((item) => item.playlistId);
+    return res.data;
   }
 );
 
@@ -17,13 +17,23 @@ export const togglePlaylistFollow = createAsyncThunk(
     const res = await api.get(`/playlistFollowers?userId=${userId}&playlistId=${playlistId}`);
 
     if (res.data.length > 0) {
-      // 已追蹤 → 取消
       await api.delete(`/playlistFollowers/${res.data[0].id}`);
-      return { playlistId, followed: false };
+      return {
+        playlistId,
+        followed: false,
+        followerId: res.data[0].id,
+      };
     } else {
-      // 未追蹤 → 新增
-      await api.post(`/playlistFollowers`, { userId, playlistId });
-      return { playlistId, followed: true };
+      const newRes = await api.post(`/playlistFollowers`, {
+        userId,
+        playlistId,
+      });
+
+      return {
+        playlistId,
+        followed: true,
+        followerData: newRes.data,
+      };
     }
   }
 );
@@ -31,24 +41,24 @@ export const togglePlaylistFollow = createAsyncThunk(
 const playlistFollowSlice = createSlice({
   name: "playlistFollows",
   initialState: {
-    followedPlaylistIds: [],
+    followedPlaylistsRaw: [],
     status: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchFollowedPlaylists.fulfilled, (state, action) => {
-        state.followedPlaylistIds = action.payload;
+        state.followedPlaylistsRaw = action.payload;
       })
       .addCase(togglePlaylistFollow.fulfilled, (state, action) => {
-        const { playlistId, followed } = action.payload;
+        const { followed, followerId, followerData } = action.payload;
 
         if (followed) {
-          if (!state.followedPlaylistIds.includes(playlistId)) {
-            state.followedPlaylistIds.push(playlistId);
-          }
+          state.followedPlaylistsRaw.push(followerData);
         } else {
-          state.followedPlaylistIds = state.followedPlaylistIds.filter((id) => id !== playlistId);
+          state.followedPlaylistsRaw = state.followedPlaylistsRaw.filter(
+            (f) => f.id !== followerId
+          );
         }
       });
   },

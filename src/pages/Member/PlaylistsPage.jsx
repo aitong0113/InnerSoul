@@ -1,9 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { useDispatch } from "react-redux";
-import { toggleFollow } from "../../slices/memberPlaylistSlice";
-import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
+import { fetchPlaylists, toggleFollowAsync } from "../../slices/memberPlaylistSlice";
 
 import {
   IconPlus,
@@ -46,7 +45,7 @@ function PlaylistsPage({ selectPlaylist }) {
     if (status === "idle") {
       dispatch(fetchPlaylists());
     }
-  }, [status, userId, dispatch]);
+  }, [status, dispatch]);
 
   const handlePrevPlaylist = () => {
     setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : followedPlaylists.length - 1));
@@ -64,15 +63,6 @@ function PlaylistsPage({ selectPlaylist }) {
   const handleCreatePlaylist = () => {
     console.log("新增播放清單");
     // TODO: 實作新增清單功能
-  };
-
-  // Audio Ref
-  const audioRef = useRef(null);
-  const playAudio = (url) => {
-    if (audioRef.current) {
-      audioRef.current.src = url;
-      audioRef.current.play();
-    }
   };
 
   if (status === "loading") {
@@ -111,7 +101,7 @@ function PlaylistsPage({ selectPlaylist }) {
                   isFollowed={isFollowed(currentPlaylist.id)}
                   onToggleFollow={() =>
                     dispatch(
-                      toggleFollow({
+                      toggleFollowAsync({
                         userId,
                         playlistId: currentPlaylist.id,
                       })
@@ -143,7 +133,7 @@ function PlaylistsPage({ selectPlaylist }) {
                       <div className="song-actions-row">
                         <button
                           className={`play-pause-btn ${isCurrent ? " text-primary-05" : null}`}
-                          onClick={() => playAudio(song.audioUrl)}
+                          onClick={() => selectPlaylist(currentPlaylist.id, index)}
                         >
                           {showPause ? (
                             <IconPlayerPauseFilled size={24} />
@@ -205,7 +195,7 @@ function PlaylistsPage({ selectPlaylist }) {
                     className="add-playlist-btn"
                     onClick={() =>
                       dispatch(
-                        toggleFollow({
+                        toggleFollowAsync({
                           userId,
                           playlistId: playlist.id,
                         })
@@ -215,12 +205,16 @@ function PlaylistsPage({ selectPlaylist }) {
                     <IconPlus size={18} />
                   </button>
                   <div className="cloud-placeholder">
-                    <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
+                    <img
+                      src={`${import.meta.env.BASE_URL}Union.png`}
+                      alt="雲朵"
+                      className="cloud-bg"
+                    />
                   </div>
                   <h4 className="playlist-name">{playlist.listName}</h4>
                   <button
                     className="play-recommended-btn"
-                    onClick={() => playAudio(playlist.songs?.[0]?.audioUrl)}
+                    onClick={() => selectPlaylist(playlist.id)}
                   >
                     {isCurrent && isPlaying ? (
                       <IconPlayerPauseFilled size={24} />
@@ -234,7 +228,6 @@ function PlaylistsPage({ selectPlaylist }) {
           })}
         </div>
       </section>
-      <audio ref={audioRef} />
     </div>
   );
 }
