@@ -7,6 +7,7 @@ import "./FavoritesPage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLikedSongs, toggleSongLike } from "../../slices/userLikeSlice";
 import { authStore } from "../../services/auth/authStore";
+import ListSwiper from "../../components/common/Swiper/Swiper";
 
 function FavoritesPage({ selectPlaylist }) {
   const dispatch = useDispatch();

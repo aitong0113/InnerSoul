@@ -26,9 +26,12 @@ function PlaylistsPage({ selectPlaylist }) {
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
 
   const allPlaylists = useSelector((state) => state.playlists.allPlaylists);
-  // const followedPlaylists = allPlaylists.filter((list) => followedPlaylistIds.includes(list.id));
   const followedPlaylists = allPlaylists.filter((list) => list.followerUserIds.includes(userId));
-  const currentPlaylist = followedPlaylists[currentPlaylistIndex] ?? null;
+  const safeIndex =
+    followedPlaylists.length === 0
+      ? 0
+      : Math.min(currentPlaylistIndex, followedPlaylists.length - 1);
+  const currentPlaylist = followedPlaylists[safeIndex] ?? null;
   const playlistSongs = currentPlaylist?.songs || [];
 
   const isFollowed = (playlistId) => {
@@ -174,7 +177,7 @@ function PlaylistsPage({ selectPlaylist }) {
                 <IconChevronLeft size={20} />
               </button>
               <span className="page-indicator">
-                {currentPlaylistIndex + 1} / {followedPlaylists.length}
+                {safeIndex + 1} / {followedPlaylists.length}
               </span>
               <button
                 className="pagination-btn"
