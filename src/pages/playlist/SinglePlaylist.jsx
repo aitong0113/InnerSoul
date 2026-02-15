@@ -58,7 +58,7 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
           <div className="mb-4 text-center">
             <Button
               text={targetList.listName}
-              imgUrl={import.meta.env.BASE_URL + "images/Union.png"}
+              imgUrl={`${import.meta.env.BASE_URL}Union.png`}
               className="mb-4"
             />
             <div className="fs-5 text-primary-05 fw-bold mb-7">
