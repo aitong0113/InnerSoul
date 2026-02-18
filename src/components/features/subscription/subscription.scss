@@ -432,14 +432,13 @@ $text-dark: #333;
     }
   }
 
-  // 🎨 Free 會員樣式 (對應圖 3-1)
+  // 免費會員樣式
   &.is-free {
-    background-color: #e8e8e8; // 深灰色背景
-    color: #333; // 文字深色
+    background-color: #e8e8e8;
+    color: #333;
 
     .icon-box {
       background-color: #fff;
-      // Icon 顏色在 JSX 控制
     }
 
     .upgrade-btn {
@@ -448,9 +447,9 @@ $text-dark: #333;
     }
   }
 
-  // 🎨 Pro 會員樣式 (對應圖 3-2)
+  // Pro 會員樣式
   &.is-pro {
-    background-color: #fff; // 淺 Teal 色背景 (吸管取色類似款)
+    background-color: #fff;
     color: #000;
 
     .icon-box {
