@@ -1,19 +1,22 @@
+import { useNavigate } from "react-router-dom";
 import { IconHeartFilled } from "@tabler/icons-react";
 import "./subscription.scss";
 
 const SubscriptionStatusBanner = ({ userPlan }) => {
-
+  const navigate = useNavigate();
   const isPro = userPlan === "pro";
+
+  const handleManageClick = () => {
+    navigate("/member/subscription");
+  };
 
   return (
     <div className={`subscription-status-banner ${isPro ? "is-pro" : "is-free"}`}>
       <div className="content-wrapper">
-        {/* 左側 Icon */}
         <div className="icon-box">
           <IconHeartFilled size={24} color={isPro ? "#398C9F" : "#757575"} />
         </div>
 
-        {/* 中間文字 */}
         <div className="text-info">
           <h3 className="status-title">
             {isPro ? "你目前是深度陪伴會員" : "你目前是輕量體驗會員"}
@@ -27,8 +30,7 @@ const SubscriptionStatusBanner = ({ userPlan }) => {
         </div>
       </div>
 
-      {/* 右側按鈕 */}
-      <button className="upgrade-btn">
+      <button className="upgrade-btn" onClick={handleManageClick}>
         {isPro ? "管理我的訂閱方案" : "升級訂閱方案"}
       </button>
     </div>
