@@ -2,8 +2,9 @@ import "./MemberPage.scss";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPlaylists, selectAllPlaylists } from "../../slices/memberPlaylistSlice";
-import { fetchLikedSongs, toggleSongLike } from "../../slices/userLikeSlice";
+import { selectPlaylistsView, makeSelectUserLikesView } from "../../slices/selectors";
+import { toggleSongLike } from "../../slices/userLikeSlice";
+
 import {
   IconMusic,
   IconPlayerPauseFilled,
@@ -31,7 +32,6 @@ import sadImg from "../../assets/moodStamp/sad.png";
 import madImg from "../../assets/moodStamp/mad.png";
 
 import messyImg from "../../assets/moodStamp/messy.png";
-import SinglePlaylist from "../playlist/SinglePlaylist";
 
 const moodConfig = {
   happy: { emoji: "😊", name: "喜悅", img: happyImg },
@@ -42,20 +42,29 @@ const moodConfig = {
   messy: { emoji: "😵‍💫", name: "混亂", img: messyImg },
 };
 
+const moodToCategoryMap = {
+  happy: ["喜悅", "溫暖", "輕快"],
+  good: ["平靜", "放鬆"],
+  sad: ["療癒", "陪伴"],
+  mad: ["釋放", "沉靜"],
+  notgood: ["清新", "整理"],
+  messy: ["放空", "靜心"],
+};
+
 function MemberPage({ selectPlaylist }) {
   const dispatch = useDispatch();
-  const allPlaylists = useSelector(selectAllPlaylists);
-  const likedSongs = useSelector((state) => state.userLikes.likedSongs);
-  const likedSongIds = useMemo(() => {
-    return new Set(likedSongs.map((like) => like.songId));
-  }, [likedSongs]);
-  const playlistStatus = useSelector((state) => state.playlists.status);
+
+  const userName = authStore.getUserName();
+  const userId = authStore.getUserId();
+  const userImgKey = authStore.getUserImg();
+  const userPlan = authStore.getUserPlan();
+
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
+
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
+  const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
+
   const { currentListId, currentIndex, isPlaying } = useSelector((state) => state.player);
-  useEffect(() => {
-    if (playlistStatus === "idle") {
-      dispatch(fetchPlaylists());
-    }
-  }, [playlistStatus, dispatch]);
 
   // 取得 loading 狀態
   const navigate = useNavigate();
@@ -84,21 +93,11 @@ function MemberPage({ selectPlaylist }) {
   useEffect(() => {
     setUserStats((prev) => ({
       ...prev,
-      playlistCount: allPlaylists.length,
+      playlistCount: playlists.length,
     }));
-  }, [allPlaylists]);
-
-  const userName = authStore.getUserName();
-  const userId = authStore.getUserId();
-  const userImgKey = authStore.getUserImg();
-  const userPlan = authStore.getUserPlan();
+  }, [playlists]);
 
   const avatarSrc = getUserAvatar(userImgKey);
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchLikedSongs(userId));
-    }
-  }, [userId, dispatch]);
   // Audio Ref
   const audioRef = useRef(null);
 
@@ -205,12 +204,15 @@ function MemberPage({ selectPlaylist }) {
 
   // 目前情緒 key（ex: happy）
   const currentMoodKey = diaryStats.topMood?.mood;
-  // 取得中文名稱
-  const currentMoodName = moodConfig[currentMoodKey]?.name;
   const moodPlaylist = useMemo(() => {
-    if (!currentMoodName) return null;
-    return allPlaylists.find((playlist) => playlist.category === currentMoodName);
-  }, [allPlaylists, currentMoodName]);
+    if (!currentMoodKey) return null;
+    const keywords = moodToCategoryMap[currentMoodKey] || [];
+    return (
+      playlists.find(
+        (p) => p.category === "心情推薦" && keywords.some((keyword) => p.listName.includes(keyword))
+      ) || null
+    );
+  }, [playlists, currentMoodKey]);
   const isCurrentPlaylist = currentListId === moodPlaylist?.id;
   // 檢查登入中
   if (isCheckingAuth) {
@@ -435,7 +437,7 @@ function MemberPage({ selectPlaylist }) {
 
                           return (
                             <li
-                              key={song.id}
+                              key={`${moodPlaylist.id}-${index}`}
                               className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${
                                 isCurrent ? "text-primary-05" : ""
                               }`}
@@ -446,7 +448,7 @@ function MemberPage({ selectPlaylist }) {
                                 <span className="badge text-bg-primary-02 rounded-pill me-4">
                                   {song.category}
                                 </span>
-                                {song.fileName}
+                                {song.name}
                               </div>
                               <div className="d-flex align-items-center">
                                 <button
@@ -457,7 +459,7 @@ function MemberPage({ selectPlaylist }) {
                                     dispatch(toggleSongLike({ userId, songId: song.id }));
                                   }}
                                 >
-                                  {likedSongIds.has(song.id) ? (
+                                  {likedSongIds.includes(song.id) ? (
                                     <IconHeartFilled size={22} />
                                   ) : (
                                     <IconHeart size={22} />
@@ -489,7 +491,6 @@ function MemberPage({ selectPlaylist }) {
                   </div>
                 </section>
               )}
-
               {/* 底部統計 */}
               <section className="member-stats">
                 <div className="stat-card">

@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { authStore } from "../../../services/auth/authStore";
 import { useDispatch, useSelector } from "react-redux";
 import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../slices/playerSlice";
 import { toggleSongLike } from "../../../slices/userLikeSlice";
-import { selectLikedSongIds } from "../../../slices/userLikeSlice";
+import { makeSelectUserLikesView } from "../../../slices/selectors";
 
 import "./player.css";
 import {
@@ -31,8 +31,10 @@ function Player() {
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
 
-  const likedSongIds = useSelector(selectLikedSongIds);
-  const isLiked = currentSong && likedSongIds?.includes(currentSong.id);
+  const userId = authStore.getUserId();
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
+  const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
+  const isLiked = currentSong ? likedSongIds.includes(currentSong.id) : false;
 
   // 訂閱方案
   const FREE_PLAY_LIMIT = 3;
@@ -286,17 +288,23 @@ function Player() {
                 {songList.map((song, index) => {
                   const isCurrent = currentIndex === index;
                   const showPause = isCurrent && isPlaying;
+
                   return (
                     <li
                       onClick={() => handleClickSong(index)}
-                      className={`d-flex w-100 align-items-center  ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05 fw-bold" : "list-item"}`}
-                      key={index}
+                      className={`d-flex w-100 align-items-center ${
+                        isCurrent ? "text-primary-05 fw-bold" : "list-item"
+                      }`}
+                      key={`${currentListId}-${index}`}
                     >
                       <p className="m-0">
-                        {song.category} | {song.fileName}
+                        {song.category} | {song.name}
                       </p>
+
                       <button
-                        className={`btn border-0 ms-auto item-play ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05" : "list-item"}`}
+                        className={`btn border-0 ms-auto item-play ${
+                          isCurrent ? "text-primary-05" : "list-item"
+                        }`}
                       >
                         {showPause ? (
                           <IconPlayerPauseFilled size={24} />
@@ -308,21 +316,22 @@ function Player() {
                   );
                 })}
               </ul>
+
               {/* 正在播放，有播放才顯示*/}
               {currentSong && (
                 <div
                   className="text-start d-flex px-6 align-items-center "
                   style={{ background: "linear-gradient(to top, #F5F5DC50, #fff)" }}
                 >
-                  <p className="me-auto mb-0 text-primary-05 fw-bold">{`${currentSong.category} | ${currentSong.fileName}`}</p>
+                  <p className="me-auto mb-0 text-primary-05 fw-bold">{`${currentSong.category} | ${currentSong.name}`}</p>
                   <button
                     className="btn border-0 text-primary-05"
                     onClick={() => {
-                      const userId = authStore.getUserId();
                       if (!userId) {
                         alert("請先登入");
                         return;
                       }
+
                       dispatch(
                         toggleSongLike({
                           userId,

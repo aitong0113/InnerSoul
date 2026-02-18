@@ -1,17 +1,14 @@
 import { useMemo } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSongLike } from "../../slices/userLikeSlice";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
-import { selectLikedSongIds } from "../../slices/userLikeSlice";
-import { selectFollowedPlaylistIds } from "../../slices/playlistFollowSlice";
+import { makeSelectUserLikesView, selectPlaylistsView } from "../../slices/selectors";
 
 import Button from "../../components/common/Button/Button";
 import {
   IconMusic,
   IconPlayerPlayFilled,
-  IconDots,
-  IconPlus,
   IconPlayerPauseFilled,
   IconChevronLeft,
   IconChevronRight,
@@ -20,34 +17,27 @@ import {
 } from "@tabler/icons-react";
 import { authStore } from "../../services/auth/authStore";
 
-function SinglePlaylist({ lists, songs, selectPlaylist }) {
+function SinglePlaylist({ selectPlaylist }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userId = authStore.getUserId();
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
 
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
-  const likedSongIds = useSelector(selectLikedSongIds);
-  const followedPlaylistIds = useSelector(selectFollowedPlaylistIds);
+  const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
 
   const { id } = useParams();
-  const location = useLocation();
-  const isMemberPage = location.pathname === "/member";
 
   const targetList = useMemo(() => {
-    if (!id || !lists.length) return null;
-    const listId = Number(id);
-    return lists.find((l) => l.id === listId) || null;
-  }, [id, lists]);
-
-  const songMap = useMemo(() => {
-    const map = new Map();
-    songs.forEach((s) => map.set(s.id, s));
-    return map;
-  }, [songs]);
+    if (!id) return null;
+    return playlists.find((p) => p.id === Number(id)) ?? null;
+  }, [id, playlists]);
 
   if (!targetList) {
     return <p className="text-center">載入中...</p>;
   }
-  const isFollowed = followedPlaylistIds.includes(targetList.id);
+  const isFollowed = targetList.isFollowed;
 
   return (
     <>
@@ -70,13 +60,16 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
               <button
                 className={`btn ${isFollowed ? "btn-primary-05" : "btn-primary"}`}
                 type="button"
-                onClick={() => {
+                onClick={async () => {
                   if (!userId) {
-                    alert("請先登入");
+                    const shouldLogin = window.confirm(
+                      "登入後才能把這份陪伴加入你的清單，是否前往登入？"
+                    );
+                    if (shouldLogin) navigate("/login");
                     return;
                   }
 
-                  dispatch(
+                  await dispatch(
                     togglePlaylistFollow({
                       userId,
                       playlistId: targetList.id,
@@ -88,23 +81,16 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
               </button>
             </div>
           </div>
-          {isMemberPage && (
-            <button className="btn p-2 pe-4 btn-primary-05 fs-5 fw-bold position-absolute top-0 end-0 d-inline-flex align-items-center">
-              <IconPlus size={24} className="me-1" />
-              新增播放清單
-            </button>
-          )}
 
           <div>
             <ul style={{ width: "800px" }} className="mb-6">
-              {targetList.songsID.map((songId, index) => {
-                const song = songMap.get(songId);
+              {targetList?.songs?.map((song, index) => {
                 const isCurrent = currentListId === targetList.id && currentIndex === index;
                 const showPause = isCurrent && isPlaying;
-                const isLiked = likedSongIds.includes(songId);
+                const isLiked = likedSongIds.includes(song.id);
                 return (
                   <li
-                    key={songId}
+                    key={song.id}
                     className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${
                       isCurrent ? "text-primary-05" : ""
                     }`}
@@ -116,7 +102,7 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
                       <span className="badge text-bg-primary-02 rounded-pill me-4">
                         {song?.category}
                       </span>
-                      {song?.fileName}
+                      {song?.name}
                     </div>
 
                     <div className="hover-actions">
@@ -137,46 +123,38 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
                           <IconPlayerPlayFilled size={24} />
                         )}
                       </button>
-                      {!isMemberPage && (
-                        <button
-                          type="button"
-                          className="btn border-0"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (!userId) {
-                              alert("請先登入");
-                              return;
-                            }
-                            dispatch(
-                              toggleSongLike({
-                                userId,
-                                songId,
-                              })
-                            );
-                          }}
-                          aria-label="喜歡"
-                        >
-                          {isLiked ? (
-                            <IconHeartFilled size={24} className="text-primary-05" />
-                          ) : (
-                            <IconHeart size={24} className="text-primary-05" />
-                          )}
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        className="btn border-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!userId) {
+                            const shouldLogin =
+                              window.confirm("登入後才能把這首聲音收藏起來，是否前往登入？");
+                            if (shouldLogin) navigate("/login");
+                            return;
+                          }
+                          dispatch(
+                            toggleSongLike({
+                              userId,
+                              songId: song.id,
+                            })
+                          );
+                        }}
+                        aria-label="喜歡"
+                      >
+                        {isLiked ? (
+                          <IconHeartFilled size={24} className="text-primary-05" />
+                        ) : (
+                          <IconHeart size={24} className="text-primary-05" />
+                        )}
+                      </button>
                     </div>
                   </li>
                 );
               })}
             </ul>
-            {isMemberPage && (
-              <button
-                className="btn btn-outline-primary-05 fs-5 fw-bold w-100 d-inline-flex align-items-center justify-content-center"
-                style={{ borderWidth: "2px" }}
-              >
-                <IconPlus size={24} className="me-1" />
-                新增語音
-              </button>
-            )}
+
             <nav aria-label="Page navigation example " className="position-absolute bottom-0 end-0">
               <ul className="pagination">
                 <li className="page-item">

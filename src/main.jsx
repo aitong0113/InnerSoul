@@ -6,11 +6,14 @@ import "./assets/all.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { store } from "./store.js";
 import { Provider } from "react-redux";
+import { HashRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <HashRouter>
+        <App />
+      </HashRouter>
     </Provider>
   </StrictMode>
 );

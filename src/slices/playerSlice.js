@@ -14,7 +14,10 @@ const playerSlice = createSlice({
   reducers: {
     setPlaylist(state, action) {
       const { songList, startIndex = 0, listId } = action.payload;
-      state.songList = songList || [];
+      state.songList = (songList || []).map((song, index) => ({
+        ...song,
+        _instanceId: `${listId}-${song.id}-${index}-${Date.now()}`,
+      }));
       state.currentIndex = startIndex;
       state.isPlaying = true;
       state.currentListId = listId;

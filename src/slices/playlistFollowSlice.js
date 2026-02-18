@@ -1,39 +1,31 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../services/api";
 
-// 取得使用者追蹤的歌單
-export const fetchFollowedPlaylists = createAsyncThunk(
-  "playlistFollows/fetchFollowedPlaylists",
-  async (userId) => {
-    const res = await api.get(`/playlistFollowers?userId=${userId}`);
-    return res.data;
-  }
-);
+/**
+ * 抓整張 follower table
+ */
+export const fetchAllFollowers = createAsyncThunk("playlistFollow/fetchAllFollowers", async () => {
+  const res = await api.get("/playlistFollowers");
+  return res.data;
+});
 
-// 切換追蹤狀態
+/**
+ * toggle follow（只改 relation）
+ */
 export const togglePlaylistFollow = createAsyncThunk(
-  "playlistFollows/togglePlaylistFollow",
+  "playlistFollow/togglePlaylistFollow",
   async ({ userId, playlistId }) => {
     const res = await api.get(`/playlistFollowers?userId=${userId}&playlistId=${playlistId}`);
 
-    if (res.data.length > 0) {
+    if (res.data.length) {
       await api.delete(`/playlistFollowers/${res.data[0].id}`);
-      return {
-        playlistId,
-        followed: false,
-        followerId: res.data[0].id,
-      };
+      return { type: "unfollow", id: res.data[0].id };
     } else {
-      const newRes = await api.post(`/playlistFollowers`, {
+      const newRes = await api.post("/playlistFollowers", {
         userId,
         playlistId,
       });
-
-      return {
-        playlistId,
-        followed: true,
-        followerData: newRes.data,
-      };
+      return { type: "follow", data: newRes.data };
     }
   }
 );
@@ -41,24 +33,20 @@ export const togglePlaylistFollow = createAsyncThunk(
 const playlistFollowSlice = createSlice({
   name: "playlistFollow",
   initialState: {
-    followedPlaylistsRaw: [],
+    followers: [],
     status: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFollowedPlaylists.fulfilled, (state, action) => {
-        state.followedPlaylistsRaw = action.payload;
+      .addCase(fetchAllFollowers.fulfilled, (state, action) => {
+        state.followers = action.payload;
       })
       .addCase(togglePlaylistFollow.fulfilled, (state, action) => {
-        const { followed, followerId, followerData } = action.payload;
-
-        if (followed) {
-          state.followedPlaylistsRaw.push(followerData);
+        if (action.payload.type === "follow") {
+          state.followers.push(action.payload.data);
         } else {
-          state.followedPlaylistsRaw = state.followedPlaylistsRaw.filter(
-            (f) => f.id !== followerId
-          );
+          state.followers = state.followers.filter((f) => f.id !== action.payload.id);
         }
       });
   },
@@ -66,9 +54,5 @@ const playlistFollowSlice = createSlice({
 
 export default playlistFollowSlice.reducer;
 
-// 取得 raw 資料
-export const selectFollowedPlaylistsRaw = (state) => state.playlistFollow.followedPlaylistsRaw;
-
-// 轉換成 playlistId 陣列
-export const selectFollowedPlaylistIds = (state) =>
-  state.playlistFollow.followedPlaylistsRaw.map((f) => f.playlistId);
+/** 原始 follower table */
+export const selectFollowers = (state) => state.playlistFollow.followers;

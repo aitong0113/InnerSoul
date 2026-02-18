@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
-import { useDispatch } from "react-redux";
-import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+import { selectPlaylistsView } from "../../slices/selectors";
 
 import {
   IconPlus,
@@ -20,12 +19,15 @@ function PlaylistsPage({ selectPlaylist }) {
   const userId = authStore.getUserId();
   const dispatch = useDispatch();
   const status = useSelector((state) => state.playlists.status);
+  const followStatus = useSelector((state) => state.playlistFollow.status);
+
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
 
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
 
-  const allPlaylists = useSelector((state) => state.playlists.allPlaylists);
-  const followedPlaylists = allPlaylists.filter((list) => list.followerUserIds.includes(userId));
+  const followedPlaylists = playlists.filter((p) => p.isFollowed);
+
   const safeIndex =
     followedPlaylists.length === 0
       ? 0
@@ -33,19 +35,7 @@ function PlaylistsPage({ selectPlaylist }) {
   const currentPlaylist = followedPlaylists[safeIndex] ?? null;
   const playlistSongs = currentPlaylist?.songs || [];
 
-  const isFollowed = (playlistId) => {
-    const target = allPlaylists.find((p) => p.id === playlistId);
-    return target?.followerUserIds.includes(userId);
-  };
-  const recommendedPlaylists = allPlaylists
-    .filter((list) => !list.followerUserIds.includes(userId))
-    .slice(0, 4);
-
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchPlaylists());
-    }
-  }, [status, dispatch]);
+  const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
 
   const handlePrevPlaylist = () => {
     setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : followedPlaylists.length - 1));
@@ -53,6 +43,10 @@ function PlaylistsPage({ selectPlaylist }) {
 
   const handleNextPlaylist = () => {
     setCurrentPlaylistIndex((prev) => (prev < followedPlaylists.length - 1 ? prev + 1 : 0));
+  };
+
+  const handleToggleFollow = (playlistId) => {
+    dispatch(togglePlaylistFollow({ userId, playlistId }));
   };
 
   const handleAddSong = () => {
@@ -65,7 +59,7 @@ function PlaylistsPage({ selectPlaylist }) {
     // TODO: 實作新增清單功能
   };
 
-  if (status === "loading") {
+  if (status === "loading" || followStatus === "loading") {
     return (
       <div className="playlists-page loading">
         <div className="spinner-border text-primary" role="status">
@@ -98,16 +92,9 @@ function PlaylistsPage({ selectPlaylist }) {
               {currentPlaylist && (
                 <PlaylistCard
                   playlist={currentPlaylist}
-                  isFollowed={isFollowed(currentPlaylist.id)}
-                  onToggleFollow={() =>
-                    dispatch(
-                      togglePlaylistFollow({
-                        userId,
-                        playlistId: currentPlaylist.id,
-                      })
-                    )
-                  }
-                  followerCount={currentPlaylist?.followerUserIds?.length ?? 0}
+                  isFollowed={currentPlaylist.isFollowed}
+                  onToggleFollow={() => handleToggleFollow(currentPlaylist.id)}
+                  followerCount={currentPlaylist.followerCount}
                   size="large"
                 />
               )}
@@ -127,8 +114,8 @@ function PlaylistsPage({ selectPlaylist }) {
                     >
                       <div className="song-info-row">
                         <span className="music-icon">🎵</span>
-                        <span className="mood-tag">{song.author}</span>
-                        <span className="song-name">{song.fileName}</span>
+                        <span className="mood-tag">{song.category}</span>
+                        <span className="song-name">{song.name}</span>
                       </div>
                       <div className="song-actions-row">
                         <button
@@ -193,14 +180,7 @@ function PlaylistsPage({ selectPlaylist }) {
                   {playlist.category && <span className="playlist-tag">{playlist.category}</span>}
                   <button
                     className="add-playlist-btn"
-                    onClick={() =>
-                      dispatch(
-                        togglePlaylistFollow({
-                          userId,
-                          playlistId: playlist.id,
-                        })
-                      )
-                    }
+                    onClick={() => handleToggleFollow(playlist.id)}
                   >
                     <IconPlus size={18} />
                   </button>

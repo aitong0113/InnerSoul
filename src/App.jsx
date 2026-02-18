@@ -1,14 +1,17 @@
-import { Routes, Route, HashRouter } from "react-router-dom";
-import { useMemo, useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import FrontLayout from "./components/layout/FrontLayout";
 import AdminLayout from "./pages/admin/AdminLayout";
 import { ROUTES } from "./constants/routes";
-import api from "./services/api.js";
 import { useSelector, useDispatch } from "react-redux";
-import { authStore } from "./services/auth/authStore.js";
+// import { authStore } from "./services/auth/authStore.js";
+import usePlayRule from "./slices/playRule.js";
+
 // Slice
 import { setPlaylist, toggle } from "./slices/playerSlice";
-import { fetchLikedSongs } from "./slices/userLikeSlice";
+import { fetchAllLikes } from "./slices/userLikeSlice";
+import { fetchAllFollowers } from "./slices/playlistFollowSlice";
+import { fetchPlaylists } from "./slices/memberPlaylistSlice";
 
 // 前台 pages
 import ScrollToTop from "./helpers/ScrollToTop.jsx";
@@ -39,60 +42,60 @@ import Users from "./pages/admin/Users";
 
 function App() {
   const dispatch = useDispatch();
-  const userId = authStore.getUserId();
+  const guardPlay = usePlayRule();
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchLikedSongs(userId));
-    }
-  }, [userId, dispatch]);
+    dispatch(fetchPlaylists());
+    dispatch(fetchAllFollowers());
+    dispatch(fetchAllLikes());
+  }, [dispatch]);
+
+  const playlists = useSelector((state) => state.playlists.playlists);
 
   const { currentIndex, currentListId } = useSelector((state) => state.player);
-  const [lists, setLists] = useState([]);
-  const [songs, setSongs] = useState([]);
-  // 讓頁面可以用 listID 抓歌
-  const mediaMap = useMemo(() => {
-    const map = new Map();
-    songs.forEach((s) => map.set(s.id, s));
-    return map;
-  }, [songs]);
+  // const canPlayIndex = (index, plan) => {
+  //   if (plan === "pro") return true;
+  //   return index < 3;
+  // };
 
-  // 抓資料
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [listsRes, songsRes] = await Promise.all([api.get(`/lists`), api.get(`/songs`)]);
-        setLists(listsRes.data);
-        setSongs(songsRes.data);
-      } catch (error) {
-        console.error("初始化資料失敗", error);
-      }
-    };
-    fetchData();
-  }, []);
-  const canPlayIndex = (index, plan) => {
-    if (plan === "pro") return true;
-    return index < 3;
-  };
+  // const selectPlaylist = (listID, index = 0) => {
+  //   const list = playlists.find((l) => l.id === listID);
+  //   if (!list) return;
+
+  //   const plan = authStore.getUserPlan();
+  //   if (!canPlayIndex(index, plan)) {
+  //     const confirmed = window.confirm("這份陪伴暫僅開放前三首試聽，升級訂閱即可完整聆聽。");
+  //     if (confirmed) navigate("/subscription");
+  //     return;
+  //   }
+
+  //   const isSameSong = currentListId === listID && currentIndex === index;
+
+  //   if (isSameSong) {
+  //     dispatch(toggle());
+  //     return;
+  //   }
+
+  //   dispatch(
+  //     setPlaylist({
+  //       songList: list.songs,
+  //       startIndex: index,
+  //       listId: listID,
+  //     })
+  //   );
+  // };
 
   const selectPlaylist = (listID, index = 0) => {
-    const list = lists.find((l) => l.id === listID);
+    const list = playlists.find((l) => l.id === listID);
     if (!list) return;
-    const plan = authStore.getUserPlan();
-    if (!canPlayIndex(index, plan)) {
-      alert("請升級付費");
-      return;
-    }
+    if (!guardPlay(index)) return;
     const isSameSong = currentListId === listID && currentIndex === index;
-    // 點同一首歌：只 toggle
     if (isSameSong) {
       dispatch(toggle());
       return;
     }
-    // 點不同歌：切歌 + 播放
-    const songsInList = list.songsID.map((id) => mediaMap.get(id)).filter(Boolean);
     dispatch(
       setPlaylist({
-        songList: songsInList,
+        songList: list.songs,
         startIndex: index,
         listId: listID,
       })
@@ -101,7 +104,7 @@ function App() {
 
   const songList = useSelector((state) => state.player.songList);
   return (
-    <HashRouter>
+    <>
       <ScrollToTop />
       <Routes>
         {/* 前台 */}
@@ -116,21 +119,11 @@ function App() {
           </Route>
           <Route path="playlist" element={<PlaylistLayout selectPlaylist={selectPlaylist} />}>
             <Route index element={<Playlist />} />
-            <Route
-              path=":id"
-              element={
-                <SinglePlaylist lists={lists} songs={songs} selectPlaylist={selectPlaylist} />
-              }
-            />
+            <Route path=":id" element={<SinglePlaylist selectPlaylist={selectPlaylist} />} />
           </Route>
           <Route path="subscription" element={<Subscription />} />
           <Route path="faq" element={<FAQPage />} />
-          <Route
-            path="/member"
-            lists={lists}
-            songs={songs}
-            element={<MemberPage selectPlaylist={selectPlaylist} />}
-          >
+          <Route path="/member" element={<MemberPage selectPlaylist={selectPlaylist} />}>
             <Route path=":id" element={<SinglePlaylist />} />
           </Route>
           <Route path="/checkout" element={<Checkout />} />
@@ -151,7 +144,7 @@ function App() {
       </Routes>
 
       {!songList.length ? <BackToTop /> : <Player />}
-    </HashRouter>
+    </>
   );
 }
 
