@@ -10,7 +10,8 @@ function PlaylistCard({
   onToggleFollow,
   followerCount,
 }) {
-  const { listName, songsID = [], popularity, listCover } = playlist;
+  // 先移除沒用到的popularity, listCover
+  const { listName, songsID = [] } = playlist;
   const songCount = songsID.length;
 
   return (
