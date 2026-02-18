@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { signUp, login } from "../../services/auth/authService";
 import { authStore } from "../../services/auth/authStore";
+import "../../pages/auth/auth.scss";
 
 function SignUpForm() {
   const [userName, setUserName] = useState("");
@@ -61,74 +62,62 @@ function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label>使用者名稱</label>
+      <div className="auth-row">
+        <label className="auth-label">使用者名稱</label>
         <input
           type="text"
-          className="form-control"
+          className="auth-input"
           value={userName}
-          onChange={(e) => {
-            setUserName(e.target.value);
-            if (errors.userName) setErrors((prev) => ({ ...prev, userName: "" }));
-          }}
+          onChange={(e) => setUserName(e.target.value)}
           placeholder="請輸入您的暱稱"
         />
-        {errors.userName && <small className="text-danger">{errors.userName}</small>}
       </div>
+      {errors.userName && <small className="auth-error">{errors.userName}</small>}
 
-      <div className="mb-3">
-        <label>帳號</label>
+      <div className="auth-row">
+        <label className="auth-label">帳號</label>
         <input
           type="email"
-          className="form-control"
+          className="auth-input"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
-          }}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="請輸入您的 Email"
         />
-        {errors.email && <small className="text-danger">{errors.email}</small>}
       </div>
+      {errors.email && <small className="auth-error">{errors.email}</small>}
 
-      <div className="mb-3">
-        <label>密碼</label>
+      <div className="auth-row">
+        <label className="auth-label">密碼</label>
         <input
           type="password"
-          className="form-control"
+          className="auth-input"
           value={password}
-          onChange={(e) => {
-            const v = e.target.value;
-            setPassword(v);
-            if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
-            if (errors.password2 && password2 && password2 === v) {
-              setErrors((prev) => ({ ...prev, password2: "" }));
-            }
-          }}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="請輸入6-12位英數字"
         />
-        {errors.password && <small className="text-danger">{errors.password}</small>}
       </div>
+      {errors.password && <small className="auth-error">{errors.password}</small>}
 
-      <div className="mb-3">
-        <label>再次輸入密碼</label>
+      <div className="auth-row">
+        <label className="auth-label">再輸入密碼</label>
         <input
           type="password"
-          className="form-control"
+          className="auth-input"
           value={password2}
-          onChange={(e) => {
-            setPassword2(e.target.value);
-            if (errors.password2) setErrors((prev) => ({ ...prev, password2: "" }));
-          }}
+          onChange={(e) => setPassword2(e.target.value)}
           placeholder="請再次輸入密碼"
         />
-        {errors.password2 && <small className="text-danger">{errors.password2}</small>}
       </div>
+      {errors.password2 && <small className="auth-error">{errors.password2}</small>}
 
-      <button type="submit" className="btn btn-primary">
-        註冊
-      </button>
+      <div className="auth-action-row">
+        <div></div> {/* 佔位用，對齊 label */}
+        <button type="submit" className="auth-btn">
+          註冊
+        </button>
+      </div>
     </form>
   );
 }
+
 export default SignUpForm;

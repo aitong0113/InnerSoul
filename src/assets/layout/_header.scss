@@ -1,3 +1,11 @@
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
 /* =========================================
    Header 基本設定
 ========================================= */
@@ -6,7 +14,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: $BG-01;
+  background-color: var(--bs-bg-01);
   /* 滾動前藍色 */
   transition: all 0.35s ease;
   height: 120px;
@@ -62,8 +70,8 @@
   row-gap: 12px;
   align-items: center;
 
-  padding: 24px 0;
-  /* 兩層 padding 的來源 */
+  padding: 24px 32px;
+  /* 左右加大 padding，避免內容太貼邊 */
 }
 
 /* LOGO（第二行左） */
@@ -79,11 +87,6 @@
   display: flex;
   justify-content: center;
   gap: 32px;
-}
-
-.main-nav a {
-  text-decoration: none;
-  color: $gray-700;
 }
 
 /* 登入 / 註冊（第二行右） */
@@ -114,12 +117,12 @@
   grid-template-columns: none;
   grid-template-rows: none;
 
-  background-color: $white;
+  background-color: var(--bs-white);
   border-radius: 100px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 
-  padding: 20px 40px;
-  /* 視覺高度貼近 Figma 120px */
+  padding: 20px 48px;
+  /* 左右加大 padding，避免內容太貼邊 */
 }
 
 /* LOGO 縮小 */
@@ -148,10 +151,10 @@
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: $gray-800;
+  color: var(--bs-gray-800);
 
   &:hover {
-    color: $black;
+    color: var(--bs-black);
     text-decoration: none;
   }
 }
@@ -161,7 +164,7 @@
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 0 0 2px $white;
+  box-shadow: 0 0 0 2px var(--bs-white);
 }
 
 .member-info {

@@ -7,7 +7,7 @@ import { IconSparkles } from "@tabler/icons-react";
 
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
-import "./Header.scss";
+import "../../assets/layout/_header.scss";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,7 +32,6 @@ function Header() {
   return (
     <header className={`site-header ${isScrolled ? "scrolled" : ""}`}>
       <div className="container header-inner">
-        {/* LOGO */}
         <Link to={ROUTES.home} className="site-logo">
           <img src={logo} alt="Inner Soul" className="site-logo" />
         </Link>
@@ -67,12 +66,7 @@ function Header() {
               )}
 
               {/* 使用者資訊 */}
-              <Link
-                to="/member"
-                className="member-link"
-                aria-label="前往會員中心"
-                title="會員中心"
-              >
+              <Link to="/member" className="member-link" aria-label="前往會員中心" title="會員中心">
                 <UserProfile variant="header" />
               </Link>
 
