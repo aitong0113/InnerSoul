@@ -3,12 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { login } from "../../services/auth/authService";
 import { authStore } from "../../services/auth/authStore";
+import "../../pages/auth/auth.scss";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  function fillPaidUser() {
+    setEmail("sad@gmail.com");
+    setPassword("sad111");
+  }
+
+  function fillFreeUser() {
+    setEmail("happy@gmail.com");
+    setPassword("happy111");
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -43,11 +54,24 @@ function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label>帳號</label>
+      <div className="auth-test-section">
+        <p className="auth-test-title">測試帳號</p>
+
+        <div className="auth-test-row">
+          <button type="button" className="auth-test-btn" onClick={fillPaidUser}>
+            付費會員（悠悠）
+          </button>
+
+          <button type="button" className="auth-test-btn" onClick={fillFreeUser}>
+            免費會員（黑皮）
+          </button>
+        </div>
+      </div>
+      <div className="auth-row">
+        <label className="auth-label">帳號</label>
         <input
           type="email"
-          className="form-control"
+          className="auth-input"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
@@ -57,12 +81,11 @@ function LoginForm() {
         />
         {errors.email && <small className="text-danger">{errors.email}</small>}
       </div>
-
-      <div className="mb-3">
-        <label>密碼</label>
+      <div className="auth-row">
+        <label className="auth-label">密碼</label>
         <input
           type="password"
-          className="form-control"
+          className="auth-input"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
@@ -73,9 +96,14 @@ function LoginForm() {
         {errors.password && <small className="text-danger">{errors.password}</small>}
       </div>
 
-      <button type="submit" className="btn btn-primary">
-        登入
-      </button>
+      <div className="auth-action-row">
+        <button type="button" className="auth-forgot">
+          忘記密碼
+        </button>
+        <button type="submit" className="auth-btn">
+          登入
+        </button>
+      </div>
     </form>
   );
 }

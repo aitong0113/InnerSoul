@@ -1,15 +1,13 @@
-import Card from "../../components/common/Card/Card";
 import LoginForm from "../../components/auth/LoginForm";
 
 function Login() {
   return (
-    <div style={{ maxWidth: "400px", margin: "40px auto" }}>
-      <Card>
-        <h2 className="text-center">登入</h2>
+    <section className="auth-page bg-liner">
+      <div className="auth-container">
+        <h2 className="auth-title">登入</h2>
         <LoginForm />
-      </Card>
-    </div>
+      </div>
+    </section>
   );
 }
-
 export default Login;
