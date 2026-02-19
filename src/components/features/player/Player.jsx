@@ -1,6 +1,9 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
-import { authStore } from "../../../services/auth/authStore";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { authStore } from "../../../services/auth/authStore";
+
 import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../slices/playerSlice";
 import { toggleSongLike } from "../../../slices/userLikeSlice";
 import { makeSelectUserLikesView } from "../../../slices/selectors";
@@ -27,6 +30,7 @@ const BASE_URL = import.meta.env.BASE_URL;
 
 function Player() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { songList, currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
@@ -38,6 +42,11 @@ function Player() {
 
   // 訂閱方案
   const FREE_PLAY_LIMIT = 3;
+  const alertMessage = useCallback(() => {
+    const confirmed = window.confirm("這份陪伴暫僅開放前三首試聽，升級訂閱即可完整聆聽。");
+    if (confirmed) navigate("/subscription");
+    setPlayerType("bar");
+  }, [navigate]);
 
   const canPlayIndex = useCallback((index) => {
     const plan = authStore.getUserPlan() || "free";
@@ -47,12 +56,12 @@ function Player() {
     (index, fallbackAction) => {
       if (!canPlayIndex(index)) {
         dispatch(pause());
-        alert("請升級方案");
+        alertMessage();
         return;
       }
       fallbackAction();
     },
-    [canPlayIndex, dispatch]
+    [canPlayIndex, dispatch, alertMessage]
   );
 
   const onNext = useCallback(() => {
@@ -92,11 +101,11 @@ function Player() {
     }
     if (!canPlayIndex(targetIndex)) {
       dispatch(pause());
-      alert("請升級方案");
+      alertMessage();
       return;
     }
     dispatch(prev());
-  }, [repeatType, currentIndex, songList.length, canPlayIndex, dispatch]);
+  }, [repeatType, currentIndex, songList.length, canPlayIndex, dispatch, alertMessage]);
 
   const onTogglePlay = useCallback(() => {
     dispatch(toggle());
@@ -128,7 +137,7 @@ function Player() {
     if (isPlaying) {
       audioRef.current.play().catch(() => {});
     }
-  }, [currentIndex, currentListId, currentSong, isPlaying]);
+  }, [currentIndex, currentListId, currentSong]);
 
   // 播放用
   useEffect(() => {
@@ -277,14 +286,17 @@ function Player() {
           /* mini player */
           <div className="px-4 " style={{ width: "548px" }}>
             {/* 播放清單 */}
-            <div className="bg-white rounded-top rounded-3">
+            <div
+              className="bg-white rounded-top rounded-3 d-flex flex-column"
+              style={{ height: "320px" }}
+            >
               <div className="d-flex align-items-center justify-content-center bg-BG-01 ps-6 py-3">
                 <p className="mb-0 text-primary-05 fw-bold">播放清單</p>
                 <div className="btn ms-auto border-0 text-primary-05">
                   <IconChevronDown size={32} onClick={() => changePlayer()} />
                 </div>
               </div>
-              <ul className="text-start px-6 pt-5">
+              <ul className="text-start px-6  playlist-scroll">
                 {songList.map((song, index) => {
                   const isCurrent = currentIndex === index;
                   const showPause = isCurrent && isPlaying;
@@ -328,7 +340,7 @@ function Player() {
                     className="btn border-0 text-primary-05"
                     onClick={() => {
                       if (!userId) {
-                        alert("請先登入");
+                        alertMessage();
                         return;
                       }
 

@@ -43,7 +43,9 @@ function FavoritesPage({ selectPlaylist }) {
   const popularSongs = useMemo(() => {
     return [...unlikedSongs].sort((a, b) => (b.likeCount ?? 0) - (a.likeCount ?? 0)).slice(0, 4);
   }, [unlikedSongs]);
-  const favoritePlaylists = playlists.filter((p) => p.isFollowed).slice(0, 4);
+  const favoritePlaylists = useMemo(() => {
+    return playlists.filter((p) => p.isFollowed && p.ownerId !== userId).slice(0, 4);
+  }, [playlists, userId]);
 
   // 播放對照表
   const songIndexMap = useMemo(() => {

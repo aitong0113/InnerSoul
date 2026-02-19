@@ -4,6 +4,14 @@ import { authStore } from "../../services/auth/authStore";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
 import { selectPlaylistsView } from "../../slices/selectors";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
+// import required modules
+import { Pagination } from "swiper/modules";
+
 import {
   IconPlus,
   IconChevronLeft,
@@ -22,27 +30,26 @@ function PlaylistsPage({ selectPlaylist }) {
   const followStatus = useSelector((state) => state.playlistFollow.status);
 
   const playlists = useSelector((state) => selectPlaylistsView(state, userId));
+  const ownedPlaylists = playlists.filter((p) => p.ownerId === userId);
 
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
 
-  const followedPlaylists = playlists.filter((p) => p.isFollowed);
+  const followedPlaylists = playlists.filter((p) => p.isFollowed && p.ownerId !== userId);
 
   const safeIndex =
-    followedPlaylists.length === 0
-      ? 0
-      : Math.min(currentPlaylistIndex, followedPlaylists.length - 1);
-  const currentPlaylist = followedPlaylists[safeIndex] ?? null;
+    ownedPlaylists.length === 0 ? 0 : Math.min(currentPlaylistIndex, ownedPlaylists.length - 1);
+  const currentPlaylist = ownedPlaylists[safeIndex] ?? null;
   const playlistSongs = currentPlaylist?.songs || [];
 
   const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
 
   const handlePrevPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : followedPlaylists.length - 1));
+    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : ownedPlaylists.length - 1));
   };
 
   const handleNextPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev < followedPlaylists.length - 1 ? prev + 1 : 0));
+    setCurrentPlaylistIndex((prev) => (prev < ownedPlaylists.length - 1 ? prev + 1 : 0));
   };
 
   const handleToggleFollow = (playlistId) => {
@@ -58,7 +65,6 @@ function PlaylistsPage({ selectPlaylist }) {
     console.log("新增播放清單");
     // TODO: 實作新增清單功能
   };
-
   if (status === "loading" || followStatus === "loading") {
     return (
       <div className="playlists-page loading">
@@ -144,22 +150,22 @@ function PlaylistsPage({ selectPlaylist }) {
           </div>
 
           {/* 分頁控制 */}
-          {followedPlaylists.length > 1 && (
+          {ownedPlaylists.length > 1 && (
             <div className="pagination-controls">
               <button
                 className="pagination-btn"
                 onClick={handlePrevPlaylist}
-                disabled={followedPlaylists.length <= 1}
+                disabled={ownedPlaylists.length <= 1}
               >
                 <IconChevronLeft size={20} />
               </button>
               <span className="page-indicator">
-                {safeIndex + 1} / {followedPlaylists.length}
+                {safeIndex + 1} / {ownedPlaylists.length}
               </span>
               <button
                 className="pagination-btn"
                 onClick={handleNextPlaylist}
-                disabled={followedPlaylists.length <= 1}
+                disabled={ownedPlaylists.length <= 1}
               >
                 <IconChevronRight size={20} />
               </button>
@@ -167,6 +173,33 @@ function PlaylistsPage({ selectPlaylist }) {
           )}
         </section>
       )}
+      <section className="py-12">
+        <Swiper
+          slidesPerView={4}
+          spaceBetween={20}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {followedPlaylists.map((list) => {
+            return (
+              <SwiperSlide key={list.id}>
+                <div className="playlist-detail-card">
+                  <PlaylistCard
+                    playlist={list}
+                    isFollowed={list.isFollowed}
+                    onToggleFollow={() => handleToggleFollow(list.id)}
+                    followerCount={list.followerCount}
+                    size="large"
+                  />
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </section>
       {/* 推薦清單區域 */}
       <section className="recommended-section">
         <h3 className="section-title">這裡一收錄看相似的共鳴</h3>

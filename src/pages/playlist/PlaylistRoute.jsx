@@ -24,7 +24,7 @@ function PlaylistRoute() {
         <div className="container py-11">
           <ul className="d-flex">
             {result
-              .filter((item) => item.ownerID === 2)
+              .filter((item) => item.ownerId === 2)
               .slice(0, 4)
               .map((item) => (
                 <li key={item.id} style={{ listStyle: "none" }}>
