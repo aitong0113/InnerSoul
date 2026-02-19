@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSongLike } from "../../slices/userLikeSlice";
@@ -33,6 +33,13 @@ function SinglePlaylist({ selectPlaylist }) {
     if (!id) return null;
     return playlists.find((p) => p.id === Number(id)) ?? null;
   }, [id, playlists]);
+
+  // 分頁
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+  const songs = targetList?.songs ?? [];
+  const totalPages = Math.max(1, Math.ceil(songs.length / pageSize));
+  const paginatedSongs = songs.slice((page - 1) * pageSize, page * pageSize);
 
   if (!targetList) {
     return <p className="text-center">載入中...</p>;
@@ -84,8 +91,9 @@ function SinglePlaylist({ selectPlaylist }) {
 
           <div>
             <ul style={{ width: "800px" }} className="mb-6">
-              {targetList?.songs?.map((song, index) => {
-                const isCurrent = currentListId === targetList.id && currentIndex === index;
+              {paginatedSongs?.map((song, index) => {
+                const realIndex = (page - 1) * pageSize + index;
+                const isCurrent = currentListId === targetList.id && currentIndex === realIndex;
                 const showPause = isCurrent && isPlaying;
                 const isLiked = likedSongIds.includes(song.id);
                 return (
@@ -95,7 +103,7 @@ function SinglePlaylist({ selectPlaylist }) {
                       isCurrent ? "text-primary-05" : ""
                     }`}
                     style={{ listStyle: "none" }}
-                    onClick={() => selectPlaylist(targetList.id, index)}
+                    onClick={() => selectPlaylist(targetList.id, realIndex)}
                   >
                     <div>
                       <IconMusic size={15} className="me-2" />
@@ -113,7 +121,7 @@ function SinglePlaylist({ selectPlaylist }) {
                         }
                         onClick={(e) => {
                           e.stopPropagation();
-                          selectPlaylist(targetList.id, index);
+                          selectPlaylist(targetList.id, realIndex);
                         }}
                         aria-label="播放 / 暫停"
                       >
@@ -155,26 +163,35 @@ function SinglePlaylist({ selectPlaylist }) {
               })}
             </ul>
 
-            <nav aria-label="Page navigation example " className="position-absolute bottom-0 end-0">
+            <nav className="position-absolute bottom-0 end-0">
               <ul className="pagination">
-                <li className="page-item">
-                  <a className="page-link border-0 text-black-300" href="#" aria-label="Previous">
-                    <span aria-hidden="true">
-                      <IconChevronLeft size={24} />
-                    </span>
-                  </a>
+                {/* 上一頁 */}
+                <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+                  <button
+                    type="button"
+                    className="page-link border-0 bg-transparent"
+                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  >
+                    <IconChevronLeft size={24} />
+                  </button>
                 </li>
-                <li className="page-item ">
-                  <a className="page-link text-primary-05 fw-bold border-0" href="#">
-                    1
-                  </a>
-                </li>
+
+                {/* 頁碼 */}
                 <li className="page-item">
-                  <a className="page-link border-0 text-primary-05" href="#" aria-label="Next">
-                    <span aria-hidden="true">
-                      <IconChevronRight size={24} />
-                    </span>
-                  </a>
+                  <span className="page-link border-0 text-primary-05 fw-bold bg-transparent">
+                    {page} / {totalPages}
+                  </span>
+                </li>
+
+                {/* 下一頁 */}
+                <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
+                  <button
+                    type="button"
+                    className="page-link border-0 bg-transparent"
+                    onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                  >
+                    <IconChevronRight size={24} />
+                  </button>
                 </li>
               </ul>
             </nav>

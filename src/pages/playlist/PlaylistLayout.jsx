@@ -4,12 +4,14 @@ import { authStore } from "../../services/auth/authStore";
 import PlaylistRecommend from "./PlaylistRecommend";
 import api from "../../services/api.js";
 import { useSelector } from "react-redux";
+import { IconArrowBackUp } from "@tabler/icons-react";
 
 function PlaylistLayout({ selectPlaylist }) {
   const { currentListId, isPlaying } = useSelector((state) => state.player);
   const plan = authStore.getUserPlan();
   const navigate = useNavigate();
   const location = useLocation();
+  const isSubPage = location.pathname !== "/playlist";
 
   const [lists, setLists] = useState([]);
   useEffect(() => {
@@ -39,6 +41,16 @@ function PlaylistLayout({ selectPlaylist }) {
           }}
           placeholder="搜尋歌單"
         />
+        {isSubPage && (
+          <button
+            className="btn border-0 ms-2"
+            aria-label="上一頁"
+            title="上一頁"
+            onClick={() => navigate(-1)}
+          >
+            <IconArrowBackUp size={28} className="text-secondary" />
+          </button>
+        )}
       </div>
       <Outlet context={{ plan, keyword, lists, selectPlaylist }} />
       <PlaylistRecommend
