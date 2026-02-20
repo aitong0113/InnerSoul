@@ -1,42 +1,56 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import SongCard from "../../components/features/member/SongCard";
 import PlaylistCard from "../../components/features/member/PlaylistCard";
 import FilterTabs from "../../components/features/member/FilterTabs";
 import "./FavoritesPage.scss";
+import { makeSelectUserLikesView, selectPlaylistsView } from "../../slices/selectors";
+import { toggleSongLike } from "../../slices/userLikeSlice";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLikedSongs, toggleSongLike } from "../../slices/userLikeSlice";
 import { authStore } from "../../services/auth/authStore";
 
 function FavoritesPage({ selectPlaylist }) {
   const dispatch = useDispatch();
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
+
   const userId = authStore.getUserId();
+  // Redux State
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
+  const { songs, likedSongIds } = useSelector((state) => selectLikesView(state, userId));
 
-  //  Redux state
-  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
-  const allPlaylists = useSelector((state) => state.playlists.allPlaylists);
-
+  //Local State
   const [activeFilter, setActiveFilter] = useState("全部");
   const filterOptions = ["全部", "清爽", "開心", "孤獨"];
 
-  useEffect(() => {
-    if (userId) dispatch(fetchLikedSongs(userId));
-  }, [userId, dispatch]);
+  const songMap = useMemo(() => {
+    const map = new Map();
+    songs.forEach((s) => map.set(s.id, s));
+    return map;
+  }, [songs]);
 
-  // 從 playlist slice 拿所有 songs
-  const allSongs = allPlaylists.flatMap((pl) => pl.songs || []);
+  const likedSongs = useMemo(() => {
+    return [...likedSongIds]
+      .reverse()
+      .map((id) => songMap.get(id))
+      .filter(Boolean);
+  }, [likedSongIds, songMap]);
+  const likedSet = useMemo(() => new Set(likedSongIds), [likedSongIds]);
 
-  // 避免重複（因為一首歌可能存在多個清單）
-  const uniqueSongs = Array.from(new Map(allSongs.map((song) => [song.id, song])).values());
+  const unlikedSongs = useMemo(() => songs.filter((s) => !likedSet.has(s.id)), [songs, likedSet]);
 
-  // 只保留喜歡的歌
-  const likedSongs = uniqueSongs.filter((song) => likedSongIds.includes(song.id));
-  const unlikedSongs = uniqueSongs.filter((song) => !likedSongIds.includes(song.id));
+  // UI 區塊資料
+  const recentSongs = useMemo(() => likedSongs.slice(0, 4), [likedSongs]);
+  const popularSongs = useMemo(() => {
+    return [...unlikedSongs].sort((a, b) => (b.likeCount ?? 0) - (a.likeCount ?? 0)).slice(0, 4);
+  }, [unlikedSongs]);
+  const favoritePlaylists = useMemo(() => {
+    return playlists.filter((p) => p.isFollowed && p.ownerId !== userId).slice(0, 4);
+  }, [playlists, userId]);
 
-  // 建立播放對照表（song → playlist + index）
+  // 播放對照表
   const songIndexMap = useMemo(() => {
     const map = new Map();
-    allPlaylists.forEach((pl) => {
+    playlists.forEach((pl) => {
       (pl.songs || []).forEach((s, idx) => {
         if (!map.has(s.id)) {
           map.set(s.id, { playlistId: pl.id, index: idx });
@@ -45,24 +59,14 @@ function FavoritesPage({ selectPlaylist }) {
     });
 
     return map;
-  }, [allPlaylists]);
+  }, [playlists]);
 
+  // 功能
   const handlePlayLikedSong = (song) => {
     const found = songIndexMap.get(song.id);
     if (!found) return;
     selectPlaylist(found.playlistId, found.index);
   };
-
-  const favoritePlaylists = useMemo(() => {
-    return allPlaylists
-      .filter((playlist) => playlist.followerUserIds?.includes(userId))
-      .slice(0, 4);
-  }, [allPlaylists, userId]);
-
-  const recentSongs = likedSongs.slice(0, 4);
-  const popularSongs = [...unlikedSongs]
-    .sort((a, b) => (b.likeCount ?? 0) - (a.likeCount ?? 0))
-    .slice(0, 4);
 
   return (
     <div className="favorites-page">
@@ -100,7 +104,7 @@ function FavoritesPage({ selectPlaylist }) {
               showPlayButton={true}
               showFavoriteButton={true}
               onPlay={handlePlayLikedSong}
-              isFavorited={likedSongIds.includes(song.id)}
+              isFavorited={likedSet.has(song.id)}
               onFavorite={(song) => dispatch(toggleSongLike({ userId, songId: song.id }))}
             />
           ))}

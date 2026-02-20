@@ -1,9 +1,16 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
-import { useDispatch } from "react-redux";
-import { toggleFollow } from "../../slices/memberPlaylistSlice";
-import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
+import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+import { selectPlaylistsView } from "../../slices/selectors";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
+// import required modules
+import { Pagination } from "swiper/modules";
 
 import {
   IconPlus,
@@ -19,38 +26,34 @@ import "./PlaylistsPage.scss";
 function PlaylistsPage({ selectPlaylist }) {
   const userId = authStore.getUserId();
   const dispatch = useDispatch();
-
   const status = useSelector((state) => state.playlists.status);
+  const followStatus = useSelector((state) => state.playlistFollow.status);
+
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
+  const ownedPlaylists = playlists.filter((p) => p.ownerId === userId);
 
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
 
-  const allPlaylists = useSelector((state) => state.playlists.allPlaylists);
-  // const followedPlaylists = allPlaylists.filter((list) => followedPlaylistIds.includes(list.id));
-  const followedPlaylists = allPlaylists.filter((list) => list.followerUserIds.includes(userId));
-  const currentPlaylist = followedPlaylists[currentPlaylistIndex] ?? null;
+  const followedPlaylists = playlists.filter((p) => p.isFollowed && p.ownerId !== userId);
+
+  const safeIndex =
+    ownedPlaylists.length === 0 ? 0 : Math.min(currentPlaylistIndex, ownedPlaylists.length - 1);
+  const currentPlaylist = ownedPlaylists[safeIndex] ?? null;
   const playlistSongs = currentPlaylist?.songs || [];
 
-  const isFollowed = (playlistId) => {
-    const target = allPlaylists.find((p) => p.id === playlistId);
-    return target?.followerUserIds.includes(userId);
-  };
-  const recommendedPlaylists = allPlaylists
-    .filter((list) => !list.followerUserIds.includes(userId))
-    .slice(0, 4);
-
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchPlaylists());
-    }
-  }, [status, userId, dispatch]);
+  const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
 
   const handlePrevPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : followedPlaylists.length - 1));
+    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : ownedPlaylists.length - 1));
   };
 
   const handleNextPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev < followedPlaylists.length - 1 ? prev + 1 : 0));
+    setCurrentPlaylistIndex((prev) => (prev < ownedPlaylists.length - 1 ? prev + 1 : 0));
+  };
+
+  const handleToggleFollow = (playlistId) => {
+    dispatch(togglePlaylistFollow({ userId, playlistId }));
   };
 
   const handleAddSong = () => {
@@ -62,17 +65,7 @@ function PlaylistsPage({ selectPlaylist }) {
     console.log("新增播放清單");
     // TODO: 實作新增清單功能
   };
-
-  // Audio Ref
-  const audioRef = useRef(null);
-  const playAudio = (url) => {
-    if (audioRef.current) {
-      audioRef.current.src = url;
-      audioRef.current.play();
-    }
-  };
-
-  if (status === "loading") {
+  if (status === "loading" || followStatus === "loading") {
     return (
       <div className="playlists-page loading">
         <div className="spinner-border text-primary" role="status">
@@ -105,16 +98,9 @@ function PlaylistsPage({ selectPlaylist }) {
               {currentPlaylist && (
                 <PlaylistCard
                   playlist={currentPlaylist}
-                  isFollowed={isFollowed(currentPlaylist.id)}
-                  onToggleFollow={() =>
-                    dispatch(
-                      toggleFollow({
-                        userId,
-                        playlistId: currentPlaylist.id,
-                      })
-                    )
-                  }
-                  followerCount={currentPlaylist?.followerUserIds?.length ?? 0}
+                  isFollowed={currentPlaylist.isFollowed}
+                  onToggleFollow={() => handleToggleFollow(currentPlaylist.id)}
+                  followerCount={currentPlaylist.followerCount}
                   size="large"
                 />
               )}
@@ -134,13 +120,13 @@ function PlaylistsPage({ selectPlaylist }) {
                     >
                       <div className="song-info-row">
                         <span className="music-icon">🎵</span>
-                        <span className="mood-tag">{song.author}</span>
-                        <span className="song-name">{song.fileName}</span>
+                        <span className="mood-tag">{song.category}</span>
+                        <span className="song-name">{song.name}</span>
                       </div>
                       <div className="song-actions-row">
                         <button
                           className={`play-pause-btn ${isCurrent ? " text-primary-05" : null}`}
-                          onClick={() => playAudio(song.audioUrl)}
+                          onClick={() => selectPlaylist(currentPlaylist.id, index)}
                         >
                           {showPause ? (
                             <IconPlayerPauseFilled size={24} />
@@ -164,22 +150,22 @@ function PlaylistsPage({ selectPlaylist }) {
           </div>
 
           {/* 分頁控制 */}
-          {followedPlaylists.length > 1 && (
+          {ownedPlaylists.length > 1 && (
             <div className="pagination-controls">
               <button
                 className="pagination-btn"
                 onClick={handlePrevPlaylist}
-                disabled={followedPlaylists.length <= 1}
+                disabled={ownedPlaylists.length <= 1}
               >
                 <IconChevronLeft size={20} />
               </button>
               <span className="page-indicator">
-                {currentPlaylistIndex + 1} / {followedPlaylists.length}
+                {safeIndex + 1} / {ownedPlaylists.length}
               </span>
               <button
                 className="pagination-btn"
                 onClick={handleNextPlaylist}
-                disabled={followedPlaylists.length <= 1}
+                disabled={ownedPlaylists.length <= 1}
               >
                 <IconChevronRight size={20} />
               </button>
@@ -187,6 +173,33 @@ function PlaylistsPage({ selectPlaylist }) {
           )}
         </section>
       )}
+      <section className="py-12">
+        <Swiper
+          slidesPerView={4}
+          spaceBetween={20}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {followedPlaylists.map((list) => {
+            return (
+              <SwiperSlide key={list.id}>
+                <div className="playlist-detail-card">
+                  <PlaylistCard
+                    playlist={list}
+                    isFollowed={list.isFollowed}
+                    onToggleFollow={() => handleToggleFollow(list.id)}
+                    followerCount={list.followerCount}
+                    size="large"
+                  />
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </section>
       {/* 推薦清單區域 */}
       <section className="recommended-section">
         <h3 className="section-title">這裡一收錄看相似的共鳴</h3>
@@ -200,24 +213,21 @@ function PlaylistsPage({ selectPlaylist }) {
                   {playlist.category && <span className="playlist-tag">{playlist.category}</span>}
                   <button
                     className="add-playlist-btn"
-                    onClick={() =>
-                      dispatch(
-                        toggleFollow({
-                          userId,
-                          playlistId: playlist.id,
-                        })
-                      )
-                    }
+                    onClick={() => handleToggleFollow(playlist.id)}
                   >
                     <IconPlus size={18} />
                   </button>
                   <div className="cloud-placeholder">
-                    <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
+                    <img
+                      src={`${import.meta.env.BASE_URL}Union.png`}
+                      alt="雲朵"
+                      className="cloud-bg"
+                    />
                   </div>
                   <h4 className="playlist-name">{playlist.listName}</h4>
                   <button
                     className="play-recommended-btn"
-                    onClick={() => playAudio(playlist.songs?.[0]?.audioUrl)}
+                    onClick={() => selectPlaylist(playlist.id)}
                   >
                     {isCurrent && isPlaying ? (
                       <IconPlayerPauseFilled size={24} />
@@ -231,7 +241,6 @@ function PlaylistsPage({ selectPlaylist }) {
           })}
         </div>
       </section>
-      <audio ref={audioRef} />
     </div>
   );
 }

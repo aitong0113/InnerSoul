@@ -1,7 +1,16 @@
 import "./MemberPage.scss";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectPlaylistsView, makeSelectUserLikesView } from "../../slices/selectors";
+import { toggleSongLike } from "../../slices/userLikeSlice";
+
 import {
+  IconMusic,
+  IconPlayerPauseFilled,
+  IconPlayerPlayFilled,
+  IconPlus,
+  IconHeartFilled,
   IconRotateClockwise,
   IconPencil,
   IconPlayerPlay,
@@ -10,7 +19,7 @@ import {
 } from "@tabler/icons-react";
 import { getMoodText } from "../../components/features/homeMoodText/getMoodText";
 import { authStore } from "../../services/auth/authStore";
-import { getUserDiaries, getUserPlaylists } from "../../services/member.service";
+import { getUserDiaries } from "../../services/member.service";
 import { getUserAvatar } from "../../helpers/userAvatar";
 import FavoritesPage from "./FavoritesPage";
 import PlaylistsPage from "./PlaylistsPage";
@@ -24,7 +33,6 @@ import madImg from "../../assets/moodStamp/mad.png";
 
 import messyImg from "../../assets/moodStamp/messy.png";
 
-
 const moodConfig = {
   happy: { emoji: "😊", name: "喜悅", img: happyImg },
   good: { emoji: "🙂", name: "平靜", img: goodImg },
@@ -34,7 +42,31 @@ const moodConfig = {
   messy: { emoji: "😵‍💫", name: "混亂", img: messyImg },
 };
 
+const moodToCategoryMap = {
+  happy: ["喜悅", "溫暖", "輕快"],
+  good: ["平靜", "放鬆"],
+  sad: ["療癒", "陪伴"],
+  mad: ["釋放", "沉靜"],
+  notgood: ["清新", "整理"],
+  messy: ["放空", "靜心"],
+};
+
 function MemberPage({ selectPlaylist }) {
+  const dispatch = useDispatch();
+
+  const userName = authStore.getUserName();
+  const userId = authStore.getUserId();
+  const userImgKey = authStore.getUserImg();
+  const userPlan = authStore.getUserPlan();
+
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
+
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
+  const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
+
+  const { currentListId, currentIndex, isPlaying } = useSelector((state) => state.player);
+
+  // 取得 loading 狀態
   const navigate = useNavigate();
 
   // 原有狀態
@@ -58,14 +90,14 @@ function MemberPage({ selectPlaylist }) {
     playlistCount: 0,
     totalHours: 9420, // 暫時保持靜態
   });
-
-  const userName = authStore.getUserName();
-  const userId = authStore.getUserId();
-  const userImgKey = authStore.getUserImg();
-  const userPlan = authStore.getUserPlan();
+  useEffect(() => {
+    setUserStats((prev) => ({
+      ...prev,
+      playlistCount: playlists.length,
+    }));
+  }, [playlists]);
 
   const avatarSrc = getUserAvatar(userImgKey);
-
   // Audio Ref
   const audioRef = useRef(null);
 
@@ -88,16 +120,12 @@ function MemberPage({ selectPlaylist }) {
   const fetchUserData = async () => {
     setIsLoading(true);
     try {
-      // 獲取日記和播放清單
-      const [diariesData, playlistsData] = await Promise.all([
-        getUserDiaries(userId),
-        getUserPlaylists(userId),
-      ]);
+      // 獲取日記
+      const diariesData = await getUserDiaries(userId);
 
       setDiaries(diariesData);
       setUserStats((prev) => ({
         ...prev,
-        playlistCount: playlistsData.length,
       }));
 
       // 計算日記統計
@@ -174,14 +202,18 @@ function MemberPage({ selectPlaylist }) {
     }, 600);
   };
 
-  // 播放音訊
-  const playAudio = (url) => {
-    if (audioRef.current) {
-      audioRef.current.src = url;
-      audioRef.current.play();
-    }
-  };
-
+  // 目前情緒 key（ex: happy）
+  const currentMoodKey = diaryStats.topMood?.mood;
+  const moodPlaylist = useMemo(() => {
+    if (!currentMoodKey) return null;
+    const keywords = moodToCategoryMap[currentMoodKey] || [];
+    return (
+      playlists.find(
+        (p) => p.category === "心情推薦" && keywords.some((keyword) => p.listName.includes(keyword))
+      ) || null
+    );
+  }, [playlists, currentMoodKey]);
+  const isCurrentPlaylist = currentListId === moodPlaylist?.id;
   // 檢查登入中
   if (isCheckingAuth) {
     return (
@@ -244,7 +276,9 @@ function MemberPage({ selectPlaylist }) {
               <div className="plan-container">
                 <div className="plan-labels">
                   <span className="current-plan-label">目前方案</span>
-                  <span className="plan-name">{userPlan === "pro" ? "深度方案" : userPlan === "free" ? "輕量體驗" : "未訂閱"}</span>
+                  <span className="plan-name">
+                    {userPlan === "pro" ? "深度方案" : userPlan === "free" ? "輕量體驗" : "未訂閱"}
+                  </span>
                 </div>
                 <button
                   className="upgrade-plan-btn"
@@ -284,7 +318,6 @@ function MemberPage({ selectPlaylist }) {
                               src={moodData.img}
                               alt={moodData.name}
                               className="mood-icon fixed"
-                              
                             />
                             <div className="mood-info">
                               <div className="mood-percentage">{percentage}%</div>
@@ -304,10 +337,10 @@ function MemberPage({ selectPlaylist }) {
                           return {
                             moodKey,
                             moodData,
-                            percentage
+                            percentage,
                           };
                         })
-                        .filter(item => item.percentage > 0) // 0% 不顯示
+                        .filter((item) => item.percentage > 0) // 0% 不顯示
                         .sort((a, b) => b.percentage - a.percentage) // 權重排序
                         .map((item, index) => {
                           const { moodKey, moodData, percentage } = item;
@@ -325,7 +358,7 @@ function MemberPage({ selectPlaylist }) {
                               alt={moodData.name}
                               className={`mood-icon dynamic ${layer}`}
                               style={{
-                                "--scale": `${1 + (percentage * 0.4) / 100}`
+                                "--scale": `${1 + (percentage * 0.4) / 100}`,
                               }}
                             />
                           );
@@ -352,119 +385,112 @@ function MemberPage({ selectPlaylist }) {
                   <div className="emotion-content">
                     <div className="emotion-cloud-wrapper">
                       <div className="emotion-cloud">
-                        <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
+                        <img
+                          src={`${import.meta.env.BASE_URL}Union.png`}
+                          alt="雲朵"
+                          className="cloud-bg"
+                        />
                         <div className="cloud-text">
                           {moodConfig[diaryStats.topMood.mood]?.name}
                         </div>
                       </div>
                       <div className="cloud-footer">
-                        <span className="audio-count">17 則語音</span>
-                        <button className="play-all-btn">
-                          <IconPlayerPlay size={20} fill="currentColor" />
+                        <span className="audio-count">
+                          {moodPlaylist?.songs?.length || 0} 則語音
+                        </span>
+                        <button
+                          className="play-all-btn"
+                          onClick={() => {
+                            if (!moodPlaylist) return;
+
+                            // 已經是同一個 playlist
+                            if (isCurrentPlaylist) {
+                              if (isPlaying) {
+                                // 暫停
+                                selectPlaylist(moodPlaylist.id, currentIndex);
+                              } else {
+                                // 繼續播放
+                                selectPlaylist(moodPlaylist.id, currentIndex);
+                              }
+                            } else {
+                              // 切換新 playlist，從第 0 首開始
+                              selectPlaylist(moodPlaylist.id, 0);
+                            }
+                          }}
+                        >
+                          {isCurrentPlaylist && isPlaying ? (
+                            <IconPlayerPauseFilled size={20} />
+                          ) : (
+                            <IconPlayerPlay size={20} />
+                          )}
                         </button>
                       </div>
                     </div>
 
                     <div className="playlist-section">
-                      <ul className="playlist-items">
-                        <li className="playlist-item">
-                          <div className="song-info">
-                            <span className="music-icon">🎵</span>
-                            <span className="mood-tag">喜悅</span>
-                            <span className="song-title">歌頌時光</span>
-                          </div>
-                          <div className="song-actions">
-                            <button className="heart-btn">
-                              <IconHeart size={18} />
-                            </button>
-                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
-                              {/* 請替換 undefined 為正確的 audioUrl */}
-                              <IconPlayerPlay size={18} fill="currentColor" />
-                            </button>
-                          </div>
-                        </li>
-                        <li className="playlist-item highlighted">
-                          <div className="song-info">
-                            <span className="music-icon">🎵</span>
-                            <span className="mood-tag">喜悅</span>
-                            <span className="song-title">歡欣鼓舞</span>
-                          </div>
-                          <div className="song-actions">
-                            <button className="edit-btn">
-                              <IconPencil size={18} />
-                            </button>
-                            <button className="heart-btn filled">
-                              <IconHeart size={18} fill="currentColor" />
-                            </button>
-                            <button className="pause-btn">⏸</button>
-                          </div>
-                        </li>
-                        <li className="playlist-item">
-                          <div className="song-info">
-                            <span className="music-icon">🎵</span>
-                            <span className="mood-tag">喜悅</span>
-                            <span className="song-title">早晨的第一一縷陽光</span>
-                          </div>
-                          <div className="song-actions">
-                            <button className="heart-btn">
-                              <IconHeart size={18} />
-                            </button>
-                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
-                              <IconPlayerPlay size={18} fill="currentColor" />
-                            </button>
-                          </div>
-                        </li>
-                        <li className="playlist-item">
-                          <div className="song-info">
-                            <span className="music-icon">🎵</span>
-                            <span className="mood-tag">喜悅</span>
-                            <span className="song-title">省道的步伐</span>
-                          </div>
-                          <div className="song-actions">
-                            <button className="heart-btn">
-                              <IconHeart size={18} />
-                            </button>
-                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
-                              <IconPlayerPlay size={18} fill="currentColor" />
-                            </button>
-                          </div>
-                        </li>
-                        <li className="playlist-item">
-                          <div className="song-info">
-                            <span className="music-icon">🎵</span>
-                            <span className="mood-tag">喜悅</span>
-                            <span className="song-title">靜謐的咖啡</span>
-                          </div>
-                          <div className="song-actions">
-                            <button className="heart-btn">
-                              <IconHeart size={18} />
-                            </button>
-                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
-                              <IconPlayerPlay size={18} fill="currentColor" />
-                            </button>
-                          </div>
-                        </li>
-                        <li className="playlist-item">
-                          <div className="song-info">
-                            <span className="music-icon">🎵</span>
-                            <span className="mood-tag">喜悅</span>
-                            <span className="song-title">陽關的午後</span>
-                          </div>
-                          <div className="song-actions">
-                            <button className="heart-btn">
-                              <IconHeart size={18} />
-                            </button>
-                            <button className="play-btn" onClick={() => playAudio(item.audioUrl)}>
-                              <IconPlayerPlay size={18} fill="currentColor" />
-                            </button>
-                          </div>
-                        </li>
+                      <ul style={{ width: "600px" }} className="mb-6">
+                        {moodPlaylist?.songs?.map((song, index) => {
+                          const isCurrent =
+                            currentListId === moodPlaylist.id && currentIndex === index;
+
+                          const showPause = isCurrent && isPlaying;
+
+                          return (
+                            <li
+                              key={`${moodPlaylist.id}-${index}`}
+                              className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${
+                                isCurrent ? "text-primary-05" : ""
+                              }`}
+                              style={{ listStyle: "none" }}
+                              onClick={() => selectPlaylist(moodPlaylist.id, index)}
+                            >
+                              <div>
+                                <span className="badge text-bg-primary-02 rounded-pill me-4">
+                                  {song.category}
+                                </span>
+                                {song.name}
+                              </div>
+                              <div className="d-flex align-items-center">
+                                <button
+                                  type="button"
+                                  className="btn border-0 me-2"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    dispatch(toggleSongLike({ userId, songId: song.id }));
+                                  }}
+                                >
+                                  {likedSongIds.includes(song.id) ? (
+                                    <IconHeartFilled size={22} />
+                                  ) : (
+                                    <IconHeart size={22} />
+                                  )}
+                                </button>
+                                <button
+                                  type="button"
+                                  className={
+                                    "me-3 btn border-0" +
+                                    (isCurrent ? " text-primary-05" : " item-play")
+                                  }
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    selectPlaylist(moodPlaylist.id, index);
+                                  }}
+                                >
+                                  {showPause ? (
+                                    <IconPlayerPauseFilled size={24} />
+                                  ) : (
+                                    <IconPlayerPlayFilled size={24} />
+                                  )}
+                                </button>
+                              </div>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   </div>
                 </section>
               )}
-
               {/* 底部統計 */}
               <section className="member-stats">
                 <div className="stat-card">
@@ -472,21 +498,27 @@ function MemberPage({ selectPlaylist }) {
                   <div className="stat-number">{userStats.totalHours.toLocaleString()}</div>
                   <div className="stat-unit">小時</div>
                   <div className="stat-description">辛苦你這麼用心在守護身邊</div>
-                  <button className="stat-button" onClick={()=>setActiveTab("favorite")}>語音收藏 →</button>
+                  <button className="stat-button" onClick={() => setActiveTab("favorite")}>
+                    語音收藏 →
+                  </button>
                 </div>
                 <div className="stat-card">
                   <div className="stat-header">不同情境你陪伴了？</div>
                   <div className="stat-number">{userStats.playlistCount}</div>
                   <div className="stat-unit">首播放清單</div>
                   <div className="stat-description">播放清單將會與音檔互相連結</div>
-                  <button className="stat-button" onClick={()=>setActiveTab("playlist")}>播放清單 →</button>
+                  <button className="stat-button" onClick={() => setActiveTab("playlist")}>
+                    播放清單 →
+                  </button>
                 </div>
                 <div className="stat-card">
                   <div className="stat-header">你在心途日記寫了？</div>
                   <div className="stat-number">{diaryStats.totalDiaries}</div>
                   <div className="stat-unit">篇日記</div>
                   <div className="stat-description">今天的心情也寫了嗎？</div>
-                  <button className="stat-button" onClick={()=>navigate("/diary")}>我的日記 →</button>
+                  <button className="stat-button" onClick={() => navigate("/diary")}>
+                    我的日記 →
+                  </button>
                 </div>
               </section>
             </>

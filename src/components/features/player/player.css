@@ -19,6 +19,17 @@
   }
 }
 
+.playlist-scroll {
+  flex: 1;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  li {
+    height: 40px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
 /* playlist預設不顯示 */
 .playlist-play-btn {
   opacity: 0;
@@ -50,11 +61,11 @@
 }
 .volume-panel-bar {
   bottom: 70px;
-  left: -40px;
+  left: -35px;
 }
 
 .volume-panel-mini {
-  left: 80px;
+  left: 55px;
   bottom: 70px;
 }
 

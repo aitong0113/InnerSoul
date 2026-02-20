@@ -314,202 +314,261 @@
     {
       "id": 1,
       "listName": "孤獨",
-      "category": "",
-      "songsID": [
-        2,
-        6,
-        5
-      ],
-      "ownerID": 2,
-      "followerID": [
-        1,
-        2
-      ]
+      "category": "心情推薦",
+      "songsID": [1, 6, 8, 14, 4, 7, 9],
+      "ownerId": 2
     },
     {
       "id": 2,
       "listName": "憤怒",
-      "category": "",
-      "songsID": [
-        4,
-        1,
-        2,
-        6,
-        5
-      ],
-      "ownerID": 2,
-      "followerID": [
-        1,
-        2
-      ]
+      "category": "心情推薦",
+      "songsID": [3, 10, 15],
+      "ownerId": 2
     },
     {
       "id": 3,
-      "category": "小編推薦",
-      "listName": "早晨精選",
-      "songsID": [
-        3,
-        5,
-        6
-      ],
-      "ownerID": 1,
-      "followerID": [
-        2,
-        3,
-        5,
-        4
-      ]
+      "listName": "自我懷疑",
+      "category": "心情推薦",
+      "songsID": [14, 10, 1],
+      "ownerId": 2
     },
     {
       "id": 4,
-      "category": "小編推薦",
-      "listName": "睡前放鬆",
-      "songsID": [
-        1,
-        2,
-        3
-      ],
-      "ownerID": 1,
-      "followerID": [
-        2,
-        3,
-        4,
-        10
-      ]
+      "listName": "開心",
+      "category": "心情推薦",
+      "songsID": [2, 7, 13],
+      "ownerId": 2
     },
     {
       "id": 5,
-      "listName": "工作專注",
-      "songsID": [
-        4,
-        5,
-        6
-      ],
-      "ownerID": 3,
-      "followerID": [
-        1,
-        3,
-        4,
-        5
-      ]
+      "listName": "悲傷",
+      "category": "心情推薦",
+      "songsID": [1, 8, 14],
+      "ownerId": 2
     },
     {
       "id": 6,
+      "listName": "喜悅",
       "category": "心情推薦",
-      "listName": "Work Work Work",
-      "songsID": [
-        2,
-        3,
-        1
-      ],
-      "ownerID": 3,
-      "followerID": [
-        1,
-        2,
-        3,
-        7,
-        8,
-        9,
-        10
-      ]
+      "songsID": [2, 7, 9, 13],
+      "ownerId": 2
     },
     {
       "id": 7,
       "listName": "平靜",
-      "category": "",
-      "songsID": [
-        1,
-        4,
-        3
-      ],
-      "ownerID": 2,
-      "followerID": [
-        2
-      ]
+      "category": "心情推薦",
+      "songsID": [1, 6, 12, 8],
+      "ownerId": 1
     },
     {
       "id": 8,
-      "listName": "放鬆",
-      "songsID": [
-        1,
-        4,
-        3
-      ],
-      "ownerID": 2,
-      "followerID": [
-        2
-      ]
+      "listName": "焦慮",
+      "category": "心情推薦",
+      "songsID": [10, 3, 6],
+      "ownerId": 2
     },
     {
       "id": 9,
-      "listName": "水過鴨 20 輯門",
-      "category": "熱播 Top 20",
-      "songsID": [
-        2,
-        6,
-        5
-      ],
-      "ownerID": 2,
-      "followerID": [
-        1,
-        2
-      ]
+      "listName": "興奮",
+      "category": "心情推薦",
+      "songsID": [2, 13, 7],
+      "ownerId": 2
+    },
+    {
+      "id": 10,
+      "listName": "低落",
+      "category": "心情推薦",
+      "songsID": [1, 14, 8],
+      "ownerId": 2
+    },
+    {
+      "id": 11,
+      "listName": "壓力過大",
+      "category": "心情推薦",
+      "songsID": [11, 3, 18],
+      "ownerId": 2
+    },
+    {
+      "id": 12,
+      "listName": "早晨精選",
+      "category": "小編推薦",
+      "songsID": [2, 4, 7, 9, 16],
+      "ownerId": 1
+    },
+    {
+      "id": 13,
+      "listName": "午後放鬆",
+      "category": "小編推薦",
+      "songsID": [5, 8, 9, 10, 17],
+      "ownerId": 3
+    },
+    {
+      "id": 14,
+      "listName": "工作專注",
+      "category": "情境選集",
+      "songsID": [11, 3, 18],
+      "ownerId": 3
+    },
+    {
+      "id": 15,
+      "listName": "睡前放鬆",
+      "category": "小編推薦",
+      "songsID": [6, 10, 12, 19],
+      "ownerId": 1
     }
   ],
   "songs": [
     {
       "id": 1,
+      "name": "靜靜聽著雨落",
       "author": "raindrops",
-      "authorUrl": "",
-      "category": "calm",
+      "category": "平靜",
       "fileName": "calm-heavenly-raindrops",
-      "fileUrl": "music/m02.mp3",
-      "thumb": ""
+      "fileUrl": "music/m02.mp3"
     },
     {
       "id": 2,
+      "name": "光慢慢亮起來",
       "author": "piano",
-      "authorUrl": "",
-      "category": "joy",
-      "fileName": "a-quiet-joy-stevekaldes-piano",
-      "fileUrl": "music/m01.mp3",
-      "thumb": ""
+      "category": "喜悅",
+      "fileName": "a-quiet-joy",
+      "fileUrl": "music/m01.mp3"
     },
     {
       "id": 3,
+      "name": "情緒慢慢靠岸",
       "author": "piano",
-      "authorUrl": "",
-      "category": "calm",
-      "fileName": "majestic-sky-healing-meditative-cello-and-piano",
-      "fileUrl": "music/m03.mp3",
-      "thumb": ""
+      "category": "放鬆",
+      "fileName": "majestic-sky",
+      "fileUrl": "music/m03.mp3"
     },
     {
       "id": 4,
+      "name": "今天空氣很輕",
       "author": "chill",
-      "authorUrl": "",
-      "category": "chill",
-      "fileName": "chill-chill-background-music",
-      "fileUrl": "music/m04.mp3",
-      "thumb": ""
+      "category": "清新",
+      "fileName": "chill-background",
+      "fileUrl": "music/m04.mp3"
     },
     {
       "id": 5,
-      "author": "132371",
-      "authorUrl": "",
-      "category": "chill",
-      "fileName": "chill-music",
-      "fileUrl": "music/m05.mp3",
-      "thumb": ""
+      "name": "午後的一杯咖啡",
+      "author": "coffee",
+      "category": "溫暖",
+      "fileName": "coffee-chill",
+      "fileUrl": "music/m06.mp3"
     },
     {
       "id": 6,
+      "name": "風從窗外吹進來",
+      "author": "ambient",
+      "category": "療癒",
+      "fileName": "soft-wind",
+      "fileUrl": "music/m05.mp3"
+    },
+    {
+      "id": 7,
+      "name": "今天也沒那麼糟",
+      "author": "piano",
+      "category": "喜悅",
+      "fileName": "good-day",
+      "fileUrl": "music/m01.mp3"
+    },
+    {
+      "id": 8,
+      "name": "夜色很慢很安靜",
+      "author": "ambient",
+      "category": "平靜",
+      "fileName": "slow-night",
+      "fileUrl": "music/m02.mp3"
+    },
+    {
+      "id": 9,
+      "name": "讓陽光停一下下",
+      "author": "lightmusic",
+      "category": "清新",
+      "fileName": "sunshine",
+      "fileUrl": "music/m03.mp3"
+    },
+    {
+      "id": 10,
+      "name": "不著急留點空白",
+      "author": "chill",
+      "category": "放鬆",
+      "fileName": "no-rush",
+      "fileUrl": "music/m04.mp3"
+    },
+    {
+      "id": 11,
+      "name": "先把思緒放這裡",
+      "author": "focus",
+      "category": "專注",
+      "fileName": "deep-focus",
+      "fileUrl": "music/m05.mp3"
+    },
+    {
+      "id": 12,
+      "name": "慢慢地就會睡著",
+      "author": "sleep",
+      "category": "療癒",
+      "fileName": "sleep-mode",
+      "fileUrl": "music/m06.mp3"
+    },
+    {
+      "id": 13,
+      "name": "陽光剛剛好",
+      "author": "lightmusic",
+      "category": "喜悅",
+      "fileName": "bright-morning",
+      "fileUrl": "music/m01.mp3"
+    },
+    {
+      "id": 14,
+      "name": "一個人的夜晚",
+      "author": "ambient",
+      "category": "孤獨",
+      "fileName": "lonely-night",
+      "fileUrl": "music/m02.mp3"
+    },
+    {
+      "id": 15,
+      "name": "讓怒氣慢慢散去",
+      "author": "focus",
+      "category": "憤怒",
+      "fileName": "anger-release",
+      "fileUrl": "music/m03.mp3"
+    },
+    {
+      "id": 16,
+      "name": "早晨第一口空氣",
+      "author": "piano",
+      "category": "清新",
+      "fileName": "fresh-start",
+      "fileUrl": "music/m04.mp3"
+    },
+    {
+      "id": 17,
+      "name": "午後窗邊的光",
       "author": "coffee",
-      "authorUrl": "",
-      "category": "chill",
-      "fileName": "coffee-chill-out",
-      "fileUrl": "music/m06.mp3",
-      "thumb": ""
+      "category": "溫暖",
+      "fileName": "afternoon-light",
+      "fileUrl": "music/m05.mp3"
+    },
+    {
+      "id": 18,
+      "name": "專心就好",
+      "author": "focus",
+      "category": "專注",
+      "fileName": "stay-focused",
+      "fileUrl": "music/m06.mp3"
+    },
+    {
+      "id": 19,
+      "name": "夜晚慢慢沉下來",
+      "author": "sleep",
+      "category": "療癒",
+      "fileName": "night-calm",
+      "fileUrl": "music/m02.mp3"
     }
   ],
   "songLikes": [
@@ -530,18 +589,23 @@
     },
     {
       "userId": 3,
-      "songId": 2,
-      "id": 7
+      "songId": 9,
+      "id": 14
     },
     {
       "userId": 3,
-      "songId": 5,
-      "id": 12
+      "songId": 1,
+      "id": 21
     },
     {
       "userId": 3,
-      "songId": 3,
-      "id": 13
+      "songId": 11,
+      "id": 22
+    },
+    {
+      "userId": 3,
+      "songId": 7,
+      "id": 23
     }
   ],
   "playlistFollowers": [
@@ -617,33 +681,28 @@
     },
     {
       "userId": 3,
-      "playlistId": 9,
-      "id": 31
-    },
-    {
-      "userId": 3,
-      "playlistId": 3,
-      "id": 56
+      "playlistId": 2,
+      "id": 27
     },
     {
       "userId": 3,
       "playlistId": 4,
-      "id": 57
-    },
-    {
-      "userId": 3,
-      "playlistId": 5,
-      "id": 58
-    },
-    {
-      "userId": 3,
-      "playlistId": 7,
-      "id": 59
+      "id": 30
     },
     {
       "userId": 3,
       "playlistId": 8,
-      "id": 61
+      "id": 33
+    },
+    {
+      "userId": 3,
+      "playlistId": 9,
+      "id": 34
+    },
+    {
+      "userId": 3,
+      "playlistId": 5,
+      "id": 35
     }
   ],
   "plans": [

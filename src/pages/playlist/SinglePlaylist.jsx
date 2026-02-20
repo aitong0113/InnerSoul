@@ -1,15 +1,14 @@
-import { useMemo } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSongLike } from "../../slices/userLikeSlice";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+import { makeSelectUserLikesView, selectPlaylistsView } from "../../slices/selectors";
 
 import Button from "../../components/common/Button/Button";
 import {
   IconMusic,
   IconPlayerPlayFilled,
-  IconDots,
-  IconPlus,
   IconPlayerPauseFilled,
   IconChevronLeft,
   IconChevronRight,
@@ -18,38 +17,34 @@ import {
 } from "@tabler/icons-react";
 import { authStore } from "../../services/auth/authStore";
 
-function SinglePlaylist({ lists, songs, selectPlaylist }) {
+function SinglePlaylist({ selectPlaylist }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userId = authStore.getUserId();
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
 
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
-  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
-
-  const followedPlaylistIds = useSelector(
-    (state) => state.playlistFollow?.followedPlaylistIds ?? []
-  );
-  // const isFollowed = followedPlaylistIds.includes(targetList.id);
+  const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
 
   const { id } = useParams();
-  const location = useLocation();
-  const isMemberPage = location.pathname === "/member";
 
   const targetList = useMemo(() => {
-    if (!id || !lists.length) return null;
-    const listId = Number(id);
-    return lists.find((l) => l.id === listId) || null;
-  }, [id, lists]);
+    if (!id) return null;
+    return playlists.find((p) => p.id === Number(id)) ?? null;
+  }, [id, playlists]);
 
-  const songMap = useMemo(() => {
-    const map = new Map();
-    songs.forEach((s) => map.set(s.id, s));
-    return map;
-  }, [songs]);
+  // 分頁
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+  const songs = targetList?.songs ?? [];
+  const totalPages = Math.max(1, Math.ceil(songs.length / pageSize));
+  const paginatedSongs = songs.slice((page - 1) * pageSize, page * pageSize);
 
   if (!targetList) {
     return <p className="text-center">載入中...</p>;
   }
-  const isFollowed = followedPlaylistIds.includes(targetList.id);
+  const isFollowed = targetList.isFollowed;
 
   return (
     <>
@@ -58,7 +53,7 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
           <div className="mb-4 text-center">
             <Button
               text={targetList.listName}
-              imgUrl={import.meta.env.BASE_URL + "images/Union.png"}
+              imgUrl={`${import.meta.env.BASE_URL}Union.png`}
               className="mb-4"
             />
             <div className="fs-5 text-primary-05 fw-bold mb-7">
@@ -72,13 +67,16 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
               <button
                 className={`btn ${isFollowed ? "btn-primary-05" : "btn-primary"}`}
                 type="button"
-                onClick={() => {
+                onClick={async () => {
                   if (!userId) {
-                    alert("請先登入");
+                    const shouldLogin = window.confirm(
+                      "登入後才能把這份陪伴加入你的清單，是否前往登入？"
+                    );
+                    if (shouldLogin) navigate("/login");
                     return;
                   }
 
-                  dispatch(
+                  await dispatch(
                     togglePlaylistFollow({
                       userId,
                       playlistId: targetList.id,
@@ -90,35 +88,29 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
               </button>
             </div>
           </div>
-          {isMemberPage && (
-            <button className="btn p-2 pe-4 btn-primary-05 fs-5 fw-bold position-absolute top-0 end-0 d-inline-flex align-items-center">
-              <IconPlus size={24} className="me-1" />
-              新增播放清單
-            </button>
-          )}
 
           <div>
             <ul style={{ width: "800px" }} className="mb-6">
-              {targetList.songsID.map((songId, index) => {
-                const song = songMap.get(songId);
-                const isCurrent = currentListId === targetList.id && currentIndex === index;
+              {paginatedSongs?.map((song, index) => {
+                const realIndex = (page - 1) * pageSize + index;
+                const isCurrent = currentListId === targetList.id && currentIndex === realIndex;
                 const showPause = isCurrent && isPlaying;
-                const isLiked = likedSongIds.includes(songId);
+                const isLiked = likedSongIds.includes(song.id);
                 return (
                   <li
-                    key={songId}
+                    key={song.id}
                     className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${
                       isCurrent ? "text-primary-05" : ""
                     }`}
                     style={{ listStyle: "none" }}
-                    onClick={() => selectPlaylist(targetList.id, index)}
+                    onClick={() => selectPlaylist(targetList.id, realIndex)}
                   >
                     <div>
                       <IconMusic size={15} className="me-2" />
                       <span className="badge text-bg-primary-02 rounded-pill me-4">
                         {song?.category}
                       </span>
-                      {song?.fileName}
+                      {song?.name}
                     </div>
 
                     <div className="hover-actions">
@@ -129,7 +121,7 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
                         }
                         onClick={(e) => {
                           e.stopPropagation();
-                          selectPlaylist(targetList.id, index);
+                          selectPlaylist(targetList.id, realIndex);
                         }}
                         aria-label="播放 / 暫停"
                       >
@@ -139,66 +131,67 @@ function SinglePlaylist({ lists, songs, selectPlaylist }) {
                           <IconPlayerPlayFilled size={24} />
                         )}
                       </button>
-                      {!isMemberPage && (
-                        <button
-                          type="button"
-                          className="btn border-0"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (!userId) {
-                              alert("請先登入");
-                              return;
-                            }
-                            dispatch(
-                              toggleSongLike({
-                                userId,
-                                songId,
-                              })
-                            );
-                          }}
-                          aria-label="喜歡"
-                        >
-                          {isLiked ? (
-                            <IconHeartFilled size={24} className="text-primary-05" />
-                          ) : (
-                            <IconHeart size={24} className="text-primary-05" />
-                          )}
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        className="btn border-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (!userId) {
+                            const shouldLogin =
+                              window.confirm("登入後才能把這首聲音收藏起來，是否前往登入？");
+                            if (shouldLogin) navigate("/login");
+                            return;
+                          }
+                          dispatch(
+                            toggleSongLike({
+                              userId,
+                              songId: song.id,
+                            })
+                          );
+                        }}
+                        aria-label="喜歡"
+                      >
+                        {isLiked ? (
+                          <IconHeartFilled size={24} className="text-primary-05" />
+                        ) : (
+                          <IconHeart size={24} className="text-primary-05" />
+                        )}
+                      </button>
                     </div>
                   </li>
                 );
               })}
             </ul>
-            {isMemberPage && (
-              <button
-                className="btn btn-outline-primary-05 fs-5 fw-bold w-100 d-inline-flex align-items-center justify-content-center"
-                style={{ borderWidth: "2px" }}
-              >
-                <IconPlus size={24} className="me-1" />
-                新增語音
-              </button>
-            )}
-            <nav aria-label="Page navigation example " className="position-absolute bottom-0 end-0">
+
+            <nav className="position-absolute bottom-0 end-0">
               <ul className="pagination">
-                <li className="page-item">
-                  <a className="page-link border-0 text-black-300" href="#" aria-label="Previous">
-                    <span aria-hidden="true">
-                      <IconChevronLeft size={24} />
-                    </span>
-                  </a>
+                {/* 上一頁 */}
+                <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+                  <button
+                    type="button"
+                    className="page-link border-0 bg-transparent"
+                    onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                  >
+                    <IconChevronLeft size={24} />
+                  </button>
                 </li>
-                <li className="page-item ">
-                  <a className="page-link text-primary-05 fw-bold border-0" href="#">
-                    1
-                  </a>
-                </li>
+
+                {/* 頁碼 */}
                 <li className="page-item">
-                  <a className="page-link border-0 text-primary-05" href="#" aria-label="Next">
-                    <span aria-hidden="true">
-                      <IconChevronRight size={24} />
-                    </span>
-                  </a>
+                  <span className="page-link border-0 text-primary-05 fw-bold bg-transparent">
+                    {page} / {totalPages}
+                  </span>
+                </li>
+
+                {/* 下一頁 */}
+                <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
+                  <button
+                    type="button"
+                    className="page-link border-0 bg-transparent"
+                    onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                  >
+                    <IconChevronRight size={24} />
+                  </button>
                 </li>
               </ul>
             </nav>

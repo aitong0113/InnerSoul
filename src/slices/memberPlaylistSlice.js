@@ -1,87 +1,44 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../services/api";
 
+/** 抓播放清單內容 **/
 export const fetchPlaylists = createAsyncThunk("playlists/fetchPlaylists", async () => {
-  const [listRes, songRes, followerRes, likeRes] = await Promise.all([
-    api.get("/lists"),
-    api.get("/songs"),
-    api.get("/playlistFollowers"),
-    api.get("/songLikes"),
-  ]);
+  const [listsRes, songsRes] = await Promise.all([api.get("/lists"), api.get("/songs")]);
 
-  const lists = listRes.data;
-  const songs = songRes.data;
-  const followers = followerRes.data;
-  const likes = likeRes.data;
+  const lists = listsRes.data;
+  const songs = songsRes.data;
 
-  const likeCountMap = new Map();
-  likes.forEach((l) => {
-    likeCountMap.set(l.songId, (likeCountMap.get(l.songId) || 0) + 1);
-  });
-  const songMap = new Map(
-    songs.map((s) => [
-      Number(s.id),
-      {
-        ...s,
-        likeCount: likeCountMap.get(Number(s.id)) || 0,
-      },
-    ])
-  );
-  const followerMap = new Map();
-  followers.forEach((f) => {
-    const playlistId = Number(f.playlistId);
-    if (!followerMap.has(playlistId)) {
-      followerMap.set(playlistId, []);
-    }
-    followerMap.get(playlistId).push(f.userId);
-  });
+  // 把 song 掛回 playlist（純內容組裝）
+  const songMap = new Map(songs.map((s) => [s.id, s]));
 
-  return lists.map((list) => {
-    const playlistSongs = (list.songsID || []).map((id) => songMap.get(Number(id))).filter(Boolean);
+  const playlists = lists.map((list) => ({
+    ...list,
+    songs: list.songsID.map((id) => songMap.get(id)).filter(Boolean),
+  }));
 
-    return {
-      ...list,
-      songs: playlistSongs,
-      followerUserIds: followerMap.get(list.id) || [],
-    };
-  });
+  return playlists;
 });
 
-const playlistSlice = createSlice({
+const memberPlaylistSlice = createSlice({
   name: "playlists",
   initialState: {
-    allPlaylists: [],
+    playlists: [],
     status: "idle",
   },
-  reducers: {
-    toggleFollow(state, action) {
-      const { userId, playlistId } = action.payload;
-      const playlist = state.allPlaylists.find((p) => p.id === playlistId);
-      if (!playlist) return;
-
-      const index = playlist.followerUserIds.indexOf(userId);
-
-      if (index > -1) {
-        playlist.followerUserIds.splice(index, 1);
-      } else {
-        playlist.followerUserIds.push(userId);
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPlaylists.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchPlaylists.fulfilled, (state, action) => {
-        state.allPlaylists = action.payload;
+        state.playlists = action.payload;
         state.status = "succeeded";
-      })
-      .addCase(fetchPlaylists.rejected, (state) => {
-        state.status = "failed";
       });
   },
 });
 
-export default playlistSlice.reducer;
-export const { toggleFollow } = playlistSlice.actions;
+export default memberPlaylistSlice.reducer;
+
+/** 基礎 selector（純資料） */
+export const selectAllPlaylists = (state) => state.playlists.playlists;
