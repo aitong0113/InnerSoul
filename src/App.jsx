@@ -33,6 +33,7 @@ import Checkout from "./pages/checkout/Checkout";
 import PlaylistLayout from "./pages/playlist/PlaylistLayout";
 import MemberAccountEdit from "./pages/Member/MemberAccountEdit";
 import PlaylistRoute from "./pages/playlist/PlaylistRoute.jsx";
+import SubscriptionManagement from "./pages/subscription/SubscriptionManagement";
 
 // 後台 pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -127,6 +128,7 @@ function App() {
           </Route>
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/member-account-edit" element={<MemberAccountEdit />} />
+          <Route path="/member/subscription" element={<SubscriptionManagement />} />
         </Route>
 
         {/* 後台 */}

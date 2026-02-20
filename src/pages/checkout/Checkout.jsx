@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
-import { IconArrowLeft } from '@tabler/icons-react';
-import OrderSummary from '../../components/features/checkout/OrderSummary';
-import PaymentForm from '../../components/features/checkout/PaymentForm';
-import '../../components/features/checkout/checkout.scss';
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { IconArrowLeft } from "@tabler/icons-react";
+import OrderSummary from "../../components/features/checkout/OrderSummary";
+import PaymentForm from "../../components/features/checkout/PaymentForm";
+import "../../components/features/checkout/checkout.scss";
 
 const Checkout = () => {
   const location = useLocation();
@@ -14,7 +14,7 @@ const Checkout = () => {
     const userId = Cookies.get("userId");
 
     if (!userId) {
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
     }
   }, [navigate]);
 
@@ -25,7 +25,7 @@ const Checkout = () => {
     return (
       <div className="container py-5 text-center">
         <h2>錯誤：未選擇方案</h2>
-        <button className="btn btn-primary mt-3" onClick={() => navigate('/subscription')}>
+        <button className="btn btn-primary mt-3" onClick={() => navigate("/subscription")}>
           回訂閱頁選擇
         </button>
       </div>
@@ -34,11 +34,11 @@ const Checkout = () => {
 
   return (
     <div className="checkout-page bg-liner py-5">
-      <div className="container" style={{ maxWidth: '900px' }}>
+      <div className="container" style={{ maxWidth: "900px" }}>
 
         {/* 返回按鈕 */}
         <div className="mt-10 mb-3">
-          <button className="btn back-link" onClick={() => navigate('/subscription')}>
+          <button className="btn back-link" onClick={() => navigate("/subscription")}>
             <IconArrowLeft size={20} />
             返回方案選擇
           </button>
