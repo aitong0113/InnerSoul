@@ -31,6 +31,12 @@ window.alert = (message) => {
     timer,
     timerProgressBar: timer ? true : false,
     showConfirmButton: timer ? false : true,
+
+    customClass: {
+      popup: "custom-swal-radius",
+      confirmButton: "custom-swal-btn",
+    },
+    buttonsStyling: false,
   });
 };
 

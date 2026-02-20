@@ -59,8 +59,7 @@ function Header() {
             <>
               {/* 升級方案按鈕（僅免費會員顯示） */}
               {(!userPlan || userPlan === "free") && (
-                <Link to={ROUTES.subscription} className="upgrade-btn">
-                  <IconSparkles size={18} />
+                <Link to="/checkout" className="upgrade-btn">
                   升級方案
                 </Link>
               )}
