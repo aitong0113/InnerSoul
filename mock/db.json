@@ -315,105 +315,176 @@
       "id": 1,
       "listName": "孤獨",
       "category": "心情推薦",
-      "songsID": [1, 6, 8, 14, 4, 7, 9],
+      "songsID": [
+        1,
+        6,
+        8,
+        14,
+        4,
+        7,
+        9
+      ],
       "ownerId": 2
     },
     {
       "id": 2,
       "listName": "憤怒",
       "category": "心情推薦",
-      "songsID": [3, 10, 15],
+      "songsID": [
+        3,
+        10,
+        15
+      ],
       "ownerId": 2
     },
     {
       "id": 3,
       "listName": "自我懷疑",
       "category": "心情推薦",
-      "songsID": [14, 10, 1],
+      "songsID": [
+        14,
+        10,
+        1
+      ],
       "ownerId": 2
     },
     {
       "id": 4,
       "listName": "開心",
       "category": "心情推薦",
-      "songsID": [2, 7, 13],
+      "songsID": [
+        2,
+        7,
+        13
+      ],
       "ownerId": 2
     },
     {
       "id": 5,
       "listName": "悲傷",
       "category": "心情推薦",
-      "songsID": [1, 8, 14],
+      "songsID": [
+        1,
+        8,
+        14
+      ],
       "ownerId": 2
     },
     {
       "id": 6,
       "listName": "喜悅",
       "category": "心情推薦",
-      "songsID": [2, 7, 9, 13],
+      "songsID": [
+        2,
+        7,
+        9,
+        13
+      ],
       "ownerId": 2
     },
     {
       "id": 7,
       "listName": "平靜",
       "category": "心情推薦",
-      "songsID": [1, 6, 12, 8],
+      "songsID": [
+        1,
+        6,
+        12,
+        8
+      ],
       "ownerId": 1
     },
     {
       "id": 8,
       "listName": "焦慮",
       "category": "心情推薦",
-      "songsID": [10, 3, 6],
+      "songsID": [
+        10,
+        3,
+        6
+      ],
       "ownerId": 2
     },
     {
       "id": 9,
       "listName": "興奮",
       "category": "心情推薦",
-      "songsID": [2, 13, 7],
+      "songsID": [
+        2,
+        13,
+        7
+      ],
       "ownerId": 2
     },
     {
       "id": 10,
       "listName": "低落",
       "category": "心情推薦",
-      "songsID": [1, 14, 8],
+      "songsID": [
+        1,
+        14,
+        8
+      ],
       "ownerId": 2
     },
     {
       "id": 11,
       "listName": "壓力過大",
       "category": "心情推薦",
-      "songsID": [11, 3, 18],
+      "songsID": [
+        11,
+        3,
+        18
+      ],
       "ownerId": 2
     },
     {
       "id": 12,
       "listName": "早晨精選",
       "category": "小編推薦",
-      "songsID": [2, 4, 7, 9, 16],
+      "songsID": [
+        2,
+        4,
+        7,
+        9,
+        16
+      ],
       "ownerId": 1
     },
     {
       "id": 13,
       "listName": "午後放鬆",
       "category": "小編推薦",
-      "songsID": [5, 8, 9, 10, 17],
+      "songsID": [
+        5,
+        8,
+        9,
+        10,
+        17
+      ],
       "ownerId": 3
     },
     {
       "id": 14,
       "listName": "工作專注",
       "category": "情境選集",
-      "songsID": [11, 3, 18],
+      "songsID": [
+        11,
+        3,
+        18
+      ],
       "ownerId": 3
     },
     {
       "id": 15,
       "listName": "睡前放鬆",
       "category": "小編推薦",
-      "songsID": [6, 10, 12, 19],
+      "songsID": [
+        6,
+        10,
+        12,
+        19
+      ],
       "ownerId": 1
     }
   ],
@@ -604,8 +675,8 @@
     },
     {
       "userId": 3,
-      "songId": 7,
-      "id": 23
+      "songId": 2,
+      "id": 24
     }
   ],
   "playlistFollowers": [
