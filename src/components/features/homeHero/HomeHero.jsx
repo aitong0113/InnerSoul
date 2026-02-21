@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import './homeHero.scss';
+import React, { useState } from "react";
+import "./homeHero.scss";
 import flowerIcon from "../../../assets/flower.png";
-import { IconRotateClockwise } from '@tabler/icons-react';
+import { IconRotateClockwise } from "@tabler/icons-react";
 import HomeMoodText from "../homeMoodText/HomeMoodText";
 import { getMoodText } from "../homeMoodText/getMoodText";
+import { Link } from "react-router-dom";
 
 const HomeHero = () => {
-
   const [text, setText] = useState(getMoodText());
   const [isDisabled, setIsDisabled] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
@@ -18,7 +18,7 @@ const HomeHero = () => {
     setText(getMoodText());
 
     setTimeout(() => {
-      setIsRotating(false);   // 移除 class，讓下次能再轉
+      setIsRotating(false); // 移除 class，讓下次能再轉
       setIsDisabled(false);
     }, 600);
   };
@@ -37,12 +37,12 @@ const HomeHero = () => {
               <p>讓語音與文字陪你聽見內在的聲音</p>
             </div>
             {/* CTA 按鈕 */}
-            <button
-              type="button"
+            <Link
+              to="/subscription"
               className="btn btn-white btn-outline-primary-04 fw-bold fs-4 py-5 px-7 heroBtn border-3"
             >
               開始訂閱你的心途
-            </button>
+            </Link>
           </div>
           {/* 右側：心途小語區 */}
           <div className="hero-right">
@@ -58,21 +58,17 @@ const HomeHero = () => {
                   className="btn refresh-btn text-black-700"
                   onClick={handleChange}
                 >
-                  <IconRotateClockwise
-                  size={24}
-                  className={isRotating ? "rotate-once" : ""}
-                  />
-                  <span className="fw-bold ms-1">換一換</span>
+                  <IconRotateClockwise size={24} className={isRotating ? "rotate-once" : ""} />
+                  <span className="fade-in-up ms-1">換一換</span>
                 </button>
               </div>
 
-              <div className="quote-body">
+              <div className="quote-body  fade-in-up">
                 <HomeMoodText text={text} />
               </div>
-
-              <div className="quote-footer mb-0">
-                <p className="text-black-700">- 心途 Inner Soul</p>
-              </div>
+            </div>
+            <div className="quote-footer mb-0">
+              <p className="text-black-700">- 心途 Inner Soul</p>
             </div>
           </div>
         </div>

@@ -59,7 +59,7 @@ function Header() {
             <>
               {/* 升級方案按鈕（僅免費會員顯示） */}
               {(!userPlan || userPlan === "free") && (
-                <Link to="/checkout" className="upgrade-btn">
+                <Link to="/member/subscription" className="upgrade-btn">
                   升級方案
                 </Link>
               )}
