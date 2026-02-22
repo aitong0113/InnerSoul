@@ -31,30 +31,101 @@
 }
 
 /* 右側區塊 */
-.hero-right {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("/src/assets/blue-blob.png"),
-    /* 藍色斑點 */ url("/src/assets/white-blob.png");
-  /* 白色斑點 */
-  background-position: 100% 100%, /* 藍色位置 (X% Y%) */ center center;
-  /* 白色位置 */
-  background-size: 220px auto, /* 藍色大小 */ contain;
-  /* 白色大小 */
-  background-repeat: no-repeat;
-  min-height: 480px;
-  position: relative;
+//白雲
+.hero-right::before {
+  content: "";
+  position: absolute;
+
+  left: 48%;
+  top: 15%;  /* 這裡控制上下 */
+
+  width: min(90%, 650px);
+  aspect-ratio: 1 / 1;
+
+  transform: translate(-50%, -50%);
+
+  background: url("/src/assets/white-blob.png")
+              no-repeat center / contain;
+
+  animation: breathe 10s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+//藍雲
+.hero-right::after {
+  content: "";
+  position: absolute;
+
+  bottom: 0;
+  right: 10%;
+  top: 68%;
+
+  width: 220px;
+  height: 220px;
+
+  background: url("/src/assets/blue-blob.png")
+              no-repeat center / contain;
+
+  animation: floatBlue 7s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes floatBlue {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-8px, -10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* --- 心途小語 --- */
 .quote-card {
-  width: 100%;
-  max-width: 636px;
+  position: relative;
+  z-index: 2;
+
+  width: clamp(600px, 70%, 680px);
+  max-width: 700px;
+
   display: flex;
   flex-direction: column;
-  gap: 82px;
+  gap: 50px;
+  right: 65%;
+   transform: translateY(-50px);
+}
+//文字動畫
+.fade-in-up {
+  animation: fadeSoft 2s ease forwards;
+}
+
+@keyframes fadeSoft {
+  from {
+    opacity: 0;
+    letter-spacing: 2px;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0px;
+  }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .quote-header {
@@ -96,14 +167,19 @@
 
 /* --- 底部簽名 --- */
 .quote-footer {
+  animation: fadeSoft 2s ease forwards;
+  z-index: 3;
   font-size: 20px;
   font-weight: 700;
-  text-align: end;
   margin-right: 60px;
+  position: absolute;
+  right: 8%;
+  bottom: 15%;
+  opacity: 0.7;
 }
 /* icon 旋轉一次 */
 .rotate-once {
-  animation: rotateOnce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: rotateOnce 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes rotateOnce {
@@ -115,9 +191,10 @@
   }
 }
 
+
 /* 小語淡入 */
 .fade-in-out {
-  animation: fadeInOut 0.6s ease;
+  animation: fadeInOut 1s ease;
   animation-delay: 0.1s;
   animation-fill-mode: both;
 }
@@ -133,8 +210,8 @@
   }
 }
 
-
 .refresh-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+

@@ -18,3 +18,13 @@
 .bg-playlist {
   background: linear-gradient(to bottom, #cde8fa, #ffffff80);
 }
+.custom-swal-radius {
+  border-radius: 24px !important; 
+}
+.custom-swal-btn {
+  border-radius: 50px !important;
+  padding: 10px 32px !important;
+  background: #104754 !important;
+  color: white !important;
+  border: none !important;
+}
