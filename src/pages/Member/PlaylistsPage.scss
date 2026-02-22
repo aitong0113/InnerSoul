@@ -1,3 +1,11 @@
+.custom-dropdown-menu {
+  right: 0;
+  top: 40px;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  z-index: 9999999;
+}
+
 .playlists-page {
   max-width: 1200px;
   margin: 0 auto;

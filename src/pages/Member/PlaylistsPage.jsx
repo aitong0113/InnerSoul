@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
@@ -43,6 +43,16 @@ function PlaylistsPage({ selectPlaylist }) {
   const playlistSongs = currentPlaylist?.songs || [];
 
   const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
+  //三個點的選單
+  const [openMenuId, setOpenMenuId] = useState(null);
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenMenuId(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const handlePrevPlaylist = () => {
     setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : ownedPlaylists.length - 1));
@@ -134,9 +144,27 @@ function PlaylistsPage({ selectPlaylist }) {
                             <IconPlayerPlayFilled size={24} />
                           )}
                         </button>
-                        <button className="menu-btn">
-                          <IconDotsVertical size={18} />
-                        </button>
+                        <div className="menu-wrap position-relative">
+                          <button
+                            className="menu-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenMenuId(openMenuId === song.id ? null : song.id);
+                            }}
+                          >
+                            <IconDotsVertical size={18} />
+                          </button>
+                          {openMenuId === song.id && (
+                            <div
+                              className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
+                              style={{ width: "150px" }}
+                            >
+                              <li className="px-3 ">加入播放清單</li>
+                              <li className="px-3 ">重新排列</li>
+                              <li className="px-3 ">分享</li>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </li>
                   );
