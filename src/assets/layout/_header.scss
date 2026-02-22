@@ -216,3 +216,249 @@
   border-radius: 12px;
   white-space: nowrap;
 }
+
+/* 預設隱藏手機版專用元件 */
+.mobile-only {
+  display: none !important;
+}
+
+/* =========================================
+   Mobile Navigation (RWD)
+========================================= */
+
+/* 隱藏行動版按鈕 */
+.mobile-toggle-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #505050;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.nav-wrapper {
+  display: contents;
+}
+
+/* === 平板與手機 (992px 以下) === */
+@media (max-width: 992px) {
+  .container {
+    padding: 0 12px;
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .site-header {
+    padding: 20px 0;
+    height: 100%;
+    background-color: #CDE8FA;
+  }
+
+  .site-header.scrolled {
+    padding: 20px 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    background-color: #CDE8FA;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
+
+  .header-inner,
+  .site-header.scrolled .header-inner {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0 12px !important;
+  }
+
+  .site-logo,
+  .site-header.scrolled .site-logo {
+    width: 76px;
+    z-index: 1002;
+  }
+
+  .mobile-toggle-btn {
+    display: block;
+    margin-left: auto;
+    position: relative;
+    z-index: 1002;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .menu-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .header-inner {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .nav-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // gap: 40px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #CDE8FA;
+    z-index: 1000;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+
+    padding-top: 84px;
+    padding-bottom: 24px;
+
+    /* 動畫過渡設定 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-wrapper.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .main-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin: 0;
+
+    a {
+      font-size: 16px;
+    }
+  }
+
+  .auth-buttons {
+    // display: flex;
+    // flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .nav-link {
+    font-size: 24px;
+  }
+
+  .upgrade-btn,
+  .btn-outline {
+    width: 200px;
+    justify-content: center;
+  }
+
+  .auth-buttons {
+    display: contents;
+
+    /* 使用者資訊 (登入後排最上方) */
+    .member-link {
+      order: -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: calc(100% - 64px);
+      max-width: 351px;
+      background-color: #1A4D53;
+      border-radius: 100px;
+      padding: 8px 16px;
+      margin: 0 auto 24px auto;
+      text-decoration: none;
+      box-sizing: border-box;
+      color: #FFFFFF;
+
+      .member-name {
+        color: #FFFFFF;
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 8px;
+      }
+
+      .member-plan {
+        background-color: #FFFFFF;
+        color: #505050;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 14px;
+      }
+    }
+
+    /* 底部按鈕的共同形狀 */
+    .logout-btn,
+    .mobile-login-btn {
+      order: 1;
+      width: calc(100% - 64px);
+      max-width: 320px;
+      border-radius: 100px;
+      padding: 14px 0;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 24px auto 0 auto;
+      text-decoration: none;
+      box-sizing: border-box;
+      border: 2px solid transparent;
+    }
+
+    /* 未登入：「登入/註冊」按鈕 */
+    .mobile-login-btn {
+      background-color: #1A4D53;
+      color: #FFFFFF;
+
+      &:hover {
+        background-color: #12383c;
+      }
+    }
+
+    /* 已登入：「登出」按鈕 */
+    .logout-btn {
+      background-color: #FFFFFF;
+      color: #1A4D53;
+      border-color: #1A4D53;
+      max-width: 351px;
+      padding: 8px 16px;
+
+      &:hover {
+        background-color: #F0F5F6;
+      }
+    }
+  }
+}

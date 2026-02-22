@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-/* 左側區塊*/
+/* 左側文字區塊 */
 .hero-left {
   flex: 1;
   line-height: 1.2;
@@ -20,112 +20,66 @@
   .hero-title {
     margin-bottom: 40px;
     font-weight: 700;
+    line-height: 1.6;
   }
 
   .hero-text {
     font-size: 24px;
     margin-bottom: 88px;
     font-weight: 700;
-    // color: $black-700;
+  }
+
+  .heroBtn {
+    font-size: 24px;
   }
 }
 
-/* 右側區塊 */
-//白雲
+/* 右側動畫雲朵區塊 */
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 480px;
+  position: relative;
+}
+
+/* 呼吸的白雲 */
 .hero-right::before {
   content: "";
   position: absolute;
-
-  left: 48%;
-  top: 15%;  /* 這裡控制上下 */
-
-  width: min(90%, 650px);
+  left: 50%;
+  top: 50%;
+  width: min(100%, 636px);
   aspect-ratio: 1 / 1;
-
   transform: translate(-50%, -50%);
-
-  background: url("/src/assets/white-blob.png")
-              no-repeat center / contain;
-
+  background: url("/src/assets/white-blob.png") no-repeat center / contain;
   animation: breathe 10s ease-in-out infinite;
   z-index: 0;
 }
-@keyframes breathe {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-//藍雲
+
+/* 漂浮的藍雲 */
 .hero-right::after {
   content: "";
   position: absolute;
-
-  bottom: 0;
-  right: 10%;
-  top: 68%;
-
+  top: 55%;
+  right: 0%;
   width: 220px;
   height: 220px;
-
-  background: url("/src/assets/blue-blob.png")
-              no-repeat center / contain;
-
+  background: url("/src/assets/blue-blob.png") no-repeat center / contain;
   animation: floatBlue 7s ease-in-out infinite;
   z-index: 1;
 }
-@keyframes floatBlue {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-8px, -10px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
 
-/* --- 心途小語 --- */
+/* --- 心途小語卡片 --- */
 .quote-card {
   position: relative;
   z-index: 2;
-
-  width: clamp(600px, 70%, 680px);
-  max-width: 700px;
-
+  width: 100%;
+  max-width: 636px;
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  right: 65%;
-   transform: translateY(-50px);
-}
-//文字動畫
-.fade-in-up {
-  animation: fadeSoft 2s ease forwards;
-}
-
-@keyframes fadeSoft {
-  from {
-    opacity: 0;
-    letter-spacing: 2px;
-  }
-  to {
-    opacity: 1;
-    letter-spacing: 0px;
-  }
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  gap: 106px;
 }
 
 .quote-header {
@@ -150,34 +104,73 @@
   height: 40px;
 }
 
-/* --- 小語文字 --- */
 .quote-body {
   text-align: center;
-  // color: $BG-05;
   font-weight: 700;
   line-height: 1.2;
   font-size: 28px;
-  margin-top: 24px;
-  margin-bottom: 14px;
 
   p {
     margin-bottom: 0;
+    color: #192842;
   }
 }
 
-/* --- 底部簽名 --- */
 .quote-footer {
-  animation: fadeSoft 2s ease forwards;
-  z-index: 3;
   font-size: 20px;
   font-weight: 700;
+  text-align: end;
   margin-right: 60px;
-  position: absolute;
-  right: 8%;
-  bottom: 15%;
-  opacity: 0.7;
+  animation: fadeSoft 2s ease forwards;
 }
-/* icon 旋轉一次 */
+
+/* =========================================
+    動畫 Keyframes 區塊
+   ========================================= */
+.fade-in-up {
+  animation: fadeSoft 2s ease forwards;
+}
+
+@keyframes breathe {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes floatBlue {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-8px, -10px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes fadeSoft {
+  from {
+    opacity: 0;
+    letter-spacing: 2px;
+  }
+
+  to {
+    opacity: 1;
+    letter-spacing: 0px;
+  }
+}
+
 .rotate-once {
   animation: rotateOnce 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -186,13 +179,12 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
-
-/* 小語淡入 */
 .fade-in-out {
   animation: fadeInOut 1s ease;
   animation-delay: 0.1s;
@@ -204,6 +196,7 @@
     opacity: 0;
     transform: translateY(4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -215,3 +208,150 @@
   cursor: not-allowed;
 }
 
+/* =========================================
+   RWD 區塊
+   ========================================= */
+
+@media (max-width: 992px) {
+  .hero-container {
+    padding: 28px;
+  }
+
+  .hero-content {
+    flex-direction: column;
+    align-items: normal;
+  }
+
+  .hero-left {
+    margin: 28px 0;
+    display: flex;
+    flex-direction: column;
+
+    .hero-title {
+      font-size: 32px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .hero-text {
+      font-size: 20px;
+      margin-bottom: 24px;
+
+      p {
+        margin-bottom: 4px;
+      }
+    }
+
+    .heroBtn {
+      width: 50%;
+      font-size: 24px;
+    }
+  }
+
+  /* 讓雲朵在平板模式縮小一點 */
+  .hero-right::before {
+    width: 90%;
+  }
+
+  .hero-right::after {
+    width: 180px;
+    height: 150px;
+    top: 60%;
+  }
+
+  .quote-card {
+    gap: 85px;
+
+    .quote-footer {
+      margin-right: 24px;
+
+      p {
+        font-size: 16px;
+      }
+    }
+  }
+
+  .title-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-left {
+    margin-bottom: -130px;
+
+    .hero-title {
+      font-size: 24px;
+    }
+
+    .hero-text {
+      font-size: 16px;
+    }
+
+    .heroBtn {
+      font-size: 16px;
+      width: 50%;
+      padding: 12px 0;
+    }
+  }
+
+  .quote-header {
+    padding: 0 20px;
+    padding-top: 24px;
+    flex-direction: row;
+
+    .quote-title {
+      font-size: 16px;
+    }
+
+    .refresh-btn {
+      font-size: 14px;
+    }
+  }
+
+  .quote-card {
+    gap: 60px;
+    padding-bottom: 30px;
+
+    .quote-footer {
+      margin-right: 12px;
+
+      p {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .quote-body {
+    font-size: 16px;
+    padding: 0 16px;
+
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  .hero-right {
+    width: 100%;
+    min-height: 280px;
+  }
+
+  /* 讓雲朵在手機模式縮小 */
+  .hero-right::before {
+    width: 95%;
+  }
+
+  .hero-right::after {
+    width: 130px;
+    height: 100px;
+    top: 60%;
+    right: 0%;
+  }
+
+  .title-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
