@@ -3,7 +3,7 @@ import { ROUTES } from "../../constants/routes";
 import { logout } from "../../services/auth/authService";
 import { authStore } from "../../services/auth/authStore";
 import UserProfile from "../shared/UserProfile";
-import { IconSparkles, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ function Header() {
   const [userPlan, setUserPlan] = useState(authStore.getUserPlan());
   const [isLoggedIn, setIsLoggedIn] = useState(authStore.isLoggedIn());
 
-  // ✨ 2. 新增控制行動版選單的狀態
+  // 控制行動版選單的狀態
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -40,11 +40,11 @@ function Header() {
   function handleLogout() {
     logout();
     window.dispatchEvent(new Event("auth-update"));
-    setIsMobileMenuOpen(false); // 登出時關閉選單
+    setIsMobileMenuOpen(false);
     navigate(0);
   }
 
-  // ✨ 3. 點擊連結時自動收合選單的輔助函式
+  // 點擊連結時自動收合選單的輔助函式
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
@@ -54,7 +54,7 @@ function Header() {
           <img src={logo} alt="Inner Soul" className="site-logo" />
         </Link>
 
-        {/* ✨ 4. 行動版漢堡按鈕 (桌機版會用 CSS 隱藏) */}
+        {/* 行動版漢堡按鈕 */}
         <button
           className="mobile-toggle-btn"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -62,13 +62,12 @@ function Header() {
           {isMobileMenuOpen ? <IconX size={32} /> : <IconMenu2 size={32} />}
         </button>
 
-        {/* ✨ 新增：半透明黑色遮罩，並綁定 onClick={closeMenu} 讓點擊背景可以關閉選單 */}
+        {/* 半透明黑色遮罩 */}
         <div
           className={`menu-overlay ${isMobileMenuOpen ? "open" : ""}`}
           onClick={closeMenu}
         ></div>
 
-        {/* ✨ 5. 用一個 wrapper 包住主要選單跟按鈕，方便用 CSS 做手機版展開 */}
         <div className={`nav-wrapper ${isMobileMenuOpen ? "open" : ""}`}>
           <nav className="main-nav">
             <Link to={ROUTES.playlist} className="nav-link" onClick={closeMenu}>
