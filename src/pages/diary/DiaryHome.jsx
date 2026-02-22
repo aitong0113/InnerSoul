@@ -175,7 +175,7 @@ const DiaryHome = () => {
   };
 
   return (
-    <main className="bg-BG-01 pt-8 pb-12">
+    <main className="bg-liner pt-8 pb-12">
       <DiaryLayout
         year_month={yearMonth}
         weeks={weeks}

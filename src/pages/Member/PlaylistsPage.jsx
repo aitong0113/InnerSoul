@@ -159,9 +159,9 @@ function PlaylistsPage({ selectPlaylist }) {
                               className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
                               style={{ width: "150px" }}
                             >
-                              <li className="px-3 ">加入播放清單</li>
-                              <li className="px-3 ">重新排列</li>
-                              <li className="px-3 ">分享</li>
+                              <div className="px-3 dropdown-item">加入播放清單</div>
+                              <div className="px-3 dropdown-item">重新排列</div>
+                              <div className="px-3 dropdown-item">分享</div>
                             </div>
                           )}
                         </div>
