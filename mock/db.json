@@ -486,6 +486,13 @@
         19
       ],
       "ownerId": 1
+    },
+    {
+      "ownerId": 3,
+      "listName": "新播放清單",
+      "songsID": [],
+      "category": "",
+      "id": 16
     }
   ],
   "songs": [
@@ -777,33 +784,18 @@
     },
     {
       "userId": 3,
-      "playlistId": 5,
-      "id": 30
-    },
-    {
-      "userId": 3,
-      "playlistId": 6,
-      "id": 31
+      "playlistId": 11,
+      "id": 35
     },
     {
       "userId": 3,
       "playlistId": 7,
-      "id": 32
+      "id": 36
     },
     {
       "userId": 3,
       "playlistId": 8,
-      "id": 33
-    },
-    {
-      "userId": 3,
-      "playlistId": 10,
-      "id": 34
-    },
-    {
-      "userId": 3,
-      "playlistId": 11,
-      "id": 35
+      "id": 37
     }
   ],
   "plans": [

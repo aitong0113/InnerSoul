@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
 import { selectPlaylistsView } from "../../slices/selectors";
+import api from "../../services/api";
+import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -71,10 +73,25 @@ function PlaylistsPage({ selectPlaylist }) {
     // TODO: 實作新增語音功能
   };
 
-  const handleCreatePlaylist = () => {
-    console.log("新增播放清單");
-    // TODO: 實作新增清單功能
+  const handleCreatePlaylist = async () => {
+    try {
+      const payload = {
+        ownerId: userId,
+        listName: "新播放清單",
+        songsID: [],
+        category: "",
+      };
+      await api.post("/lists", payload);
+      // 更新 UI
+      await dispatch(fetchPlaylists());
+      // 切換到新增清單
+      setCurrentPlaylistIndex(ownedPlaylists.length);
+    } catch (err) {
+      console.error("新增播放清單失敗：", err);
+      alert("新增播放清單失敗，請稍後再試");
+    }
   };
+
   if (status === "loading" || followStatus === "loading") {
     return (
       <div className="playlists-page loading">
