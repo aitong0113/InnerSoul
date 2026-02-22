@@ -486,6 +486,13 @@
         19
       ],
       "ownerId": 1
+    },
+    {
+      "ownerId": 3,
+      "listName": "新播放清單",
+      "songsID": [],
+      "category": "",
+      "id": 16
     }
   ],
   "songs": [
@@ -677,6 +684,11 @@
       "userId": 3,
       "songId": 2,
       "id": 24
+    },
+    {
+      "userId": 3,
+      "songId": 15,
+      "id": 25
     }
   ],
   "playlistFollowers": [
@@ -752,28 +764,38 @@
     },
     {
       "userId": 3,
+      "playlistId": 1,
+      "id": 26
+    },
+    {
+      "userId": 3,
       "playlistId": 2,
       "id": 27
     },
     {
       "userId": 3,
+      "playlistId": 3,
+      "id": 28
+    },
+    {
+      "userId": 3,
       "playlistId": 4,
-      "id": 30
+      "id": 29
+    },
+    {
+      "userId": 3,
+      "playlistId": 11,
+      "id": 35
+    },
+    {
+      "userId": 3,
+      "playlistId": 7,
+      "id": 36
     },
     {
       "userId": 3,
       "playlistId": 8,
-      "id": 33
-    },
-    {
-      "userId": 3,
-      "playlistId": 9,
-      "id": 34
-    },
-    {
-      "userId": 3,
-      "playlistId": 5,
-      "id": 35
+      "id": 37
     }
   ],
   "plans": [

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
 import { selectPlaylistsView } from "../../slices/selectors";
+import api from "../../services/api";
+import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -43,6 +45,16 @@ function PlaylistsPage({ selectPlaylist }) {
   const playlistSongs = currentPlaylist?.songs || [];
 
   const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
+  //三個點的選單
+  const [openMenuId, setOpenMenuId] = useState(null);
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenMenuId(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const handlePrevPlaylist = () => {
     setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : ownedPlaylists.length - 1));
@@ -61,10 +73,25 @@ function PlaylistsPage({ selectPlaylist }) {
     // TODO: 實作新增語音功能
   };
 
-  const handleCreatePlaylist = () => {
-    console.log("新增播放清單");
-    // TODO: 實作新增清單功能
+  const handleCreatePlaylist = async () => {
+    try {
+      const payload = {
+        ownerId: userId,
+        listName: "新播放清單",
+        songsID: [],
+        category: "",
+      };
+      await api.post("/lists", payload);
+      // 更新 UI
+      await dispatch(fetchPlaylists());
+      // 切換到新增清單
+      setCurrentPlaylistIndex(ownedPlaylists.length);
+    } catch (err) {
+      console.error("新增播放清單失敗：", err);
+      alert("新增播放清單失敗，請稍後再試");
+    }
   };
+
   if (status === "loading" || followStatus === "loading") {
     return (
       <div className="playlists-page loading">
@@ -134,9 +161,27 @@ function PlaylistsPage({ selectPlaylist }) {
                             <IconPlayerPlayFilled size={24} />
                           )}
                         </button>
-                        <button className="menu-btn">
-                          <IconDotsVertical size={18} />
-                        </button>
+                        <div className="menu-wrap position-relative">
+                          <button
+                            className="menu-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenMenuId(openMenuId === song.id ? null : song.id);
+                            }}
+                          >
+                            <IconDotsVertical size={18} />
+                          </button>
+                          {openMenuId === song.id && (
+                            <div
+                              className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
+                              style={{ width: "150px" }}
+                            >
+                              <div className="px-3 dropdown-item">加入播放清單</div>
+                              <div className="px-3 dropdown-item">重新排列</div>
+                              <div className="px-3 dropdown-item">分享</div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </li>
                   );

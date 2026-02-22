@@ -1,17 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../services/api";
 
-/**
- * 抓整張 like table
- */
+//抓整張 like table
 export const fetchAllLikes = createAsyncThunk("userLike/fetchAllLikes", async () => {
   const res = await api.get("/songLikes");
   return res.data;
 });
 
-/**
- * toggle like（只改 relation table）
- */
+//toggle like（只改 relation table）
 export const toggleSongLike = createAsyncThunk(
   "userLike/toggleSongLike",
   async ({ userId, songId }) => {
@@ -54,5 +50,5 @@ const userLikeSlice = createSlice({
 
 export default userLikeSlice.reducer;
 
-/** raw table selector */
+//raw table selector
 export const selectLikes = (state) => state.userLikes?.likes ?? [];
