@@ -50,13 +50,15 @@
   position: relative;
   width: 210px;
   height: 350px;
-  overflow: hidden;   /* 🔒 不可超出瓶子 */
+  overflow: hidden;
+  /* 🔒 不可超出瓶子 */
 }
 
 /* 確保 icon 在 blob 上層 */
 .mood-visual-panel .mood-icon.dynamic {
   z-index: 1;
 }
+
 .member-page {
   max-width: 1100px;
   margin: 0 auto;
@@ -313,7 +315,7 @@
   gap: 24px;
 
   .review-card {
-    background: linear-gradient(to bottom,  #ffffff3b, #ffffff);
+    background: linear-gradient(to bottom, #ffffff3b, #ffffff);
     border-radius: 16px;
     padding: 32px 24px;
     min-height: 400px;
@@ -629,6 +631,7 @@
   padding: 80px 0;
   color: #666;
 }
+
 // 上方已覆蓋
 
 /* 通用動態 icon */
@@ -637,7 +640,7 @@
   position: absolute;
   animation: floatUpDown 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
   transition: opacity 0.6s ease;
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
 }
 
 /* 主情緒（最大、置中） */
@@ -657,6 +660,7 @@
   left: 30%;
   z-index: 2;
 }
+
 .mood-icon.dynamic.secondary:nth-of-type(3) {
   top: 25%;
   right: 25%;
@@ -673,29 +677,159 @@
   bottom: 20%;
   left: 15%;
 }
+
 .mood-icon.dynamic.minor:nth-of-type(5) {
   bottom: 25%;
   right: 20%;
 }
+
 .mood-icon.dynamic.minor:nth-of-type(6) {
   top: 60%;
   left: 10%;
 }
+
 // 2️⃣ 發光效果 + 漂浮動畫
 @keyframes floatUpDown {
-  0%   { transform: translateY(0) scale(var(--scale)); }
-  50%  { transform: translateY(-12px) scale(var(--scale)); }
-  100% { transform: translateY(0) scale(var(--scale)); }
+  0% {
+    transform: translateY(0) scale(var(--scale));
+  }
+
+  50% {
+    transform: translateY(-12px) scale(var(--scale));
+  }
+
+  100% {
+    transform: translateY(0) scale(var(--scale));
+  }
 }
 
 @keyframes glowPulse {
   0% {
-    filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
   }
+
   50% {
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.9));
   }
+
   100% {
-    filter: drop-shadow(0 0 4px rgba(255,255,255,0.4));
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+  }
+}
+
+/* ========= Mobile RWD ========= */
+@media (max-width: 768px) {
+  .member-page {
+    padding: 20px 12px 60px;
+  }
+
+  .member-tabs {
+    gap: 8px;
+    margin-bottom: 24px;
+
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
+
+  .member-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 16px;
+    gap: 12px;
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+    }
+
+    .info {
+      .quote-row {
+        justify-content: center;
+      }
+    }
+
+    .plan-actions {
+      align-items: center;
+      width: 100%;
+
+      .plan-container {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  .month-review {
+    margin-bottom: 32px;
+
+    h3 {
+      font-size: 18px;
+    }
+  }
+
+  .review-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    .review-card {
+      min-height: auto;
+      padding: 24px 16px;
+    }
+  }
+
+  .mood-visual-panel,
+  .mood-visual-panel.layered {
+    width: 160px;
+    height: 260px;
+  }
+
+  .emotion-block {
+    margin-bottom: 40px;
+
+    .emotion-title {
+      font-size: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .emotion-subtitle {
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .emotion-content {
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+
+      .playlist-section {
+        width: 100%;
+        max-width: 100%;
+
+        ul {
+          width: 100% !important;
+        }
+      }
+
+      .list-item {
+        font-size: 14px !important;
+        padding: 8px 0;
+      }
+    }
+  }
+
+  .member-stats {
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    .stat-card {
+      padding: 24px 16px;
+
+      .stat-number {
+        font-size: 36px;
+      }
+    }
   }
 }

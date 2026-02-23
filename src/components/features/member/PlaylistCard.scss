@@ -264,4 +264,34 @@
             }
         }
     }
+
+    /* ========= Mobile RWD ========= */
+    @media (max-width: 768px) {
+        &.large {
+            padding: 24px;
+            min-height: auto;
+
+            .playlist-cover-large {
+                width: 150px;
+                height: 150px;
+            }
+
+            .playlist-details {
+                .playlist-title-large {
+                    font-size: 20px;
+                    margin-bottom: 8px;
+                }
+
+                .playlist-description {
+                    font-size: 14px;
+                }
+
+                .edit-form {
+                    .edit-input {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
 }

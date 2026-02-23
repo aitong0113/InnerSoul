@@ -67,9 +67,7 @@
       gap: 32px;
       margin-bottom: 24px;
 
-      .playlist-detail-card {
-        // PlaylistCard 大卡片樣式由組件處理
-      }
+
 
       .playlist-songs {
         background: rgba(255, 255, 255, 0.6);
@@ -353,19 +351,65 @@
   }
 
   @media (max-width: 768px) {
+    padding: 20px 12px;
+
     .page-header {
       flex-direction: column;
       gap: 16px;
+
+      .page-title {
+        font-size: 22px;
+      }
+
+      .page-subtitle {
+        font-size: 14px;
+      }
+
+      .create-playlist-btn {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     .playlist-detail-section {
+      margin-bottom: 40px;
+
       .playlist-detail-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .playlist-songs {
+        padding: 16px;
+
+        .song-item {
+          padding: 10px 12px;
+
+          .song-info-row {
+            flex-wrap: wrap;
+            gap: 4px;
+
+            .song-name {
+              width: 100%;
+              font-size: 13px;
+            }
+          }
+        }
+      }
+    }
+
+    .recommended-section {
+      .section-title {
+        font-size: 18px;
+      }
+
+      .section-subtitle {
+        font-size: 14px;
       }
     }
 
     .recommended-grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: 1fr;
       gap: 16px;
     }
   }

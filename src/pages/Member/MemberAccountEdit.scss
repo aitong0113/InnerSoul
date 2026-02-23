@@ -7,6 +7,7 @@
   padding: 120px 0;
   padding-bottom: 80px;
 }
+
 .member-edit .container {
   max-width: 1100px;
 }
@@ -148,6 +149,7 @@
     top: 16px;
   }
 }
+
 .inner-datepicker {
   .react-datepicker__day-names {
     margin-top: 8px;
@@ -307,4 +309,53 @@ select.member-input:disabled {
   color: #ffffff;
   font-size: 16px;
   font-weight: 500;
+}
+
+/* ========= Mobile RWD ========= */
+@media (max-width: 768px) {
+  .member-edit {
+    padding: 80px 0 40px;
+  }
+
+  .member-profile {
+    margin-top: 0;
+    margin-bottom: 24px;
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+    }
+
+    .username {
+      font-size: 18px;
+    }
+  }
+
+  .member-form-card {
+    padding: 24px 16px;
+  }
+
+  .member-input {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .phone-row {
+    flex-direction: column;
+    gap: 8px;
+
+    .btn-unbind {
+      width: 100%;
+    }
+  }
+
+  .action-row {
+    flex-direction: column;
+    gap: 12px;
+
+    .btn-cancel,
+    .btn-confirm {
+      width: 100%;
+    }
+  }
 }
