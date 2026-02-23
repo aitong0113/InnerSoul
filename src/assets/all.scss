@@ -6,6 +6,19 @@
 // Bootstrap
 @import "bootstrap/scss/bootstrap";
 
+/* 擴充 Bootstrap fs-* RWD 版本 */
+@each $bp, $breakpoint in $grid-breakpoints {
+  @if $bp != xs {
+    @media (min-width: $breakpoint) {
+      @each $key, $size in $font-sizes {
+        .fs-#{$bp}-#{$key} {
+          font-size: $size !important;
+        }
+      }
+    }
+  }
+}
+
 // 自訂樣式
 
 // layout
@@ -19,7 +32,7 @@
   background: linear-gradient(to bottom, #cde8fa, #ffffff80);
 }
 .custom-swal-radius {
-  border-radius: 24px !important; 
+  border-radius: 24px !important;
 }
 .custom-swal-btn {
   border-radius: 50px !important;

@@ -1,8 +1,27 @@
 .player {
   position: fixed;
-  bottom: 30px;
-  right: 20px;
+  bottom: 0px;
+  right: 0px;
   z-index: 999;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+  .miniPlayer {
+    width: 100vw;
+  }
+}
+@media (min-width: 768px) {
+  .player {
+    bottom: 0px;
+    right: 0px;
+    width: auto;
+    height: auto;
+    border-radius: 16px;
+    .miniPlayer {
+      width: 548px;
+    }
+    .playlist {
+      height: 320px;
+    }
+  }
 }
 
 .list-item {

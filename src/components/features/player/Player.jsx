@@ -8,6 +8,8 @@ import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../sl
 import { toggleSongLike } from "../../../slices/userLikeSlice";
 import { makeSelectUserLikesView } from "../../../slices/selectors";
 
+import { IconMusic } from "@tabler/icons-react";
+
 import "./player.css";
 import {
   IconVolume2,
@@ -284,19 +286,16 @@ function Player() {
       <section className="player" ref={playerRef}>
         {playerType === "mini" ? (
           /* mini player */
-          <div className="px-4 " style={{ width: "548px" }}>
+          <div className="miniPlayer">
             {/* 播放清單 */}
-            <div
-              className="bg-white rounded-top rounded-3 d-flex flex-column"
-              style={{ height: "320px" }}
-            >
+            <div className="bg-white d-flex flex-column playlist">
               <div className="d-flex align-items-center justify-content-center bg-BG-01 ps-6 py-3">
                 <p className="mb-0 text-primary-05 fw-bold">播放清單</p>
                 <div className="btn ms-auto border-0 text-primary-05">
                   <IconChevronDown size={32} onClick={() => changePlayer()} />
                 </div>
               </div>
-              <ul className="text-start px-6  playlist-scroll">
+              <ul className="text-start px-6 py-5  playlist-scroll">
                 {songList.map((song, index) => {
                   const isCurrent = currentIndex === index;
                   const showPause = isCurrent && isPlaying;
@@ -309,10 +308,13 @@ function Player() {
                       }`}
                       key={`${currentListId}-${index}`}
                     >
-                      <p className="m-0">
-                        {song.category} | {song.name}
+                      <p>
+                        <IconMusic className="text-primary-05 me-2" size={20}></IconMusic>
+                        <span className="me-4 badge rounded-pill bg-BG-02 text-black">
+                          {song.category}
+                        </span>
+                        {song.name}
                       </p>
-
                       <button
                         className={`btn border-0 ms-auto item-play ${
                           isCurrent ? "text-primary-05" : "list-item"

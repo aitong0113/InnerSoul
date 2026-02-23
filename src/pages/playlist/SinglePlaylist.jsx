@@ -49,19 +49,19 @@ function SinglePlaylist({ selectPlaylist }) {
   return (
     <>
       <section>
-        <div className="container py-11 d-flex align-items-center justify-content-between position-relative">
+        <div className="container py-11 d-md-flex align-items-center justify-content-between position-relative">
           <div className="mb-4 text-center">
             <Button
               text={targetList.listName}
               imgUrl={`${import.meta.env.BASE_URL}Union.png`}
               className="mb-4"
             />
-            <div className="fs-5 text-primary-05 fw-bold mb-7">
-              <p>世界再吵，我都在</p>
-              <p>陪你一起聆聽內心的聲音</p>
+            <div className="fs-6 fs-md-5 text-primary-05 fw-bold mb-4 mb-md-7">
+              <p className="mb-1">世界再吵，我都在</p>
+              <p className="mb-0">陪你一起聆聽內心的聲音</p>
             </div>
-            <div className="d-flex justify-content-around align-items-center">
-              <p className="text-black-700 mb-0">
+            <div className="d-md-flex justify-content-around align-items-center">
+              <p className="text-black-700 mb-4 mb-md-0">
                 <small>23 人在線</small>
               </p>
               <button
@@ -89,8 +89,8 @@ function SinglePlaylist({ selectPlaylist }) {
             </div>
           </div>
 
-          <div>
-            <ul style={{ width: "800px" }} className="mb-6">
+          <div style={{ maxWidth: "800px", width: "100%" }}>
+            <ul className="mb-6">
               {paginatedSongs?.map((song, index) => {
                 const realIndex = (page - 1) * pageSize + index;
                 const isCurrent = currentListId === targetList.id && currentIndex === realIndex;
@@ -99,7 +99,7 @@ function SinglePlaylist({ selectPlaylist }) {
                 return (
                   <li
                     key={song.id}
-                    className={`list-item d-flex align-items-center justify-content-between mb-5 fs-5 fw-bold ${
+                    className={`list-item d-flex align-items-center justify-content-between mb-4 mb-md-5 fs-5 fw-bold  ${
                       isCurrent ? "text-primary-05" : ""
                     }`}
                     style={{ listStyle: "none" }}

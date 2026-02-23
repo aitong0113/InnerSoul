@@ -510,7 +510,7 @@ function MemberPage({ selectPlaylist }) {
                   <div className="stat-card">
                     <div className="stat-header">不同情境你陪伴了？</div>
                     <div className="stat-number">{userStats.playlistCount}</div>
-                    <div className="stat-unit">首播放清單</div>
+                    <div className="stat-unit">個播放清單</div>
                     <div className="stat-description">播放清單將會與音檔互相連結</div>
                     <button className="stat-button" onClick={() => setActiveTab("playlist")}>
                       播放清單 →
