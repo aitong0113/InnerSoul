@@ -64,13 +64,47 @@ function PlaylistsPage({ selectPlaylist }) {
     setCurrentPlaylistIndex((prev) => (prev < ownedPlaylists.length - 1 ? prev + 1 : 0));
   };
 
+  // Animation state
+  const [animatingId, setAnimatingId] = useState(null);
+  const [animationDir, setAnimationDir] = useState(null); // 'up' | 'down'
+
   const handleToggleFollow = (playlistId) => {
+    const isCurrentlyFollowed = playlists.find((p) => p.id === playlistId)?.isFollowed;
+    const dir = isCurrentlyFollowed ? "down" : "up";
+    setAnimatingId(playlistId);
+    setAnimationDir(dir);
+  };
+
+  const handleAnimationEnd = (playlistId) => {
+    setAnimatingId(null);
+    setAnimationDir(null);
     dispatch(togglePlaylistFollow({ userId, playlistId }));
   };
 
   const handleAddSong = () => {
     console.log("新增語音到清單");
     // TODO: 實作新增語音功能
+  };
+
+  const handleSaveEdit = async (playlistId, { listName, listDescription }) => {
+    try {
+      await api.patch(`/lists/${playlistId}`, { listName, listDescription });
+      await dispatch(fetchPlaylists());
+    } catch (err) {
+      console.error("更新播放清單失敗：", err);
+      alert("更新播放清單失敗，請稍後再試");
+    }
+  };
+
+  const handleDeletePlaylist = async (playlistId) => {
+    try {
+      await api.delete(`/lists/${playlistId}`);
+      await dispatch(fetchPlaylists());
+      setCurrentPlaylistIndex(0);
+    } catch (err) {
+      console.error("刪除播放清單失敗：", err);
+      alert("刪除播放清單失敗，請稍後再試");
+    }
   };
 
   const handleCreatePlaylist = async () => {
@@ -129,6 +163,9 @@ function PlaylistsPage({ selectPlaylist }) {
                   onToggleFollow={() => handleToggleFollow(currentPlaylist.id)}
                   followerCount={currentPlaylist.followerCount}
                   size="large"
+                  showEditMode={true}
+                  onSaveEdit={handleSaveEdit}
+                  onDelete={handleDeletePlaylist}
                 />
               )}
             </div>
@@ -222,6 +259,12 @@ function PlaylistsPage({ selectPlaylist }) {
         <Swiper
           slidesPerView={4}
           spaceBetween={20}
+          breakpoints={{
+            0: { slidesPerView: 1, spaceBetween: 12 },
+            480: { slidesPerView: 2, spaceBetween: 16 },
+            768: { slidesPerView: 3, spaceBetween: 20 },
+            1024: { slidesPerView: 4, spaceBetween: 20 },
+          }}
           pagination={{
             clickable: true,
           }}
@@ -229,9 +272,13 @@ function PlaylistsPage({ selectPlaylist }) {
           className="mySwiper"
         >
           {followedPlaylists.map((list) => {
+            const isAnimating = animatingId === list.id && animationDir === "down";
             return (
               <SwiperSlide key={list.id}>
-                <div className="playlist-detail-card">
+                <div
+                  className={`playlist-detail-card ${isAnimating ? "animate-fly-down" : ""}`}
+                  onAnimationEnd={() => isAnimating && handleAnimationEnd(list.id)}
+                >
                   <PlaylistCard
                     playlist={list}
                     isFollowed={list.isFollowed}
@@ -252,8 +299,13 @@ function PlaylistsPage({ selectPlaylist }) {
         <div className="recommended-grid">
           {recommendedPlaylists.map((playlist) => {
             const isCurrent = playlist.id === currentListId;
+            const isAnimating = animatingId === playlist.id && animationDir === "up";
             return (
-              <div key={playlist.id} className="recommended-item">
+              <div
+                key={playlist.id}
+                className={`recommended-item ${isAnimating ? "animate-fly-up" : ""}`}
+                onAnimationEnd={() => isAnimating && handleAnimationEnd(playlist.id)}
+              >
                 <div className="recommended-card">
                   {playlist.category && <span className="playlist-tag">{playlist.category}</span>}
                   <button

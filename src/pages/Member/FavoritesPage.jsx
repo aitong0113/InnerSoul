@@ -18,9 +18,6 @@ function FavoritesPage({ selectPlaylist }) {
   const playlists = useSelector((state) => selectPlaylistsView(state, userId));
   const { songs, likedSongIds } = useSelector((state) => selectLikesView(state, userId));
 
-  //Local State
-  const [activeFilter, setActiveFilter] = useState("全部");
-  const filterOptions = ["全部", "清爽", "開心", "孤獨"];
 
   const songMap = useMemo(() => {
     const map = new Map();
@@ -74,19 +71,14 @@ function FavoritesPage({ selectPlaylist }) {
 
       {/* 收藏清單區塊 */}
       <section className="favorites-section">
-        <h3 className="section-title">收藏清單</h3>
-        <FilterTabs
-          options={filterOptions}
-          activeFilter={activeFilter}
-          onChange={setActiveFilter}
-        />
+
         <div className="playlist-grid">
           {favoritePlaylists.map((playlist) => (
             <PlaylistCard
               key={playlist.id}
               playlist={playlist}
               size="small"
-              showEditButton={true}
+              showEditButton={false}
               onClick={() => selectPlaylist(playlist.id)}
             />
           ))}
