@@ -14,20 +14,24 @@ function PlaylistRoute() {
 
   const result = lists.filter((list) => {
     const matchKeyword = keyword ? list.listName.includes(keyword) : true;
-    const matchOwner = isMemberPage ? list.ownerID === userId : true;
+    const matchOwner = isMemberPage ? list.ownerId === userId : true;
     return matchKeyword && matchOwner;
   });
 
   return (
     <>
       <section>
-        <div className="container py-11">
-          <ul className="d-flex">
+        <div className="container py-6 py-md-11">
+          <ul className="d-flex row row-cols-sm-2 row-cols-md-4 ps-0">
             {result
               .filter((item) => item.ownerId === 2)
               .slice(0, 4)
               .map((item) => (
-                <li key={item.id} style={{ listStyle: "none" }}>
+                <li
+                  key={item.id}
+                  style={{ listStyle: "none" }}
+                  className="column d-flex justify-content-center"
+                >
                   <Button
                     text={item.listName}
                     type="button"

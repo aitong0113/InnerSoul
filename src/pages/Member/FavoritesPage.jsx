@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import SongCard from "../../components/features/member/SongCard";
 import PlaylistCard from "../../components/features/member/PlaylistCard";
 import FilterTabs from "../../components/features/member/FilterTabs";
@@ -17,7 +17,6 @@ function FavoritesPage({ selectPlaylist }) {
   // Redux State
   const playlists = useSelector((state) => selectPlaylistsView(state, userId));
   const { songs, likedSongIds } = useSelector((state) => selectLikesView(state, userId));
-
 
   const songMap = useMemo(() => {
     const map = new Map();
@@ -71,7 +70,6 @@ function FavoritesPage({ selectPlaylist }) {
 
       {/* 收藏清單區塊 */}
       <section className="favorites-section">
-
         <div className="playlist-grid">
           {favoritePlaylists.map((playlist) => (
             <PlaylistCard
