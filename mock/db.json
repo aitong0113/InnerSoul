@@ -765,16 +765,6 @@
     },
     {
       "userId": 3,
-      "playlistId": 1,
-      "id": 26
-    },
-    {
-      "userId": 3,
-      "playlistId": 2,
-      "id": 27
-    },
-    {
-      "userId": 3,
       "playlistId": 3,
       "id": 28
     },
@@ -787,11 +777,6 @@
       "userId": 3,
       "playlistId": 5,
       "id": 30
-    },
-    {
-      "userId": 3,
-      "playlistId": 6,
-      "id": 31
     },
     {
       "userId": 3,
