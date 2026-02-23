@@ -95,6 +95,11 @@
 
             &:hover {
               background: rgba(255, 255, 255, 1);
+
+              .song-actions-row .play-pause-btn {
+                opacity: 1;
+                visibility: visible;
+              }
             }
 
             .song-info-row {
@@ -142,6 +147,14 @@
 
               .play-pause-btn {
                 font-size: 16px;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+
+                &.text-primary-05 {
+                  opacity: 1;
+                  visibility: visible;
+                }
               }
             }
           }
@@ -208,6 +221,15 @@
         min-width: 24px;
         text-align: center;
       }
+    }
+  }
+
+  // Swiper pagination spacing
+  .mySwiper {
+    padding-bottom: 40px;
+
+    .swiper-pagination {
+      bottom: 0 !important;
     }
   }
 
@@ -346,5 +368,50 @@
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 16px;
     }
+  }
+
+  // Fly-up / fly-down animations
+  @keyframes flyUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    50% {
+      opacity: 0.6;
+      transform: translateY(-60px) scale(0.9);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(-120px) scale(0.8);
+    }
+  }
+
+  @keyframes flyDown {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    50% {
+      opacity: 0.6;
+      transform: translateY(60px) scale(0.9);
+    }
+
+    100% {
+      opacity: 0;
+      transform: translateY(120px) scale(0.8);
+    }
+  }
+
+  .animate-fly-up {
+    animation: flyUp 0.5s ease-in-out forwards;
+    pointer-events: none;
+  }
+
+  .animate-fly-down {
+    animation: flyDown 0.5s ease-in-out forwards;
+    pointer-events: none;
   }
 }

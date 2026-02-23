@@ -133,6 +133,135 @@
                     font-weight: 500;
                 }
             }
+
+            .playlist-edit-actions {
+                display: flex;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .edit-playlist-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 8px 20px;
+                background: #104754;
+                color: #fff;
+                border: none;
+                border-radius: 999px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    background: #1a6376;
+                    transform: translateY(-2px);
+                }
+            }
+
+            .delete-playlist-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 8px 20px;
+                background: transparent;
+                color: #c0392b;
+                border: 2px solid #c0392b;
+                border-radius: 999px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    background: #c0392b;
+                    color: #fff;
+                    transform: translateY(-2px);
+                }
+            }
+
+            .edit-form {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                width: 100%;
+
+                .edit-input {
+                    width: 100%;
+                    padding: 10px 14px;
+                    border: 2px solid #bde0ec;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #104754;
+                    background: rgba(255, 255, 255, 0.9);
+                    outline: none;
+                    text-align: center;
+                    transition: border-color 0.3s ease;
+
+                    &:focus {
+                        border-color: #104754;
+                    }
+                }
+
+                .edit-textarea {
+                    width: 100%;
+                    padding: 10px 14px;
+                    border: 2px solid #bde0ec;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    color: #333;
+                    background: rgba(255, 255, 255, 0.9);
+                    outline: none;
+                    resize: vertical;
+                    text-align: center;
+                    line-height: 1.5;
+                    transition: border-color 0.3s ease;
+
+                    &:focus {
+                        border-color: #104754;
+                    }
+                }
+
+                .edit-actions {
+                    display: flex;
+                    justify-content: center;
+                    gap: 12px;
+
+                    .save-btn {
+                        padding: 8px 24px;
+                        background: #104754;
+                        color: #fff;
+                        border: none;
+                        border-radius: 999px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            background: #1a6376;
+                        }
+                    }
+
+                    .cancel-btn {
+                        padding: 8px 24px;
+                        background: transparent;
+                        color: #104754;
+                        border: 2px solid #104754;
+                        border-radius: 999px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            background: rgba(16, 71, 84, 0.05);
+                        }
+                    }
+                }
+            }
         }
     }
 }
