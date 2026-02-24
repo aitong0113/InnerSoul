@@ -44,6 +44,8 @@ function LoginForm() {
         plan: res.user.plan,
         days: 3,
       });
+      window.dispatchEvent(new Event("auth-update"));
+
       alert("登入成功！");
       navigate(ROUTES.home);
     } catch (err) {
