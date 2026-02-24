@@ -51,6 +51,11 @@
   transition: 0.5s ease;
 }
 
+.arrowIcon {
+  width: 24px;
+  height: 24px;
+}
+
 .text {
   line-height: 1.5;
   letter-spacing: 0.02em;
@@ -112,4 +117,39 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.onlyDesktop {
+  display: block;
+}
+.onlyMobile {
+  display: none;
+}
+@media (max-width: 992px) {
+  .onlyDesktop {
+    display: none;
+  }
+  .onlyMobile {
+    display: block;
+  }
+  .arrowIcon {
+    width: 20px;
+    height: 20px;
+  }
+  .cloud1 {
+    position: absolute;
+    right: -5%;
+    bottom: 0px;
+    width: 124px;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .cloud2 {
+    position: absolute;
+    right: 0%;
+    bottom: -30px;
+    width: 124px;
+    z-index: 0;
+    pointer-events: none;
+  }
 }
