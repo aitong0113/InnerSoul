@@ -7,8 +7,15 @@
 <br>
 
 <div align="center">
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-71A29D?style=for-the-badge)](https://aitong0113.github.io/InnerSoul/)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aitong0113/InnerSoul)
+
+<a href="https://aitong0113.github.io/InnerSoul/">
+  <img src="https://img.shields.io/badge/Live%20Demo-71A29D?style=for-the-badge" />
+</a>
+
+<a href="https://github.com/aitong0113/InnerSoul">
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+</a>
+
 </div>
 
 <div align="center">
