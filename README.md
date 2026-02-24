@@ -1,13 +1,15 @@
 
-# 心途 Inner Soul
+<h2 align="center">心途 Inner Soul</h2>
 
 <div align="center">
   <img src="./demo.gif" alt="Inner Soul Demo" width="100%">
 </div>
 <br>
 
+<div align="center">
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-71A29D?style=for-the-badge)](https://aitong0113.github.io/InnerSoul/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aitong0113/InnerSoul)
+</div>
 
 <div align="center">
   <h3>音樂陪伴 × 療癒 × 自我對話的心靈平台</h3>
