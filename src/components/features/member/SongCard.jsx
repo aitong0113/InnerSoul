@@ -14,11 +14,11 @@ function SongCard({
   return (
     <div className="song-card">
       <div className="song-cover">
-        <img src={song.thumb || "/Union.png"} alt={song.fileName} />
+        <img src={song.thumb || "/Union.png"} alt={song.name} />
       </div>
       <div className="song-info">
-        <h4 className="song-title">{song.fileName}</h4>
-        <p className="song-artist">{song.author}</p>
+        <h4 className="song-title">{song.name}</h4>
+        <p className="song-artist">{song.category}</p>
       </div>
       <div className="song-actions">
         {showAddButton && (
@@ -32,6 +32,7 @@ function SongCard({
             onClick={() => onFavorite?.(song)}
             title={isFavorited ? "取消收藏" : "加入收藏"}
           >
+            {/* {song.likeCount} */}
             <IconHeart size={20} fill={isFavorited ? "currentColor" : "none"} />
           </button>
         )}

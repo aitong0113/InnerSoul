@@ -6,6 +6,19 @@
 // Bootstrap
 @import "bootstrap/scss/bootstrap";
 
+/* 擴充 Bootstrap fs-* RWD 版本 */
+@each $bp, $breakpoint in $grid-breakpoints {
+  @if $bp != xs {
+    @media (min-width: $breakpoint) {
+      @each $key, $size in $font-sizes {
+        .fs-#{$bp}-#{$key} {
+          font-size: $size !important;
+        }
+      }
+    }
+  }
+}
+
 // 自訂樣式
 
 // layout
@@ -17,4 +30,14 @@
 
 .bg-playlist {
   background: linear-gradient(to bottom, #cde8fa, #ffffff80);
+}
+.custom-swal-radius {
+  border-radius: 24px !important;
+}
+.custom-swal-btn {
+  border-radius: 50px !important;
+  padding: 10px 32px !important;
+  background: #104754 !important;
+  color: white !important;
+  border: none !important;
 }

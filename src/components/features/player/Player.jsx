@@ -1,8 +1,14 @@
-import { useEffect, useState, useRef, useCallback } from "react";
-import { authStore } from "../../../services/auth/authStore";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { authStore } from "../../../services/auth/authStore";
+
 import { toggle, next, prev, playAtIndex, cycleRepeat, pause } from "../../../slices/playerSlice";
 import { toggleSongLike } from "../../../slices/userLikeSlice";
+import { makeSelectUserLikesView } from "../../../slices/selectors";
+
+import { IconMusic } from "@tabler/icons-react";
 
 import "./player.css";
 import {
@@ -26,15 +32,23 @@ const BASE_URL = import.meta.env.BASE_URL;
 
 function Player() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { songList, currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
 
-  const likedSongIds = useSelector((state) => state.userLikes.likedSongIds);
-  const isLiked = currentSong && likedSongIds.includes(currentSong.id);
+  const userId = authStore.getUserId();
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
+  const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
+  const isLiked = currentSong ? likedSongIds.includes(currentSong.id) : false;
 
   // 訂閱方案
   const FREE_PLAY_LIMIT = 3;
+  const alertMessage = useCallback(() => {
+    const confirmed = window.confirm("這份陪伴暫僅開放前三首試聽，升級訂閱即可完整聆聽。");
+    if (confirmed) navigate("/subscription");
+    setPlayerType("bar");
+  }, [navigate]);
 
   const canPlayIndex = useCallback((index) => {
     const plan = authStore.getUserPlan() || "free";
@@ -44,12 +58,12 @@ function Player() {
     (index, fallbackAction) => {
       if (!canPlayIndex(index)) {
         dispatch(pause());
-        alert("請升級方案");
+        alertMessage();
         return;
       }
       fallbackAction();
     },
-    [canPlayIndex, dispatch]
+    [canPlayIndex, dispatch, alertMessage]
   );
 
   const onNext = useCallback(() => {
@@ -89,11 +103,11 @@ function Player() {
     }
     if (!canPlayIndex(targetIndex)) {
       dispatch(pause());
-      alert("請升級方案");
+      alertMessage();
       return;
     }
     dispatch(prev());
-  }, [repeatType, currentIndex, songList.length, canPlayIndex, dispatch]);
+  }, [repeatType, currentIndex, songList.length, canPlayIndex, dispatch, alertMessage]);
 
   const onTogglePlay = useCallback(() => {
     dispatch(toggle());
@@ -125,7 +139,7 @@ function Player() {
     if (isPlaying) {
       audioRef.current.play().catch(() => {});
     }
-  }, [currentIndex, currentListId, currentSong, isPlaying]);
+  }, [currentIndex, currentListId, currentSong]);
 
   // 播放用
   useEffect(() => {
@@ -272,30 +286,39 @@ function Player() {
       <section className="player" ref={playerRef}>
         {playerType === "mini" ? (
           /* mini player */
-          <div className="px-4 " style={{ width: "548px" }}>
+          <div className="miniPlayer">
             {/* 播放清單 */}
-            <div className="bg-white rounded-top rounded-3">
+            <div className="bg-white d-flex flex-column playlist">
               <div className="d-flex align-items-center justify-content-center bg-BG-01 ps-6 py-3">
                 <p className="mb-0 text-primary-05 fw-bold">播放清單</p>
                 <div className="btn ms-auto border-0 text-primary-05">
                   <IconChevronDown size={32} onClick={() => changePlayer()} />
                 </div>
               </div>
-              <ul className="text-start px-6 pt-5">
+              <ul className="text-start px-6 py-5  playlist-scroll">
                 {songList.map((song, index) => {
                   const isCurrent = currentIndex === index;
                   const showPause = isCurrent && isPlaying;
+
                   return (
                     <li
                       onClick={() => handleClickSong(index)}
-                      className={`d-flex w-100 align-items-center  ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05 fw-bold" : "list-item"}`}
-                      key={index}
+                      className={`d-flex w-100 align-items-center ${
+                        isCurrent ? "text-primary-05 fw-bold" : "list-item"
+                      }`}
+                      key={`${currentListId}-${index}`}
                     >
-                      <p className="m-0">
-                        {song.category} | {song.fileName}
+                      <p>
+                        <IconMusic className="text-primary-05 me-2" size={20}></IconMusic>
+                        <span className="me-4 badge rounded-pill bg-BG-02 text-black">
+                          {song.category}
+                        </span>
+                        {song.name}
                       </p>
                       <button
-                        className={`btn border-0 ms-auto item-play ${currentSong?.fileUrl === song.fileUrl ? " text-primary-05" : "list-item"}`}
+                        className={`btn border-0 ms-auto item-play ${
+                          isCurrent ? "text-primary-05" : "list-item"
+                        }`}
                       >
                         {showPause ? (
                           <IconPlayerPauseFilled size={24} />
@@ -307,21 +330,22 @@ function Player() {
                   );
                 })}
               </ul>
+
               {/* 正在播放，有播放才顯示*/}
               {currentSong && (
                 <div
                   className="text-start d-flex px-6 align-items-center "
                   style={{ background: "linear-gradient(to top, #F5F5DC50, #fff)" }}
                 >
-                  <p className="me-auto mb-0 text-primary-05 fw-bold">{`${currentSong.category} | ${currentSong.fileName}`}</p>
+                  <p className="me-auto mb-0 text-primary-05 fw-bold">{`${currentSong.category} | ${currentSong.name}`}</p>
                   <button
                     className="btn border-0 text-primary-05"
                     onClick={() => {
-                      const userId = authStore.getUserId();
                       if (!userId) {
-                        alert("請先登入");
+                        alertMessage();
                         return;
                       }
+
                       dispatch(
                         toggleSongLike({
                           userId,

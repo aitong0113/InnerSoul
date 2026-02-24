@@ -5,10 +5,12 @@ import * as z from "zod";
 import { IconCreditCard, IconLock, IconAlertCircle } from "@tabler/icons-react";
 import SubscriptionTermsModal from "../subscription/SubscriptionTermsModal";
 import PaymentSuccessModal from "./PaymentSuccessModal";
+import { authStore } from "../../../services/auth/authStore";
+import api from "../../../services/api";
 
 const isValidLuhn = (val) => {
   if (!val) return false;
-  const digits = val.replace(/\s/g, '');
+  const digits = val.replace(/\s/g, "");
   if (digits.length < 13) return false;
 
   let sum = 0;
@@ -42,7 +44,7 @@ const paymentSchema = z.object({
     .refine((val) => {
 
       if (!val) return false;
-      const [monthStr, yearStr] = val.split(' / ');
+      const [monthStr, yearStr] = val.split(" / ");
 
       const inputMonth = parseInt(monthStr, 10);
       const inputYear = parseInt(yearStr, 10) + 2000;
@@ -77,11 +79,29 @@ const PaymentForm = ({ amount }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log("驗證通過，準備付款資料:", data);
+    try {
+      const mockOrderId = `ORD-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    const mockOrderId = `ORD-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    setSuccessData(mockOrderId);
+      console.log("正在處理付款...", data);
+
+      const userId = authStore.getUserId();
+
+      await api.patch(`/users/${userId}`, { plan: 'pro' });
+
+      if (typeof authStore.updateUserPlan === 'function') {
+        authStore.updateUserPlan('pro');
+      }
+
+      window.dispatchEvent(new Event("auth-update"));
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      setSuccessData(mockOrderId);
+
+    } catch (error) {
+      console.error("付款失敗:", error);
+      alert("付款處理發生錯誤，請檢查網路或稍後再試。");
+    }
   };
 
   // 一鍵填入資料
@@ -94,26 +114,26 @@ const PaymentForm = ({ amount }) => {
   };
 
   const handleCardNumberChange = (e) => {
-    let value = e.target.value.replace(/\D/g, '');
+    let value = e.target.value.replace(/\D/g, "");
     value = value.substring(0, 16);
-    const formatted = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-    setValue('cardNumber', formatted, { shouldValidate: true });
+    const formatted = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+    setValue("cardNumber", formatted, { shouldValidate: true });
   };
 
   const handleExpiryChange = (e) => {
-    let value = e.target.value.replace(/\D/g, '');
+    let value = e.target.value.replace(/\D/g, "");
     value = value.substring(0, 4);
 
     if (value.length >= 2) {
       value = `${value.substring(0, 2)} / ${value.substring(2)}`;
     }
-    setValue('expiry', value, { shouldValidate: true });
+    setValue("expiry", value, { shouldValidate: true });
   };
 
   const handleCvcChange = (e) => {
-    let value = e.target.value.replace(/\D/g, '');
+    let value = e.target.value.replace(/\D/g, "");
     value = value.substring(0, 4);
-    setValue('cvc', value, { shouldValidate: true });
+    setValue("cvc", value, { shouldValidate: true });
   }
 
   return (
@@ -126,7 +146,7 @@ const PaymentForm = ({ amount }) => {
             type="button"
             className="btn btn-outline-primary btn-sm d-flex align-items-center gap-1"
             onClick={handleQuickFill}
-            style={{ fontSize: '0.8rem', padding: '0.25rem 0.5rem' }}
+            style={{ fontSize: "0.8rem", padding: "0.25rem 0.5rem" }}
           >
             快速填入
           </button>
@@ -150,7 +170,7 @@ const PaymentForm = ({ amount }) => {
                 <label>卡號</label>
                 <input
                   type="text"
-                  className={`form-control ${errors.cardNumber ? 'is-invalid' : ''}`}
+                  className={`form-control ${errors.cardNumber ? "is-invalid" : ""}`}
                   placeholder="0000 0000 0000 0000"
                   maxLength="19"
                   {...register("cardNumber")}
@@ -169,7 +189,7 @@ const PaymentForm = ({ amount }) => {
                   <label>到期日</label>
                   <input
                     type="text"
-                    className={`form-control ${errors.expiry ? 'is-invalid' : ''}`}
+                    className={`form-control ${errors.expiry ? "is-invalid" : ""}`}
                     placeholder="MM / YY"
                     maxLength="7"
                     {...register("expiry")}
@@ -187,7 +207,7 @@ const PaymentForm = ({ amount }) => {
                   <label>CVC / 安全碼</label>
                   <input
                     type="text"
-                    className={`form-control ${errors.cvc ? 'is-invalid' : ''}`}
+                    className={`form-control ${errors.cvc ? "is-invalid" : ""}`}
                     placeholder="123"
                     maxLength="4"
                     {...register("cvc")}
@@ -206,7 +226,7 @@ const PaymentForm = ({ amount }) => {
                 <label>持卡人姓名</label>
                 <input
                   type="text"
-                  className={`form-control ${errors.cardName ? 'is-invalid' : ''}`}
+                  className={`form-control ${errors.cardName ? "is-invalid" : ""}`}
                   placeholder="請輸入持卡人姓名"
                   {...register("cardName")}
                 />
@@ -233,7 +253,7 @@ const PaymentForm = ({ amount }) => {
           </button>
 
           <div className="terms-note">
-            點擊確認即代表您同意{' '}
+            點擊確認即代表您同意{" "}
             <button
               type="button"
               className="btn-link-style"

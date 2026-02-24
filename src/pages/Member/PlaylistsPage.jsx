@@ -1,9 +1,18 @@
-import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
-import { useDispatch } from "react-redux";
-import { toggleFollow } from "../../slices/memberPlaylistSlice";
+import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+import { selectPlaylistsView } from "../../slices/selectors";
+import api from "../../services/api";
 import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
+// import required modules
+import { Pagination } from "swiper/modules";
 
 import {
   IconPlus,
@@ -19,38 +28,57 @@ import "./PlaylistsPage.scss";
 function PlaylistsPage({ selectPlaylist }) {
   const userId = authStore.getUserId();
   const dispatch = useDispatch();
-
   const status = useSelector((state) => state.playlists.status);
+  const followStatus = useSelector((state) => state.playlistFollow.status);
+
+  const playlists = useSelector((state) => selectPlaylistsView(state, userId));
+  const ownedPlaylists = playlists.filter((p) => p.ownerId === userId);
 
   const { currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
 
-  const allPlaylists = useSelector((state) => state.playlists.allPlaylists);
-  // const followedPlaylists = allPlaylists.filter((list) => followedPlaylistIds.includes(list.id));
-  const followedPlaylists = allPlaylists.filter((list) => list.followerUserIds.includes(userId));
-  const currentPlaylist = followedPlaylists[currentPlaylistIndex] ?? null;
+  const followedPlaylists = playlists.filter((p) => p.isFollowed && p.ownerId !== userId);
+
+  const safeIndex =
+    ownedPlaylists.length === 0 ? 0 : Math.min(currentPlaylistIndex, ownedPlaylists.length - 1);
+  const currentPlaylist = ownedPlaylists[safeIndex] ?? null;
   const playlistSongs = currentPlaylist?.songs || [];
 
-  const isFollowed = (playlistId) => {
-    const target = allPlaylists.find((p) => p.id === playlistId);
-    return target?.followerUserIds.includes(userId);
-  };
-  const recommendedPlaylists = allPlaylists
-    .filter((list) => !list.followerUserIds.includes(userId))
-    .slice(0, 4);
-
+  const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
+  //三個點的選單
+  const [openMenuId, setOpenMenuId] = useState(null);
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchPlaylists());
-    }
-  }, [status, userId, dispatch]);
+    const handleClickOutside = () => {
+      setOpenMenuId(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   const handlePrevPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : followedPlaylists.length - 1));
+    setCurrentPlaylistIndex((prev) => (prev > 0 ? prev - 1 : ownedPlaylists.length - 1));
   };
 
   const handleNextPlaylist = () => {
-    setCurrentPlaylistIndex((prev) => (prev < followedPlaylists.length - 1 ? prev + 1 : 0));
+    setCurrentPlaylistIndex((prev) => (prev < ownedPlaylists.length - 1 ? prev + 1 : 0));
+  };
+
+  // Animation state
+  const [animatingId, setAnimatingId] = useState(null);
+  const [animationDir, setAnimationDir] = useState(null); // 'up' | 'down'
+
+  const handleToggleFollow = (playlistId) => {
+    const isCurrentlyFollowed = playlists.find((p) => p.id === playlistId)?.isFollowed;
+    const dir = isCurrentlyFollowed ? "down" : "up";
+    setAnimatingId(playlistId);
+    setAnimationDir(dir);
+  };
+
+  const handleAnimationEnd = (playlistId) => {
+    setAnimatingId(null);
+    setAnimationDir(null);
+    dispatch(togglePlaylistFollow({ userId, playlistId }));
   };
 
   const handleAddSong = () => {
@@ -58,21 +86,47 @@ function PlaylistsPage({ selectPlaylist }) {
     // TODO: 實作新增語音功能
   };
 
-  const handleCreatePlaylist = () => {
-    console.log("新增播放清單");
-    // TODO: 實作新增清單功能
-  };
-
-  // Audio Ref
-  const audioRef = useRef(null);
-  const playAudio = (url) => {
-    if (audioRef.current) {
-      audioRef.current.src = url;
-      audioRef.current.play();
+  const handleSaveEdit = async (playlistId, { listName, listDescription }) => {
+    try {
+      await api.patch(`/lists/${playlistId}`, { listName, listDescription });
+      await dispatch(fetchPlaylists());
+    } catch (err) {
+      console.error("更新播放清單失敗：", err);
+      alert("更新播放清單失敗，請稍後再試");
     }
   };
 
-  if (status === "loading") {
+  const handleDeletePlaylist = async (playlistId) => {
+    try {
+      await api.delete(`/lists/${playlistId}`);
+      await dispatch(fetchPlaylists());
+      setCurrentPlaylistIndex(0);
+    } catch (err) {
+      console.error("刪除播放清單失敗：", err);
+      alert("刪除播放清單失敗，請稍後再試");
+    }
+  };
+
+  const handleCreatePlaylist = async () => {
+    try {
+      const payload = {
+        ownerId: userId,
+        listName: "新播放清單",
+        songsID: [],
+        category: "",
+      };
+      await api.post("/lists", payload);
+      // 更新 UI
+      await dispatch(fetchPlaylists());
+      // 切換到新增清單
+      setCurrentPlaylistIndex(ownedPlaylists.length);
+    } catch (err) {
+      console.error("新增播放清單失敗：", err);
+      alert("新增播放清單失敗，請稍後再試");
+    }
+  };
+
+  if (status === "loading" || followStatus === "loading") {
     return (
       <div className="playlists-page loading">
         <div className="spinner-border text-primary" role="status">
@@ -105,17 +159,13 @@ function PlaylistsPage({ selectPlaylist }) {
               {currentPlaylist && (
                 <PlaylistCard
                   playlist={currentPlaylist}
-                  isFollowed={isFollowed(currentPlaylist.id)}
-                  onToggleFollow={() =>
-                    dispatch(
-                      toggleFollow({
-                        userId,
-                        playlistId: currentPlaylist.id,
-                      })
-                    )
-                  }
-                  followerCount={currentPlaylist?.followerUserIds?.length ?? 0}
+                  isFollowed={currentPlaylist.isFollowed}
+                  onToggleFollow={() => handleToggleFollow(currentPlaylist.id)}
+                  followerCount={currentPlaylist.followerCount}
                   size="large"
+                  showEditMode={true}
+                  onSaveEdit={handleSaveEdit}
+                  onDelete={handleDeletePlaylist}
                 />
               )}
             </div>
@@ -134,13 +184,13 @@ function PlaylistsPage({ selectPlaylist }) {
                     >
                       <div className="song-info-row">
                         <span className="music-icon">🎵</span>
-                        <span className="mood-tag">{song.author}</span>
-                        <span className="song-name">{song.fileName}</span>
+                        <span className="mood-tag">{song.category}</span>
+                        <span className="song-name">{song.name}</span>
                       </div>
                       <div className="song-actions-row">
                         <button
                           className={`play-pause-btn ${isCurrent ? " text-primary-05" : null}`}
-                          onClick={() => playAudio(song.audioUrl)}
+                          onClick={() => selectPlaylist(currentPlaylist.id, index)}
                         >
                           {showPause ? (
                             <IconPlayerPauseFilled size={24} />
@@ -148,9 +198,27 @@ function PlaylistsPage({ selectPlaylist }) {
                             <IconPlayerPlayFilled size={24} />
                           )}
                         </button>
-                        <button className="menu-btn">
-                          <IconDotsVertical size={18} />
-                        </button>
+                        <div className="menu-wrap position-relative">
+                          <button
+                            className="menu-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenMenuId(openMenuId === song.id ? null : song.id);
+                            }}
+                          >
+                            <IconDotsVertical size={18} />
+                          </button>
+                          {openMenuId === song.id && (
+                            <div
+                              className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
+                              style={{ width: "150px" }}
+                            >
+                              <div className="px-3 dropdown-item">加入播放清單</div>
+                              <div className="px-3 dropdown-item">重新排列</div>
+                              <div className="px-3 dropdown-item">分享</div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </li>
                   );
@@ -164,22 +232,22 @@ function PlaylistsPage({ selectPlaylist }) {
           </div>
 
           {/* 分頁控制 */}
-          {followedPlaylists.length > 1 && (
+          {ownedPlaylists.length > 1 && (
             <div className="pagination-controls">
               <button
                 className="pagination-btn"
                 onClick={handlePrevPlaylist}
-                disabled={followedPlaylists.length <= 1}
+                disabled={ownedPlaylists.length <= 1}
               >
                 <IconChevronLeft size={20} />
               </button>
               <span className="page-indicator">
-                {currentPlaylistIndex + 1} / {followedPlaylists.length}
+                {safeIndex + 1} / {ownedPlaylists.length}
               </span>
               <button
                 className="pagination-btn"
                 onClick={handleNextPlaylist}
-                disabled={followedPlaylists.length <= 1}
+                disabled={ownedPlaylists.length <= 1}
               >
                 <IconChevronRight size={20} />
               </button>
@@ -187,6 +255,43 @@ function PlaylistsPage({ selectPlaylist }) {
           )}
         </section>
       )}
+      <section className="py-12">
+        <Swiper
+          slidesPerView={4}
+          spaceBetween={20}
+          breakpoints={{
+            0: { slidesPerView: 1, spaceBetween: 12 },
+            480: { slidesPerView: 2, spaceBetween: 16 },
+            768: { slidesPerView: 3, spaceBetween: 20 },
+            1024: { slidesPerView: 4, spaceBetween: 20 },
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {followedPlaylists.map((list) => {
+            const isAnimating = animatingId === list.id && animationDir === "down";
+            return (
+              <SwiperSlide key={list.id}>
+                <div
+                  className={`playlist-detail-card ${isAnimating ? "animate-fly-down" : ""}`}
+                  onAnimationEnd={() => isAnimating && handleAnimationEnd(list.id)}
+                >
+                  <PlaylistCard
+                    playlist={list}
+                    isFollowed={list.isFollowed}
+                    onToggleFollow={() => handleToggleFollow(list.id)}
+                    followerCount={list.followerCount}
+                    size="large"
+                  />
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </section>
       {/* 推薦清單區域 */}
       <section className="recommended-section">
         <h3 className="section-title">這裡一收錄看相似的共鳴</h3>
@@ -194,30 +299,32 @@ function PlaylistsPage({ selectPlaylist }) {
         <div className="recommended-grid">
           {recommendedPlaylists.map((playlist) => {
             const isCurrent = playlist.id === currentListId;
+            const isAnimating = animatingId === playlist.id && animationDir === "up";
             return (
-              <div key={playlist.id} className="recommended-item">
+              <div
+                key={playlist.id}
+                className={`recommended-item ${isAnimating ? "animate-fly-up" : ""}`}
+                onAnimationEnd={() => isAnimating && handleAnimationEnd(playlist.id)}
+              >
                 <div className="recommended-card">
                   {playlist.category && <span className="playlist-tag">{playlist.category}</span>}
                   <button
                     className="add-playlist-btn"
-                    onClick={() =>
-                      dispatch(
-                        toggleFollow({
-                          userId,
-                          playlistId: playlist.id,
-                        })
-                      )
-                    }
+                    onClick={() => handleToggleFollow(playlist.id)}
                   >
                     <IconPlus size={18} />
                   </button>
                   <div className="cloud-placeholder">
-                    <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
+                    <img
+                      src={`${import.meta.env.BASE_URL}Union.png`}
+                      alt="雲朵"
+                      className="cloud-bg"
+                    />
                   </div>
                   <h4 className="playlist-name">{playlist.listName}</h4>
                   <button
                     className="play-recommended-btn"
-                    onClick={() => playAudio(playlist.songs?.[0]?.audioUrl)}
+                    onClick={() => selectPlaylist(playlist.id)}
                   >
                     {isCurrent && isPlaying ? (
                       <IconPlayerPauseFilled size={24} />
@@ -231,7 +338,6 @@ function PlaylistsPage({ selectPlaylist }) {
           })}
         </div>
       </section>
-      <audio ref={audioRef} />
     </div>
   );
 }

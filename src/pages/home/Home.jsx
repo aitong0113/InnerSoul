@@ -2,7 +2,7 @@
 
 // 引入功能模組（整個功能）
 import HomeMoodText from "../../components/features/homeMoodText/HomeMoodText.jsx";
-import HomeHero from "../../components/features/homehero/HomeHero.jsx";
+import HomeHero from "../../components/features/homeHero/HomeHero.jsx";
 import HomeDiary from "../../components/features/homeDiary/HomeDiary.jsx";
 import AudioPreviewSection from "../../components/features/previewSection/";
 
@@ -11,7 +11,10 @@ import AudioPreviewSection from "../../components/features/previewSection/";
 import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
 import Contact from "../../components/features/contact/Contact.jsx";
-import { faqData } from '../../components/features/faq/faqData';
+import { faqData } from "../../components/features/faq/faqData";
+import { Link } from "react-router-dom";
+import AnimatedNumber from "../../components/common/AnimatedNumber";
+import { IconHeadphones, IconPencil, IconTag, IconSearch, IconPlayerPlayFilled, IconNotebook, IconMoodHeart } from "@tabler/icons-react";
 
 function Home({ selectPlaylist }) {
   return (
@@ -41,28 +44,37 @@ function Home({ selectPlaylist }) {
             </div>
           </div>
           <h5 className="text-primary-04 mb-5">在這裡，你可以</h5>
-          <div className="row row-cols-2 row-cols-md-4 g-6 text-center">
+          <div
+            className="row row-cols-2 row-cols-md-4 g-6 text-center">
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <i className="bi bi-headphones fs-3"></i>
+                <IconHeadphones
+                  size={36}
+                />
                 <h5 className="mb-0">語音陪伴身邊</h5>
               </div>
             </div>
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <i className="bi bi-pencil fs-3"></i>
+                <IconPencil
+                  size={36}
+                />
                 <h5 className="mb-0">用文字整理自己</h5>
               </div>
             </div>
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <i className="bi bi-tag fs-3"></i>
+                <IconTag
+                  size={36}
+                />
                 <h5 className="mb-0">標籤理解情緒</h5>
               </div>
             </div>
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <i className="bi bi-search fs-3"></i>
+                <IconSearch
+                  size={36}
+                />
                 <h5 className="mb-0">用洞察陪伴前進</h5>
               </div>
             </div>
@@ -73,32 +85,52 @@ function Home({ selectPlaylist }) {
       {/* 加入心途 */}
       <section>
         <div className="container py-11 text-center">
-          <h2 className="fw-bold text-primary-05 mb-5">已經有 99999 人加入心途</h2>
+          <h2 className="fw-bold text-primary-05 mb-5">
+            已經有 <AnimatedNumber end={99999} /> 人加入心途
+          </h2>
 
           <h5 className="text-black-700 mb-10">一起在這裡練習理解自己、照顧自己</h5>
 
           <div className="row row-cols-1 row-cols-md-3 g-6 mb-11">
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
-                <i className="bi bi-play-fill text-primary-05 mb-3 fs-1"></i>
+                <span className="pt-6">
+                  <IconPlayerPlayFilled className="text-primary-05 mb-3 fs-1"
+                    size={36}
+                  />
+                </span>
                 <p className="text-black-700 h5 mb-7">音頻播放次數</p>
-                <p className="text-primary-05 h2">12,483 次</p>
+                <p className="text-primary-05 h2">
+                  <AnimatedNumber end={12483} /> 次
+                </p>
               </div>
             </div>
 
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
-                <i className="bi bi-journal-bookmark text-primary-05 mb-3 fs-1"></i>
+                <span className="pt-6">
+                  <IconNotebook className="text-primary-05 mb-3 fs-1"
+                    size={36}
+                  />
+                </span>
                 <p className="text-black-700 h5 mb-7">心情日記數量</p>
-                <p className="text-primary-05 h2">8,294 則</p>
+                <p className="text-primary-05 h2">
+                  <AnimatedNumber end={8294} /> 則
+                </p>
               </div>
             </div>
 
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
-                <i className="bi bi-emoji-heart-eyes text-primary-05 mb-3 fs-1"></i>
+                <span className="pt-6">
+                  <IconMoodHeart className="text-primary-05 mb-3 fs-1"
+                    size={36}
+                  />
+                </span>
                 <p className="text-black-700 h5 mb-7">累計情緒蓋章</p>
-                <p className="text-primary-05 h2">32,112 枚</p>
+                <p className="text-primary-05 h2">
+                  <AnimatedNumber end={32112} /> 枚
+                </p>
               </div>
             </div>
           </div>
@@ -106,12 +138,12 @@ function Home({ selectPlaylist }) {
           <h4 className="fw-bold text-primary-05 mb-7">準備好開始練習與自己好好相處了嗎？</h4>
           <section>
             <div className="container">
-              <button
-                type="button"
-                className="btn btn-outline-primary-04 fs-4 py-5 px-7 heroBtn border-3 bg-white fw-bold"
+              <Link
+                to="/subscription"
+                className="btn btn-white btn-outline-primary-04 fw-bold fs-4 py-5 px-7 heroBtn border-3"
               >
                 開始訂閱你的心途
-              </button>
+              </Link>
             </div>
           </section>
         </div>

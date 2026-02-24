@@ -1,57 +1,58 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../services/api";
 
-// 取得使用者追蹤的歌單
-export const fetchFollowedPlaylists = createAsyncThunk(
-  "playlistFollows/fetchFollowedPlaylists",
-  async (userId) => {
-    const res = await api.get(`/playlistFollowers?userId=${userId}`);
-    return res.data.map((item) => item.playlistId);
-  }
-);
+/**
+ * 抓整張 follower table
+ */
+export const fetchAllFollowers = createAsyncThunk("playlistFollow/fetchAllFollowers", async () => {
+  const res = await api.get("/playlistFollowers");
+  return res.data;
+});
 
-// 切換追蹤狀態
+/**
+ * toggle follow（只改 relation）
+ */
 export const togglePlaylistFollow = createAsyncThunk(
-  "playlistFollows/togglePlaylistFollow",
+  "playlistFollow/togglePlaylistFollow",
   async ({ userId, playlistId }) => {
     const res = await api.get(`/playlistFollowers?userId=${userId}&playlistId=${playlistId}`);
 
-    if (res.data.length > 0) {
-      // 已追蹤 → 取消
+    if (res.data.length) {
       await api.delete(`/playlistFollowers/${res.data[0].id}`);
-      return { playlistId, followed: false };
+      return { type: "unfollow", id: res.data[0].id };
     } else {
-      // 未追蹤 → 新增
-      await api.post(`/playlistFollowers`, { userId, playlistId });
-      return { playlistId, followed: true };
+      const newRes = await api.post("/playlistFollowers", {
+        userId,
+        playlistId,
+      });
+      return { type: "follow", data: newRes.data };
     }
   }
 );
 
 const playlistFollowSlice = createSlice({
-  name: "playlistFollows",
+  name: "playlistFollow",
   initialState: {
-    followedPlaylistIds: [],
+    followers: [],
     status: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFollowedPlaylists.fulfilled, (state, action) => {
-        state.followedPlaylistIds = action.payload;
+      .addCase(fetchAllFollowers.fulfilled, (state, action) => {
+        state.followers = action.payload;
       })
       .addCase(togglePlaylistFollow.fulfilled, (state, action) => {
-        const { playlistId, followed } = action.payload;
-
-        if (followed) {
-          if (!state.followedPlaylistIds.includes(playlistId)) {
-            state.followedPlaylistIds.push(playlistId);
-          }
+        if (action.payload.type === "follow") {
+          state.followers.push(action.payload.data);
         } else {
-          state.followedPlaylistIds = state.followedPlaylistIds.filter((id) => id !== playlistId);
+          state.followers = state.followers.filter((f) => f.id !== action.payload.id);
         }
       });
   },
 });
 
 export default playlistFollowSlice.reducer;
+
+/** 原始 follower table */
+export const selectFollowers = (state) => state.playlistFollow.followers;

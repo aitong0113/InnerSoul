@@ -14,7 +14,6 @@ const SubscriptionCard = ({
   features,
   userPlan
 }) => {
-
   const navigate = useNavigate();
 
   const planMapping = {
@@ -22,50 +21,48 @@ const SubscriptionCard = ({
     "pro": "plan_pro"
   };
 
-
   const isCurrentPlan = planMapping[userPlan] === id;
   const isIncluded = userPlan === "pro" && id === "plan_free";
 
-
   let displayButtonText = buttonText;
   if (isCurrentPlan) {
-    displayButtonText = "目前方案";
+    displayButtonText = "管理目前方案";
   } else if (isIncluded) {
     displayButtonText = "已包含";
   }
 
-
-  const isDisabled = isCurrentPlan || isIncluded;
+  const isDisabled = isIncluded;
 
   const handleSubscribe = () => {
+    if (isDisabled) return;
 
-    if (!isDisabled) {
+    if (isCurrentPlan) {
+      navigate("/member/subscription");
+      return;
+    }
 
+    if (!userPlan) {
+      navigate("/signup", {
+        state: { redirectToCheckout: id === "plan_pro", planId: id }
+      });
+      return;
+    }
 
-      if (!userPlan) {
-        navigate("/signup", {
-          state: { redirectToCheckout: id === "plan_pro", planId: id }
-        });
-        return;
-      }
-
-      if (id === "plan_pro") {
-        navigate("/checkout", {
-          state: {
-            planId: id,
-            planName: title,
-            price: price
-          }
-        });
-      } else {
-        console.log("Already on free plan");
-      }
+    if (id === "plan_pro") {
+      navigate("/checkout", {
+        state: {
+          planId: id,
+          planName: title,
+          price: price
+        }
+      });
+    } else {
+      navigate("/member/subscription");
     }
   };
 
   return (
     <div className={`subscription-card ${isRecommended ? "highlight" : ''}`}>
-      {/* 推薦標籤 Badge */}
       {isRecommended && <div className="badge bg-primary-04">超值享受</div>}
 
       <div className="card-header-area">
@@ -87,10 +84,7 @@ const SubscriptionCard = ({
 
       <ul className="feature-list">
         {features.map((item, index) => (
-          <li
-            key={index}
-            className={item.included ? "included" : "excluded"}
-          >
+          <li key={index} className={item.included ? "included" : "excluded"}>
             <span className="icon-wrapper">
               {item.included ? <IconCheck size={24} /> : <IconX size={24} />}
             </span>
@@ -99,7 +93,6 @@ const SubscriptionCard = ({
         ))}
       </ul>
 
-      {/* 按鈕區塊 */}
       <div className="action-area pt-4 w-100 mt-auto">
         <button
           className={`card-action-btn ${isRecommended ? "mode-solid" : "mode-outline"}`}

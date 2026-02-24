@@ -7,6 +7,10 @@ body {
   min-height: 100vh;
   position: relative;
   width: 100%;
+
+  p {
+    font-size: 20px;
+  }
 }
 
 .clouds-stage-outer {
@@ -20,12 +24,23 @@ body {
   max-width: 1320px;
   width: 100%;
   margin: 0 auto;
-  height: 850px;
+  height: 900px;
 }
 
 // RWD 定位
 
-@media (min-width: 577px) and (max-width: 1440px) {
+@media (max-width: 1440px) {
+  .sky-container {
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .cloud-content-wrapper {
+    .cloud-label {
+      font-size: 20px !important;
+    }
+  }
 
   // 孤獨 (ID:1)
   .cloud-style-1 {
@@ -54,7 +69,12 @@ body {
   }
 }
 
-@media (min-width: 577px) and (max-width: 991px) {
+@media (max-width: 991px) {
+  .sky-container {
+    p {
+      font-size: 16px;
+    }
+  }
 
   .clouds-wrapper {
     height: 750px;
@@ -65,33 +85,37 @@ body {
 
   // 孤獨 (ID:1)
   .cloud-style-1 {
-    top: 5%;
-    left: 5%;
+    top: -5%;
+    left: -5%;
+    width: 50%;
   }
 
   // 憤怒 (ID:2)
   .cloud-style-2 {
-    top: 25%;
+    top: 20%;
     left: 2%;
+    width: 50%;
   }
 
   // 自我懷疑 (ID:3)
   .cloud-style-3 {
-    top: 0%;
-    left: 30%;
-    width: 40%;
+    top: -5%;
+    left: 35%;
+    width: 45%;
   }
 
   // 開心 (ID:4)
   .cloud-style-4 {
     top: 10%;
-    left: 65%;
+    left: 55%;
+    width: 50%;
   }
 
   // 悲傷 (ID:5)
   .cloud-style-5 {
     top: 30%;
-    left: 75%;
+    left: 70%;
+    width: 50%;
   }
 
 
@@ -99,27 +123,27 @@ body {
   .cloud-style-6 {
     top: 35%;
     left: 35%;
-    width: 35%;
+    width: 45%;
     z-index: 5;
   }
 
   // 平靜 (ID:7)
   .cloud-style-7 {
-    top: 48%;
+    top: 55%;
     left: 70%;
-    width: 25%;
+    width: 45%;
   }
 
   // 焦慮 (ID:8)
   .cloud-style-8 {
-    top: 36%;
-    left: 15%;
-    width: 20%;
+    top: 40%;
+    left: -8%;
+    width: 50%;
   }
 
   // 興奮 (ID:9)
   .cloud-style-9 {
-    top: 55%;
+    top: 70%;
     left: -5%;
     width: 45%;
   }
@@ -127,18 +151,30 @@ body {
   // 低落 (ID:10)
   .cloud-style-10 {
     top: 60%;
-    left: 37%;
+    left: 30%;
+    width: 50%;
   }
 
   // 壓力過大 (ID:11)
   .cloud-style-11 {
-    top: 65%;
+    top: 75%;
     left: 55%;
     width: 50%;
   }
 }
 
 @media (max-width: 576px) {
+  .sky-container {
+    p {
+      font-size: 16px;
+    }
+  }
+
+  .cloud-content-wrapper {
+    .cloud-label {
+      font-size: 16px !important;
+    }
+  }
 
   .cloud-btn {
     width: 55%;
@@ -146,9 +182,9 @@ body {
 
   // 孤獨 (ID:1)
   .cloud-style-1 {
-    top: 2%;
+    top: -3%;
     left: -5%;
-    width: 64%;
+    width: 60%;
   }
 
   // 憤怒 (ID:2)
@@ -159,59 +195,61 @@ body {
 
   // 自我懷疑 (ID:3)
   .cloud-style-3 {
-    top: 8%;
+    top: -3%;
     left: 45%;
-    width: 60%;
+    width: 55%;
   }
 
   // 開心 (ID:4)
   .cloud-style-4 {
-    top: 75%;
-    left: 5%;
+    top: 77%;
+    left: -5%;
+    width: 60%;
   }
 
   // 悲傷 (ID:5)
   .cloud-style-5 {
     top: 82%;
-    left: 55%;
+    left: 42%;
   }
 
   // 喜悅 (ID:6)
   .cloud-style-6 {
-    top: 65%;
-    left: 50%;
+    top: 48%;
+    left: 57%;
+    width: 50%;
   }
 
   // 平靜 (ID:7)
   .cloud-style-7 {
     top: 58%;
-    left: 10%;
+    left: 6%;
   }
 
   // 焦慮 (ID:8)
   .cloud-style-8 {
-    top: 32%;
+    top: 30%;
     left: 25%;
     z-index: 5;
   }
 
   // 興奮 (ID:9)
   .cloud-style-9 {
-    top: 22%;
-    left: 50%;
-    width: 55%;
+    top: 14%;
+    left: 53%;
+    width: 50%;
   }
 
   // 低落 (ID:10)
   .cloud-style-10 {
-    top: 42%;
+    top: 46%;
     left: 0%;
   }
 
   // 壓力過大 (ID:11)
   .cloud-style-11 {
-    top: 45%;
-    left: 45%;
+    top: 60%;
+    left: 50%;
     width: 60%;
   }
 }

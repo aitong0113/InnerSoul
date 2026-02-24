@@ -1,0 +1,194 @@
+
+
+.bg-liner {
+    background: linear-gradient(to bottom, #cde8fa, #a2d9fa);
+}
+
+
+/* 表單整體 */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* 每一行 */
+.auth-field {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* 每一列 */
+.auth-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;  // 左邊固定寬
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 32px;
+}
+
+.auth-container {
+  max-width: 600px;   // ← 控制表單整體寬度
+  width: 100%;
+  margin: 0 auto;     // ← 置中
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 左側標籤 */
+.auth-label {  
+  white-space: nowrap;  
+  text-align: left; 
+  color: #104754;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+
+/* 按鈕列 */
+.auth-action-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;  // 跟輸入框一樣
+  align-items: center;
+  margin-top: 40px;
+}
+
+
+/* 主要按鈕（登入） */
+.auth-btn {  
+  width: 100%;     // 跟輸入框一樣
+  max-width: 100%;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 100px;
+  background: #104754;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-left: auto; /* 靠右 */
+}
+
+.auth-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* 次要按鈕（忘記密碼） */
+.auth-forgot {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 100px;
+  background: #ffffff;
+  border: 2px solid #104754;
+  color: #104754;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.auth-btn,
+.auth-forgot {
+  width: 270px;
+  height: 48px;
+}
+
+
+/* 右側按鈕容器 */
+.auth-btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+
+.auth-btn-outline:hover {
+  background: #104754;
+  color: #ffffff;
+}
+
+.auth-page {
+  min-height: calc(100vh - 160px); // 扣掉 header + footer
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+
+
+.auth-title {
+  text-align: center;
+  color: #104754;
+}
+
+
+/* 右側膠囊輸入框 */
+.auth-input {
+  width: 100%;
+  height: 52px;
+  padding: 0 40px;
+  margin: 0;
+  border-radius: 999px;
+  border: none;
+  font-size: 16px;
+  text-align: center; 
+  align-items: center;
+  color: #104754;
+  background: rgba(255, 255, 255, 0.7);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+
+  &::placeholder {
+    color: #b6c9ce;
+  }
+
+  &:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 20px rgba(16, 71, 84, 0.15);
+  }
+}
+
+
+
+/* 測試區塊 */
+.auth-test-section {
+  margin-bottom: 40px;
+  text-align: center;
+  
+}
+
+.auth-test-title {
+  font-size: 14px;
+  color: #6c8c95;
+  margin-bottom: 12px;
+}
+
+/* 測試按鈕列 */
+.auth-test-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* 測試按鈕 */
+.auth-test-btn {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px dashed #6c8c95;
+  background: transparent;
+  font-size: 13px;
+  color: #6c8c95;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.auth-test-btn:hover {
+  background: rgba(255,255,255,0.4);
+}

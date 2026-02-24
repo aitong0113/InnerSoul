@@ -12,6 +12,10 @@
     "mock": "json-server-auth --watch ./mock/db.json --port 3001"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/react": "^0.3.2",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.11.2",
     "@tabler/icons-react": "^3.36.1",
@@ -26,6 +30,8 @@
     "react-hook-form": "^7.71.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.12.0",
+    "sweetalert2": "^11.26.19",
+    "swiper": "^12.1.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
