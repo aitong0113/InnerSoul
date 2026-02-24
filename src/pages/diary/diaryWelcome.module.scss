@@ -49,7 +49,6 @@
   border: none;
   background-color: var(--bs-primary-03);
   transition: 0.5s ease;
-  text-shadow: 1px;
 }
 
 .text {
@@ -57,19 +56,7 @@
   letter-spacing: 0.02em;
 }
 
-.calBg {
-  background: radial-gradient(
-    circle closest-side at center,
-    #b9e5e8,
-    rgba(255, 255, 255, 0.479) 35%,
-    rgba(255, 255, 255, 0.217) 80%,
-    #cde8fa
-  );
-}
-
 .calPhoto {
-  padding: 20px;
-  max-width: 500px;
   width: 100%;
   height: auto;
   display: block;
@@ -77,23 +64,37 @@
 }
 
 .diaryDemoPhoto {
-  max-width: 500px;
+  max-width: 550px;
   width: 100%;
   height: auto;
   display: block;
   border-radius: 20px;
+}
+.section1 {
+  position: relative;
+}
+.cloud1 {
+  position: absolute;
+  right: -15%;
+  bottom: 15px;
+  width: 292px;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .section2 {
   position: relative;
   width: 100%;
 }
-// .leftCard {
-//   border: 1px solid #008000;
-// }
-// .rightText {
-//   border: 1px solid brown;
-// }
+.cloud2 {
+  position: absolute;
+  right: 6%;
+  bottom: 50px;
+  width: 240px;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .lineSvg2 {
   position: absolute;
   inset: 0;
