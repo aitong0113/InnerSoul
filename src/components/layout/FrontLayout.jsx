@@ -7,7 +7,9 @@ export default function FrontLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+      <main className="site-main">
+        <Outlet />
+      </main>
       <Footer />
     </>
   );

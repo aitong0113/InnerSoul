@@ -7,12 +7,14 @@ import diaryContent from "../../assets/diary/diaryContent_Demo2.png";
 
 const DiaryWelcome = () => {
   return (
-    <div className={`container ${style.marginY}`}>
+    <div className="container">
       {/* 1 */}
       <div className="text-center d-flex flex-column gap-5">
-        <div className="fw-bold my-3">
-          <h2 className="text-primary-04 mb-5">從撰寫日記開始陪伴自己</h2>
-          <p className="text-black-700">心情的每一天，都值得被看見與理解</p>
+        <div className="fw-bold">
+          <h2 className="text-center fw-bold fs-1 text-primary-05 mb-0">從撰寫日記開始陪伴自己</h2>
+          <p className="text-black-fs-5 text-center text-black-700 my-5">
+            心情的每一天，都值得被看見與理解
+          </p>
         </div>
         <div className="row row-cols-1 row-cols-lg-2 gx-lg-5 align-items-stretch mb-5">
           <div className="col">

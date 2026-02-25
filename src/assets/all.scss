@@ -41,3 +41,14 @@
   color: white !important;
   border: none !important;
 }
+
+/* ===== 全站主內容與 Header 間距 ===== */
+
+:root {
+  --header-height: 88px;   // 如果 header 固定高度
+  --page-space: 80px;      // 視覺留白
+}
+
+.site-main {
+  padding-top: var(--page-space);
+}

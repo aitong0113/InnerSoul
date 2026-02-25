@@ -14,7 +14,15 @@ import Contact from "../../components/features/contact/Contact.jsx";
 import { faqData } from "../../components/features/faq/faqData";
 import { Link } from "react-router-dom";
 import AnimatedNumber from "../../components/common/AnimatedNumber";
-import { IconHeadphones, IconPencil, IconTag, IconSearch, IconPlayerPlayFilled, IconNotebook, IconMoodHeart } from "@tabler/icons-react";
+import {
+  IconHeadphones,
+  IconPencil,
+  IconTag,
+  IconSearch,
+  IconPlayerPlayFilled,
+  IconNotebook,
+  IconMoodHeart,
+} from "@tabler/icons-react";
 
 function Home({ selectPlaylist }) {
   return (
@@ -44,37 +52,28 @@ function Home({ selectPlaylist }) {
             </div>
           </div>
           <h5 className="text-primary-04 mb-5">在這裡，你可以</h5>
-          <div
-            className="row row-cols-2 row-cols-md-4 g-6 text-center">
+          <div className="row row-cols-2 row-cols-md-4 g-6 text-center">
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <IconHeadphones
-                  size={36}
-                />
+                <IconHeadphones size={36} />
                 <h5 className="mb-0">語音陪伴身邊</h5>
               </div>
             </div>
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <IconPencil
-                  size={36}
-                />
+                <IconPencil size={36} />
                 <h5 className="mb-0">用文字整理自己</h5>
               </div>
             </div>
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <IconTag
-                  size={36}
-                />
+                <IconTag size={36} />
                 <h5 className="mb-0">標籤理解情緒</h5>
               </div>
             </div>
             <div className="col">
               <div className="tag h-100 py-9 px-7 fw-bold text-primary-05 d-flex align-items-center justify-content-center gap-3">
-                <IconSearch
-                  size={36}
-                />
+                <IconSearch size={36} />
                 <h5 className="mb-0">用洞察陪伴前進</h5>
               </div>
             </div>
@@ -95,9 +94,7 @@ function Home({ selectPlaylist }) {
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
                 <span className="pt-6">
-                  <IconPlayerPlayFilled className="text-primary-05 mb-3 fs-1"
-                    size={36}
-                  />
+                  <IconPlayerPlayFilled className="text-primary-05 mb-3 fs-1" size={36} />
                 </span>
                 <p className="text-black-700 h5 mb-7">音頻播放次數</p>
                 <p className="text-primary-05 h2">
@@ -109,9 +106,7 @@ function Home({ selectPlaylist }) {
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
                 <span className="pt-6">
-                  <IconNotebook className="text-primary-05 mb-3 fs-1"
-                    size={36}
-                  />
+                  <IconNotebook className="text-primary-05 mb-3 fs-1" size={36} />
                 </span>
                 <p className="text-black-700 h5 mb-7">心情日記數量</p>
                 <p className="text-primary-05 h2">
@@ -123,9 +118,7 @@ function Home({ selectPlaylist }) {
             <div className="col">
               <div className="card card-linerBG py-9 border-0 h-100">
                 <span className="pt-6">
-                  <IconMoodHeart className="text-primary-05 mb-3 fs-1"
-                    size={36}
-                  />
+                  <IconMoodHeart className="text-primary-05 mb-3 fs-1" size={36} />
                 </span>
                 <p className="text-black-700 h5 mb-7">累計情緒蓋章</p>
                 <p className="text-primary-05 h2">
