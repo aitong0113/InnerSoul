@@ -93,9 +93,11 @@ function MemberPage({ selectPlaylist }) {
   useEffect(() => {
     setUserStats((prev) => ({
       ...prev,
-      playlistCount: playlists.filter((p) => p.isFollowed).length,
+      playlistCount:
+        playlists.filter((p) => p.isFollowed).length +
+        playlists.filter((p) => p.ownerId === userId).length,
     }));
-  }, [playlists]);
+  }, [playlists, userId]);
   const avatarSrc = getUserAvatar(userImgKey);
   // Audio Ref
   const audioRef = useRef(null);
@@ -114,28 +116,27 @@ function MemberPage({ selectPlaylist }) {
     if (!isCheckingAuth && userId) {
       fetchUserData();
     }
+    const fetchUserData = async () => {
+      setIsLoading(true);
+      try {
+        // 獲取日記
+        const diariesData = await getUserDiaries(userId);
+
+        setDiaries(diariesData);
+        setUserStats((prev) => ({
+          ...prev,
+        }));
+
+        // 計算日記統計
+        const stats = calculateMonthlyStats(diariesData);
+        setDiaryStats(stats);
+      } catch (err) {
+        console.error("獲取用戶數據失敗", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
   }, [isCheckingAuth, userId]);
-
-  const fetchUserData = async () => {
-    setIsLoading(true);
-    try {
-      // 獲取日記
-      const diariesData = await getUserDiaries(userId);
-
-      setDiaries(diariesData);
-      setUserStats((prev) => ({
-        ...prev,
-      }));
-
-      // 計算日記統計
-      const stats = calculateMonthlyStats(diariesData);
-      setDiaryStats(stats);
-    } catch (err) {
-      console.error("獲取用戶數據失敗", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // 計算本月統計
   const calculateMonthlyStats = (diariesData) => {
@@ -457,7 +458,9 @@ function MemberPage({ selectPlaylist }) {
                                 <div className="d-flex align-items-center">
                                   <button
                                     type="button"
-                                    className="btn border-0 me-2"
+                                    className={
+                                      "btn border-0 me-2" + (isCurrent ? " text-primary-05" : "")
+                                    }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       dispatch(toggleSongLike({ userId, songId: song.id }));

@@ -544,11 +544,10 @@
       "listName": "午後放鬆",
       "category": "小編推薦",
       "songsID": [
-        8,
         9,
         10,
         17,
-        3
+        11
       ],
       "ownerId": 3,
       "listDescription": ""
@@ -560,7 +559,8 @@
       "songsID": [
         11,
         3,
-        18
+        18,
+        6
       ],
       "ownerId": 3
     },
@@ -580,7 +580,8 @@
       "ownerId": 3,
       "listName": "新播放清單",
       "songsID": [
-        3
+        3,
+        6
       ],
       "category": "",
       "id": 16
@@ -785,6 +786,11 @@
       "userId": 3,
       "songId": 6,
       "id": 27
+    },
+    {
+      "userId": 3,
+      "songId": 14,
+      "id": 28
     }
   ],
   "playlistFollowers": [
