@@ -116,27 +116,27 @@ function MemberPage({ selectPlaylist }) {
     if (!isCheckingAuth && userId) {
       fetchUserData();
     }
-    const fetchUserData = async () => {
-      setIsLoading(true);
-      try {
-        // 獲取日記
-        const diariesData = await getUserDiaries(userId);
-
-        setDiaries(diariesData);
-        setUserStats((prev) => ({
-          ...prev,
-        }));
-
-        // 計算日記統計
-        const stats = calculateMonthlyStats(diariesData);
-        setDiaryStats(stats);
-      } catch (err) {
-        console.error("獲取用戶數據失敗", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
   }, [isCheckingAuth, userId]);
+  const fetchUserData = async () => {
+    setIsLoading(true);
+    try {
+      // 獲取日記
+      const diariesData = await getUserDiaries(userId);
+
+      setDiaries(diariesData);
+      setUserStats((prev) => ({
+        ...prev,
+      }));
+
+      // 計算日記統計
+      const stats = calculateMonthlyStats(diariesData);
+      setDiaryStats(stats);
+    } catch (err) {
+      console.error("獲取用戶數據失敗", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // 計算本月統計
   const calculateMonthlyStats = (diariesData) => {
