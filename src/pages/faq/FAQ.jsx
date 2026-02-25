@@ -8,7 +8,7 @@ export default function FAQPage() {
     <main className="faq-page bg-BG-01">
       {/* 標題區 */}
       <section className="container">
-        <h2 className="text-center fw-bold fs-1 text-primary-05 mb-0">常見問題</h2>
+        <h2 className="text-center text-primary-04 mb-5">常見問題</h2>
         <p className="fs-5 text-center text-black-700 mb-2 my-7">
           如果你對心途的使用方式、功能或方案有任何疑問，
         </p>
