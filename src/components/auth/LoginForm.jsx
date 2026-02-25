@@ -99,9 +99,7 @@ function LoginForm() {
       </div>
 
       <div className="auth-action-row">
-        <button type="button" className="auth-forgot">
-          忘記密碼
-        </button>
+        <div></div> {/* 佔位用，對齊 label */}
         <button type="submit" className="auth-btn">
           登入
         </button>

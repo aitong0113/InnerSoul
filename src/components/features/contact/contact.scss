@@ -1,3 +1,7 @@
+.contact-section {
+  padding-bottom: 80px;
+}
+
 .contact-info-text {
   font-family: "Noto Sans TC", sans-serif;
   font-size: 20px;
@@ -64,8 +68,8 @@
 
 .contact-layout {
   display: grid;
-  grid-template-columns: 1fr 760px; // 🔥 地圖寬度直接對齊 Figma
-  gap: 80px;
+  grid-template-columns: 1fr 650px; // 🔥 地圖寬度直接對齊 Figma
+  gap: 100px;
   align-items: start;
 }
 
@@ -73,7 +77,7 @@
 .map-card {
   position: relative;
   z-index: 2;
-  width: 760px;
+  width: 650px;
   height: 407px;
   border-radius: 20px;
   border: 3px solid #fff;

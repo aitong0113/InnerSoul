@@ -1,12 +1,6 @@
 import cloudRight from "../../../assets/cloud-right.svg";
 import "./contact.scss";
-import {
-  IconMapPin,
-  IconMail,
-  IconPhone,
-  IconClock,
-  IconExternalLink
-} from '@tabler/icons-react';
+import { IconMapPin, IconMail, IconPhone, IconClock, IconExternalLink } from "@tabler/icons-react";
 
 export default function ContactSection() {
   return (
@@ -32,9 +26,7 @@ export default function ContactSection() {
 
               <li className="contact-item">
                 <IconMail size={24} />
-                <a href="mailto:contact@innersoulcare.com">
-                  contact@innersoulcare.com
-                </a>
+                <a href="mailto:contact@innersoulcare.com">contact@innersoulcare.com</a>
               </li>
 
               <li className="contact-item">
@@ -45,9 +37,30 @@ export default function ContactSection() {
 
             {/* 社群 icon */}
             <div className="contact-social">
-              <a href="#"><i className="bi bi-facebook" /></a>
-              <a href="#"><i className="bi bi-instagram" /></a>
-              <a href="#"><i className="bi bi-line" /></a>
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="前往 Facebook（另開新視窗）"
+              >
+                <i className="bi bi-facebook" />
+              </a>
+              <a
+                href="https://www.instagram.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="前往 Instagram（另開新視窗）"
+              >
+                <i className="bi bi-instagram" />
+              </a>
+              <a
+                href="https://line.me/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="前往 Line（另開新視窗）"
+              >
+                <i className="bi bi-line" />
+              </a>
             </div>
           </div>
 

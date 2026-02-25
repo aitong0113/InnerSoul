@@ -21,7 +21,23 @@
     margin-bottom: 40px;
     font-weight: 700;
     line-height: 1.6;
+    animation: fadeUp 0.8s ease forwards;
   }
+  @keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-subtitle {
+  animation: fadeUp 0.8s ease 0.2s forwards;
+  opacity: 0;
+}
 
   .hero-text {
     font-size: 24px;
@@ -71,6 +87,8 @@
   z-index: 1;
 }
 
+
+
 /* --- 心途小語卡片 --- */
 .quote-card {
   position: relative;
@@ -102,7 +120,22 @@
 .title-icon {
   width: 40px;
   height: 40px;
+  display: inline-block;
+  animation: gentle 2s ease-in-out infinite;
 }
+
+@keyframes gentle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 
 .quote-body {
   text-align: center;

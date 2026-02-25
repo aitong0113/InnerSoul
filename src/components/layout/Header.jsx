@@ -4,6 +4,7 @@ import { logout } from "../../services/auth/authService";
 import { authStore } from "../../services/auth/authStore";
 import UserProfile from "../shared/UserProfile";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import { NavLink } from "react-router-dom";
 
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
@@ -63,25 +64,38 @@ function Header() {
         </button>
 
         {/* 半透明黑色遮罩 */}
-        <div
-          className={`menu-overlay ${isMobileMenuOpen ? "open" : ""}`}
-          onClick={closeMenu}
-        ></div>
+        <div className={`menu-overlay ${isMobileMenuOpen ? "open" : ""}`} onClick={closeMenu}></div>
 
         <div className={`nav-wrapper ${isMobileMenuOpen ? "open" : ""}`}>
           <nav className="main-nav">
-            <Link to={ROUTES.playlist} className="nav-link" onClick={closeMenu}>
+            <NavLink
+              to={ROUTES.playlist}
+              className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+              onClick={closeMenu}
+            >
               語音陪伴
-            </Link>
-            <Link to={ROUTES.diaryBase} className="nav-link" onClick={closeMenu}>
+            </NavLink>
+            <NavLink
+              to={ROUTES.diaryBase}
+              className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+              onClick={closeMenu}
+            >
               心情日記
-            </Link>
-            <Link to={ROUTES.faq} className="nav-link" onClick={closeMenu}>
+            </NavLink>
+            <NavLink
+              to={ROUTES.faq}
+              className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+              onClick={closeMenu}
+            >
               常見問題
-            </Link>
-            <Link to={ROUTES.subscription} className="nav-link" onClick={closeMenu}>
+            </NavLink>
+            <NavLink
+              to={ROUTES.subscription}
+              className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+              onClick={closeMenu}
+            >
               訂閱方案
-            </Link>
+            </NavLink>
           </nav>
 
           {/* 登入註冊 */}
@@ -90,15 +104,25 @@ function Header() {
               <>
                 {/* 升級方案按鈕（僅免費會員顯示，且手機版隱藏） */}
                 {(!userPlan || userPlan === "free") && (
-                  <Link to="/member/subscription" className="upgrade-btn desktop-only" onClick={closeMenu}>
+                  <NavLink
+                    to="/member/subscription"
+                    className="upgrade-btn desktop-only"
+                    onClick={closeMenu}
+                  >
                     升級方案
-                  </Link>
+                  </NavLink>
                 )}
 
                 {/* 使用者資訊 */}
-                <Link to="/member" className="member-link" aria-label="前往會員中心" title="會員中心" onClick={closeMenu}>
+                <NavLink
+                  to="/member"
+                  className="member-link"
+                  aria-label="前往會員中心"
+                  title="會員中心"
+                  onClick={closeMenu}
+                >
                   <UserProfile variant="header" />
-                </Link>
+                </NavLink>
 
                 {/* 登出按鈕：桌機版顯示 Icon，手機版顯示文字 */}
                 <button className="btn btn-outline logout-btn" onClick={handleLogout}>
@@ -109,15 +133,27 @@ function Header() {
             ) : (
               <>
                 {/* 桌機版：顯示分開的登入與註冊 */}
-                <Link to={ROUTES.login} className="btn btn-outline desktop-only" onClick={closeMenu}>
+                <Link
+                  to={ROUTES.login}
+                  className="btn btn-outline desktop-only"
+                  onClick={closeMenu}
+                >
                   登入
                 </Link>
-                <Link to={ROUTES.signup} className="btn btn-outline desktop-only" onClick={closeMenu}>
+                <Link
+                  to={ROUTES.signup}
+                  className="btn btn-outline desktop-only"
+                  onClick={closeMenu}
+                >
                   註冊
                 </Link>
 
                 {/* 手機版：顯示合併的 登入/註冊 按鈕 */}
-                <Link to={ROUTES.login} className="btn btn-primary mobile-login-btn mobile-only" onClick={closeMenu}>
+                <Link
+                  to={ROUTES.login}
+                  className="btn btn-primary mobile-login-btn mobile-only"
+                  onClick={closeMenu}
+                >
                   登入/註冊
                 </Link>
               </>

@@ -10,10 +10,8 @@ const DiaryWelcome = () => {
     <div className={`container ${style.marginY}`}>
       {/* 1 */}
       <div className="text-center d-flex flex-column gap-5">
-        <div className="fw-bold my-3">
-          <h2 className="text-primary-04 mb-5">從撰寫日記開始陪伴自己</h2>
-          <p className="text-black-700">心情的每一天，都值得被看見與理解</p>
-        </div>
+        <h2 className="text-primary-04 mb-5">從撰寫日記開始陪伴自己</h2>
+        <p className="fs-5 text-black-700">心情的每一天，都值得被看見與理解</p>
         <div className="row row-cols-1 row-cols-lg-2 gx-lg-5 align-items-stretch mb-5">
           <div className="col">
             <div className="h-100 d-flex">
