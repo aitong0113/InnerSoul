@@ -93,10 +93,9 @@ function MemberPage({ selectPlaylist }) {
   useEffect(() => {
     setUserStats((prev) => ({
       ...prev,
-      playlistCount: playlists.length,
+      playlistCount: playlists.filter((p) => p.isFollowed).length,
     }));
   }, [playlists]);
-
   const avatarSrc = getUserAvatar(userImgKey);
   // Audio Ref
   const audioRef = useRef(null);

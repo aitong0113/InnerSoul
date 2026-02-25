@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import SongCard from "../../components/features/member/SongCard";
 import PlaylistCard from "../../components/features/member/PlaylistCard";
 import FilterTabs from "../../components/features/member/FilterTabs";
@@ -8,10 +8,19 @@ import { toggleSongLike } from "../../slices/userLikeSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
+import { addSongToPlaylist } from "../../slices/memberPlaylistSlice";
+import {
+  IconPlayerPlayFilled,
+  IconPlayerPauseFilled,
+  IconChevronRight,
+  IconChevronLeft,
+  IconDotsVertical,
+} from "@tabler/icons-react";
 
 function FavoritesPage({ selectPlaylist }) {
   const dispatch = useDispatch();
   const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
+  const { currentListId, currentIndex, isPlaying } = useSelector((state) => state.player);
 
   const userId = authStore.getUserId();
   // Redux State
@@ -30,8 +39,35 @@ function FavoritesPage({ selectPlaylist }) {
       .map((id) => songMap.get(id))
       .filter(Boolean);
   }, [likedSongIds, songMap]);
-  const likedSet = useMemo(() => new Set(likedSongIds), [likedSongIds]);
 
+  //分頁功能
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 5;
+  const totalPages = useMemo(() => {
+    return Math.max(1, Math.ceil(likedSongs.length / PAGE_SIZE));
+  }, [likedSongs]);
+  const paginatedLikedSongs = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    return likedSongs.slice(start, start + PAGE_SIZE);
+  }, [likedSongs, page]);
+  useEffect(() => {
+    setPage(1);
+  }, [likedSongs.length]);
+
+  // 建立虛擬清單
+  const likedPlaylist = useMemo(() => {
+    return {
+      id: `liked-${userId}`,
+      listName: "我的收藏",
+      category: "收藏",
+      ownerId: userId,
+      isVirtual: true,
+      songs: likedSongs,
+      songsID: likedSongs.map((s) => s.id),
+    };
+  }, [likedSongs, userId]);
+
+  const likedSet = useMemo(() => new Set(likedSongIds), [likedSongIds]);
   const unlikedSongs = useMemo(() => songs.filter((s) => !likedSet.has(s.id)), [songs, likedSet]);
 
   // UI 區塊資料
@@ -58,18 +94,31 @@ function FavoritesPage({ selectPlaylist }) {
   }, [playlists]);
 
   // 功能
-  const handlePlayLikedSong = (song) => {
+  const handlePlayOriginal = (song) => {
     const found = songIndexMap.get(song.id);
     if (!found) return;
     selectPlaylist(found.playlistId, found.index);
   };
+  const handlePlayLikedSong = (globalIndex) => {
+    selectPlaylist(likedPlaylist.id, globalIndex, likedPlaylist);
+  };
 
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [openSubmenuId, setOpenSubmenuId] = useState(null);
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenMenuId(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
   return (
     <div className="favorites-page">
       <h2 className="page-title">我的語音收藏</h2>
 
-      {/* 收藏清單區塊 */}
-      <section className="favorites-section">
+      {/* 收藏清單區塊 這塊不要*/}
+      {/* <section className="favorites-section">
         <div className="playlist-grid">
           {favoritePlaylists.map((playlist) => (
             <PlaylistCard
@@ -81,11 +130,156 @@ function FavoritesPage({ selectPlaylist }) {
             />
           ))}
         </div>
+      </section> */}
+
+      {/* 我的收藏歌曲 */}
+      <section>
+        <div className="d-flex">
+          {/* 左側 */}
+          <div>我的全部收藏</div>
+          {/* 右側 */}
+          <div>
+            {likedSongs.length === 0 ? (
+              <div className="empty-state">你還沒有收藏任何語音 🎵</div>
+            ) : (
+              <ul>
+                {paginatedLikedSongs.map((song, index) => {
+                  const globalIndex = (page - 1) * PAGE_SIZE + index;
+                  const isCurrent =
+                    currentListId === likedPlaylist.id && currentIndex === globalIndex;
+                  const showPause = isCurrent && isPlaying;
+
+                  return (
+                    <li
+                      key={song.id}
+                      className={`d-flex w-100 align-items-center ${
+                        isCurrent ? "text-primary-05 fw-bold" : "list-item"
+                      }`}
+                    >
+                      <div className="song-info-row">
+                        <span className="music-icon">🎵</span>
+                        <span className="mood-tag">{song.category}</span>
+                        <span className="song-name">{song.name}</span>
+                      </div>
+
+                      <div className="song-actions-row d-flex">
+                        <button className="btn" onClick={() => handlePlayLikedSong(globalIndex)}>
+                          {showPause ? <IconPlayerPauseFilled /> : <IconPlayerPlayFilled />}
+                        </button>
+                        <div className=" position-relative">
+                          <button
+                            className="btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenMenuId(openMenuId === song.id ? null : song.id);
+                            }}
+                          >
+                            <IconDotsVertical size={18} />
+                          </button>
+                          {openMenuId === song.id && (
+                            <div
+                              className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
+                              style={{ width: "150px" }}
+                            >
+                              <div
+                                className="px-3 dropdown-item d-flex justify-content-between align-items-center"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenSubmenuId(openSubmenuId === song.id ? null : song.id);
+                                }}
+                              >
+                                加入播放清單
+                              </div>
+                              {openSubmenuId === song.id && (
+                                <div
+                                  className="submenu position-absolute bg-white shadow"
+                                  style={{
+                                    top: 0,
+                                    left: "100%",
+                                    width: "180px",
+                                  }}
+                                >
+                                  {playlists
+                                    .filter((pl) => pl.ownerId === userId)
+                                    .map((pl) => (
+                                      <div
+                                        key={pl.id}
+                                        className="px-3 py-2 dropdown-item"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          dispatch(
+                                            addSongToPlaylist({
+                                              playlistId: pl.id,
+                                              song: song,
+                                            })
+                                          )
+                                            .unwrap()
+                                            .then(() => {
+                                              alert("已加入播放清單");
+                                            })
+                                            .catch((err) => {
+                                              if (err === "duplicate") {
+                                                alert("這首歌已經在播放清單裡了 🎵");
+                                              } else {
+                                                alert("加入失敗");
+                                              }
+                                            });
+                                          setOpenMenuId(null);
+                                          setOpenSubmenuId(null);
+                                        }}
+                                      >
+                                        {pl.listName}
+                                      </div>
+                                    ))}
+                                </div>
+                              )}
+                              <div
+                                className="px-3 dropdown-item"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(toggleSongLike({ userId, songId: song.id }));
+                                  setOpenMenuId(null);
+                                }}
+                              >
+                                取消收藏
+                              </div>
+                              <div className="px-3 dropdown-item">分享</div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
+        </div>
+        {/* 控制按鈕 */}
+        <div className="pagination-controls">
+          <button
+            className="btn"
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+          >
+            <IconChevronLeft />
+          </button>
+          <span>
+            {page} / {totalPages}
+          </span>
+          <button
+            className="btn"
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
+          >
+            <IconChevronRight></IconChevronRight>
+          </button>
+        </div>
       </section>
 
       {/* 最新收藏區塊 */}
       <section className="favorites-section">
-        <h3 className="section-title">最新收藏</h3>
+        <h3 className="section-title">我的最新收藏</h3>
         <div className="song-grid">
           {recentSongs.map((song) => (
             <SongCard
@@ -93,7 +287,10 @@ function FavoritesPage({ selectPlaylist }) {
               song={song}
               showPlayButton={true}
               showFavoriteButton={true}
-              onPlay={handlePlayLikedSong}
+              onPlay={(song) => {
+                const index = likedSongs.findIndex((s) => s.id === song.id);
+                selectPlaylist(likedPlaylist.id, index, likedPlaylist);
+              }}
               isFavorited={likedSet.has(song.id)}
               onFavorite={(song) => dispatch(toggleSongLike({ userId, songId: song.id }))}
             />
@@ -103,7 +300,7 @@ function FavoritesPage({ selectPlaylist }) {
 
       {/* 高人氣收藏區塊 */}
       <section className="favorites-section">
-        <h3 className="section-title">高人氣收藏</h3>
+        <h3 className="section-title">推薦高人氣</h3>
         <div className="song-grid">
           {popularSongs.map((song) => (
             <SongCard
@@ -112,7 +309,7 @@ function FavoritesPage({ selectPlaylist }) {
               showPlayButton={true}
               showFavoriteButton={true}
               isFavorited={likedSongIds.includes(song.id)}
-              onPlay={handlePlayLikedSong}
+              onPlay={handlePlayOriginal}
               onFavorite={(song) => dispatch(toggleSongLike({ userId, songId: song.id }))}
             />
           ))}

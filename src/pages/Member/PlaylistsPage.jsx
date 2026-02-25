@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
-import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
-import { selectPlaylistsView } from "../../slices/selectors";
 import api from "../../services/api";
-import { fetchPlaylists } from "../../slices/memberPlaylistSlice";
+
+import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
+import {
+  fetchPlaylists,
+  removeSongFromPlaylist,
+  addSongToPlaylist,
+} from "../../slices/memberPlaylistSlice";
+import { makeSelectUserLikesView, selectPlaylistsView } from "../../slices/selectors";
+import { toggleSongLike } from "../../slices/userLikeSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
@@ -31,6 +37,9 @@ function PlaylistsPage({ selectPlaylist }) {
   const status = useSelector((state) => state.playlists.status);
   const followStatus = useSelector((state) => state.playlistFollow.status);
 
+  const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
+  const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
+
   const playlists = useSelector((state) => selectPlaylistsView(state, userId));
   const ownedPlaylists = playlists.filter((p) => p.ownerId === userId);
 
@@ -46,6 +55,7 @@ function PlaylistsPage({ selectPlaylist }) {
 
   const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
   //三個點的選單
+
   const [openMenuId, setOpenMenuId] = useState(null);
   useEffect(() => {
     const handleClickOutside = () => {
@@ -81,9 +91,22 @@ function PlaylistsPage({ selectPlaylist }) {
     dispatch(togglePlaylistFollow({ userId, playlistId }));
   };
 
-  const handleAddSong = () => {
-    console.log("新增語音到清單");
-    // TODO: 實作新增語音功能
+  const [showAddMenu, setShowAddMenu] = useState(false);
+  const [expandedPlaylistId, setExpandedPlaylistId] = useState(null);
+  const handleAddSongToCurrentPlaylist = (song) => {
+    if (!currentPlaylist) return;
+    if (currentPlaylist.songsID.includes(song.id)) {
+      alert("這首歌已經在清單裡了");
+      return;
+    }
+    dispatch(
+      addSongToPlaylist({
+        playlistId: currentPlaylist.id,
+        song,
+      })
+    );
+    setShowAddMenu(false);
+    setExpandedPlaylistId(null);
   };
 
   const handleSaveEdit = async (playlistId, { listName, listDescription }) => {
@@ -213,7 +236,31 @@ function PlaylistsPage({ selectPlaylist }) {
                               className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
                               style={{ width: "150px" }}
                             >
-                              <div className="px-3 dropdown-item">加入播放清單</div>
+                              <div
+                                className="px-3 dropdown-item"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(
+                                    removeSongFromPlaylist({
+                                      playlistId: currentPlaylist.id,
+                                      songId: song.id,
+                                    })
+                                  );
+                                  setOpenMenuId(null);
+                                }}
+                              >
+                                刪除歌曲
+                              </div>
+                              <div
+                                className="px-3 dropdown-item"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(toggleSongLike({ userId, songId: song.id }));
+                                  setOpenMenuId(null);
+                                }}
+                              >
+                                {likedSongIds.includes(song.id) ? "取消收藏" : "加入收藏"}
+                              </div>
                               <div className="px-3 dropdown-item">重新排列</div>
                               <div className="px-3 dropdown-item">分享</div>
                             </div>
@@ -224,10 +271,57 @@ function PlaylistsPage({ selectPlaylist }) {
                   );
                 })}
               </ul>
-              <button className="add-song-btn" onClick={handleAddSong}>
-                <IconPlus size={20} />
-                新增語音
-              </button>
+              <div className="position-relative">
+                <button
+                  className="add-song-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowAddMenu((prev) => !prev);
+                  }}
+                >
+                  <IconPlus size={20} />
+                  新增語音
+                </button>
+
+                {showAddMenu && (
+                  <div className="custom-dropdown-menu position-absolute bg-white shadow">
+                    {ownedPlaylists.map((pl) => (
+                      <div key={pl.id}>
+                        <div
+                          className="dropdown-item d-flex justify-content-between"
+                          onClick={() =>
+                            setExpandedPlaylistId(expandedPlaylistId === pl.id ? null : pl.id)
+                          }
+                        >
+                          {pl.listName}
+                          <IconChevronRight size={16} />
+                        </div>
+                        {expandedPlaylistId === pl.id && (
+                          <div className="submenu bg-light px-3 py-2">
+                            {pl.songs.length === 0 ? (
+                              <div className="text-muted small">此清單尚無歌曲</div>
+                            ) : (
+                              pl.songs.map((song) => (
+                                <div
+                                  key={song.id}
+                                  className="dropdown-item small"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddSongToCurrentPlaylist(song);
+                                    setShowAddMenu((prev) => !prev);
+                                  }}
+                                >
+                                  🎵 {song.name}
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
