@@ -93,9 +93,11 @@ function MemberPage({ selectPlaylist }) {
   useEffect(() => {
     setUserStats((prev) => ({
       ...prev,
-      playlistCount: playlists.filter((p) => p.isFollowed).length,
+      playlistCount:
+        playlists.filter((p) => p.isFollowed).length +
+        playlists.filter((p) => p.ownerId === userId).length,
     }));
-  }, [playlists]);
+  }, [playlists, userId]);
   const avatarSrc = getUserAvatar(userImgKey);
   // Audio Ref
   const audioRef = useRef(null);
@@ -115,7 +117,6 @@ function MemberPage({ selectPlaylist }) {
       fetchUserData();
     }
   }, [isCheckingAuth, userId]);
-
   const fetchUserData = async () => {
     setIsLoading(true);
     try {
@@ -457,7 +458,9 @@ function MemberPage({ selectPlaylist }) {
                                 <div className="d-flex align-items-center">
                                   <button
                                     type="button"
-                                    className="btn border-0 me-2"
+                                    className={
+                                      "btn border-0 me-2" + (isCurrent ? " text-primary-05" : "")
+                                    }
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       dispatch(toggleSongLike({ userId, songId: song.id }));

@@ -93,3 +93,30 @@ export const selectSongLikeCountMap = createSelector([selectLikes], (likes) => {
 
   return map;
 });
+
+export const makeSelectLikedPlaylist = () => {
+  const selectUserLikesView = makeSelectUserLikesView();
+
+  return createSelector(
+    [selectUserLikesView, (_, userId) => userId],
+    ({ songs, likedSongIds }, userId) => {
+      const songMap = new Map();
+      songs.forEach((s) => songMap.set(s.id, s));
+
+      const likedSongs = likedSongIds
+        .map((id) => songMap.get(id))
+        .filter(Boolean)
+        .reverse();
+
+      return {
+        id: `liked-${userId}`,
+        listName: "我的收藏",
+        category: "收藏",
+        ownerId: userId,
+        isVirtual: true,
+        songs: likedSongs,
+        songsID: likedSongs.map((s) => s.id),
+      };
+    }
+  );
+};

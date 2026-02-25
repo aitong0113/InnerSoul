@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import api from "../../services/api";
@@ -9,7 +9,11 @@ import {
   removeSongFromPlaylist,
   addSongToPlaylist,
 } from "../../slices/memberPlaylistSlice";
-import { makeSelectUserLikesView, selectPlaylistsView } from "../../slices/selectors";
+import {
+  makeSelectUserLikesView,
+  selectPlaylistsView,
+  makeSelectLikedPlaylist,
+} from "../../slices/selectors";
 import { toggleSongLike } from "../../slices/userLikeSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -39,6 +43,8 @@ function PlaylistsPage({ selectPlaylist }) {
 
   const selectLikesView = useMemo(() => makeSelectUserLikesView(), []);
   const { likedSongIds } = useSelector((state) => selectLikesView(state, userId));
+  const selectLikedPlaylist = useMemo(() => makeSelectLikedPlaylist(), []);
+  const likedPlaylist = useSelector((state) => selectLikedPlaylist(state, userId));
 
   const playlists = useSelector((state) => selectPlaylistsView(state, userId));
   const ownedPlaylists = playlists.filter((p) => p.ownerId === userId);
@@ -55,15 +61,24 @@ function PlaylistsPage({ selectPlaylist }) {
 
   const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
   //三個點的選單
-
+  const dotMenuRef = useRef(null);
+  const addMenuRef = useRef(null);
   const [openMenuId, setOpenMenuId] = useState(null);
   useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenMenuId(null);
+    const handleClickOutside = (e) => {
+      // 關閉「新增語音」選單
+      if (addMenuRef.current && !addMenuRef.current.contains(e.target)) {
+        setShowAddMenu(false);
+      }
+
+      // 關閉「三個點」選單
+      if (dotMenuRef.current && !dotMenuRef.current.contains(e.target)) {
+        setOpenMenuId(null);
+      }
     };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handlePrevPlaylist = () => {
@@ -92,7 +107,6 @@ function PlaylistsPage({ selectPlaylist }) {
   };
 
   const [showAddMenu, setShowAddMenu] = useState(false);
-  const [expandedPlaylistId, setExpandedPlaylistId] = useState(null);
   const handleAddSongToCurrentPlaylist = (song) => {
     if (!currentPlaylist) return;
     if (currentPlaylist.songsID.includes(song.id)) {
@@ -106,7 +120,6 @@ function PlaylistsPage({ selectPlaylist }) {
       })
     );
     setShowAddMenu(false);
-    setExpandedPlaylistId(null);
   };
 
   const handleSaveEdit = async (playlistId, { listName, listDescription }) => {
@@ -233,6 +246,7 @@ function PlaylistsPage({ selectPlaylist }) {
                           </button>
                           {openMenuId === song.id && (
                             <div
+                              ref={dotMenuRef}
                               className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
                               style={{ width: "150px" }}
                             >
@@ -284,20 +298,20 @@ function PlaylistsPage({ selectPlaylist }) {
                 </button>
 
                 {showAddMenu && (
-                  <div className="custom-dropdown-menu position-absolute bg-white shadow">
-                    {ownedPlaylists.map((pl) => (
-                      <div key={pl.id}>
-                        <div
-                          className="dropdown-item d-flex justify-content-between"
-                          onClick={() =>
-                            setExpandedPlaylistId(expandedPlaylistId === pl.id ? null : pl.id)
-                          }
-                        >
-                          {pl.listName}
-                          <IconChevronRight size={16} />
-                        </div>
-                        {expandedPlaylistId === pl.id && (
-                          <div className="submenu bg-light px-3 py-2">
+                  <div
+                    className="custom-dropdown-menu position-absolute bg-white shadow"
+                    ref={addMenuRef}
+                  >
+                    {[...ownedPlaylists, likedPlaylist]
+                      .filter((list) => list !== currentPlaylist)
+                      .map((pl) => (
+                        <div key={pl.id} className="playlist-item position-relative">
+                          <div className="dropdown-item d-flex justify-content-between p-3 align-items-center">
+                            {pl.listName}
+                            <IconChevronLeft size={16} className="chevron-icon" />
+                          </div>
+
+                          <div className="submenu position-absolute bg-light px-3 py-2 shadow">
                             {pl.songs.length === 0 ? (
                               <div className="text-muted small">此清單尚無歌曲</div>
                             ) : (
@@ -308,7 +322,7 @@ function PlaylistsPage({ selectPlaylist }) {
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     handleAddSongToCurrentPlaylist(song);
-                                    setShowAddMenu((prev) => !prev);
+                                    setShowAddMenu(false);
                                   }}
                                 >
                                   🎵 {song.name}
@@ -316,9 +330,8 @@ function PlaylistsPage({ selectPlaylist }) {
                               ))
                             )}
                           </div>
-                        )}
-                      </div>
-                    ))}
+                        </div>
+                      ))}
                   </div>
                 )}
               </div>
