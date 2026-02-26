@@ -23,7 +23,7 @@ const DiaryLayout = ({
   const canSelect = typeof onSelectDate === "function";
 
   return (
-    <div className="container mt-5 pt-5">
+    <div className="container d-flex flex-column my-md-12 my-7">
       <div className="row justify-content-center">
         <div className={`col-12  ${style.diaryBlur}`}>
           <div className={style.diaryCardBottom}>
@@ -33,7 +33,7 @@ const DiaryLayout = ({
                 className={`${style.diaryCardTop} ${style.diaryLeft} col-lg-6 d-flex flex-column justify-content-between p-md-7 py-7 px-4`}
               >
                 <div className="d-flex flex-column">
-                  <h4 className="text-primary-04 text-center fw-bold fs-md-3 fs-5">{year_month}</h4>
+                  <h4 className="text-primary-04 text-center fw-bold fs-md-3 fs-4">{year_month}</h4>
                   <table className={`text-center my-md-3 my-1 ${style.calendarTable}`}>
                     <thead className="text-primary-05 fs-md-5 fs-6">
                       <tr>
@@ -114,13 +114,13 @@ const DiaryLayout = ({
               </div>
               {/* 右側日記 */}
               <div
-                className={`${style.diaryCardTop} ${style.diaryRight} col-lg-6  p-md-7 py-7 px-4 d-flex flex-column justify-content-between`}
+                className={`${style.diaryCardTop} ${style.diaryRight} col-lg-6 p-md-7 py-7 px-4 d-flex flex-column justify-content-between`}
               >
                 <div className="mb-5 fw-bold text-black-500">
-                  <span className="fw-bold fs-md-4 fs-5 text-decoration-underline">
+                  <span className="fw-bold fs-md-4 fs-5 border-black-500 border-bottom px-1">
                     {diaryDate}
                   </span>
-                  <small className="fs-6 ms-2">{weekday}</small>
+                  <small className="fs-md-5 fs-6 ms-2 pb-1">{weekday}</small>
                   {diaryMood ? (
                     <>
                       <span className="border border-primary-03 rounded-pill p-2 ms-3 small fs-6  text-primary-05">
@@ -145,7 +145,7 @@ const DiaryLayout = ({
                           {diaryTitle}
                         </div>
                         <div
-                          className={`d-flex flex-column flex-grow-1 fs-6 ${
+                          className={`d-flex flex-column flex-grow-1 fs-md-5 fs-6 text-black-700 ${
                             typeof diaryContent === "string"
                               ? `justify-content-start ${style.diaryText}`
                               : "justify-content-center"

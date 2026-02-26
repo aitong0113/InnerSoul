@@ -4,8 +4,9 @@ import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
 import api from "../../services/api.js";
 import { MOODS } from "../../constants/moods.js";
 import { authStore } from "../../services/auth/authStore.js";
-import EmptyDiaryState from "../../components/features/diary/EmptyDiaryState.jsx";
-import SubscribeNotice from "../../components/features/diary/SubscribeNotice.jsx";
+import EmptyDiaryState from "../../components/features/diary/state/EmptyDiaryState.jsx";
+import SubscribeNotice from "../../components/features/diary/state/SubscribeNotice.jsx";
+import DiaryWriteBlocked from "../../components/features/diary/state/DiaryWriteBlocked.jsx";
 
 const DiaryHome = () => {
   const MONTH_SHORT = [
@@ -84,6 +85,7 @@ const DiaryHome = () => {
   const weekday = WEEKDAYS[dateObj.getDay()];
   const selectedDay =
     dateObj.getFullYear() === year && dateObj.getMonth() === month ? dateObj.getDate() : null;
+  const isFutureSelected = selectedKey > todayKey;
 
   const onPrevMonth = () => {
     const d = new Date(year, month - 1, 1);
@@ -105,7 +107,7 @@ const DiaryHome = () => {
   const plan = authStore.getUserPlan();
   const isFree = plan === "free";
   const isLimited = diaryCount >= 3;
-  const showSubscribe = isFree && isLimited && !hasDiary;
+  const showSubscribe = isFree && isLimited && !hasDiary && !isFutureSelected;
 
   useEffect(() => {
     const fetchMonthMood = async () => {
@@ -137,6 +139,12 @@ const DiaryHome = () => {
   useEffect(() => {
     const fetchDiary = async () => {
       if (!userId || !selectedKey) return;
+
+      if (selectedDay > todayKey) {
+        setDiary(null);
+        return;
+      }
+
       setLoading(true);
 
       try {
@@ -151,7 +159,7 @@ const DiaryHome = () => {
     };
 
     fetchDiary();
-  }, [userId, selectedKey]);
+  }, [userId, selectedKey, selectedDay, todayKey]);
 
   useEffect(() => {
     const fetchDiaryCount = async () => {
@@ -191,6 +199,8 @@ const DiaryHome = () => {
         diaryContent={
           hasDiary ? (
             diary?.diaryContent || ""
+          ) : isFutureSelected ? (
+            <DiaryWriteBlocked />
           ) : showSubscribe ? (
             <SubscribeNotice to={`/subscription`} />
           ) : (
@@ -201,7 +211,7 @@ const DiaryHome = () => {
         loading={loading}
         footer={
           hasDiary ? (
-            <Link to={`/diary/edit/${selectedKey}`} className="btn btn-primary-05">
+            <Link to={`/diary/edit/${selectedKey}`} className="btn custom-btn-Filled fs-md-5 fs-6">
               編輯
             </Link>
           ) : (

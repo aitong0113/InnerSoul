@@ -49,6 +49,7 @@
 .diaryText {
   white-space: pre-line;
   line-height: 2;
+  letter-spacing: 0.02em;
 }
 
 .diaryImg {
@@ -97,15 +98,20 @@
   justify-content: center;
   align-items: center;
 }
-.calendarBtn:hover {
+.calendarBtn:hover:not(:disabled) {
   border: none;
   background-color: var(--bs-primary-03);
   transition: 0.5s ease;
-  text-shadow: 1px;
+}
+.calendarBtn:disabled {
+  background-color: var(--bs-black-100);
 }
 
 .calendarArrow {
   color: white;
+}
+.calendarBtn:disabled .calendarArrow {
+  color: var(--bs-black-300);
 }
 
 .calCell {
@@ -129,7 +135,7 @@
 }
 
 .calDate {
-  font-size: 20px;
+  font-size: 16px;
   margin-top: 5px;
   line-height: 1.5;
   color: var(--bs-primary-05);
@@ -175,8 +181,8 @@
     background-image: url("../../../assets/shadow-vertical.png");
     left: -35%;
     right: -35%;
-    top: -10%;
-    bottom: -12%;
+    top: -8%;
+    bottom: -10%;
   }
   .diaryLeft {
     transform: translateY(-30px);
@@ -193,7 +199,11 @@
   }
   .moodStamp {
     margin-top: 5px;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
+  }
+  .calendarBtn {
+    width: 40px;
+    height: 40px;
   }
 }
