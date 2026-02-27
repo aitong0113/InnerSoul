@@ -23,7 +23,7 @@ const DiaryLayout = ({
   const canSelect = typeof onSelectDate === "function";
 
   return (
-    <div className="container d-flex flex-column my-md-12 my-7">
+    <div className="container d-flex flex-column">
       <div className="row justify-content-center">
         <div className={`col-12  ${style.diaryBlur}`}>
           <div className={style.diaryCardBottom}>
@@ -163,7 +163,7 @@ const DiaryLayout = ({
                   )}
                 </div>
 
-                {footer ? <div className="d-flex justify-content-end mt-lg-0">{footer}</div> : null}
+                {footer ? <div className="d-flex justify-content-between">{footer}</div> : null}
               </div>
             </div>
           </div>
