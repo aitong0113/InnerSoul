@@ -45,18 +45,21 @@
 // btn
 .btn-filled {
   color: white;
+  border: none;
   border-radius: 100px;
   background-color: var(--bs-primary-05);
   text-decoration: none;
   padding: 8px 16px;
 
   &:hover:not(:disabled) {
+    border: none;
     color: white;
     background-color: var(--bs-primary-03);
     transition: all 0.5s ease;
   }
 
   &:disabled {
+    border: none;
     background-color: var(--bs-black-100);
     color: var(--bs-black-300);
   }
@@ -69,7 +72,7 @@
   border-radius: 100px;
   text-decoration: none;
   transition: all 0.5s ease;
-  padding: 8px 16px;
+  padding: 6px 14px;
 
   &:hover:not(:disabled) {
     background-color: var(--bs-primary-02);
