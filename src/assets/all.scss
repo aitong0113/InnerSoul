@@ -43,7 +43,7 @@
 }
 
 // btn
-.btn-filled {
+.custom-btn-filled {
   color: white;
   border: none;
   border-radius: 100px;
@@ -65,7 +65,7 @@
   }
 }
 
-.btn-outline {
+.custom-btn-outline {
   color: var(--bs-primary-05);
   background-color: white;
   border: 2px solid var(--bs-primary-05);
@@ -75,6 +75,7 @@
   padding: 6px 14px;
 
   &:hover:not(:disabled) {
+    color: var(--bs-primary-05);
     background-color: var(--bs-primary-02);
   }
 
