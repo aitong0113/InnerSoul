@@ -8,6 +8,8 @@ import EmptyDiaryState from "../../components/features/diary/state/EmptyDiarySta
 import SubscribeNotice from "../../components/features/diary/state/SubscribeNotice.jsx";
 import DiaryWriteBlocked from "../../components/features/diary/state/DiaryWriteBlocked.jsx";
 
+const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
 const DiaryHome = () => {
   const MONTH_SHORT = [
     "Jan",
@@ -181,6 +183,36 @@ const DiaryHome = () => {
     if (!mood) return null;
     return <img src={mood.icon} alt={mood.chName} />;
   };
+  const deleteDiary = async () => {
+    if (!userId) {
+      alert("請先登入");
+      return;
+    }
+
+    const confirm = () => {
+      confirm("確定要刪除這篇日記嗎？");
+    };
+    if (!confirm) return;
+
+    try {
+      await api.delete(`/diaries/${diary.id}`);
+      setDiary(null);
+
+      const dayNum = new Date(selectedKey).getDate();
+      setMoodByDay((prev) => {
+        const next = { ...prev };
+        delete next[dayNum];
+        return next;
+      });
+
+      setDiaryCount((c) => Math.max(0, c - 1));
+
+      alert("已刪除");
+    } catch (err) {
+      console.error("刪除失敗", err);
+      alert("刪除失敗");
+    }
+  };
 
   return (
     <main className="bg-liner pt-8 pb-12">
@@ -211,9 +243,22 @@ const DiaryHome = () => {
         loading={loading}
         footer={
           hasDiary ? (
-            <Link to={`/diary/edit/${selectedKey}`} className="btn custom-btn-Filled fs-md-5 fs-6">
-              編輯
-            </Link>
+            <>
+              <div>
+                <button
+                  type="button"
+                  className="btn btn-outline fs-md-5 fs-6"
+                  onClick={deleteDiary}
+                >
+                  刪除
+                </button>
+              </div>
+              <div>
+                <Link to={`/diary/edit/${selectedKey}`} className="btn btn-filled fs-md-5 fs-6">
+                  編輯
+                </Link>
+              </div>
+            </>
           ) : (
             ""
           )
