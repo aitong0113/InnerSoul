@@ -5,6 +5,7 @@ const initialState = {
   currentIndex: 0,
   isPlaying: false,
   currentListId: null,
+  currentListName: "",
   repeatType: "none",
 };
 
@@ -13,7 +14,8 @@ const playerSlice = createSlice({
   initialState,
   reducers: {
     setPlaylist(state, action) {
-      const { songList, startIndex = 0, listId } = action.payload;
+      const { songList, startIndex = 0, listId, listName } = action.payload;
+      state.currentListName = listName || "";
       state.songList = (songList || []).map((song, index) => ({
         ...song,
         _instanceId: `${listId}-${song.id}-${index}-${Date.now()}`,

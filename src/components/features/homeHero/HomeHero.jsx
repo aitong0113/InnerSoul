@@ -7,7 +7,6 @@ import { getMoodText } from "../homeMoodText/getMoodText";
 import { Link } from "react-router-dom";
 
 const HomeHero = () => {
-
   const [text, setText] = useState(getMoodText());
   const [isDisabled, setIsDisabled] = useState(false);
   const [isRotating, setIsRotating] = useState(false);
@@ -19,7 +18,7 @@ const HomeHero = () => {
     setText(getMoodText());
 
     setTimeout(() => {
-      setIsRotating(false);   // 移除 class，讓下次能再轉
+      setIsRotating(false); // 移除 class，讓下次能再轉
       setIsDisabled(false);
     }, 600);
   };
@@ -30,10 +29,14 @@ const HomeHero = () => {
         <div className="hero-content">
           {/* 左側：slogan 文字區 */}
           <div className="hero-left text-primary-04">
-            <h1 className="hero-title">用一段語音、一篇日記<br />整理內在的自己</h1>
+            <h1 className="hero-title">
+              用一段語音、一篇日記
+              <br />
+              整理內在的自己
+            </h1>
 
             {/* 內文 */}
-            <div className="hero-text text-black-700">
+            <div className="hero-subtitle hero-text text-black-700">
               <p className="mb-2">在混亂與忙碌之間，留一段時間給自己</p>
               <p>讓語音與文字陪你聽見內在的聲音</p>
             </div>
@@ -59,10 +62,7 @@ const HomeHero = () => {
                   className="btn refresh-btn text-black-700"
                   onClick={handleChange}
                 >
-                  <IconRotateClockwise
-                    size={24}
-                    className={isRotating ? "rotate-once" : ""}
-                  />
+                  <IconRotateClockwise size={24} className={isRotating ? "rotate-once" : ""} />
                   <span className="fw-bold ms-1 fade-in-up">換一換</span>
                 </button>
               </div>

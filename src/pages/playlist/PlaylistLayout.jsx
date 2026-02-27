@@ -23,11 +23,11 @@ function PlaylistLayout({ selectPlaylist }) {
   const [keyword, setKeyword] = useState("");
   return (
     <>
-      <div className="container py-6 py-md-11">
-        <h2 className="text-primary-05 fw-bold mb-4 mb-md-9 fs-5 fs-md-2 text-center text-md-start">
+      <div className="container py-md-11">
+        <h2 className="text-center text-primary-04 mb-5 text-md-start">
           你的心，正在播放哪一段旋律？
         </h2>
-        <div className="d-flex justify-content-center align-items-center mb-6 justify-content-md-start">
+        <div className="d-flex justify-content-center justify-content-md-start align-items-center mb-6 my-7">
           <input
             value={inputValue}
             className="p-2 border rounded-2"

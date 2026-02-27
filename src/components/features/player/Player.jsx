@@ -33,7 +33,9 @@ const BASE_URL = import.meta.env.BASE_URL;
 function Player() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { songList, currentIndex, isPlaying, currentListId } = useSelector((state) => state.player);
+  const { songList, currentIndex, isPlaying, currentListId, currentListName } = useSelector(
+    (state) => state.player
+  );
   const repeatType = useSelector((state) => state.player.repeatType);
   const currentSong = songList[currentIndex] || null;
 
@@ -290,7 +292,9 @@ function Player() {
             {/* 播放清單 */}
             <div className="bg-white d-flex flex-column playlist">
               <div className="d-flex align-items-center justify-content-center bg-BG-01 ps-6 py-3">
-                <p className="mb-0 text-primary-05 fw-bold">播放清單</p>
+                <p className="mb-0 text-primary-05 fw-bold">
+                  <small className="fw-normal">播放清單</small>-{currentListName}
+                </p>
                 <div className="btn ms-auto border-0 text-primary-05">
                   <IconChevronDown size={32} onClick={() => changePlayer()} />
                 </div>
