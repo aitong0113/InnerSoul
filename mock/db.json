@@ -264,6 +264,72 @@
       "diaryImg": "https://res.cloudinary.com/dlx6slnbd/image/upload/v1771921300/vgexbsvbr3scfjlbmdml.jpg",
       "createdAt": "2026-02-24T08:21:41.351Z",
       "updatedAt": "2026-02-24T08:21:41.351Z"
+    },
+    {
+      "id": 28,
+      "userId": 3,
+      "diaryDate": "2026-02-27",
+      "diaryTitle": "",
+      "diaryContent": "",
+      "mood": "good",
+      "diaryImg": "",
+      "createdAt": "2026-02-27T08:54:58.188Z",
+      "updatedAt": "2026-02-27T08:54:58.188Z"
+    },
+    {
+      "id": 29,
+      "userId": 3,
+      "diaryDate": "2026-02-03",
+      "diaryTitle": "",
+      "diaryContent": "",
+      "mood": "notgood",
+      "diaryImg": "",
+      "createdAt": "2026-02-27T08:55:05.047Z",
+      "updatedAt": "2026-02-27T08:55:05.047Z"
+    },
+    {
+      "id": 30,
+      "userId": 3,
+      "diaryDate": "2026-02-05",
+      "diaryTitle": "",
+      "diaryContent": "",
+      "mood": "mad",
+      "diaryImg": "",
+      "createdAt": "2026-02-27T08:55:10.822Z",
+      "updatedAt": "2026-02-27T08:55:10.822Z"
+    },
+    {
+      "id": 31,
+      "userId": 3,
+      "diaryDate": "2026-02-13",
+      "diaryTitle": "",
+      "diaryContent": "",
+      "mood": "sad",
+      "diaryImg": "",
+      "createdAt": "2026-02-27T08:55:36.263Z",
+      "updatedAt": "2026-02-27T08:55:36.263Z"
+    },
+    {
+      "id": 32,
+      "userId": 3,
+      "diaryDate": "2026-02-18",
+      "diaryTitle": "",
+      "diaryContent": "",
+      "mood": "messy",
+      "diaryImg": "",
+      "createdAt": "2026-02-27T08:55:43.718Z",
+      "updatedAt": "2026-02-27T08:55:43.718Z"
+    },
+    {
+      "id": 33,
+      "userId": 3,
+      "diaryDate": "2026-02-10",
+      "diaryTitle": "",
+      "diaryContent": "",
+      "mood": "good",
+      "diaryImg": "",
+      "createdAt": "2026-02-27T08:56:14.115Z",
+      "updatedAt": "2026-02-27T08:56:14.115Z"
     }
   ],
   "lists": [
@@ -280,7 +346,8 @@
         7,
         9
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 2,
@@ -291,7 +358,8 @@
         10,
         15
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 3,
@@ -302,7 +370,8 @@
         10,
         1
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 4,
@@ -313,7 +382,8 @@
         7,
         13
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 5,
@@ -324,7 +394,8 @@
         8,
         14
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1499956827185-0d63ee78a910?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 6,
@@ -336,7 +407,8 @@
         9,
         13
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 7,
@@ -348,7 +420,8 @@
         12,
         8
       ],
-      "ownerId": 1
+      "ownerId": 1,
+      "coverImg": "https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 8,
@@ -359,7 +432,8 @@
         3,
         6
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1505144808419-1957a94ca61e?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 9,
@@ -370,7 +444,8 @@
         13,
         7
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 10,
@@ -381,7 +456,8 @@
         14,
         8
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 11,
@@ -392,7 +468,8 @@
         3,
         18
       ],
-      "ownerId": 2
+      "ownerId": 2,
+      "coverImg": "https://images.unsplash.com/photo-1510784722466-f2aa9c52fff6?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 12,
@@ -405,7 +482,8 @@
         9,
         16
       ],
-      "ownerId": 1
+      "ownerId": 1,
+      "coverImg": "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 13,
@@ -418,7 +496,8 @@
         11
       ],
       "ownerId": 3,
-      "listDescription": ""
+      "listDescription": "",
+      "coverImg": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 14,
@@ -430,7 +509,8 @@
         18,
         6
       ],
-      "ownerId": 3
+      "ownerId": 3,
+      "coverImg": "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 15,
@@ -442,7 +522,8 @@
         12,
         19
       ],
-      "ownerId": 1
+      "ownerId": 1,
+      "coverImg": "https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=400&auto=format&fit=crop&q=60"
     },
     {
       "ownerId": 3,
@@ -452,7 +533,15 @@
         6
       ],
       "category": "",
-      "id": 16
+      "id": 16,
+      "coverImg": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format&fit=crop&q=60"
+    },
+    {
+      "ownerId": 3,
+      "listName": "新播放清單",
+      "songsID": [],
+      "category": "",
+      "id": 17
     }
   ],
   "songs": [
@@ -462,7 +551,8 @@
       "author": "raindrops",
       "category": "平靜",
       "fileName": "calm-heavenly-raindrops",
-      "fileUrl": "music/m02.mp3"
+      "fileUrl": "music/m02.mp3",
+      "thumb": "https://images.unsplash.com/photo-1501691223387-dd0500403074?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 2,
@@ -470,7 +560,8 @@
       "author": "piano",
       "category": "喜悅",
       "fileName": "a-quiet-joy",
-      "fileUrl": "music/m01.mp3"
+      "fileUrl": "music/m01.mp3",
+      "thumb": "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 3,
@@ -478,7 +569,8 @@
       "author": "piano",
       "category": "放鬆",
       "fileName": "majestic-sky",
-      "fileUrl": "music/m03.mp3"
+      "fileUrl": "music/m03.mp3",
+      "thumb": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 4,
@@ -486,7 +578,8 @@
       "author": "chill",
       "category": "清新",
       "fileName": "chill-background",
-      "fileUrl": "music/m04.mp3"
+      "fileUrl": "music/m04.mp3",
+      "thumb": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 5,
@@ -494,7 +587,8 @@
       "author": "coffee",
       "category": "溫暖",
       "fileName": "coffee-chill",
-      "fileUrl": "music/m06.mp3"
+      "fileUrl": "music/m06.mp3",
+      "thumb": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 6,
@@ -502,7 +596,8 @@
       "author": "ambient",
       "category": "療癒",
       "fileName": "soft-wind",
-      "fileUrl": "music/m05.mp3"
+      "fileUrl": "music/m05.mp3",
+      "thumb": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 7,
@@ -510,7 +605,8 @@
       "author": "piano",
       "category": "喜悅",
       "fileName": "good-day",
-      "fileUrl": "music/m01.mp3"
+      "fileUrl": "music/m01.mp3",
+      "thumb": "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 8,
@@ -518,7 +614,8 @@
       "author": "ambient",
       "category": "平靜",
       "fileName": "slow-night",
-      "fileUrl": "music/m02.mp3"
+      "fileUrl": "music/m02.mp3",
+      "thumb": "https://images.unsplash.com/photo-1468276311594-df7cb65d8df6?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 9,
@@ -526,7 +623,8 @@
       "author": "lightmusic",
       "category": "清新",
       "fileName": "sunshine",
-      "fileUrl": "music/m03.mp3"
+      "fileUrl": "music/m03.mp3",
+      "thumb": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 10,
@@ -534,7 +632,8 @@
       "author": "chill",
       "category": "放鬆",
       "fileName": "no-rush",
-      "fileUrl": "music/m04.mp3"
+      "fileUrl": "music/m04.mp3",
+      "thumb": "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 11,
@@ -542,7 +641,8 @@
       "author": "focus",
       "category": "專注",
       "fileName": "deep-focus",
-      "fileUrl": "music/m05.mp3"
+      "fileUrl": "music/m05.mp3",
+      "thumb": "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 12,
@@ -550,7 +650,8 @@
       "author": "sleep",
       "category": "療癒",
       "fileName": "sleep-mode",
-      "fileUrl": "music/m06.mp3"
+      "fileUrl": "music/m06.mp3",
+      "thumb": "https://images.unsplash.com/photo-1444080748397-f442aa95c3e5?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 13,
@@ -558,7 +659,8 @@
       "author": "lightmusic",
       "category": "喜悅",
       "fileName": "bright-morning",
-      "fileUrl": "music/m01.mp3"
+      "fileUrl": "music/m01.mp3",
+      "thumb": "https://images.unsplash.com/photo-1495567720989-cebdbdd97913?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 14,
@@ -566,7 +668,8 @@
       "author": "ambient",
       "category": "孤獨",
       "fileName": "lonely-night",
-      "fileUrl": "music/m02.mp3"
+      "fileUrl": "music/m02.mp3",
+      "thumb": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 15,
@@ -574,7 +677,8 @@
       "author": "focus",
       "category": "憤怒",
       "fileName": "anger-release",
-      "fileUrl": "music/m03.mp3"
+      "fileUrl": "music/m03.mp3",
+      "thumb": "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 16,
@@ -582,7 +686,8 @@
       "author": "piano",
       "category": "清新",
       "fileName": "fresh-start",
-      "fileUrl": "music/m04.mp3"
+      "fileUrl": "music/m04.mp3",
+      "thumb": "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 17,
@@ -590,7 +695,8 @@
       "author": "coffee",
       "category": "溫暖",
       "fileName": "afternoon-light",
-      "fileUrl": "music/m05.mp3"
+      "fileUrl": "music/m05.mp3",
+      "thumb": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 18,
@@ -598,7 +704,8 @@
       "author": "focus",
       "category": "專注",
       "fileName": "stay-focused",
-      "fileUrl": "music/m06.mp3"
+      "fileUrl": "music/m06.mp3",
+      "thumb": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&auto=format&fit=crop&q=60"
     },
     {
       "id": 19,
@@ -606,7 +713,8 @@
       "author": "sleep",
       "category": "療癒",
       "fileName": "night-calm",
-      "fileUrl": "music/m02.mp3"
+      "fileUrl": "music/m02.mp3",
+      "thumb": "https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=400&auto=format&fit=crop&q=60"
     }
   ],
   "songLikes": [
@@ -756,6 +864,36 @@
       "userId": 3,
       "playlistId": 9,
       "id": 34
+    },
+    {
+      "userId": 3,
+      "playlistId": 2,
+      "id": 35
+    },
+    {
+      "userId": 3,
+      "playlistId": 4,
+      "id": 36
+    },
+    {
+      "userId": 3,
+      "playlistId": 6,
+      "id": 37
+    },
+    {
+      "userId": 3,
+      "playlistId": 10,
+      "id": 38
+    },
+    {
+      "userId": 3,
+      "playlistId": 1,
+      "id": 39
+    },
+    {
+      "userId": 3,
+      "playlistId": 12,
+      "id": 40
     }
   ],
   "plans": [
