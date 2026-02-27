@@ -85,9 +85,11 @@ const HomeDiary = () => {
          我只是靜靜坐，把那些還沒整理好的心情放下來。`}
         diaryImg="https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         footer={
-          <Link to={ROUTES.diaryBase} className="btn btn-filled">
-            查看更多
-          </Link>
+          <div className="d-flex justify-content-end">
+            <Link to={ROUTES.diaryBase} className="btn btn-filled">
+              查看更多
+            </Link>
+          </div>
         }
       />
     </div>

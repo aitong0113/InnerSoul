@@ -243,7 +243,7 @@ const DiaryHome = () => {
         loading={loading}
         footer={
           hasDiary ? (
-            <>
+            <div className="d-flex justify-content-between">
               <div>
                 <button
                   type="button"
@@ -258,7 +258,7 @@ const DiaryHome = () => {
                   編輯
                 </Link>
               </div>
-            </>
+            </div>
           ) : (
             ""
           )

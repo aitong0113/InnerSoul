@@ -163,7 +163,7 @@ const DiaryLayout = ({
                   )}
                 </div>
 
-                {footer ? <div className="d-flex justify-content-between">{footer}</div> : null}
+                {footer ? <div>{footer}</div> : null}
               </div>
             </div>
           </div>
