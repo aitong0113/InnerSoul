@@ -21,7 +21,7 @@ import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Diary from "./pages/diary/Diary";
 import DiaryHome from "./pages/diary/DiaryHome";
-import EditDiary from "./components/features/diary/EditDiary";
+import EditDiary from "./pages/diary/EditDiary.jsx";
 import Playlist from "./pages/playlist/PlaylistRoute.jsx";
 import Subscription from "./pages/subscription/Subscription";
 import Player from "./components/features/player/Player";

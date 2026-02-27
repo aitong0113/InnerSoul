@@ -10,23 +10,22 @@
 // 卡片
 .diaryBlur {
   position: relative;
-  padding: 32px;
-  overflow: visible;
 }
 
 .diaryBlur::before {
   content: "";
   position: absolute;
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -13%;
+
+  left: -10%;
+  right: -10%;
+  top: -20%;
   bottom: -15%;
 
   background-image: url("../../../assets/shadow-horizontal.png");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 100%;
   background-position: center;
+
   z-index: 0;
   pointer-events: none;
 }
@@ -50,6 +49,7 @@
 .diaryText {
   white-space: pre-line;
   line-height: 2;
+  letter-spacing: 0.02em;
 }
 
 .diaryImg {
@@ -82,6 +82,9 @@
 }
 
 .moodStamp {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
   filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.25));
 }
 
@@ -95,15 +98,20 @@
   justify-content: center;
   align-items: center;
 }
-.calendarBtn:hover {
+.calendarBtn:hover:not(:disabled) {
   border: none;
   background-color: var(--bs-primary-03);
   transition: 0.5s ease;
-  text-shadow: 1px;
+}
+.calendarBtn:disabled {
+  background-color: var(--bs-black-100);
 }
 
 .calendarArrow {
   color: white;
+}
+.calendarBtn:disabled .calendarArrow {
+  color: var(--bs-black-300);
 }
 
 .calCell {
@@ -127,6 +135,7 @@
 }
 
 .calDate {
+  font-size: 16px;
   margin-top: 5px;
   line-height: 1.5;
   color: var(--bs-primary-05);
@@ -170,16 +179,31 @@
 @media (max-width: 991.98px) {
   .diaryBlur::before {
     background-image: url("../../../assets/shadow-vertical.png");
-    background-position: center top;
-    background-size: cover;
-    background-repeat: repeat-y;
-    top: -7%;
-    bottom: -8%;
+    left: -35%;
+    right: -35%;
+    top: -8%;
+    bottom: -10%;
   }
   .diaryLeft {
     transform: translateY(-30px);
   }
   .diaryRight {
     transform: translateY(30px);
+  }
+
+  .calDate {
+    font-size: 14px;
+  }
+  .calCell {
+    border-radius: 10px;
+  }
+  .moodStamp {
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+  }
+  .calendarBtn {
+    width: 40px;
+    height: 40px;
   }
 }

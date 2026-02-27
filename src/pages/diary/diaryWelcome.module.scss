@@ -1,5 +1,3 @@
-
-
 .mainPhoto {
   width: 100%;
   height: 100%;
@@ -47,7 +45,11 @@
   border: none;
   background-color: var(--bs-primary-03);
   transition: 0.5s ease;
-  text-shadow: 1px;
+}
+
+.arrowIcon {
+  width: 24px;
+  height: 24px;
 }
 
 .text {
@@ -55,43 +57,45 @@
   letter-spacing: 0.02em;
 }
 
-.calBg {
-  background: radial-gradient(
-    circle closest-side at center,
-    #b9e5e8,
-    rgba(255, 255, 255, 0.479) 35%,
-    rgba(255, 255, 255, 0.217) 80%,
-    #cde8fa
-  );
-}
-
 .calPhoto {
-  padding: 20px;
-  max-width: 500px;
   width: 100%;
-  height: auto;
+  max-width: 636px;
+  height: 100%;
   display: block;
   border-radius: 20px;
 }
 
 .diaryDemoPhoto {
-  max-width: 500px;
+  max-width: 550px;
   width: 100%;
   height: auto;
   display: block;
   border-radius: 20px;
 }
-
-.section2 {
+.section {
   position: relative;
-  width: 100%;
 }
-// .leftCard {
-//   border: 1px solid #008000;
-// }
-// .rightText {
-//   border: 1px solid brown;
-// }
+.cloudR {
+  position: relative;
+}
+.cloud1 {
+  position: absolute;
+  left: 75%;
+  top: 70%;
+  width: 292px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cloud2 {
+  position: absolute;
+  left: 69%;
+  top: 78%;
+  width: 240px;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .lineSvg2 {
   position: absolute;
   inset: 0;
@@ -99,14 +103,111 @@
   height: 100%;
   pointer-events: none;
 }
-
-.section3 {
-  position: relative;
-}
 .lineSvg3 {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+// 點擊查看心情記事
+.labelS2 {
+  position: absolute;
+  left: 3%;
+  top: 15%;
+  font-size: 20px;
+}
+// 為今天的自己做個總結
+.labelS301 {
+  position: absolute;
+  left: 4%;
+  top: 29%;
+  font-size: 20px;
+}
+// 記錄當日心情
+.labelS302 {
+  position: absolute;
+  left: 80%;
+  top: 24%;
+  font-size: 20px;
+}
+// 自由放上一張代表今天的照片
+.labelS303 {
+  position: absolute;
+  left: -1%;
+  top: 67%;
+  font-size: 20px;
+}
+// 寫下回憶小碎片
+.labelS304 {
+  position: absolute;
+  left: 80%;
+  top: 44.5%;
+  font-size: 20px;
+}
+
+.onlyDesktop {
+  display: block;
+}
+.onlyMobile {
+  display: none;
+}
+@media (max-width: 992px) {
+  .onlyDesktop {
+    display: none;
+  }
+  .onlyMobile {
+    display: block;
+  }
+  .arrowIcon {
+    width: 20px;
+    height: 20px;
+  }
+  .cloud1 {
+    position: absolute;
+    left: 68%;
+    top: 88%;
+    width: 104px;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .cloud2 {
+    position: absolute;
+    left: 68%;
+    top: 92%;
+    width: 104px;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .labelS2 {
+    position: absolute;
+    left: 10%;
+    top: 8%;
+    font-size: 14px;
+  }
+  .labelS301 {
+    position: absolute;
+    left: 5%;
+    top: 13%;
+    font-size: 14px;
+  }
+  .labelS302 {
+    position: absolute;
+    left: 43%;
+    top: 14%;
+    font-size: 14px;
+  }
+  .labelS303 {
+    position: absolute;
+    left: 3%;
+    top: 82%;
+    font-size: 14px;
+  }
+  .labelS304 {
+    position: absolute;
+    left: 70%;
+    top: 81%;
+    font-size: 14px;
+  }
 }

@@ -23,19 +23,19 @@ const DiaryLayout = ({
   const canSelect = typeof onSelectDate === "function";
 
   return (
-    <div className="container mt-5 pt-5">
+    <div className="container d-flex flex-column">
       <div className="row justify-content-center">
-        <div className={`col-12 ${style.diaryBlur}`}>
+        <div className={`col-12  ${style.diaryBlur}`}>
           <div className={style.diaryCardBottom}>
             <div className={`d-flex flex-column flex-lg-row p-3 gap-2 ${style.cardPosition}`}>
               {/* 左側月曆 */}
               <div
-                className={`${style.diaryCardTop} ${style.diaryLeft} col-lg-6 d-flex flex-column justify-content-between p-7`}
+                className={`${style.diaryCardTop} ${style.diaryLeft} col-lg-6 d-flex flex-column justify-content-between p-md-7 py-7 px-4`}
               >
                 <div className="d-flex flex-column">
-                  <h4 className="text-primary-04 text-center fw-bold">{year_month}</h4>
-                  <table className={`text-center my-3 ${style.calendarTable}`}>
-                    <thead className="text-primary-05 fs-5">
+                  <h4 className="text-primary-04 text-center fw-bold fs-md-3 fs-4">{year_month}</h4>
+                  <table className={`text-center my-md-3 my-1 ${style.calendarTable}`}>
+                    <thead className="text-primary-05 fs-md-5 fs-6">
                       <tr>
                         <th className="text-center">日</th>
                         <th className="text-center">一</th>
@@ -114,14 +114,16 @@ const DiaryLayout = ({
               </div>
               {/* 右側日記 */}
               <div
-                className={`${style.diaryCardTop} ${style.diaryRight} col-lg-6 p-7 d-flex flex-column justify-content-between`}
+                className={`${style.diaryCardTop} ${style.diaryRight} col-lg-6 p-md-7 py-7 px-4 d-flex flex-column justify-content-between`}
               >
                 <div className="mb-5 fw-bold text-black-500">
-                  <span className="fw-bold fs-4 text-decoration-underline">{diaryDate}</span>
-                  <small className="fs-6 ms-2">{weekday}</small>
+                  <span className="fw-bold fs-md-4 fs-5 border-black-500 border-bottom px-1">
+                    {diaryDate}
+                  </span>
+                  <small className="fs-md-5 fs-6 ms-2 pb-1">{weekday}</small>
                   {diaryMood ? (
                     <>
-                      <span className="border border-light rounded-pill p-2 ms-3 small fs-6  text-primary-05">
+                      <span className="border border-primary-03 rounded-pill p-2 ms-3 small fs-6  text-primary-05">
                         心情
                       </span>
                       <span className={`ms-2 ${style.moodStamp}`}>
@@ -139,9 +141,11 @@ const DiaryLayout = ({
                   ) : (
                     <div className={`d-flex flex-column h-100 justify-content-between`}>
                       <div className={`d-flex flex-column flex-grow-1`}>
-                        <h5 className="text-primary-05 fw-bold mt-3 mb-5">{diaryTitle}</h5>
+                        <div className="text-primary-05 fw-bold mt-3 mb-5 fs-md-4 fs-5 ">
+                          {diaryTitle}
+                        </div>
                         <div
-                          className={`d-flex flex-column flex-grow-1 ${
+                          className={`d-flex flex-column flex-grow-1 fs-md-5 fs-6 text-black-700 ${
                             typeof diaryContent === "string"
                               ? `justify-content-start ${style.diaryText}`
                               : "justify-content-center"
@@ -159,9 +163,7 @@ const DiaryLayout = ({
                   )}
                 </div>
 
-                {footer ? (
-                  <div className="d-flex justify-content-end my-4 mt-lg-0">{footer}</div>
-                ) : null}
+                {footer ? <div>{footer}</div> : null}
               </div>
             </div>
           </div>

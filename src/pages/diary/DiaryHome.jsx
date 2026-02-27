@@ -4,9 +4,12 @@ import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
 import api from "../../services/api.js";
 import { MOODS } from "../../constants/moods.js";
 import { authStore } from "../../services/auth/authStore.js";
-import EmptyDiaryState from "../../components/features/diary/EmptyDiaryState.jsx";
-import SubscribeNotice from "../../components/features/diary/SubscribeNotice.jsx";
+import EmptyDiaryState from "../../components/features/diary/state/EmptyDiaryState.jsx";
+import SubscribeNotice from "../../components/features/diary/state/SubscribeNotice.jsx";
+import DiaryWriteBlocked from "../../components/features/diary/state/DiaryWriteBlocked.jsx";
 
+const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
 const DiaryHome = () => {
   const MONTH_SHORT = [
     "Jan",
@@ -84,6 +87,7 @@ const DiaryHome = () => {
   const weekday = WEEKDAYS[dateObj.getDay()];
   const selectedDay =
     dateObj.getFullYear() === year && dateObj.getMonth() === month ? dateObj.getDate() : null;
+  const isFutureSelected = selectedKey > todayKey;
 
   const onPrevMonth = () => {
     const d = new Date(year, month - 1, 1);
@@ -105,7 +109,7 @@ const DiaryHome = () => {
   const plan = authStore.getUserPlan();
   const isFree = plan === "free";
   const isLimited = diaryCount >= 3;
-  const showSubscribe = isFree && isLimited && !hasDiary;
+  const showSubscribe = isFree && isLimited && !hasDiary && !isFutureSelected;
 
   useEffect(() => {
     const fetchMonthMood = async () => {
@@ -137,6 +141,12 @@ const DiaryHome = () => {
   useEffect(() => {
     const fetchDiary = async () => {
       if (!userId || !selectedKey) return;
+
+      if (selectedDay > todayKey) {
+        setDiary(null);
+        return;
+      }
+
       setLoading(true);
 
       try {
@@ -151,7 +161,7 @@ const DiaryHome = () => {
     };
 
     fetchDiary();
-  }, [userId, selectedKey]);
+  }, [userId, selectedKey, selectedDay, todayKey]);
 
   useEffect(() => {
     const fetchDiaryCount = async () => {
@@ -173,6 +183,36 @@ const DiaryHome = () => {
     if (!mood) return null;
     return <img src={mood.icon} alt={mood.chName} />;
   };
+  const deleteDiary = async () => {
+    if (!userId) {
+      alert("請先登入");
+      return;
+    }
+
+    const confirm = () => {
+      confirm("確定要刪除這篇日記嗎？");
+    };
+    if (!confirm) return;
+
+    try {
+      await api.delete(`/diaries/${diary.id}`);
+      setDiary(null);
+
+      const dayNum = new Date(selectedKey).getDate();
+      setMoodByDay((prev) => {
+        const next = { ...prev };
+        delete next[dayNum];
+        return next;
+      });
+
+      setDiaryCount((c) => Math.max(0, c - 1));
+
+      alert("已刪除");
+    } catch (err) {
+      console.error("刪除失敗", err);
+      alert("刪除失敗");
+    }
+  };
 
   return (
     <main className="bg-liner pt-8 pb-12">
@@ -191,6 +231,8 @@ const DiaryHome = () => {
         diaryContent={
           hasDiary ? (
             diary?.diaryContent || ""
+          ) : isFutureSelected ? (
+            <DiaryWriteBlocked />
           ) : showSubscribe ? (
             <SubscribeNotice to={`/subscription`} />
           ) : (
@@ -201,9 +243,22 @@ const DiaryHome = () => {
         loading={loading}
         footer={
           hasDiary ? (
-            <Link to={`/diary/edit/${selectedKey}`} className="btn btn-primary-05">
-              編輯
-            </Link>
+            <div className="d-flex justify-content-between">
+              <div>
+                <button
+                  type="button"
+                  className="btn btn-outline fs-md-5 fs-6"
+                  onClick={deleteDiary}
+                >
+                  刪除
+                </button>
+              </div>
+              <div>
+                <Link to={`/diary/edit/${selectedKey}`} className="btn btn-filled fs-md-5 fs-6">
+                  編輯
+                </Link>
+              </div>
+            </div>
           ) : (
             ""
           )
