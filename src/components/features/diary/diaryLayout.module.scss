@@ -179,10 +179,10 @@
 @media (max-width: 991.98px) {
   .diaryBlur::before {
     background-image: url("../../../assets/shadow-vertical.png");
-    left: -35%;
-    right: -35%;
+    left: 0%;
+    right: 0%;
     top: -8%;
-    bottom: -10%;
+    bottom: -8%;
   }
   .diaryLeft {
     transform: translateY(-30px);

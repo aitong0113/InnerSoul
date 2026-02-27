@@ -218,7 +218,7 @@ function EditDiary() {
                                 <div className="fw-bold">本日情緒夥伴</div>
                               </div>
                             </label>
-                            <div className="row g-2">
+                            <div className="row g-8">
                               {MOODS.map((m) => (
                                 <div
                                   className={`col-2 d-flex justify-content-center ${style.formCheck}`}
@@ -272,21 +272,21 @@ function EditDiary() {
                         </div>
                       </div>
 
-                      <div className="d-flex mt-auto">
+                      <div className="d-flex mt-auto justify-content-between">
                         <div>
                           <Link to="/diary">
-                            <button type="button" className={`fs-md-5 fs-6 ${style.btnOutline}`}>
-                              回到日記本
+                            <button type="button" className={`${style.btnText} custom-btn-outline`}>
+                              返回
                             </button>
                           </Link>
                         </div>
                         <div className="ms-auto">
                           <button
                             type="button"
-                            className={`fs-md-5 fs-6 ${style.btnFilled}`}
+                            className={`${style.btnText} custom-btn-filled`}
                             onClick={saveDiary}
                           >
-                            儲存心情日記
+                            儲存
                           </button>
                         </div>
                       </div>

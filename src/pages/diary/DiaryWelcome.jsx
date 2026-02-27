@@ -91,16 +91,16 @@ const DiaryWelcome = () => {
 
             <line
               x1="600"
-              y1="280"
+              y1="283"
               x2="690"
-              y2="280"
+              y2="283"
               stroke="#505050"
               markerEnd="url(#open-arrow)"
             />
 
             <path
               d="
- M55 210
+ M85 210
     H10
     A10 10 0 0 1 0 200
     V-25
@@ -137,20 +137,20 @@ const DiaryWelcome = () => {
 
             <line
               x1="188"
-              y1="230"
+              y1="200"
               x2="188"
-              y2="330"
+              y2="300"
               stroke="#505050"
               markerEnd="url(#open-arrow-mobile)"
             />
 
             <path
               d="
- M25 70
+ M25 40
     H20
-    A5 5 0 0 1 15 65
-    V-63
-    A5 5 0 0 1 20 -68
+    A5 5 0 0 1 15 35
+    V-98
+    A5 5 0 0 1 20 -103
     H30
     "
               fill="none"
@@ -325,16 +325,16 @@ const DiaryWelcome = () => {
               x1="78"
               y1="105"
               x2="78"
-              y2="72"
+              y2="65"
               stroke="#505050"
               markerEnd="url(#open-arrow-mobile)"
             />
 
             {/* 記錄當日心情 */}
             <line
-              x1="163"
+              x1="167"
               y1="105"
-              x2="163"
+              x2="167"
               y2="78"
               stroke="#505050"
               markerEnd="url(#open-arrow-mobile)"
@@ -353,7 +353,7 @@ const DiaryWelcome = () => {
             {/* 寫下回憶小碎片 */}
             <line
               x1="300"
-              y1="270"
+              y1="250"
               x2="300"
               y2="414"
               stroke="#505050"

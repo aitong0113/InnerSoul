@@ -245,16 +245,15 @@ const DiaryHome = () => {
           hasDiary ? (
             <div className="d-flex justify-content-between">
               <div>
-                <button
-                  type="button"
-                  className="btn btn-outline fs-md-5 fs-6"
-                  onClick={deleteDiary}
-                >
+                <button className="btn custom-btn-outline fs-md-5 fs-6" onClick={deleteDiary}>
                   刪除
                 </button>
               </div>
               <div>
-                <Link to={`/diary/edit/${selectedKey}`} className="btn btn-filled fs-md-5 fs-6">
+                <Link
+                  to={`/diary/edit/${selectedKey}`}
+                  className="btn custom-btn-filled fs-md-5 fs-6"
+                >
                   編輯
                 </Link>
               </div>
