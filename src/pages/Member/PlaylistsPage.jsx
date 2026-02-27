@@ -423,8 +423,8 @@ function PlaylistsPage({ selectPlaylist }) {
                   </button>
                   <div className="cloud-placeholder">
                     <img
-                      src={`${import.meta.env.BASE_URL}Union.png`}
-                      alt="雲朵"
+                      src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`}
+                      alt={playlist.listName}
                       className="cloud-bg"
                     />
                   </div>

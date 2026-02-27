@@ -51,7 +51,7 @@ function PlaylistCard({
       {size === "small" && (
         <>
           <div className="playlist-cover">
-            <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
+            <img src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`} alt={listName} className="cloud-bg" />
           </div>
           <div className="playlist-info">
             <h4 className="playlist-title">{listName}</h4>
@@ -73,7 +73,7 @@ function PlaylistCard({
       {size === "large" && (
         <div className="playlist-large-content">
           <div className="playlist-cover-large">
-            <img src={`${import.meta.env.BASE_URL}Union.png`} alt="雲朵" className="cloud-bg" />
+            <img src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`} alt={listName} className="cloud-bg" />
           </div>
           <div className="playlist-details">
             {isEditing ? (
