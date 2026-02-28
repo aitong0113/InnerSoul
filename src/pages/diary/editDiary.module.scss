@@ -91,7 +91,7 @@
   color: rgb(53, 38, 38);
   line-height: 1.5;
   border-radius: 10px;
-  padding: 4px 6px;
+  padding: 2px 4px;
 }
 
 .moodBtn:hover {
@@ -168,7 +168,7 @@
   background-color: white;
   font-size: 16px;
   letter-spacing: 0.05em;
-  border: 1px solid var(--bs-primary-04);
+  border: 2px solid var(--bs-primary-04);
   border-radius: 10px;
 }
 .uploadBtn:hover {
@@ -178,6 +178,10 @@
     transform 0.2s ease;
   background-color: #f1fcf8;
   transform: translateY(-1px);
+}
+.btnText {
+  font-size: 20px;
+  white-space: nowrap;
 }
 
 .uploadInput {
@@ -193,10 +197,16 @@
 @media (max-width: 991.98px) {
   .diaryBlur::before {
     background-image: url("../../assets/shadow-vertical.png");
-    left: -35%;
-    right: -35%;
+    left: -3%;
+    right: -3%;
     top: -8%;
-    bottom: -10%;
+    bottom: 0%;
+  }
+  .cloud {
+    position: absolute;
+    top: -6%;
+    right: 0%;
+    width: 150px;
   }
   .onlyDesktop {
     display: none;
@@ -204,10 +214,9 @@
   .onlyMobile {
     display: block;
   }
-  .moodSpan {
-    font-size: 14px;
-  }
-  .uploadBtn {
-    font-size: 14px;
+  .moodSpan,
+  .uploadBtn,
+  .btnText {
+    font-size: 16px;
   }
 }
