@@ -1,8 +1,10 @@
+import { useSelector } from "react-redux";
 import CloudItem from "./CloudItem";
 import { clouds } from "./cloudData";
 import "./AudioPreviewSection.scss";
 
 const AudioPreviewSection = ({ selectPlaylist }) => {
+  const { currentListId, isPlaying } = useSelector((state) => state.player);
   return (
     <div className="pt-lg-11 pt-1 sky-container">
       <div className="container">
@@ -17,6 +19,8 @@ const AudioPreviewSection = ({ selectPlaylist }) => {
           {clouds.map((cloud, index) => {
             const duration = 4 + (index % 3) * 1.5;
             const delay = (index * 0.5) % 3;
+
+            const isActive = currentListId === cloud.id && isPlaying;
 
             return (
               <CloudItem
@@ -34,8 +38,13 @@ const AudioPreviewSection = ({ selectPlaylist }) => {
                   "--float-delay": `-${delay}s`,
                 }}
                 // id搭配songId
+                // onClick={() => selectPlaylist(cloud.id)}
+                // onClick={() => console.log(`Clicked: ${cloud.id}`)}
+
+                // 4. 新增：將判斷結果傳給 CloudItem
+                isPlaying={isActive}
+                // 點擊事件維持不變，讓原本的邏輯去處理切換歌單
                 onClick={() => selectPlaylist(cloud.id)}
-              // onClick={() => console.log(`Clicked: ${cloud.id}`)}
               />
             );
           })}
