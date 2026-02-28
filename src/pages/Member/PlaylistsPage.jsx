@@ -59,7 +59,9 @@ function PlaylistsPage({ selectPlaylist }) {
   const currentPlaylist = ownedPlaylists[safeIndex] ?? null;
   const playlistSongs = currentPlaylist?.songs || [];
 
-  const recommendedPlaylists = playlists.filter((p) => !p.isFollowed).slice(0, 4);
+  const recommendedPlaylists = playlists
+    .filter((p) => !p.isFollowed && p.ownerId !== userId)
+    .slice(0, 4);
   //三個點的選單
   const dotMenuRef = useRef(null);
   const addMenuRef = useRef(null);
@@ -363,6 +365,7 @@ function PlaylistsPage({ selectPlaylist }) {
         </section>
       )}
       <section className="py-12">
+        <p className="section-title">我的追蹤清單</p>
         <Swiper
           slidesPerView={4}
           spaceBetween={20}

@@ -49,7 +49,10 @@ function FavoritesPage({ selectPlaylist }) {
   const unlikedSongs = useMemo(() => songs.filter((s) => !likedSet.has(s.id)), [songs, likedSet]);
 
   // UI 區塊資料
-  const recentSongs = useMemo(() => likedPlaylist.songs.slice(0, 4), [likedPlaylist.songs]);
+  // 播放反序
+  const reversedSongs = useMemo(() => {
+    return [...likedPlaylist.songs].reverse().slice(0, 4);
+  }, [likedPlaylist.songs]);
   const popularSongs = useMemo(() => {
     return [...unlikedSongs].sort((a, b) => (b.likeCount ?? 0) - (a.likeCount ?? 0)).slice(0, 4);
   }, [unlikedSongs]);
@@ -96,7 +99,14 @@ function FavoritesPage({ selectPlaylist }) {
       <section>
         <div className="d-flex">
           {/* 左側 */}
-          <div>我的全部收藏</div>
+          <div className="playlist-detail-card">
+            <PlaylistCard
+              playlist={likedPlaylist}
+              size="large"
+              isFollowed={false}
+              followerCount={likedPlaylist.songs.length}
+            />
+          </div>
           {/* 右側 */}
           <div>
             {likedPlaylist.songs.length === 0 ? (
@@ -131,7 +141,7 @@ function FavoritesPage({ selectPlaylist }) {
                         </button>
                         <div className=" position-relative">
                           <button
-                            className="btn"
+                            className="btn border-0"
                             onClick={(e) => {
                               e.stopPropagation();
                               setOpenMenuId(openMenuId === song.id ? null : song.id);
@@ -245,20 +255,26 @@ function FavoritesPage({ selectPlaylist }) {
       <section className="favorites-section">
         <h3 className="section-title">我的最新收藏</h3>
         <div className="song-grid">
-          {recentSongs.map((song) => (
-            <SongCard
-              key={song.id}
-              song={song}
-              showPlayButton={true}
-              showFavoriteButton={true}
-              onPlay={(song) => {
-                const index = likedPlaylist.songs.findIndex((s) => s.id === song.id);
-                selectPlaylist(likedPlaylist.id, index, likedPlaylist);
-              }}
-              isFavorited={likedSet.has(song.id)}
-              onFavorite={(song) => dispatch(toggleSongLike({ userId, songId: song.id }))}
-            />
-          ))}
+          {reversedSongs.map((song) => {
+            const originalIndex = likedPlaylist.songs.findIndex((s) => s.id === song.id);
+            const isPlayingSong =
+              currentListId === likedPlaylist.id && currentIndex === originalIndex && isPlaying;
+            return (
+              <SongCard
+                key={song.id}
+                song={song}
+                showPlayButton={true}
+                showFavoriteButton={true}
+                onPlay={(song) => {
+                  const index = likedPlaylist.songs.findIndex((s) => s.id === song.id);
+                  selectPlaylist(likedPlaylist.id, index, likedPlaylist);
+                }}
+                isFavorited={likedSet.has(song.id)}
+                onFavorite={(song) => dispatch(toggleSongLike({ userId, songId: song.id }))}
+                isPlayingSong={isPlayingSong}
+              />
+            );
+          })}
         </div>
       </section>
 
@@ -266,17 +282,26 @@ function FavoritesPage({ selectPlaylist }) {
       <section className="favorites-section">
         <h3 className="section-title">推薦高人氣</h3>
         <div className="song-grid">
-          {popularSongs.map((song) => (
-            <SongCard
-              key={song.id}
-              song={song}
-              showPlayButton={true}
-              showFavoriteButton={true}
-              isFavorited={likedSongIds.includes(song.id)}
-              onPlay={handlePlayOriginal}
-              onFavorite={(song) => dispatch(toggleSongLike({ userId, songId: song.id }))}
-            />
-          ))}
+          {popularSongs.map((song) => {
+            const found = songIndexMap.get(song.id);
+            const isPlayingSong =
+              found &&
+              currentListId === found.playlistId &&
+              currentIndex === found.index &&
+              isPlaying;
+            return (
+              <SongCard
+                key={song.id}
+                song={song}
+                showPlayButton={true}
+                showFavoriteButton={true}
+                isFavorited={likedSongIds.includes(song.id)}
+                onPlay={handlePlayOriginal}
+                onFavorite={(song) => dispatch(toggleSongLike({ userId, songId: song.id }))}
+                isPlayingSong={isPlayingSong}
+              />
+            );
+          })}
         </div>
       </section>
     </div>
