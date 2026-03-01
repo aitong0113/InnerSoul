@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import DiaryLayout from "../../components/features/diary/DiaryLayout.jsx";
 import api from "../../services/api.js";
@@ -7,6 +8,7 @@ import { authStore } from "../../services/auth/authStore.js";
 import EmptyDiaryState from "../../components/features/diary/state/EmptyDiaryState.jsx";
 import SubscribeNotice from "../../components/features/diary/state/SubscribeNotice.jsx";
 import DiaryWriteBlocked from "../../components/features/diary/state/DiaryWriteBlocked.jsx";
+import style from "./diaryWelcome.module.scss";
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
@@ -81,6 +83,15 @@ const DiaryHome = () => {
     if (!cell?.date) return;
     const key = ymdKey(year, month, cell.date);
     setSelectedKey(key);
+
+    if (window.innerWidth < 992) {
+      requestAnimationFrame(() => {
+        toDiaryContent.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+    }
   };
   const dateObj = new Date(selectedKey);
   const displayDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
@@ -103,9 +114,10 @@ const DiaryHome = () => {
 
   const [diary, setDiary] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [diaryCount, setDiaryCount] = useState(0);
+  const toDiaryContent = useRef(null);
   const hasDiary = !!diary;
   const userId = authStore.getUserId();
-  const [diaryCount, setDiaryCount] = useState(0);
   const plan = authStore.getUserPlan();
   const isFree = plan === "free";
   const isLimited = diaryCount >= 3;
@@ -141,11 +153,6 @@ const DiaryHome = () => {
   useEffect(() => {
     const fetchDiary = async () => {
       if (!userId || !selectedKey) return;
-
-      if (selectedDay > todayKey) {
-        setDiary(null);
-        return;
-      }
 
       setLoading(true);
 
@@ -188,12 +195,22 @@ const DiaryHome = () => {
       alert("請先登入");
       return;
     }
+    const result = await Swal.fire({
+      title: "確定要刪除這篇日記嗎？",
+      icon: "warning",
+      iconColor: "#FFDCD4",
+      showCancelButton: true,
+      confirmButtonText: "確定",
+      cancelButtonText: "取消",
+      reverseButtons: true,
+      customClass: {
+        title: style.swalTitle,
+        confirmButton: "custom-btn-outline",
+        cancelButton: "custom-btn-filled",
+      },
+    });
 
-    const confirm = () => {
-      confirm("確定要刪除這篇日記嗎？");
-    };
-    if (!confirm) return;
-
+    if (!result.isConfirmed) return;
     try {
       await api.delete(`/diaries/${diary.id}`);
       setDiary(null);
@@ -217,6 +234,7 @@ const DiaryHome = () => {
   return (
     <main className="bg-liner pt-8 pb-12">
       <DiaryLayout
+        diaryContentRef={toDiaryContent}
         year_month={yearMonth}
         weeks={weeks}
         renderMood={renderMood}

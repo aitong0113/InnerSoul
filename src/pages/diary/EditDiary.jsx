@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { easeInOut, motion } from "motion/react";
 import { MOODS } from "../../constants/moods";
 import api from "../../services/api";
 import axios from "axios";
@@ -140,76 +141,73 @@ function EditDiary() {
       alert("存檔失敗");
     }
   };
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, ease: easeInOut },
+    },
+  };
 
   return (
     <main className="bg-liner">
-      <div className="container">
-        <div className="h-100 gx-lg-5 mt-5">
-          <div className={`${style.diaryBlur}`}>
-            <img src={cloud} className={style.cloud} alt="bg-cloud" />
-            <div className={`row row-cols-1 row-cols-lg-2 p-3 ${style.diaryCardBottom}`}>
-              {/* 左側日記 */}
-              <div className="col mb-5 mb-lg-0">
-                <div
-                  className={`${style.diaryCard} ${style.diaryCardTop} bg-white px-3 h-100 d-flex flex-column`}
-                >
-                  <div className="d-flex flex-column gap-2 flex-grow-1 p-5">
-                    <div className="fw-bold d-flex flex-column">
-                      <div className="d-flex pb-4 text-black-500 me-4">
-                        <span className="fw-bold fs-md-4 fs-5 border-black-500 border-bottom px-1">
-                          {dayText}
-                        </span>
-                        <small className="d-flex align-items-end fs-md-5 fs-6 ms-2 pb-1">
-                          {weekday}
-                        </small>
-                      </div>
-                    </div>
-                    <form className="d-flex flex-column flex-grow-1">
-                      <div className="d-flex flex-column gap-md-2">
-                        <div className="col-sm-12">
-                          <input
-                            type="text"
-                            className={`form-control bg-white fs-md-5 fs-6 mb-3 fw-bold text-primary-05 ${style.formControl}`}
-                            id="title"
-                            placeholder="這天過得如何？"
-                            value={diary.diaryTitle}
-                            onChange={(e) => setDiary({ ...diary, diaryTitle: e.target.value })}
-                          />
+      <motion.section {...fadeIn}>
+        <div className="container">
+          <div className="h-100 gx-lg-5 mt-5">
+            <div className={`${style.diaryBlur}`}>
+              <img src={cloud} className={style.cloud} alt="bg-cloud" />
+              <div className={`row row-cols-1 row-cols-lg-2 p-3 ${style.diaryCardBottom}`}>
+                {/* 左側日記 */}
+                <div className="col mb-5 mb-lg-0">
+                  <div
+                    className={`${style.diaryCard} ${style.diaryCardTop} bg-white px-3 h-100 d-flex flex-column`}
+                  >
+                    <div className="d-flex flex-column gap-2 flex-grow-1 p-5">
+                      <div className="fw-bold d-flex flex-column">
+                        <div className="d-flex pb-4 text-black-500 me-4">
+                          <span className="fw-bold fs-md-4 fs-5 border-black-500 border-bottom px-1">
+                            {dayText}
+                          </span>
+                          <small className="d-flex align-items-end fs-md-5 fs-6 ms-2 pb-1">
+                            {weekday}
+                          </small>
                         </div>
-
-                        <div className="row mb-2">
+                      </div>
+                      <form className="d-flex flex-column flex-grow-1">
+                        <div className="d-flex flex-column gap-md-2">
                           <div className="col-sm-12">
-                            <textarea
-                              className={`form-control bg-white fs-md-5 fs-6 text-black-700`}
-                              id="content"
-                              rows={5}
-                              maxLength={300}
-                              placeholder="心情紀錄區"
-                              value={diary.diaryContent}
-                              onChange={(e) => setDiary({ ...diary, diaryContent: e.target.value })}
+                            <input
+                              type="text"
+                              className={`form-control bg-white fs-md-5 fs-6 mb-3 fw-bold text-primary-05 ${style.formControl}`}
+                              id="title"
+                              placeholder="這天過得如何？"
+                              value={diary.diaryTitle}
+                              onChange={(e) => setDiary({ ...diary, diaryTitle: e.target.value })}
                             />
-                            <div className="text-end small text-secondary">
-                              {diary.diaryContent.length} / 300
+                          </div>
+
+                          <div className="row mb-2">
+                            <div className="col-sm-12">
+                              <textarea
+                                className={`form-control bg-white fs-md-5 fs-6 text-black-700`}
+                                id="content"
+                                rows={5}
+                                maxLength={300}
+                                placeholder="心情紀錄區"
+                                value={diary.diaryContent}
+                                onChange={(e) =>
+                                  setDiary({ ...diary, diaryContent: e.target.value })
+                                }
+                              />
+                              <div className="text-end small text-secondary">
+                                {diary.diaryContent.length} / 300
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="d-flex flex-column gap-md-5 gap-4 py-md-5 pb-7">
-                          <label
-                            className={`${style.onlyMobile} mt-3 form-label mb-lg-0 text-center me-3"`}
-                          >
-                            <div
-                              className={`px-4 py-1 
-                               text-primary-05 ${style.moodSpan} ${style.text}`}
-                            >
-                              <div className="fw-bold">本日情緒夥伴</div>
-                            </div>
-                          </label>
-                          <div
-                            className="
-                    d-flex flex-column gap-md-3 gap-0 flex-lg-row align-items-center justify-content-between"
-                          >
+                          <div className="d-flex flex-column gap-md-5 gap-4 py-md-5 pb-7">
                             <label
-                              className={`${style.onlyDesktop} form-label mb-lg-0 text-center me-3`}
+                              className={`${style.onlyMobile} mt-3 form-label mb-lg-0 text-center me-3"`}
                             >
                               <div
                                 className={`px-4 py-1 
@@ -218,147 +216,169 @@ function EditDiary() {
                                 <div className="fw-bold">本日情緒夥伴</div>
                               </div>
                             </label>
-                            <div className="row g-8">
-                              {MOODS.map((m) => (
-                                <div
-                                  className={`col-2 d-flex justify-content-center ${style.formCheck}`}
-                                  key={m.id}
-                                >
-                                  <input
-                                    className={`btn-check ${style.checked}`}
-                                    type="radio"
-                                    name="mood"
-                                    id={m.id}
-                                    value={m.id}
-                                    checked={diary.mood === m.id}
-                                    onChange={(e) => setDiary({ ...diary, mood: e.target.value })}
-                                  />
-                                  <label
-                                    type="button"
-                                    className={`${style.moodBtn} d-flex flex-column justify-content-center align-items-center`}
-                                    htmlFor={m.id}
-                                  >
-                                    <img src={m.icon} alt={m.chName} className={style.moodStamp} />
-                                    <span className={`${style.moodText} `}>{m.chName}</span>
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center gap-2 mb-3">
                             <div
-                              className={`px-4 py-1 
-                               text-primary-05 me-1 ${style.moodSpan} ${style.text}`}
+                              className="
+                    d-flex flex-column gap-md-3 gap-0 flex-lg-row align-items-center justify-content-between"
                             >
-                              <span className="fw-bold">本日代表圖片</span>
+                              <label
+                                className={`${style.onlyDesktop} form-label mb-lg-0 text-center me-3`}
+                              >
+                                <div
+                                  className={`px-4 py-1 
+                               text-primary-05 ${style.moodSpan} ${style.text}`}
+                                >
+                                  <div className="fw-bold">本日情緒夥伴</div>
+                                </div>
+                              </label>
+                              <div className="row g-8">
+                                {MOODS.map((m) => (
+                                  <div
+                                    className={`col-2 d-flex justify-content-center ${style.formCheck}`}
+                                    key={m.id}
+                                  >
+                                    <input
+                                      className={`btn-check ${style.checked}`}
+                                      type="radio"
+                                      name="mood"
+                                      id={m.id}
+                                      value={m.id}
+                                      checked={diary.mood === m.id}
+                                      onChange={(e) => setDiary({ ...diary, mood: e.target.value })}
+                                    />
+                                    <label
+                                      type="button"
+                                      className={`${style.moodBtn} d-flex flex-column justify-content-center align-items-center`}
+                                      htmlFor={m.id}
+                                    >
+                                      <img
+                                        src={m.icon}
+                                        alt={m.chName}
+                                        className={style.moodStamp}
+                                      />
+                                      <span className={`${style.moodText} `}>{m.chName}</span>
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                            <label
-                              type="button"
-                              htmlFor="uploadImg"
-                              className={`form-label mb-0 d-flex text-center mx-md-2 p-1 ${style.uploadBtn}`}
-                            >
-                              選擇
-                            </label>
-                            {fileName && <small className="text-muted">{fileName}</small>}
-                            <input
-                              id="uploadImg"
-                              type="file"
-                              accept="image/*"
-                              name="file"
-                              className={style.uploadInput}
-                              onChange={imgUpload}
-                            />
+                            <div className="d-flex align-items-center gap-2 mb-3">
+                              <div
+                                className={`px-4 py-1 
+                               text-primary-05 me-1 ${style.moodSpan} ${style.text}`}
+                              >
+                                <span className="fw-bold">本日代表圖片</span>
+                              </div>
+                              <label
+                                type="button"
+                                htmlFor="uploadImg"
+                                className={`form-label mb-0 d-flex text-center mx-md-2 p-1 ${style.uploadBtn}`}
+                              >
+                                選擇
+                              </label>
+                              {fileName && <small className="text-muted">{fileName}</small>}
+                              <input
+                                id="uploadImg"
+                                type="file"
+                                accept="image/*"
+                                name="file"
+                                className={style.uploadInput}
+                                onChange={imgUpload}
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="d-flex mt-auto justify-content-between">
-                        <div>
-                          <Link to="/diary">
-                            <button type="button" className={`${style.btnText} custom-btn-outline`}>
-                              返回
+                        <div className="d-flex mt-auto justify-content-between">
+                          <div>
+                            <Link to="/diary">
+                              <button
+                                type="button"
+                                className={`${style.btnText} custom-btn-outline`}
+                              >
+                                返回
+                              </button>
+                            </Link>
+                          </div>
+                          <div className="ms-auto">
+                            <button
+                              type="button"
+                              className={`${style.btnText} custom-btn-filled`}
+                              onClick={saveDiary}
+                            >
+                              儲存
                             </button>
-                          </Link>
+                          </div>
                         </div>
-                        <div className="ms-auto">
-                          <button
-                            type="button"
-                            className={`${style.btnText} custom-btn-filled`}
-                            onClick={saveDiary}
-                          >
-                            儲存
-                          </button>
-                        </div>
-                      </div>
-                    </form>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* 右側 */}
-              <div className="col mt-5 mt-lg-0">
-                <div className={`${style.diaryCard} ${style.diaryCardTop} bg-white  h-100 px-3`}>
-                  <div className="d-flex align-items-center justify-content-center fw-bold fs-4 text-center text-primary-04 border-bottom pt-2 pb-1 mx-5">
-                    <span className="my-2">日記預覽區</span>
+                {/* 右側 */}
+                <div className="col mt-5 mt-lg-0">
+                  <div className={`${style.diaryCard} ${style.diaryCardTop} bg-white  h-100 px-3`}>
+                    <div className="d-flex align-items-center justify-content-center fw-bold fs-4 text-center text-primary-04 border-bottom pt-2 pb-1 mx-5">
+                      <span className="my-2">日記預覽區</span>
+                    </div>
+                    {hasContent ? (
+                      <div className="m-2 p-3 d-flex flex-column h-100">
+                        <div className="d-flex align-items-center text-black-500 me-4 fw-bold ">
+                          <span className="fs-md-4 fs-5 border-black-500 border-bottom px-1 ">
+                            {dayText}
+                          </span>
+                          <small className="d-flex align-items-end fs-md-5 fs-6 ms-2 pb-1">
+                            {weekday}
+                          </small>
+                          <span className="border border-primary-03 rounded-pill p-2 ms-3 small fs-6 text-primary-05">
+                            心情
+                          </span>
+                          <span className="ms-2">
+                            {previewD.mood ? (
+                              <img
+                                src={getMood(previewD.mood)?.icon}
+                                alt={getMood(previewD.mood)?.chName}
+                                className={style.moodStamp}
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                        </div>
+                        <div className="fs-md-4 fs-5 my-3 fw-bold text-primary-05">
+                          {previewD.diaryTitle || ""}
+                        </div>
+                        <div className={`d-flex flex-column justify-content-stretch gap-5 `}>
+                          <div
+                            className={`my-2 fs-md-5 fs-6 text-black-700 ${style.diaryPreviewContent}`}
+                          >
+                            {previewD.diaryContent || ""}
+                          </div>
+                          <div className="mb-3">
+                            {previewD.diaryImg ? (
+                              <img
+                                src={previewD.diaryImg}
+                                alt="preview"
+                                className={`${style.diaryImg}`}
+                              ></img>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="d-flex h-75 flex-column justify-content-center">
+                        <div className="text-black-500 fs-5 text-center my-5 p-5">
+                          \ 留下一點痕跡，讓時間不只是流逝 /
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  {hasContent ? (
-                    <div className="m-2 p-3 d-flex flex-column h-100">
-                      <div className="d-flex align-items-center text-black-500 me-4 fw-bold ">
-                        <span className="fs-md-4 fs-5 border-black-500 border-bottom px-1 ">
-                          {dayText}
-                        </span>
-                        <small className="d-flex align-items-end fs-md-5 fs-6 ms-2 pb-1">
-                          {weekday}
-                        </small>
-                        <span className="border border-primary-03 rounded-pill p-2 ms-3 small fs-6 text-primary-05">
-                          心情
-                        </span>
-                        <span className="ms-2">
-                          {previewD.mood ? (
-                            <img
-                              src={getMood(previewD.mood)?.icon}
-                              alt={getMood(previewD.mood)?.chName}
-                              className={style.moodStamp}
-                            />
-                          ) : (
-                            ""
-                          )}
-                        </span>
-                      </div>
-                      <div className="fs-md-4 fs-5 my-3 fw-bold text-primary-05">
-                        {previewD.diaryTitle || ""}
-                      </div>
-                      <div className={`d-flex flex-column justify-content-stretch gap-5 `}>
-                        <div
-                          className={`my-2 fs-md-5 fs-6 text-black-700 ${style.diaryPreviewContent}`}
-                        >
-                          {previewD.diaryContent || ""}
-                        </div>
-                        <div className="mb-3">
-                          {previewD.diaryImg ? (
-                            <img
-                              src={previewD.diaryImg}
-                              alt="preview"
-                              className={`${style.diaryImg}`}
-                            ></img>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="d-flex h-75 flex-column justify-content-center">
-                      <div className="text-black-500 fs-5 text-center my-5 p-5">
-                        \ 留下一點痕跡，讓時間不只是流逝 /
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </motion.section>
     </main>
   );
 }

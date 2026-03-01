@@ -1,7 +1,9 @@
 import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
+import { easeInOut, motion } from "motion/react";
 import style from "./diaryLayout.module.scss";
 
 const DiaryLayout = ({
+  diaryContentRef,
   year_month = "",
   weeks = [],
   diaryMood = "",
@@ -22,8 +24,16 @@ const DiaryLayout = ({
   const canNext = typeof onNextMonth === "function";
   const canSelect = typeof onSelectDate === "function";
 
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, ease: easeInOut },
+    },
+  };
   return (
-    <div className="container d-flex flex-column">
+    <motion.div className="container d-flex flex-column" {...fadeIn}>
       <div className="row justify-content-center">
         <div className={`col-12  ${style.diaryBlur}`}>
           <div className={style.diaryCardBottom}>
@@ -114,7 +124,8 @@ const DiaryLayout = ({
               </div>
               {/* 右側日記 */}
               <div
-                className={`${style.diaryCardTop} ${style.diaryRight} col-lg-6 p-md-7 py-7 px-4 d-flex flex-column justify-content-between`}
+                ref={diaryContentRef}
+                className={`${style.diaryCardTop} ${style.diaryRight} ${style.diaryPanel} col-lg-6 p-md-7 py-7 px-4 d-flex flex-column justify-content-between`}
               >
                 <div className="mb-5 fw-bold text-black-500">
                   <span className="fw-bold fs-md-4 fs-5 border-black-500 border-bottom px-1">
@@ -169,7 +180,7 @@ const DiaryLayout = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default DiaryLayout;
