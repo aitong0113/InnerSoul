@@ -1,5 +1,6 @@
 import { IconArrowNarrowRight } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { easeInOut, motion } from "motion/react";
 import style from "./diaryWelcome.module.scss";
 import mainPhoto from "../../assets/diary/diaryWelcome_main.avif";
 import diaryCalendar from "../../assets/diary/calendar_Demo3.png";
@@ -7,10 +8,27 @@ import diaryContent from "../../assets/diary/content_Demo2.png";
 import cloud from "../../assets/cloud-right.svg";
 
 const DiaryWelcome = () => {
+  const fadeIn = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 1, ease: easeInOut },
+    },
+  };
+  const scrollFadeIn = {
+    initial: { opacity: 0, y: 16 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.18 },
+    transition: {
+      duration: 1.2,
+      ease: "easeInOut", // 注意：Framer Motion 字符串格式通常更穩定
+    },
+  };
   return (
     <div>
       {/* 1 */}
-      <section className={style.cloudR}>
+      <motion.section className={style.cloudR} {...fadeIn}>
         <div className={` container d-flex flex-column gap-md-11 gap-7 mb-md-12 mb-7`}>
           <div className="fw-bold text-center d-flex flex-column gap-md-6 gap-3">
             <h1 className="fs-md-1 fs-4 text-primary-04">從撰寫日記開始陪伴自己</h1>
@@ -52,10 +70,10 @@ const DiaryWelcome = () => {
           </div>
         </div>
         <img src={cloud} className={style.cloud1} alt="bg-cloud" />
-      </section>
+      </motion.section>
 
       {/* 2 */}
-      <section className={style.cloudR}>
+      <motion.section className={style.cloudR} {...scrollFadeIn}>
         <div className={`${style.labelS2} ${style.text} ${style.onlyMobile} text-black-700`}>
           點擊可查看心情記事
         </div>
@@ -200,9 +218,13 @@ const DiaryWelcome = () => {
           </div>
         </div>
         <img src={cloud} className={style.cloud2} alt="bg-cloud" />
-      </section>
+      </motion.section>
       {/* 3 */}
-      <section className="bg-liner">
+      <motion.section
+        className="bg-liner"
+        {...scrollFadeIn}
+        transition={{ ...scrollFadeIn.transition, delay: 0.1 }}
+      >
         <div className={`container text-center ${style.section} py-md-11 py-7`}>
           <div className="d-flex flex-column gap-md-11 gap-12 ">
             <div className="text-primary-05 fw-bold fs-md-2 fs-5">把今天的心情，溫柔的留下來</div>
@@ -374,7 +396,7 @@ const DiaryWelcome = () => {
             寫下回憶小碎片
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

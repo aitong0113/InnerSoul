@@ -32,7 +32,7 @@ export default defineConfig([
     rules: {
       "react-hooks/immutability": "off",
       // 邏輯 / 品質
-      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]" }],
+      "no-unused-vars": ["error", { varsIgnorePattern: "^[A-Z_]|^motion$" }],
       eqeqeq: ["error", "always"],
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-useless-catch": "off",

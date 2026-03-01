@@ -159,6 +159,9 @@
 .fadeIn {
   animation: fadeIn 1s ease-in-out forwards;
 }
+.diaryPanel {
+  scroll-margin-top: 100px;
+}
 
 @keyframes fadeIn {
   from {

@@ -57,6 +57,9 @@
   letter-spacing: 0.02em;
 }
 
+.swalTitle {
+  font-size: 24px;
+}
 .calPhoto {
   width: 100%;
   max-width: 636px;
@@ -209,5 +212,8 @@
     left: 68%;
     top: 78%;
     font-size: 14px;
+  }
+  .swalTitle {
+    font-size: 20px;
   }
 }
