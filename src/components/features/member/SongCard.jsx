@@ -1,4 +1,4 @@
-import { IconPlayerPlay, IconHeart, IconPlus } from "@tabler/icons-react";
+import { IconPlayerPlay, IconHeart, IconPlus, IconPlayerPause } from "@tabler/icons-react";
 import "./SongCard.scss";
 
 function SongCard({
@@ -10,6 +10,7 @@ function SongCard({
   onPlay,
   onAdd,
   onFavorite,
+  isPlayingSong = false,
 }) {
   return (
     <div className="song-card">
@@ -38,7 +39,7 @@ function SongCard({
         )}
         {showPlayButton && (
           <button className="action-btn play-btn" onClick={() => onPlay?.(song)} title="播放">
-            <IconPlayerPlay size={24} fill="currentColor" />
+            {isPlayingSong ? <IconPlayerPause size={24} /> : <IconPlayerPlay size={24} />}
           </button>
         )}
       </div>

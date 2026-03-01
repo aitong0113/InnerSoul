@@ -381,7 +381,10 @@ function Player() {
                 onChange={changeBar}
               />
               <div className="d-flex justify-content-center bg-white">
-                <div className="btn border-0  text-primary-05" ref={miniVolumeRef}>
+                <div
+                  className="btn border-0  text-primary-05 position-relative"
+                  ref={miniVolumeRef}
+                >
                   <VolumeIcon size={32} onClick={() => setShowVolume((v) => !v)} />
                   {showVolume && (
                     <div className="volume-panel volume-panel-mini">

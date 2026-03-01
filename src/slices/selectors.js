@@ -103,10 +103,7 @@ export const makeSelectLikedPlaylist = () => {
       const songMap = new Map();
       songs.forEach((s) => songMap.set(s.id, s));
 
-      const likedSongs = likedSongIds
-        .map((id) => songMap.get(id))
-        .filter(Boolean)
-        .reverse();
+      const likedSongs = likedSongIds.map((id) => songMap.get(id)).filter(Boolean);
 
       return {
         id: `liked-${userId}`,
