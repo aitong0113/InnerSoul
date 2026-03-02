@@ -15,7 +15,6 @@ const Subscription = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const plansRes = await api.get("/plans");
         setPlans(plansRes.data);
 
@@ -27,7 +26,6 @@ const Subscription = () => {
         } else {
           setCurrentUser(null);
         }
-
       } catch (error) {
         console.error("資料載入發生錯誤:", error);
       }
@@ -41,9 +39,9 @@ const Subscription = () => {
       <div className="container">
         {/* 標題區塊 */}
         <div className="text-center mb-5 header-section">
-          <h2 className="fw-bold fs-1 text-primary-05 mb-0">選擇適合你​的​陪伴​方案​</h2>
-          <p className="fs-5 text-black-700 py-5">
-            無論​你需要​輕量​的​放鬆，​還是​深度​的​情緒​支持，​心途​都​在​這裡
+          <h2 className="text-center text-primary-04 mb-5">選擇適合你的陪伴方案</h2>
+          <p className="fs-5 text-black-700 py-3">
+            無論你需要輕量的放鬆，還是深度的情緒支持，心途都在這裡
           </p>
         </div>
 
@@ -74,19 +72,13 @@ const Subscription = () => {
         </div>
         {/* 訂閱條款 */}
         <div className="terms-trigger-area">
-          <button
-            className="terms-btn fw-bold"
-            onClick={() => setShowModal(true)}
-          >
+          <button className="terms-btn fw-bold" onClick={() => setShowModal(true)}>
             <IconInfoCircleFilled size={18} className="me-1" />
             訂閱條款與注意事項
           </button>
         </div>
 
-
-        {showModal && (
-          <SubscriptionTermsModal onClose={() => setShowModal(false)} />
-        )}
+        {showModal && <SubscriptionTermsModal onClose={() => setShowModal(false)} />}
       </div>
     </section>
   );

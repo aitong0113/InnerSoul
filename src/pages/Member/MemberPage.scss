@@ -5,12 +5,20 @@
   scale: 1 !important;
   filter: none;
   object-fit: contain;
+  background: white;
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .mood-icon.dynamic {
   width: 20px;
   height: 20px;
   transition: transform 0.6s ease;
+  background: white;
+  border-radius: 50%;
+  padding: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .review-card.right {
@@ -31,12 +39,12 @@
 }
 
 /* 白色 blob 底圖 */
-// 1️⃣ 限制 icon 活動範圍在 bottle.png 內（210*600）
+// 1️⃣ 限制 icon 活動範圍在 bottle.png 內
 .mood-visual-panel::before {
   content: "";
   position: absolute;
-  width: 210px;
-  height: 600px;
+  width: 280px;
+  height: 700px;
   background-image: url("/public/bottle.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -48,8 +56,7 @@
 /* 瓶子內活動區域（裁切容器） */
 .mood-visual-panel.layered {
   position: relative;
-  width: 210px;
-  height: 350px;
+  width: 280px;
   overflow: hidden;
   /* 🔒 不可超出瓶子 */
 }
@@ -110,6 +117,36 @@
 
   .info {
     flex: 1;
+
+    h5 {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 8px 0;
+
+      .edit-btn {
+        background: transparent;
+        border: none !important;
+        outline: none !important;
+        padding: 2px;
+        cursor: pointer;
+        color: #104754;
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+
+        &:hover {
+          opacity: 0.7;
+        }
+
+        &:focus,
+        &:active {
+          outline: none !important;
+          box-shadow: none !important;
+          border: none !important;
+        }
+      }
+    }
 
     .user-header {
       display: flex;
@@ -183,7 +220,7 @@
 
     .quote-row {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       gap: 8px;
       line-height: 1.2;
     }
@@ -192,6 +229,7 @@
       font-size: 14px;
       color: #666;
       transition: opacity 0.3s ease;
+      margin: 0;
     }
 
     .quote.fade-out {
@@ -205,7 +243,6 @@
     .refresh-btn {
       display: inline-flex;
       align-items: center;
-      transform: translateY(1px);
       border: none;
       background: transparent;
       padding: 0;
@@ -342,6 +379,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 24px 32px;
       margin-top: 16px;
+      justify-items: center;
 
       .mood-stat-item {
         display: flex;
@@ -396,6 +434,10 @@
       height: 32px;
       object-fit: contain;
       vertical-align: middle;
+      background: white;
+      border-radius: 50%;
+      padding: 3px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -638,6 +680,8 @@
 // 3️⃣ 套用到動態 icon
 .mood-icon.dynamic {
   position: absolute;
+  width: 32px;
+  height: 32px;
   animation: floatUpDown 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
   transition: opacity 0.6s ease;
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
@@ -646,8 +690,8 @@
 /* 主情緒（最大、置中） */
 // 5️⃣ 層級 transform（避免動畫覆蓋 scale，scale 已由 --scale 控制，不再用 transform scale）
 .mood-icon.dynamic.main {
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   top: 50%;
   left: 50%;
   transform-origin: center;

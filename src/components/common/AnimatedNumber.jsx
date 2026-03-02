@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function AnimatedNumber({ end, duration = 1000 }) {
+function AnimatedNumber({ end, duration = 7000 }) {
   const [count, setCount] = useState(end);
   const [startAnimation, setStartAnimation] = useState(false);
   const [finished, setFinished] = useState(false);
@@ -25,7 +25,7 @@ function AnimatedNumber({ end, duration = 1000 }) {
   useEffect(() => {
     if (!startAnimation) return;
 
-    const startValue = Math.floor(end * 0.99);
+    const startValue = Math.floor(end * 0.68);
     let current = startValue;
 
     const stepTime = 16;

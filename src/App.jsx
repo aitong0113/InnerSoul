@@ -21,7 +21,7 @@ import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Diary from "./pages/diary/Diary";
 import DiaryHome from "./pages/diary/DiaryHome";
-import EditDiary from "./components/features/diary/EditDiary";
+import EditDiary from "./pages/diary/EditDiary.jsx";
 import Playlist from "./pages/playlist/PlaylistRoute.jsx";
 import Subscription from "./pages/subscription/Subscription";
 import Player from "./components/features/player/Player";
@@ -52,40 +52,9 @@ function App() {
   const playlists = useSelector((state) => state.playlists.playlists);
 
   const { currentIndex, currentListId } = useSelector((state) => state.player);
-  // const canPlayIndex = (index, plan) => {
-  //   if (plan === "pro") return true;
-  //   return index < 3;
-  // };
 
-  // const selectPlaylist = (listID, index = 0) => {
-  //   const list = playlists.find((l) => l.id === listID);
-  //   if (!list) return;
-
-  //   const plan = authStore.getUserPlan();
-  //   if (!canPlayIndex(index, plan)) {
-  //     const confirmed = window.confirm("這份陪伴暫僅開放前三首試聽，升級訂閱即可完整聆聽。");
-  //     if (confirmed) navigate("/subscription");
-  //     return;
-  //   }
-
-  //   const isSameSong = currentListId === listID && currentIndex === index;
-
-  //   if (isSameSong) {
-  //     dispatch(toggle());
-  //     return;
-  //   }
-
-  //   dispatch(
-  //     setPlaylist({
-  //       songList: list.songs,
-  //       startIndex: index,
-  //       listId: listID,
-  //     })
-  //   );
-  // };
-
-  const selectPlaylist = (listID, index = 0) => {
-    const list = playlists.find((l) => l.id === listID);
+  const selectPlaylist = (listID, index = 0, overrideList = null) => {
+    const list = overrideList || playlists.find((l) => l.id === listID);
     if (!list) return;
     if (!guardPlay(index)) return;
     const isSameSong = currentListId === listID && currentIndex === index;
@@ -98,6 +67,7 @@ function App() {
         songList: list.songs,
         startIndex: index,
         listId: listID,
+        listName: list.listName,
       })
     );
   };

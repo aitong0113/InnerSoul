@@ -41,3 +41,58 @@
   color: white !important;
   border: none !important;
 }
+
+// btn
+.custom-btn-filled {
+  color: white;
+  border: none;
+  border-radius: 100px;
+  background-color: var(--bs-primary-05);
+  text-decoration: none;
+  padding: 8px 16px;
+
+  &:hover:not(:disabled) {
+    border: none;
+    color: white;
+    background-color: var(--bs-primary-03);
+    transition: all 0.5s ease;
+  }
+
+  &:disabled {
+    border: none;
+    background-color: var(--bs-black-100);
+    color: var(--bs-black-300);
+  }
+}
+
+.custom-btn-outline {
+  color: var(--bs-primary-05);
+  background-color: white;
+  border: 2px solid var(--bs-primary-05);
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.5s ease;
+  padding: 6px 14px;
+
+  &:hover:not(:disabled) {
+    color: var(--bs-primary-05);
+    background-color: var(--bs-primary-02);
+  }
+
+  &:disabled {
+    color: var(--bs-black-300);
+    border-color: var(--bs-black-300);
+    background-color: white;
+  }
+}
+
+/* ===== 全站主內容與 Header 間距 ===== */
+
+:root {
+  --header-height: 88px; // 如果 header 固定高度
+  --page-space: 80px; // 視覺留白
+}
+
+.site-main {
+  padding-top: var(--page-space);
+}

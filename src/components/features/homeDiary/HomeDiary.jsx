@@ -65,13 +65,14 @@ const HomeDiary = () => {
 
   return (
     <div className="container">
-      <div className="text-center fw-bold">
+      <div className="text-center fw-bold pb-5">
         <h2 className="text-primary-05 mb-5 fw-bold">從撰寫日記開始陪伴自己</h2>
         <p className="text-black-700">心情的每一天，都值得被看見與理解</p>
       </div>
       <DiaryLayout
         year_month="2026 Feb"
         weeks={weeks}
+        weekday="週二"
         renderMood={renderMood}
         diaryMood="good"
         selectedDay={10}
@@ -84,9 +85,11 @@ const HomeDiary = () => {
          我只是靜靜坐，把那些還沒整理好的心情放下來。`}
         diaryImg="https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         footer={
-          <Link to={ROUTES.diaryBase} className="btn btn-primary-05">
-            查看更多
-          </Link>
+          <div className="d-flex justify-content-end">
+            <Link to={ROUTES.diaryBase} className="btn custom-btn-filled">
+              查看更多
+            </Link>
+          </div>
         }
       />
     </div>
