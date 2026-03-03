@@ -19,7 +19,7 @@ export default function Footer() {
               <li className="list-inline-item mx-2">
                 <NavLink
                   to={ROUTES.playlist}
-                  className={({ isActive }) => (isActive ? "footer-link active" : "footer-link")}
+                  className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
                 >
                   語音陪伴
                 </NavLink>
@@ -27,7 +27,7 @@ export default function Footer() {
               <li className="list-inline-item mx-2">
                 <NavLink
                   to={ROUTES.diaryBase}
-                  className={({ isActive }) => (isActive ? "footer-link active" : "footer-link")}
+                  className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
                 >
                   心情日記
                 </NavLink>
@@ -35,7 +35,7 @@ export default function Footer() {
               <li className="list-inline-item mx-2">
                 <NavLink
                   to={ROUTES.faq}
-                  className={({ isActive }) => (isActive ? "footer-link active" : "footer-link")}
+                  className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
                 >
                   常見問題
                 </NavLink>
@@ -43,7 +43,7 @@ export default function Footer() {
               <li className="list-inline-item mx-2">
                 <NavLink
                   to={ROUTES.subscription}
-                  className={({ isActive }) => (isActive ? "footer-link active" : "footer-link")}
+                  className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
                 >
                   訂閱方案
                 </NavLink>
