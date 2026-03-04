@@ -5,7 +5,7 @@ export default function FAQItem({ question, answer }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className={`faq-item ${open ? "is-open" : ""}`}>
+    <div className={`px-lg-8 px-5 py-lg-6 py-5 faq-item ${open ? "is-open" : ""}`}>
       <div className="faq-question" onClick={() => setOpen(!open)}>
         <span>{question}</span>
         <span className="icon">{open ? <IconMinus size={24} /> : <IconPlus size={24} />}</span>

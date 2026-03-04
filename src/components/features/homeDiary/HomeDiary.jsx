@@ -66,7 +66,7 @@ const HomeDiary = () => {
   return (
     <div className="container">
       <div className="text-center fw-bold pb-5">
-        <h2 className="text-primary-05 mb-5 fw-bold">從撰寫日記開始陪伴自己</h2>
+        <h2 className="text-primary-05 fs-lg-2 fs-md-4 mb-5 fw-bold">從撰寫日記開始陪伴自己</h2>
         <p className="text-black-700">心情的每一天，都值得被看見與理解</p>
       </div>
       <DiaryLayout

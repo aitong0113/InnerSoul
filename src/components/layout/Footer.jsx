@@ -15,8 +15,8 @@ export default function Footer() {
           <div className="text-center">
             <img src={logo} alt="Inner Soul" className="mb-3" style={{ height: "80px" }} />
 
-            <ul className="d-flex justify-content-center gap-8 pt-4 footer-nav">
-              <li className="list-inline-item mx-2">
+            <ul className="d-flex justify-content-center gap-lg-6 gap-2 pt-4 footer-nav ps-0 fs-lg-5 fs-6">
+              <li className="list-inline-item">
                 <NavLink
                   to={ROUTES.playlist}
                   className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -24,7 +24,7 @@ export default function Footer() {
                   語音陪伴
                 </NavLink>
               </li>
-              <li className="list-inline-item mx-2">
+              <li className="list-inline-item">
                 <NavLink
                   to={ROUTES.diaryBase}
                   className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -32,7 +32,7 @@ export default function Footer() {
                   心情日記
                 </NavLink>
               </li>
-              <li className="list-inline-item mx-2">
+              <li className="list-inline-item">
                 <NavLink
                   to={ROUTES.faq}
                   className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -40,7 +40,7 @@ export default function Footer() {
                   常見問題
                 </NavLink>
               </li>
-              <li className="list-inline-item mx-2">
+              <li className="list-inline-item">
                 <NavLink
                   to={ROUTES.subscription}
                   className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
