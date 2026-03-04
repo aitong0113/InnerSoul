@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import SongCard from "../../components/features/member/SongCard";
 import PlaylistCard from "../../components/features/member/PlaylistCard";
 import FilterTabs from "../../components/features/member/FilterTabs";
@@ -12,13 +12,15 @@ import { toggleSongLike } from "../../slices/userLikeSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
-import { addSongToPlaylist } from "../../slices/memberPlaylistSlice";
+import { addSongToPlaylist, fetchPlaylists } from "../../slices/memberPlaylistSlice";
+import api from "../../services/api";
 import {
   IconPlayerPlayFilled,
   IconPlayerPauseFilled,
   IconChevronRight,
   IconChevronLeft,
   IconDotsVertical,
+  IconPlus,
 } from "@tabler/icons-react";
 
 function FavoritesPage({ selectPlaylist }) {
@@ -83,36 +85,85 @@ function FavoritesPage({ selectPlaylist }) {
 
   const [openMenuId, setOpenMenuId] = useState(null);
   const [openSubmenuId, setOpenSubmenuId] = useState(null);
+
+  // 新增語音選單
+  const [showAddMenu, setShowAddMenu] = useState(false);
+  const addMenuRef = useRef(null);
+  const dotMenuRef = useRef(null);
+
   useEffect(() => {
-    const handleClickOutside = () => {
-      setOpenMenuId(null);
+    const handleClickOutside = (e) => {
+      if (addMenuRef.current && !addMenuRef.current.contains(e.target)) {
+        setShowAddMenu(false);
+      }
+      if (dotMenuRef.current && !dotMenuRef.current.contains(e.target)) {
+        setOpenMenuId(null);
+      }
     };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // 修改收藏清單
+  const handleSaveEdit = async (playlistId, { listName, listDescription }) => {
+    try {
+      await api.patch(`/likes/${playlistId}`, { listName, listDescription });
+      await dispatch(fetchPlaylists());
+    } catch (err) {
+      console.error("更新收藏清單失敗：", err);
+      alert("更新收藏清單失敗，請稍後再試");
+    }
+  };
+
+  // 刪除收藏清單（清空所有收藏）
+  const handleDeleteFavorite = async (playlistId) => {
+    try {
+      // 取消所有收藏的歌曲
+      for (const song of likedPlaylist.songs) {
+        dispatch(toggleSongLike({ userId, songId: song.id }));
+      }
+      setPage(1);
+    } catch (err) {
+      console.error("刪除收藏失敗：", err);
+      alert("刪除收藏失敗，請稍後再試");
+    }
+  };
+
+  // 新增語音到收藏
+  const handleAddSongToFavorites = (song) => {
+    if (likedSongIds.includes(song.id)) {
+      alert("這首語音已經在收藏裡了 🎵");
+      return;
+    }
+    dispatch(toggleSongLike({ userId, songId: song.id }));
+    setShowAddMenu(false);
+  };
   return (
     <div className="favorites-page">
       <h2 className="page-title">我的語音收藏</h2>
 
       {/* 我的收藏歌曲 */}
-      <section>
-        <div className="d-flex">
-          {/* 左側 */}
+      <section className="playlist-detail-section">
+        <div className="playlist-detail-grid">
+          {/* 左側：收藏清單大卡片 */}
           <div className="playlist-detail-card">
             <PlaylistCard
               playlist={likedPlaylist}
               size="large"
               isFollowed={false}
               followerCount={likedPlaylist.songs.length}
+              showEditMode={true}
+              onSaveEdit={handleSaveEdit}
+              onDelete={handleDeleteFavorite}
             />
           </div>
-          {/* 右側 */}
-          <div>
+          {/* 右側：歌曲列表 */}
+          <div className="playlist-songs">
             {likedPlaylist.songs.length === 0 ? (
               <div className="empty-state">你還沒有收藏任何語音 🎵</div>
             ) : (
-              <ul>
+              <ul className="song-list">
                 {paginatedLikedSongs.map((song, index) => {
                   const globalIndex = (page - 1) * PAGE_SIZE + index;
                   const isCurrent =
@@ -122,26 +173,24 @@ function FavoritesPage({ selectPlaylist }) {
                   return (
                     <li
                       key={song.id}
-                      className={`d-flex w-100 align-items-center justify-content-between ${
-                        isCurrent ? "text-primary-05 fw-bold" : "list-item"
-                      }`}
+                      className={`song-item ${isCurrent ? "text-primary-05 fw-bold" : ""}`}
                     >
                       <div className="song-info-row">
                         <span className="music-icon">🎵</span>
-                        <span className="mood-tag badge bg-BG-03 ms-2">{song.category}</span>
-                        <span className="song-name ms-2">{song.name}</span>
+                        <span className="mood-tag">{song.category}</span>
+                        <span className="song-name">{song.name}</span>
                       </div>
 
-                      <div className="song-actions-row d-flex">
+                      <div className="song-actions-row">
                         <button
-                          className="btn border-0"
+                          className={`play-pause-btn ${isCurrent ? "text-primary-05" : ""}`}
                           onClick={() => handlePlayLikedSong(globalIndex)}
                         >
-                          {showPause ? <IconPlayerPauseFilled /> : <IconPlayerPlayFilled />}
+                          {showPause ? <IconPlayerPauseFilled size={24} /> : <IconPlayerPlayFilled size={24} />}
                         </button>
-                        <div className=" position-relative">
+                        <div className="menu-wrap position-relative">
                           <button
-                            className="btn border-0"
+                            className="menu-btn"
                             onClick={(e) => {
                               e.stopPropagation();
                               setOpenMenuId(openMenuId === song.id ? null : song.id);
@@ -151,11 +200,11 @@ function FavoritesPage({ selectPlaylist }) {
                           </button>
                           {openMenuId === song.id && (
                             <div
-                              className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
-                              style={{ width: "150px" }}
+                              ref={dotMenuRef}
+                              className="fav-dropdown position-absolute"
                             >
                               <div
-                                className="px-3 dropdown-item d-flex justify-content-between align-items-center"
+                                className="fav-dropdown-item d-flex justify-content-between align-items-center"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setOpenSubmenuId(openSubmenuId === song.id ? null : song.id);
@@ -165,19 +214,14 @@ function FavoritesPage({ selectPlaylist }) {
                               </div>
                               {openSubmenuId === song.id && (
                                 <div
-                                  className="submenu position-absolute bg-white shadow"
-                                  style={{
-                                    top: 0,
-                                    left: "100%",
-                                    width: "180px",
-                                  }}
+                                  className="fav-submenu position-absolute"
                                 >
                                   {playlists
                                     .filter((pl) => pl.ownerId === userId)
                                     .map((pl) => (
                                       <div
                                         key={pl.id}
-                                        className="px-3 py-2 dropdown-item"
+                                        className="fav-submenu-item"
                                         onClick={(e) => {
                                           e.stopPropagation();
                                           dispatch(
@@ -207,7 +251,7 @@ function FavoritesPage({ selectPlaylist }) {
                                 </div>
                               )}
                               <div
-                                className="px-3 dropdown-item"
+                                className="fav-dropdown-item"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   dispatch(toggleSongLike({ userId, songId: song.id }));
@@ -217,7 +261,7 @@ function FavoritesPage({ selectPlaylist }) {
                               >
                                 取消收藏
                               </div>
-                              <div className="px-3 dropdown-item">分享</div>
+                              <div className="fav-dropdown-item">分享</div>
                             </div>
                           )}
                         </div>
@@ -227,6 +271,56 @@ function FavoritesPage({ selectPlaylist }) {
                 })}
               </ul>
             )}
+            {/* 新增語音按鈕 */}
+            <div className="position-relative">
+              <button
+                className="add-song-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowAddMenu((prev) => !prev);
+                }}
+              >
+                <IconPlus size={20} />
+                新增語音
+              </button>
+
+              {showAddMenu && (
+                <div
+                  className="fav-dropdown fav-add-dropdown position-absolute"
+                  ref={addMenuRef}
+                >
+                  {playlists
+                    .filter((pl) => pl.id !== likedPlaylist.id)
+                    .map((pl) => (
+                      <div key={pl.id} className="fav-playlist-item position-relative">
+                        <div className="fav-dropdown-item d-flex justify-content-between align-items-center">
+                          {pl.listName}
+                          <IconChevronLeft size={16} className="chevron-icon" />
+                        </div>
+
+                        <div className="fav-submenu position-absolute">
+                          {pl.songs.length === 0 ? (
+                            <div className="fav-submenu-empty">此清單尚無語音</div>
+                          ) : (
+                            pl.songs.map((song) => (
+                              <div
+                                key={song.id}
+                                className="fav-submenu-item"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleAddSongToFavorites(song);
+                                }}
+                              >
+                                🎵 {song.name}
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {/* 控制按鈕 */}

@@ -18,6 +18,247 @@
         text-align: center;
     }
 
+    // ── Dropdown shared styles ──
+    .fav-dropdown {
+        right: 0;
+        top: 100%;
+        margin-top: 4px;
+        min-width: 170px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(16, 71, 84, 0.12);
+        border: 1px solid rgba(189, 224, 236, 0.5);
+        padding: 8px 0;
+        z-index: 9999;
+        overflow: visible;
+    }
+
+    .fav-dropdown-item {
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #104754;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+        line-height: 1.6;
+        white-space: nowrap;
+
+        &:hover {
+            background: rgba(189, 224, 236, 0.35);
+            color: #0d3a45;
+        }
+    }
+
+    .fav-submenu {
+        top: 0;
+        right: 100%;
+        left: auto;
+        min-width: 200px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(12px);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(16, 71, 84, 0.12);
+        border: 1px solid rgba(189, 224, 236, 0.5);
+        padding: 8px 0;
+        z-index: 10000;
+    }
+
+    .fav-submenu-item {
+        padding: 9px 16px;
+        font-size: 13px;
+        font-weight: 400;
+        color: #104754;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        line-height: 1.6;
+        white-space: nowrap;
+
+        &:hover {
+            background: rgba(189, 224, 236, 0.35);
+        }
+    }
+
+    .fav-submenu-empty {
+        padding: 10px 16px;
+        font-size: 13px;
+        color: #999;
+        line-height: 1.6;
+    }
+
+    .fav-add-dropdown {
+        bottom: 100%;
+        top: auto;
+        margin-bottom: 6px;
+        left: 0;
+        min-width: 220px;
+        overflow: visible;
+    }
+
+    .fav-playlist-item {
+        position: relative;
+
+        .fav-submenu {
+            top: 0;
+            right: 100%;
+            left: auto;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(6px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .chevron-icon {
+            transition: transform 0.2s ease;
+            color: #104754;
+            opacity: 0.5;
+        }
+
+        &:hover {
+            .fav-submenu {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateX(0);
+            }
+
+            .chevron-icon {
+                opacity: 1;
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    // ── Detail section (收藏歌曲 grid) ──
+    .playlist-detail-section {
+        margin-bottom: 56px;
+
+        .playlist-detail-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 32px;
+            margin-bottom: 24px;
+
+            .playlist-songs {
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 16px;
+                padding: 24px;
+
+                .song-list {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0 0 16px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+
+                    .song-item {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 12px 16px;
+                        background: rgba(255, 255, 255, 0.8);
+                        border-radius: 8px;
+                        transition: background 0.3s ease;
+
+                        &:hover {
+                            background: rgba(255, 255, 255, 1);
+
+                            .song-actions-row .play-pause-btn {
+                                opacity: 1;
+                                visibility: visible;
+                            }
+                        }
+
+                        .song-info-row {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            flex: 1;
+
+                            .music-icon {
+                                font-size: 18px;
+                            }
+
+                            .mood-tag {
+                                font-size: 14px;
+                                color: #104754;
+                                font-weight: 500;
+                            }
+
+                            .song-name {
+                                font-size: 14px;
+                                flex: 1;
+                            }
+                        }
+
+                        .song-actions-row {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+
+                            button {
+                                border: none;
+                                background: transparent;
+                                padding: 4px;
+                                cursor: pointer;
+                                display: inline-flex;
+                                align-items: center;
+                                transition: opacity 0.3s ease;
+
+                                &:hover {
+                                    opacity: 0.7;
+                                }
+                            }
+
+                            .play-pause-btn {
+                                font-size: 16px;
+                                opacity: 0;
+                                visibility: hidden;
+                                transition:
+                                    opacity 0.3s ease,
+                                    visibility 0.3s ease;
+
+                                &.text-primary-05 {
+                                    opacity: 1;
+                                    visibility: visible;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .add-song-btn {
+                    width: 100%;
+                    padding: 12px;
+                    background: transparent;
+                    border: 2px dashed #104754;
+                    border-radius: 8px;
+                    color: #104754;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        background: rgba(16, 71, 84, 0.05);
+                        border-style: solid;
+                    }
+                }
+            }
+        }
+
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+    }
+
     .favorites-section {
         margin-bottom: 56px;
 
@@ -51,6 +292,31 @@
         .page-title {
             font-size: 22px;
             margin-bottom: 24px;
+        }
+
+        .playlist-detail-section {
+            .playlist-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .playlist-songs {
+                padding: 16px;
+
+                .song-item {
+                    padding: 10px 12px;
+
+                    .song-info-row {
+                        flex-wrap: wrap;
+                        gap: 4px;
+
+                        .song-name {
+                            width: 100%;
+                            font-size: 13px;
+                        }
+                    }
+                }
+            }
         }
 
         .favorites-section {
