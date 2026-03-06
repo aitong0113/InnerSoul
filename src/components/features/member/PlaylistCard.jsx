@@ -19,9 +19,7 @@ function PlaylistCard({
 
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(listName);
-  const [editDesc, setEditDesc] = useState(
-    playlist.listDescription || ""
-  );
+  const [editDesc, setEditDesc] = useState(playlist.listDescription || "");
 
   const handleStartEdit = (e) => {
     e.stopPropagation();
@@ -51,7 +49,11 @@ function PlaylistCard({
       {size === "small" && (
         <>
           <div className="playlist-cover">
-            <img src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`} alt={listName} className="cloud-bg" />
+            <img
+              src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`}
+              alt={listName}
+              className="cloud-bg"
+            />
           </div>
           <div className="playlist-info">
             <h4 className="playlist-title">{listName}</h4>
@@ -73,7 +75,11 @@ function PlaylistCard({
       {size === "large" && (
         <div className="playlist-large-content">
           <div className="playlist-cover-large">
-            <img src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`} alt={listName} className="cloud-bg" />
+            <img
+              src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`}
+              alt={listName}
+              className="cloud-bg"
+            />
           </div>
           <div className="playlist-details">
             {isEditing ? (
@@ -130,7 +136,7 @@ function PlaylistCard({
                   </div>
                 ) : (
                   <div className="playlist-stats d-flex align-items-center">
-                    <span className="stat-item">👁 {followerCount} 人氣</span>
+                    {followerCount && <span className="stat-item">👁 {followerCount} 人氣</span>}
                     {onToggleFollow && (
                       <button
                         className={`btn ${isFollowed ? "btn-primary-05" : "btn-primary"}`}
