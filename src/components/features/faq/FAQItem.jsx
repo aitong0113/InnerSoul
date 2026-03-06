@@ -11,7 +11,7 @@ export default function FAQItem({ question, answer }) {
         <span className="icon">{open ? <IconMinus size={24} /> : <IconPlus size={24} />}</span>
       </div>
 
-      <div className="faq-answer">{answer}</div>
+      <div className="faq-answer text-black-700">{answer}</div>
     </div>
   );
 }

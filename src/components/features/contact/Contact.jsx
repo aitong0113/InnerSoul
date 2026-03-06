@@ -1,6 +1,12 @@
 import cloudRight from "../../../assets/cloud-right.svg";
 import "./contact.scss";
-import { IconMapPin, IconMail, IconPhone, IconClockHour3, IconExternalLink } from "@tabler/icons-react";
+import {
+  IconMapPin,
+  IconMail,
+  IconPhone,
+  IconClockHour3,
+  IconExternalLink,
+} from "@tabler/icons-react";
 
 export default function ContactSection() {
   return (

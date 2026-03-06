@@ -6,16 +6,21 @@ import { NavLink } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-BG-02 pt-5 site-footer">
+    <footer className="bg-BG-02 site-footer">
       {/* 左下雲（裝飾） */}
       <img src={cloudLeft} className="footer-cloud-left" alt="" />
 
       <div className="text-center">
-        <div className="container py-11">
+        <div className="container py-lg-9 py-7">
           <div className="text-center">
-            <img src={logo} alt="Inner Soul" className="mb-3" style={{ height: "80px" }} />
+            <img
+              src={logo}
+              alt="Inner Soul"
+              className="footer-logo mb-lg-8 mb-6"
+              style={{ height: "80px" }}
+            />
 
-            <ul className="d-flex justify-content-center gap-lg-6 gap-2 pt-4 footer-nav ps-0 fs-lg-5 fs-6">
+            <ul className="d-flex justify-content-center gap-lg-6 gap-2 mb-lg-9 mb-8 footer-nav ps-0 fs-lg-5 fs-6">
               <li className="list-inline-item">
                 <NavLink
                   to={ROUTES.playlist}
@@ -50,7 +55,7 @@ export default function Footer() {
               </li>
             </ul>
 
-            <p className="footer-copy mt-3 pt-4 text-primary-05">
+            <p className="footer-copy mb-0 text-primary-05">
               © 2026 Inner soul 心途｜溫柔陪你走一段路
             </p>
           </div>

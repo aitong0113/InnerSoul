@@ -1,13 +1,8 @@
-// pages/Home.jsx
-
-// 引入功能模組（整個功能）
 import HomeMoodText from "../../components/features/homeMoodText/HomeMoodText.jsx";
 import HomeHero from "../../components/features/homeHero/HomeHero.jsx";
 import HomeDiary from "../../components/features/homeDiary/HomeDiary.jsx";
 import AudioPreviewSection from "../../components/features/previewSection/";
 
-// （如果你想包卡片，可用 component）
-// import Card from '../components/Card';
 import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
 import Contact from "../../components/features/contact/Contact.jsx";
@@ -42,7 +37,7 @@ function Home({ selectPlaylist }) {
           <div className="row justify-content-center mb-lg-9">
             <div className="text-center py-lg-0 pt-12 pb-8">
               <h2 className="fw-bold text-primary-05 fs-lg-2 fs-md-4 mb-lg-6 mb-5">關於心途</h2>
-              <p className="text-black-700 fs-5 lh-lg mb-0 d-none d-lg-block">
+              <p className="text-black-800 fs-5 lh-lg mb-0 d-none d-lg-block">
                 心途是一個陪你梳理情緒、重新與自己連結的溫柔空間。
                 <br />
                 在忙碌的生活裡，我們常常忘記停下腳步，聽聽自己內心真正的聲音。
@@ -51,7 +46,7 @@ function Home({ selectPlaylist }) {
                 <br />
                 提供你一個不需要完美，只需要誠實的地方。
               </p>
-              <p className="text-start text-black-700 lh-lg mb-0 d-md-block d-lg-none">
+              <p className="text-start text-black-800 lh-lg mb-0 d-md-block d-lg-none">
                 心途是一個陪你梳理情緒、重新與自己連結的溫柔空間。
                 在忙碌的生活裡，我們常常忘記停下腳步，聽聽自己內心真正的聲音。
                 <br />
@@ -101,11 +96,11 @@ function Home({ selectPlaylist }) {
             已經有 <AnimatedNumber end={99999} /> 人加入心途
           </h2>
 
-          <h5 className="text-black-700 fs-lg-5 fs-6 fw-bold mb-lg-9 mb-6s">
+          <h5 className="text-black-700 fs-lg-5 fs-6 fw-bold mb-lg-9 mb-6">
             一起在這裡練習理解自己、照顧自己
           </h5>
 
-          <div className="row row-cols-1 row-cols-md-3 g-6 mb-lg-12 mb-10">
+          <div className="row row-cols-1 row-cols-md-3 g-6 mb-lg-12 mb-9">
             <div className="col">
               <div className="card card-linerBG py-lg-9 py-6 border-0 h-100">
                 <span className="d-flex justify-content-center">
@@ -179,7 +174,9 @@ function Home({ selectPlaylist }) {
       {/* 常見問題 */}
       <section className="home-faq bg-liner">
         <div className="container py-lg-11 py-7">
-          <h2 className="fw-bold text-center text-primary-05 fs-lg-2 fs-md-4 mb-lg-9 mb-6">常見問題</h2>
+          <h2 className="fw-bold text-center text-primary-05 fs-lg-2 fs-md-4 mb-lg-9 mb-6">
+            常見問題
+          </h2>
           <FAQList data={faqData.slice(0, 3)} />
           <div className="d-flex justify-content-end">
             <Link

@@ -4,19 +4,16 @@ const SubscriptionTermsModal = ({ onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content bg-white rounded-4" onClick={(e) => e.stopPropagation()}>
-
         {/* Header */}
-        <div className="modal-header">
-          <h3 className="modal-title">
-            訂閱條款與注意事項
-          </h3>
+        <div className="modal-header px-md-8 px-5">
+          <h3 className="modal-title">訂閱條款與注意事項</h3>
           <button className="close-btn" onClick={onClose}>
             <IconX size={24} />
           </button>
         </div>
 
         {/* Scrollable Body */}
-        <div className="modal-body">
+        <div className="modal-body px-md-8 px-5">
           {/* Info Box */}
           <div className="info-box">
             <div>
@@ -35,7 +32,10 @@ const SubscriptionTermsModal = ({ onClose }) => {
           <div className="terms-section">
             <h4>1. 訂閱與自動續費</h4>
             <ul>
-              <li>您的訂閱將以<strong>月</strong>為單位自動續期，費用將於每個計費週期開始時從您指定的付款方式扣除。</li>
+              <li>
+                您的訂閱將以<strong>月</strong>
+                為單位自動續期，費用將於每個計費週期開始時從您指定的付款方式扣除。
+              </li>
               <li>取消訂閱需於下期訂閱扣款日 24 小時前取消訂閱，若未取消則視為同意自動續約。</li>
             </ul>
           </div>
@@ -44,7 +44,10 @@ const SubscriptionTermsModal = ({ onClose }) => {
             <h4>2. 取消政策</h4>
             <ul>
               <li>您可以隨時透過「帳號管理」頁面取消訂閱。</li>
-              <li>取消後，您的會員權益將保留至<strong>當前計費週期結束</strong>為止。</li>
+              <li>
+                取消後，您的會員權益將保留至<strong>當前計費週期結束</strong>
+                為止。
+              </li>
               <li>週期結束後，系統將不再自動扣款，您的帳號將轉為免費會員狀態。</li>
             </ul>
           </div>
@@ -52,7 +55,9 @@ const SubscriptionTermsModal = ({ onClose }) => {
           <div className="terms-section">
             <h4>3. 退款說明</h4>
             <ul>
-              <li>由於數位內容服務的即時性，一經訂閱生效，當期費用<strong>不予退還</strong>。</li>
+              <li>
+                由於數位內容服務的即時性，一經訂閱生效，當期費用<strong>不予退還</strong>。
+              </li>
               <li>若有重複扣款或系統錯誤導致的費用，請於 7 日內聯繫客服處理。</li>
             </ul>
           </div>
@@ -71,7 +76,6 @@ const SubscriptionTermsModal = ({ onClose }) => {
             我了解了
           </button>
         </div>
-
       </div>
     </div>
   );

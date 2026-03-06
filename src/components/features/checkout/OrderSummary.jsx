@@ -8,7 +8,7 @@ const OrderSummary = ({ planName, price }) => {
     "播放清單：可建立專屬個人播放清單",
     "所有語音收藏",
     "心情日記：無限篇數、完整紀錄",
-    "沈浸式無廣告干擾體驗"
+    "沈浸式無廣告干擾體驗",
   ];
 
   return (
@@ -32,7 +32,7 @@ const OrderSummary = ({ planName, price }) => {
       </div>
 
       {/* 權益區塊 */}
-      <div className="features-box">
+      <div className="features-box p-lg-7 p-5">
         <div className="box-title">
           <IconLockOpen size={18} />
           訂閱解鎖權益 :

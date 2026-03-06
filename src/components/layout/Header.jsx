@@ -67,7 +67,7 @@ function Header() {
         <div className={`menu-overlay ${isMobileMenuOpen ? "open" : ""}`} onClick={closeMenu}></div>
 
         <div className={`nav-wrapper ${isMobileMenuOpen ? "open" : ""}`}>
-          <nav className="main-nav">
+          <nav className="main-nav fs-5">
             <NavLink
               to={ROUTES.playlist}
               className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}

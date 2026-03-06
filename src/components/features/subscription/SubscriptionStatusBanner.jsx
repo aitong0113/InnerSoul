@@ -11,14 +11,14 @@ const SubscriptionStatusBanner = ({ userPlan }) => {
   };
 
   return (
-    <div className={`subscription-status-banner ${isPro ? "is-pro" : "is-free"}`}>
+    <div className={`subscription-status-banner p-lg-7 p-5 ${isPro ? "is-pro" : "is-free"}`}>
       <div className="content-wrapper">
         <div className="icon-box">
           <IconHeartFilled size={24} color={isPro ? "#398C9F" : "#757575"} />
         </div>
 
         <div className="text-info">
-          <h3 className="status-title">
+          <h3 className="status-title text-primary-05 fs-5 mb-1">
             {isPro ? "你目前是深度陪伴會員" : "你目前是輕量體驗會員"}
           </h3>
           <p className="status-desc">

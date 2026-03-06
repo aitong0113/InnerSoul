@@ -39,9 +39,13 @@ const Subscription = () => {
       <div className="container">
         {/* 標題區塊 */}
         <div className="text-center mb-5 header-section">
-          <h2 className="text-center text-primary-04 mb-5">選擇適合你的陪伴方案</h2>
-          <p className="fs-5 text-black-700 py-3">
+          <h2 className="text-center text-primary-04 mb-lg-6 mb-5">選擇適合你的陪伴方案</h2>
+          <p className="fs-lg-5 text-black-700 mb-lg-9 mb-5 d-none d-lg-block">
             無論你需要輕量的放鬆，還是深度的情緒支持，心途都在這裡
+          </p>
+          <p className="fs-lg-5 text-black-700 mb-lg-9 mb-5 d-lg-none d-block">
+            無論你需要輕量的放鬆，還是深度的情緒支持，
+            <br /> 心途都在這裡
           </p>
         </div>
 
@@ -55,7 +59,7 @@ const Subscription = () => {
         )}
 
         {/* 卡片區塊 */}
-        <div className="row justify-content-center g-4 py-10">
+        <div className="row justify-content-center g-4 py-lg-10 py-6 gap-lg-0 gap-md-0 gap-4">
           {plans.length > 0 ? (
             plans.map((plan) => (
               <div className="col-lg-5 col-md-6 d-flex" key={plan.id}>

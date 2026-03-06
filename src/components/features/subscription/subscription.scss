@@ -3,9 +3,6 @@ $text-dark: #333;
 
 // 容器設定
 .subscription-container {
-  padding-top: 0px;
-  padding-bottom: 60px;
-
   .header-section {
     max-width: 800px;
     margin: 0 auto 3rem auto;
@@ -17,7 +14,6 @@ $text-dark: #333;
   background: #fff;
   border: 1px solid #eaeaea;
   border-radius: 40px;
-  padding: 40px;
   width: 100%;
   position: relative;
   display: flex;
@@ -30,10 +26,10 @@ $text-dark: #333;
   }
 
 
-  &:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    border-color: $primary-04;
-  }
+  // &:hover {
+  //   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  //   border-color: $primary-04;
+  // }
 
   // 推薦版樣式
   &.highlight {
@@ -46,9 +42,9 @@ $text-dark: #333;
       color: #398C9F;
     }
 
-    &:hover {
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    }
+    // &:hover {
+    //   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    // }
   }
 
   // Badge
@@ -75,7 +71,7 @@ $text-dark: #333;
     }
 
     .card-subtitle {
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
   }
 
@@ -335,6 +331,11 @@ $text-dark: #333;
   }
 }
 
+// 取消訂閱 Modal
+.cancel-modal {
+  max-width: 420px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -352,7 +353,6 @@ $text-dark: #333;
   background-color: #ffffff;
   border: none;
   border-radius: 40px;
-  padding: 32px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -400,14 +400,12 @@ $text-dark: #333;
   // 文字區域
   .text-info {
     .status-title {
-      font-size: 1.1rem;
       font-weight: bold;
       margin: 0;
       color: #2c2c2c;
     }
 
     .status-desc {
-      font-size: 0.9rem;
       margin: 0;
       color: #4a4a4a;
     }
@@ -507,21 +505,20 @@ $text-dark: #333;
 // 訂閱狀態樣式
 .subscription-management-container {
   min-height: calc(100vh - 60px);
-  padding-bottom: 80px;
 
   .management-title {
     color: #333;
     font-weight: 700;
     margin-bottom: 2rem;
-    padding-top: 80px;
-    padding-bottom: 36px;
-    padding-left: 110px;
+    // padding-top: 80px;
+    // padding-bottom: 36px;
+    justify-content: center;
+    // padding-left: 110px;
   }
 
   .card-box {
     background: #fff;
     border-radius: 20px;
-    padding: 2.5rem;
     height: 100%;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -623,6 +620,75 @@ $text-dark: #333;
     &:hover {
       background: #f8f9fa;
       color: #333;
+    }
+  }
+}
+
+// 變更信用卡 Modal
+.change-card-modal {
+  max-width: 520px;
+
+  .card-form-body {
+    background-color: #c5e6f691;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 24px;
+
+    label {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: bold;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 12px;
+      font-size: 1rem;
+      background-color: #fff;
+
+      &:focus {
+        border-color: $primary-04;
+        box-shadow: 0 0 0 2px rgba($primary-04, 0.2);
+      }
+
+      &.is-invalid {
+        border-color: #dc3545;
+
+        &:focus {
+          box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+      }
+    }
+
+    .invalid-feedback {
+      display: block;
+      width: 100%;
+      margin-top: 0.25rem;
+      font-size: 0.875em;
+      color: #dc3545;
+    }
+
+    .secure-note {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  .btn-primary-teal {
+    background-color: $primary-04;
+    border-color: $primary-04;
+    color: white;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: darken($primary-04, 5%);
     }
   }
 }

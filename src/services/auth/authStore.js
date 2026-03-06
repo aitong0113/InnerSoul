@@ -36,6 +36,10 @@ export const authStore = {
     return Cookies.get(USER_PLAN_KEY) || "";
   },
 
+  updateUserPlan(plan) {
+    Cookies.set(USER_PLAN_KEY, plan, { expires: 3 });
+  },
+
   isLoggedIn() {
     return Boolean(this.getToken());
   },
