@@ -1,7 +1,6 @@
-import { IconLock, IconLockOpen, IconDiscountCheckFilled } from '@tabler/icons-react';
+import { IconLock, IconLockOpen, IconDiscountCheckFilled } from "@tabler/icons-react";
 
 const OrderSummary = ({ planName, price }) => {
-
   const features = [
     "語音內容庫：全庫解鎖",
     "情緒儀表板：情緒趨勢分析 / 月曆回顧",

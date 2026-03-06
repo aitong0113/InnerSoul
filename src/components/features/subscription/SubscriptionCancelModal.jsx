@@ -106,4 +106,3 @@ const SubscriptionCancelModal = ({ onClose, onConfirm, isProcessing }) => {
 };
 
 export default SubscriptionCancelModal;
-

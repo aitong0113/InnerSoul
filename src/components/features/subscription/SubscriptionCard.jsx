@@ -17,8 +17,8 @@ const SubscriptionCard = ({
   const navigate = useNavigate();
 
   const planMapping = {
-    "free": "plan_free",
-    "pro": "plan_pro",
+    free: "plan_free",
+    pro: "plan_pro",
   };
 
   const isCurrentPlan = planMapping[userPlan] === id;
