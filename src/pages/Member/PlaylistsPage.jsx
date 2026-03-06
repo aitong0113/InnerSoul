@@ -249,11 +249,11 @@ function PlaylistsPage({ selectPlaylist }) {
                           {openMenuId === song.id && (
                             <div
                               ref={dotMenuRef}
-                              className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
+                              className="custom-dropdown-menu position-absolute"
                               style={{ width: "150px" }}
                             >
                               <div
-                                className="px-3 dropdown-item"
+                                className=" dropdown-item"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   dispatch(
@@ -268,7 +268,7 @@ function PlaylistsPage({ selectPlaylist }) {
                                 刪除歌曲
                               </div>
                               <div
-                                className="px-3 dropdown-item"
+                                className="dropdown-item"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   dispatch(toggleSongLike({ userId, songId: song.id }));
@@ -277,8 +277,8 @@ function PlaylistsPage({ selectPlaylist }) {
                               >
                                 {likedSongIds.includes(song.id) ? "取消收藏" : "加入收藏"}
                               </div>
-                              <div className="px-3 dropdown-item">重新排列</div>
-                              <div className="px-3 dropdown-item">分享</div>
+                              {/* <div className="dropdown-item">重新排列</div> */}
+                              {/* <div className="dropdown-item">分享</div> */}
                             </div>
                           )}
                         </div>
@@ -313,7 +313,7 @@ function PlaylistsPage({ selectPlaylist }) {
                             <IconChevronLeft size={16} className="chevron-icon" />
                           </div>
 
-                          <div className="submenu position-absolute bg-light px-3 py-2 shadow">
+                          <div className="submenu position-absolute bg-white px-3 py-2 shadow">
                             {pl.songs.length === 0 ? (
                               <div className="text-muted small">此清單尚無歌曲</div>
                             ) : (
@@ -365,7 +365,7 @@ function PlaylistsPage({ selectPlaylist }) {
         </section>
       )}
       <section className="py-12">
-        <p className="section-title">我的追蹤清單</p>
+        <p className="fs-5 text-primary-05 fw-bold">我的追蹤清單</p>
         <Swiper
           slidesPerView={4}
           spaceBetween={20}
