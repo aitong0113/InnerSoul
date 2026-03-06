@@ -107,7 +107,7 @@ function PlaylistCard({
               <>
                 <h3 className="playlist-title-large">{listName}</h3>
                 <p className="playlist-description">
-                  {playlist.listDescription || "世界再吵，我都在陪你一起聽著心的聲音"}
+                  {playlist.listDescription || "聆聽內心的聲音"}
                 </p>
                 {showEditMode ? (
                   <div className="playlist-edit-actions">

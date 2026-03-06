@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
 import { addSongToPlaylist, fetchPlaylists } from "../../slices/memberPlaylistSlice";
 import api from "../../services/api";
+import { getUserAvatar } from "../../helpers/userAvatar";
 import {
   IconPlayerPlayFilled,
   IconPlayerPauseFilled,
@@ -29,6 +30,7 @@ function FavoritesPage({ selectPlaylist }) {
   const { currentListId, currentIndex, isPlaying } = useSelector((state) => state.player);
 
   const userId = authStore.getUserId();
+  const userAvatarSrc = getUserAvatar(authStore.getUserImg());
   const selectLikedPlaylist = useMemo(() => makeSelectLikedPlaylist(), []);
   const likedPlaylist = useSelector((state) => selectLikedPlaylist(state, userId));
 
@@ -88,6 +90,8 @@ function FavoritesPage({ selectPlaylist }) {
 
   // 新增語音選單
   const [showAddMenu, setShowAddMenu] = useState(false);
+  const [hoveredAddPl, setHoveredAddPl] = useState(null);
+  const [hoveredAddRect, setHoveredAddRect] = useState(null);
   const addMenuRef = useRef(null);
   const dotMenuRef = useRef(null);
 
@@ -149,13 +153,13 @@ function FavoritesPage({ selectPlaylist }) {
           {/* 左側：收藏清單大卡片 */}
           <div className="playlist-detail-card">
             <PlaylistCard
-              playlist={likedPlaylist}
+              playlist={{ ...likedPlaylist, coverImg: userAvatarSrc }}
               size="large"
               isFollowed={false}
               followerCount={likedPlaylist.songs.length}
-              showEditMode={true}
-              onSaveEdit={handleSaveEdit}
-              onDelete={handleDeleteFavorite}
+            // showEditMode={true}
+            // onSaveEdit={handleSaveEdit}
+            // onDelete={handleDeleteFavorite}
             />
           </div>
           {/* 右側：歌曲列表 */}
@@ -261,7 +265,7 @@ function FavoritesPage({ selectPlaylist }) {
                               >
                                 取消收藏
                               </div>
-                              <div className="fav-dropdown-item">分享</div>
+                              {/* <div className="fav-dropdown-item">分享</div> */}
                             </div>
                           )}
                         </div>
@@ -285,40 +289,66 @@ function FavoritesPage({ selectPlaylist }) {
               </button>
 
               {showAddMenu && (
-                <div
-                  className="fav-dropdown fav-add-dropdown position-absolute"
-                  ref={addMenuRef}
-                >
-                  {playlists
-                    .filter((pl) => pl.id !== likedPlaylist.id)
-                    .map((pl) => (
-                      <div key={pl.id} className="fav-playlist-item position-relative">
-                        <div className="fav-dropdown-item d-flex justify-content-between align-items-center">
-                          {pl.listName}
-                          <IconChevronLeft size={16} className="chevron-icon" />
+                <>
+                  <div
+                    className="fav-dropdown fav-add-dropdown position-absolute"
+                    ref={addMenuRef}
+                    onMouseLeave={() => setHoveredAddPl(null)}
+                  >
+                    {playlists
+                      .filter((pl) => pl.id !== likedPlaylist.id)
+                      .map((pl) => (
+                        <div
+                          key={pl.id}
+                          className={`fav-playlist-item${hoveredAddPl === pl.id ? ' active' : ''}`}
+                          onMouseEnter={(e) => {
+                            setHoveredAddPl(pl.id);
+                            setHoveredAddRect(e.currentTarget.getBoundingClientRect());
+                          }}
+                        >
+                          <div className="fav-dropdown-item d-flex justify-content-between align-items-center">
+                            {pl.listName}
+                            <IconChevronLeft size={16} className="chevron-icon" />
+                          </div>
                         </div>
-
-                        <div className="fav-submenu position-absolute">
-                          {pl.songs.length === 0 ? (
-                            <div className="fav-submenu-empty">此清單尚無語音</div>
-                          ) : (
-                            pl.songs.map((song) => (
-                              <div
-                                key={song.id}
-                                className="fav-submenu-item"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleAddSongToFavorites(song);
-                                }}
-                              >
-                                🎵 {song.name}
-                              </div>
-                            ))
-                          )}
-                        </div>
+                      ))}
+                  </div>
+                  {/* 浮動子選單 - 外推顯示 */}
+                  {hoveredAddPl && hoveredAddRect && (() => {
+                    const pl = playlists.find((p) => p.id === hoveredAddPl);
+                    if (!pl) return null;
+                    return (
+                      <div
+                        className="fav-submenu fav-submenu-fixed"
+                        style={{
+                          position: 'fixed',
+                          top: hoveredAddRect.top,
+                          right: window.innerWidth - hoveredAddRect.left + 4,
+                          zIndex: 10001,
+                        }}
+                        onMouseEnter={() => setHoveredAddPl(hoveredAddPl)}
+                        onMouseLeave={() => setHoveredAddPl(null)}
+                      >
+                        {pl.songs.length === 0 ? (
+                          <div className="fav-submenu-empty">此清單尚無語音</div>
+                        ) : (
+                          pl.songs.map((song) => (
+                            <div
+                              key={song.id}
+                              className="fav-submenu-item"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddSongToFavorites(song);
+                              }}
+                            >
+                              🎵 {song.name}
+                            </div>
+                          ))
+                        )}
                       </div>
-                    ))}
-                </div>
+                    );
+                  })()}
+                </>
               )}
             </div>
           </div>
