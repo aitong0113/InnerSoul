@@ -94,6 +94,19 @@ function FavoritesPage({ selectPlaylist }) {
   const [hoveredAddRect, setHoveredAddRect] = useState(null);
   const addMenuRef = useRef(null);
   const dotMenuRef = useRef(null);
+  const hoverTimeoutRef = useRef(null);
+
+  const clearHoverWithDelay = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredAddPl(null);
+    }, 150);
+  };
+  const cancelHoverClear = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -292,7 +305,7 @@ function FavoritesPage({ selectPlaylist }) {
                   <div
                     className="fav-dropdown fav-add-dropdown position-absolute"
                     ref={addMenuRef}
-                    onMouseLeave={() => setHoveredAddPl(null)}
+                    onMouseLeave={clearHoverWithDelay}
                   >
                     {playlists
                       .filter((pl) => pl.id !== likedPlaylist.id)
@@ -301,6 +314,7 @@ function FavoritesPage({ selectPlaylist }) {
                           key={pl.id}
                           className={`fav-playlist-item${hoveredAddPl === pl.id ? " active" : ""}`}
                           onMouseEnter={(e) => {
+                            cancelHoverClear();
                             setHoveredAddPl(pl.id);
                             setHoveredAddRect(e.currentTarget.getBoundingClientRect());
                           }}
@@ -313,42 +327,43 @@ function FavoritesPage({ selectPlaylist }) {
                       ))}
                   </div>
                   {/* 浮動子選單 - 外推顯示 */}
-                  {hoveredAddPl &&
-                    hoveredAddRect &&
-                    (() => {
-                      const pl = playlists.find((p) => p.id === hoveredAddPl);
-                      if (!pl) return null;
-                      return (
-                        <div
-                          className="fav-submenu fav-submenu-fixed"
-                          style={{
-                            position: "fixed",
-                            top: hoveredAddRect.top,
-                            right: window.innerWidth - hoveredAddRect.left + 4,
-                            zIndex: 10001,
-                          }}
-                          onMouseEnter={() => setHoveredAddPl(hoveredAddPl)}
-                          onMouseLeave={() => setHoveredAddPl(null)}
-                        >
-                          {pl.songs.length === 0 ? (
-                            <div className="fav-submenu-empty">此清單尚無語音</div>
-                          ) : (
-                            pl.songs.map((song) => (
-                              <div
-                                key={song.id}
-                                className="fav-submenu-item"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleAddSongToFavorites(song);
-                                }}
-                              >
-                                🎵 {song.name}
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      );
-                    })()}
+                  {hoveredAddPl && hoveredAddRect && (() => {
+                    const pl = playlists.find((p) => p.id === hoveredAddPl);
+                    if (!pl) return null;
+                    return (
+                      <div
+                        className="fav-submenu fav-submenu-fixed"
+                        style={{
+                          position: 'fixed',
+                          top: hoveredAddRect.top,
+                          right: window.innerWidth - hoveredAddRect.left + 4,
+                          zIndex: 10001,
+                        }}
+                        onMouseEnter={() => {
+                          cancelHoverClear();
+                          setHoveredAddPl(hoveredAddPl);
+                        }}
+                        onMouseLeave={clearHoverWithDelay}
+                      >
+                        {pl.songs.length === 0 ? (
+                          <div className="fav-submenu-empty">此清單尚無語音</div>
+                        ) : (
+                          pl.songs.map((song) => (
+                            <div
+                              key={song.id}
+                              className="fav-submenu-item"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleAddSongToFavorites(song);
+                              }}
+                            >
+                              🎵 {song.name}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    );
+                  })()}
                 </>
               )}
             </div>
