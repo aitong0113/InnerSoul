@@ -94,6 +94,19 @@ function FavoritesPage({ selectPlaylist }) {
   const [hoveredAddRect, setHoveredAddRect] = useState(null);
   const addMenuRef = useRef(null);
   const dotMenuRef = useRef(null);
+  const hoverTimeoutRef = useRef(null);
+
+  const clearHoverWithDelay = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHoveredAddPl(null);
+    }, 150);
+  };
+  const cancelHoverClear = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -293,7 +306,7 @@ function FavoritesPage({ selectPlaylist }) {
                   <div
                     className="fav-dropdown fav-add-dropdown position-absolute"
                     ref={addMenuRef}
-                    onMouseLeave={() => setHoveredAddPl(null)}
+                    onMouseLeave={clearHoverWithDelay}
                   >
                     {playlists
                       .filter((pl) => pl.id !== likedPlaylist.id)
@@ -302,6 +315,7 @@ function FavoritesPage({ selectPlaylist }) {
                           key={pl.id}
                           className={`fav-playlist-item${hoveredAddPl === pl.id ? ' active' : ''}`}
                           onMouseEnter={(e) => {
+                            cancelHoverClear();
                             setHoveredAddPl(pl.id);
                             setHoveredAddRect(e.currentTarget.getBoundingClientRect());
                           }}
@@ -326,8 +340,11 @@ function FavoritesPage({ selectPlaylist }) {
                           right: window.innerWidth - hoveredAddRect.left + 4,
                           zIndex: 10001,
                         }}
-                        onMouseEnter={() => setHoveredAddPl(hoveredAddPl)}
-                        onMouseLeave={() => setHoveredAddPl(null)}
+                        onMouseEnter={() => {
+                          cancelHoverClear();
+                          setHoveredAddPl(hoveredAddPl);
+                        }}
+                        onMouseLeave={clearHoverWithDelay}
                       >
                         {pl.songs.length === 0 ? (
                           <div className="fav-submenu-empty">此清單尚無語音</div>
