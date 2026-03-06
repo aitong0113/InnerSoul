@@ -35,7 +35,7 @@ function PlaylistRoute() {
                   <Button
                     text={item.listName}
                     type="button"
-                    imgUrl="/Union.png"
+                    imgUrl={`${import.meta.env.BASE_URL}Union.png`}
                     onClick={() => navigate(`/playlist/${item.id}`)}
                   ></Button>
                 </li>

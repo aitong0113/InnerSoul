@@ -169,10 +169,10 @@ function FavoritesPage({ selectPlaylist }) {
               playlist={{ ...likedPlaylist, coverImg: userAvatarSrc }}
               size="large"
               isFollowed={false}
-              followerCount={likedPlaylist.songs.length}
-            // showEditMode={true}
-            // onSaveEdit={handleSaveEdit}
-            // onDelete={handleDeleteFavorite}
+              // followerCount={likedPlaylist.songs.length}
+              // showEditMode={true}
+              // onSaveEdit={handleSaveEdit}
+              // onDelete={handleDeleteFavorite}
             />
           </div>
           {/* 右側：歌曲列表 */}
@@ -203,7 +203,11 @@ function FavoritesPage({ selectPlaylist }) {
                           className={`play-pause-btn ${isCurrent ? "text-primary-05" : ""}`}
                           onClick={() => handlePlayLikedSong(globalIndex)}
                         >
-                          {showPause ? <IconPlayerPauseFilled size={24} /> : <IconPlayerPlayFilled size={24} />}
+                          {showPause ? (
+                            <IconPlayerPauseFilled size={24} />
+                          ) : (
+                            <IconPlayerPlayFilled size={24} />
+                          )}
                         </button>
                         <div className="menu-wrap position-relative">
                           <button
@@ -216,10 +220,7 @@ function FavoritesPage({ selectPlaylist }) {
                             <IconDotsVertical size={18} />
                           </button>
                           {openMenuId === song.id && (
-                            <div
-                              ref={dotMenuRef}
-                              className="fav-dropdown position-absolute"
-                            >
+                            <div ref={dotMenuRef} className="fav-dropdown position-absolute">
                               <div
                                 className="fav-dropdown-item d-flex justify-content-between align-items-center"
                                 onClick={(e) => {
@@ -230,9 +231,7 @@ function FavoritesPage({ selectPlaylist }) {
                                 加入播放清單
                               </div>
                               {openSubmenuId === song.id && (
-                                <div
-                                  className="fav-submenu position-absolute"
-                                >
+                                <div className="fav-submenu position-absolute">
                                   {playlists
                                     .filter((pl) => pl.ownerId === userId)
                                     .map((pl) => (
@@ -313,7 +312,7 @@ function FavoritesPage({ selectPlaylist }) {
                       .map((pl) => (
                         <div
                           key={pl.id}
-                          className={`fav-playlist-item${hoveredAddPl === pl.id ? ' active' : ''}`}
+                          className={`fav-playlist-item${hoveredAddPl === pl.id ? " active" : ""}`}
                           onMouseEnter={(e) => {
                             cancelHoverClear();
                             setHoveredAddPl(pl.id);
