@@ -34,10 +34,10 @@ import madImg from "../../assets/moodStamp/mad.png";
 import messyImg from "../../assets/moodStamp/messy.png";
 
 const moodConfig = {
-  happy: { emoji: "😊", name: "喜悅", img: happyImg },
   good: { emoji: "🙂", name: "平靜", img: goodImg },
-  notgood: { emoji: "😔", name: "混亂", img: notGoodImg },
-  sad: { emoji: "😢", name: "低落", img: sadImg },
+  sad: { emoji: "😢", name: "悲傷", img: sadImg },
+  happy: { emoji: "😊", name: "喜悅", img: happyImg },
+  notgood: { emoji: "😔", name: "糟糕", img: notGoodImg },
   mad: { emoji: "😠", name: "憤怒", img: madImg },
   messy: { emoji: "😵‍💫", name: "混亂", img: messyImg },
 };
