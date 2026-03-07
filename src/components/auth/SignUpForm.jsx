@@ -99,7 +99,7 @@ function SignUpForm() {
       {errors.password && <small className="auth-error">{errors.password}</small>}
 
       <div className="auth-row">
-        <label className="auth-label">再輸入密碼</label>
+        <label className="auth-label">再次輸入密碼</label>
         <input
           type="password"
           className="auth-input"
