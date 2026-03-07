@@ -2,10 +2,12 @@
 import FAQList from "../../components/features/faq/FAQList";
 import { faqData } from "../../components/features/faq/faqData";
 import "./faq.scss";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 
 export default function FAQPage() {
   return (
-    <main className="faq-page bg-BG-01">
+    <motion.main className="faq-page bg-BG-01" {...fadeIn()}>
       {/* 標題區 */}
       <section className="container">
         <h2 className="text-center text-primary-04 fw-bold mb-lg-6 fs-lg-2 fs-4 mb-5">常見問題</h2>
@@ -31,6 +33,6 @@ export default function FAQPage() {
           <FAQList data={faqData} />
         </div>
       </section>
-    </main>
+    </motion.main>
   );
 }

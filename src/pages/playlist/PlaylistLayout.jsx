@@ -5,6 +5,8 @@ import PlaylistRecommend from "./PlaylistRecommend";
 import api from "../../services/api.js";
 import { useSelector } from "react-redux";
 import { IconArrowBackUp } from "@tabler/icons-react";
+import { motion } from "motion/react";
+import { fadeIn, scrollFadeIn } from "../../components/animation/motion";
 
 function PlaylistLayout({ selectPlaylist }) {
   const { currentListId, isPlaying } = useSelector((state) => state.player);
@@ -23,7 +25,7 @@ function PlaylistLayout({ selectPlaylist }) {
   const [keyword, setKeyword] = useState("");
   return (
     <>
-      <div className="container py-md-11">
+      <motion.div className="container py-md-11" {...fadeIn()}>
         <h1 className="fs-md-2 fs-4 text-center text-primary-04 mb-5 text-md-start">
           你的心，正在播放哪一段旋律？
         </h1>
@@ -54,14 +56,18 @@ function PlaylistLayout({ selectPlaylist }) {
             </button>
           )}
         </div>
-      </div>
-      <Outlet context={{ plan, keyword, lists, selectPlaylist }} />
-      <PlaylistRecommend
-        lists={lists}
-        selectPlaylist={selectPlaylist}
-        isPlaying={isPlaying}
-        currentListId={currentListId}
-      />
+      </motion.div>
+      <motion.div {...fadeIn()}>
+        <Outlet context={{ plan, keyword, lists, selectPlaylist }} />
+      </motion.div>
+      <motion.div {...scrollFadeIn(0.8)}>
+        <PlaylistRecommend
+          lists={lists}
+          selectPlaylist={selectPlaylist}
+          isPlaying={isPlaying}
+          currentListId={currentListId}
+        />
+      </motion.div>
     </>
   );
 }

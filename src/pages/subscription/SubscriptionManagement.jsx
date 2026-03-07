@@ -13,6 +13,8 @@ import ChangeCardModal from "../../components/features/subscription/ChangeCardMo
 import { authStore } from "../../services/auth/authStore";
 import api from "../../services/api";
 import "../../components/features/subscription/subscription.scss";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 
 const SubscriptionManagement = () => {
   const navigate = useNavigate();
@@ -216,7 +218,8 @@ const SubscriptionManagement = () => {
             <div className="info-row">
               <span className="label">付款方式</span>
               <span className="value d-flex align-items-center gap-2">
-                <IconCreditCard size={20} color="#398C9F" /> 信用卡 {cardInfo.brand} (•••• {cardInfo.last4})
+                <IconCreditCard size={20} color="#398C9F" /> 信用卡 {cardInfo.brand} (••••{" "}
+                {cardInfo.last4})
               </span>
             </div>
             <div className="info-row">
@@ -294,7 +297,7 @@ const SubscriptionManagement = () => {
 
   return (
     <div className="bg-liner subscription-management-container">
-      <div className="container">
+      <motion.div className="container" {...fadeIn()}>
         <h2 className="row management-title text-primary-05 mb-lg-7 mb-5">我的訂閱狀態</h2>
         {isPro ? renderProView() : renderFreeView()}
 
@@ -334,7 +337,7 @@ const SubscriptionManagement = () => {
             onCardUpdated={(info) => setCardInfo(info)}
           />
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

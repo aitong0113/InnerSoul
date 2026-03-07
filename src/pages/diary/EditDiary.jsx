@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { easeInOut, motion } from "motion/react";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 import { MOODS } from "../../constants/moods";
 import api from "../../services/api";
 import axios from "axios";
@@ -141,18 +142,10 @@ function EditDiary() {
       alert("存檔失敗");
     }
   };
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1, ease: easeInOut },
-    },
-  };
 
   return (
     <main className="bg-liner">
-      <motion.section {...fadeIn}>
+      <motion.section {...fadeIn()}>
         <div className="container">
           <div className="h-100 gx-lg-5 mt-5">
             <div className={`${style.diaryBlur}`}>

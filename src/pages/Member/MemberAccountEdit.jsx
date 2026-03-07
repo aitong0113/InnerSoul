@@ -6,6 +6,8 @@ import { getUserAvatar } from "../../helpers/userAvatar";
 import { authStore } from "../../services/auth/authStore";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 
 export default function MemberAccountEdit() {
   const navigate = useNavigate();
@@ -53,7 +55,7 @@ export default function MemberAccountEdit() {
   /* ========= render ========= */
   return (
     <section className="member-edit bg-sky-gradient">
-      <div className="container">
+      <motion.div className="container" {...fadeIn()}>
         <div className="row align-items-start">
           {/* 左側：使用者資訊 */}
           <div className="col-md-4 d-flex justify-content-center">
@@ -224,7 +226,7 @@ export default function MemberAccountEdit() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

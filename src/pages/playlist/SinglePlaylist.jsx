@@ -16,6 +16,8 @@ import {
   IconHeart,
 } from "@tabler/icons-react";
 import { authStore } from "../../services/auth/authStore";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 
 function SinglePlaylist({ selectPlaylist }) {
   const dispatch = useDispatch();
@@ -48,7 +50,7 @@ function SinglePlaylist({ selectPlaylist }) {
 
   return (
     <>
-      <section>
+      <motion.section {...fadeIn()}>
         <div className="container py-11 d-md-flex align-items-center justify-content-between position-relative">
           <div className="mb-4 text-center">
             <Button
@@ -197,7 +199,7 @@ function SinglePlaylist({ selectPlaylist }) {
             </nav>
           </div>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 }

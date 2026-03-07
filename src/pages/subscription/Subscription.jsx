@@ -6,6 +6,8 @@ import SubscriptionCard from "../../components/features/subscription/Subscriptio
 import SubscriptionTermsModal from "../../components/features/subscription/SubscriptionTermsModal";
 import SubscriptionStatusBanner from "../../components/features/subscription/SubscriptionStatusBanner";
 import "../../components/features/subscription/subscription.scss";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 
 const Subscription = () => {
   const [showModal, setShowModal] = useState(false);
@@ -35,7 +37,7 @@ const Subscription = () => {
   }, []);
 
   return (
-    <section className="subscription-container bg-liner">
+    <motion.section className="subscription-container bg-liner" {...fadeIn()}>
       <div className="container">
         {/* 標題區塊 */}
         <div className="text-center mb-5 header-section">
@@ -86,7 +88,7 @@ const Subscription = () => {
 
         {showModal && <SubscriptionTermsModal onClose={() => setShowModal(false)} />}
       </div>
-    </section>
+    </motion.section>
   );
 };
 
