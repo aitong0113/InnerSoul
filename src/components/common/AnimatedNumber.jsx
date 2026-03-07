@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-function AnimatedNumber({ end, duration = 7000 }) {
+function AnimatedNumber({ end, duration = 1000 }) {
   const [count, setCount] = useState(end);
   const [startAnimation, setStartAnimation] = useState(false);
   const [finished, setFinished] = useState(false);
