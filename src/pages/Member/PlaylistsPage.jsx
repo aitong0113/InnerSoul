@@ -183,7 +183,12 @@ function PlaylistsPage({ selectPlaylist }) {
           <h2 className="page-title">我的專屬播放清單</h2>
           <p className="page-subtitle">你的心在播放哪一段旋律？</p>
         </motion.div>
-        <motion.button className="create-playlist-btn" onClick={handleCreatePlaylist} {...fadeIn()}>
+        <motion.button
+          className="create-playlist-btn"
+          onClick={handleCreatePlaylist}
+          {...fadeIn()}
+          whileHover={{ y: -2 }}
+        >
           <IconPlus size={20} />
           新增播放清單
         </motion.button>
