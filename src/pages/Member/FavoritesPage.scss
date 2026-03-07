@@ -269,6 +269,8 @@
           &:hover {
             background: #b9e5e8;
             border-style: solid;
+            transition: all 0.5s ease;
+            transform: translateY(-1px);
           }
         }
       }
