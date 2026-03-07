@@ -115,6 +115,7 @@ const DiaryHome = () => {
   const [diary, setDiary] = useState(null);
   const [loading, setLoading] = useState(false);
   const [diaryCount, setDiaryCount] = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const toDiaryContent = useRef(null);
   const hasDiary = !!diary;
   const userId = authStore.getUserId();
@@ -155,20 +156,34 @@ const DiaryHome = () => {
       if (!userId || !selectedKey) return;
 
       setLoading(true);
+      setImgLoaded(false);
 
       try {
         const res = await api.get(`/diaries?userId=${userId}&diaryDate=${selectedKey}`);
-        setDiary(res.data[0] || null);
+        const fetchedDiary = res.data[0] || null;
+
+        setDiary(fetchedDiary);
+
+        if (!fetchedDiary?.diaryImg) {
+          setImgLoaded(true);
+        } else {
+          const img = new Image();
+          img.src = fetchedDiary.diaryImg;
+          img.onload = () => setImgLoaded(true);
+          img.onerror = () => setImgLoaded(true);
+        }
       } catch (err) {
         console.error("讀取日記失敗", err);
         setDiary(null);
+        setImgLoaded(true);
       } finally {
         setLoading(false);
       }
     };
 
     fetchDiary();
-  }, [userId, selectedKey, selectedDay, todayKey]);
+  }, [userId, selectedKey]);
+  const contentReady = !loading && (!hasDiary || imgLoaded);
 
   useEffect(() => {
     const fetchDiaryCount = async () => {
@@ -245,9 +260,11 @@ const DiaryHome = () => {
         selectedDay={selectedDay}
         diaryDate={displayDate}
         weekday={weekday}
-        diaryTitle={hasDiary ? diary?.diaryTitle || "" : ""}
+        diaryTitle={contentReady && hasDiary ? diary?.diaryTitle || "" : ""}
         diaryContent={
-          hasDiary ? (
+          !contentReady ? (
+            ""
+          ) : hasDiary ? (
             diary?.diaryContent || ""
           ) : isFutureSelected ? (
             <DiaryWriteBlocked />
@@ -257,10 +274,10 @@ const DiaryHome = () => {
             <EmptyDiaryState to={`/diary/edit/${selectedKey}`} />
           )
         }
-        diaryImg={diary?.diaryImg}
-        loading={loading}
+        diaryImg={contentReady ? diary?.diaryImg : ""}
+        loading={!contentReady}
         footer={
-          hasDiary ? (
+          contentReady && hasDiary ? (
             <div className="d-flex justify-content-between">
               <div>
                 <button className="btn custom-btn-outline fs-md-5 fs-6" onClick={deleteDiary}>
