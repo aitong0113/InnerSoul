@@ -12,7 +12,11 @@
   background: linear-gradient(to right, #398c9f, #7ab2d380);
   color: #ffffff;
   border-color: $white;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15), 0 0 10px rgba(255, 255, 255, 1);
+  box-shadow:
+    0 0 15px rgba(0, 0, 0, 0.15),
+    0 0 10px rgba(255, 255, 255, 1);
+  transition: all 0.3s ease-in;
+  transform: translateY(-5px);
 }
 
 .bg-liner {

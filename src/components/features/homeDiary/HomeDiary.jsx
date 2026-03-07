@@ -64,7 +64,7 @@ const HomeDiary = () => {
   };
 
   return (
-    <div className="container">
+    <>
       <div className="text-center fw-bold pb-lg-0">
         <h2 className="text-primary-05 fs-lg-2 fs-md-4 mb-lg-5 mb-3 fw-bold">
           從撰寫日記開始陪伴自己
@@ -88,13 +88,13 @@ const HomeDiary = () => {
         diaryImg="https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         footer={
           <div className="d-flex justify-content-end">
-            <Link to={ROUTES.diaryBase} className="btn custom-btn-filled">
+            <Link to={ROUTES.diaryBase} className="btn custom-btn-filled fs-md-5 fs-6">
               查看更多
             </Link>
           </div>
         }
       />
-    </div>
+    </>
   );
 };
 export default HomeDiary;

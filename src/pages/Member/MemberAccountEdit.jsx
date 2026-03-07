@@ -69,7 +69,10 @@ export default function MemberAccountEdit() {
                 {userPlan === "pro" ? "深度方案" : userPlan === "free" ? "輕量體驗" : "未訂閱"}
               </div>
 
-              <button className="btn-manage" onClick={() => navigate("/subscription")}>
+              <button
+                className="btn-manage custom-btn-filled"
+                onClick={() => navigate("/subscription")}
+              >
                 管理方案 →
               </button>
             </div>
@@ -206,18 +209,30 @@ export default function MemberAccountEdit() {
                 {isEdit ? (
                   <div className="action-row">
                     {/* 取消：只離開編輯狀態 */}
-                    <button type="button" className="btn-cancel" onClick={handleCancel}>
+                    <button
+                      type="button"
+                      className="btn-cancel custom-btn-outline"
+                      onClick={handleCancel}
+                    >
                       取消
                     </button>
 
                     {/* 確定：之後這裡再接 API */}
-                    <button type="button" className="btn-confirm" onClick={handleConfirm}>
+                    <button
+                      type="button"
+                      className="btn-confirm custom-btn-filled"
+                      onClick={handleConfirm}
+                    >
                       確定
                     </button>
                   </div>
                 ) : (
                   <div className="action-row single">
-                    <button type="button" className="btn-confirm" onClick={handleEdit}>
+                    <button
+                      type="button"
+                      className="btn-confirm custom-btn-filled"
+                      onClick={handleEdit}
+                    >
                       編輯
                     </button>
                   </div>

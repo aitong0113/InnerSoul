@@ -109,7 +109,7 @@ function SinglePlaylist({ selectPlaylist }) {
                   >
                     <div>
                       <IconMusic size={15} className="me-2" />
-                      <span className="badge text-bg-primary-02 rounded-pill me-4">
+                      <span className="badge bg-BG-02 rounded-pill text-black me-4">
                         {song?.category}
                       </span>
                       {song?.name}

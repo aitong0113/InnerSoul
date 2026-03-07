@@ -378,21 +378,23 @@ function FavoritesPage({ selectPlaylist }) {
         {/* 控制按鈕 */}
         <div className="pagination-controls">
           <button
-            className="btn border-0"
+            className="btn pagination-btn"
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
+            style={{ padding: 0 }}
           >
-            <IconChevronLeft />
+            <IconChevronLeft size={20} />
           </button>
           <span>
             {page} / {totalPages}
           </span>
           <button
-            className="btn border-0"
+            className="btn pagination-btn"
             onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={page === totalPages}
+            style={{ padding: 0 }}
           >
-            <IconChevronRight></IconChevronRight>
+            <IconChevronRight size={20} />
           </button>
         </div>
       </motion.section>

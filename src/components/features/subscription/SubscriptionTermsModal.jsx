@@ -72,7 +72,7 @@ const SubscriptionTermsModal = ({ onClose }) => {
 
         {/* Footer */}
         <div className="modal-footer">
-          <button className="confirm-btn" onClick={onClose}>
+          <button className="custom-btn-filled" onClick={onClose}>
             我了解了
           </button>
         </div>

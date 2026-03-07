@@ -42,11 +42,12 @@ const DiaryWelcome = () => {
                   </div>
                 </div>
                 <div className="">
-                  <Link to={`/login`}>
-                    <button type="button" className={`${style.btnOutline}`}>
-                      <div className="fs-6 fw-bold fs-md-5">開始寫日記</div>
-                      <IconArrowNarrowRight className={style.arrowIcon} />
-                    </button>
+                  <Link
+                    to="/login"
+                    className="btn custom-btn-outline fs-6 fw-bold fs-md-5 d-inline-flex align-items-center text-decoration-none"
+                  >
+                    開始寫日記
+                    <IconArrowNarrowRight className={style.arrowIcon} />
                   </Link>
                 </div>
               </div>
@@ -217,10 +218,11 @@ const DiaryWelcome = () => {
                 />
               </div>
               <div>
-                <Link to={`/login`}>
-                  <button type="button" className={`${style.btnFilled}`}>
-                    <span className="fs-md-5 fs-6">開始自己的心途旅行</span>
-                  </button>
+                <Link
+                  to="/login"
+                  className="btn custom-btn-filled fs-6 fw-bold fs-md-5 d-inline-flex align-items-center text-decoration-none"
+                >
+                  開始自己的心途旅行
                 </Link>
               </div>
             </div>

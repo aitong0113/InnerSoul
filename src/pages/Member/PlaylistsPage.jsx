@@ -367,7 +367,7 @@ function PlaylistsPage({ selectPlaylist }) {
         </motion.section>
       )}
       <motion.section className="py-12" {...scrollFadeIn()}>
-        <p className="fs-5 text-primary-05 fw-bold">我的追蹤清單</p>
+        <p className="fs-4 text-primary-05 fw-bold">我的追蹤清單</p>
         <Swiper
           slidesPerView={4}
           spaceBetween={20}

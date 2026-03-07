@@ -80,7 +80,7 @@ const Subscription = () => {
         </div>
         {/* 訂閱條款 */}
         <div className="terms-trigger-area">
-          <button className="terms-btn fw-bold" onClick={() => setShowModal(true)}>
+          <button className="terms-btn custom-btn-text fw-bold" onClick={() => setShowModal(true)}>
             <IconInfoCircleFilled size={18} className="me-1" />
             訂閱條款與注意事項
           </button>

@@ -194,11 +194,7 @@ const PaymentForm = () => {
                     {...register("expiry")}
                     onChange={handleExpiryChange}
                   />
-                  {errors.expiry && (
-                    <div className="invalid-feedback">
-                      {errors.expiry.message}
-                    </div>
-                  )}
+                  {errors.expiry && <div className="invalid-feedback">{errors.expiry.message}</div>}
                 </div>
 
                 {/* CVC 欄位 */}
@@ -212,11 +208,7 @@ const PaymentForm = () => {
                     {...register("cvc")}
                     onChange={handleCvcChange}
                   />
-                  {errors.cvc && (
-                    <div className="invalid-feedback">
-                      {errors.cvc.message}
-                    </div>
-                  )}
+                  {errors.cvc && <div className="invalid-feedback">{errors.cvc.message}</div>}
                 </div>
               </div>
 
@@ -230,9 +222,7 @@ const PaymentForm = () => {
                   {...register("cardName")}
                 />
                 {errors.cardName && (
-                  <div className="invalid-feedback">
-                    {errors.cardName.message}
-                  </div>
+                  <div className="invalid-feedback">{errors.cardName.message}</div>
                 )}
               </div>
 
@@ -253,11 +243,7 @@ const PaymentForm = () => {
 
           <div className="terms-note">
             點擊確認即代表您同意{" "}
-            <button
-              type="button"
-              className="btn-link-style"
-              onClick={() => setShowModal(true)}
-            >
+            <button type="button" className="btn-link-style" onClick={() => setShowModal(true)}>
               訂閱條款與注意事項
             </button>
             ，您可以隨時取消訂閱。

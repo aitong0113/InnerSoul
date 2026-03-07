@@ -453,7 +453,7 @@ function MemberPage({ selectPlaylist }) {
                                 onClick={() => selectPlaylist(moodPlaylist.id, index)}
                               >
                                 <div>
-                                  <span className="badge text-bg-primary-02 rounded-pill me-4">
+                                  <span className="badge bg-BG-02 rounded-pill text-black me-4">
                                     {song.category}
                                   </span>
                                   {song.name}
@@ -508,7 +508,10 @@ function MemberPage({ selectPlaylist }) {
                     <div className="stat-number">{userStats.totalHours.toLocaleString()}</div>
                     <div className="stat-unit">小時</div>
                     <div className="stat-description">辛苦你這麼用心在守護身邊</div>
-                    <button className="stat-button" onClick={() => setActiveTab("favorite")}>
+                    <button
+                      className="btn custom-btn-filled"
+                      onClick={() => setActiveTab("favorite")}
+                    >
                       語音收藏 →
                     </button>
                   </div>
@@ -517,7 +520,10 @@ function MemberPage({ selectPlaylist }) {
                     <div className="stat-number">{userStats.playlistCount}</div>
                     <div className="stat-unit">個播放清單</div>
                     <div className="stat-description">播放清單將會與音檔互相連結</div>
-                    <button className="stat-button" onClick={() => setActiveTab("playlist")}>
+                    <button
+                      className="btn custom-btn-filled"
+                      onClick={() => setActiveTab("playlist")}
+                    >
                       播放清單 →
                     </button>
                   </div>
@@ -526,7 +532,7 @@ function MemberPage({ selectPlaylist }) {
                     <div className="stat-number">{diaryStats.totalDiaries}</div>
                     <div className="stat-unit">篇日記</div>
                     <div className="stat-description">今天的心情也寫了嗎？</div>
-                    <button className="stat-button" onClick={() => navigate("/diary")}>
+                    <button className="btn custom-btn-filled" onClick={() => navigate("/diary")}>
                       我的日記 →
                     </button>
                   </div>

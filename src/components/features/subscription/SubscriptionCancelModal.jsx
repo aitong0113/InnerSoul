@@ -21,9 +21,7 @@ const SubscriptionCancelModal = ({ onClose, onConfirm, isProcessing }) => {
       >
         {/* Header */}
         <div className="modal-header px-md-8 px-5">
-          <h3 className="modal-title">
-            {isSuccess ? "取消完成" : "取消訂閱"}
-          </h3>
+          <h3 className="modal-title">{isSuccess ? "取消完成" : "取消訂閱"}</h3>
           {!isSuccess && (
             <button className="close-btn" onClick={onClose}>
               <IconX size={24} />
@@ -83,16 +81,12 @@ const SubscriptionCancelModal = ({ onClose, onConfirm, isProcessing }) => {
         {/* Footer */}
         {!isSuccess && (
           <div className="modal-footer flex-column gap-2">
-            <button
-              className="confirm-btn"
-              onClick={onClose}
-              disabled={isProcessing}
-            >
+            <button className="custom-btn-filled px-9" onClick={onClose} disabled={isProcessing}>
               我再考慮一下
             </button>
 
             <button
-              className="btn btn-link text-secondary text-decoration-none small"
+              className="btn btn-link text-secondary text-decoration-none small custom-btn-text"
               onClick={handleConfirm}
               disabled={isProcessing}
             >
