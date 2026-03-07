@@ -1,5 +1,6 @@
 import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
 import { motion } from "motion/react";
+import { ThreeDots } from "react-loader-spinner";
 import { fadeIn } from "../../animation/motion";
 import style from "./diaryLayout.module.scss";
 
@@ -139,9 +140,9 @@ const DiaryLayout = ({
 
                 <div key={diaryDate} className={`d-flex flex-column flex-grow-1 ${style.fadeIn}`}>
                   {loading ? (
-                    <div
-                      className={`d-flex flex-grow-1 justify-content-center align-items-center ${style.loadingDiv}`}
-                    ></div>
+                    <div className="d-flex flex-grow-1 justify-content-center align-items-center">
+                      <ThreeDots height="80" width="80" color="#6DB0B5" />
+                    </div>
                   ) : (
                     <div className={`d-flex flex-column h-100 justify-content-between`}>
                       <div className={`d-flex flex-column flex-grow-1`}>
