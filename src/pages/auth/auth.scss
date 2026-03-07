@@ -1,9 +1,6 @@
-
-
 .bg-liner {
-    background: linear-gradient(to bottom, #cde8fa, #a2d9fa);
+  background: linear-gradient(to bottom, #cde8fa, #a2d9fa);
 }
-
 
 /* 表單整體 */
 .auth-form {
@@ -28,23 +25,25 @@
 }
 
 .auth-container {
-  max-width: 600px;   // ← 控制表單整體寬度
+  max-width: 600px; // ← 控制表單整體寬度
   width: 100%;
-  margin: 0 auto;     // ← 置中
+  margin: 0 auto; // ← 置中
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
 /* 左側標籤 */
-.auth-label {  
-  white-space: nowrap;  
-  text-align: left; 
+.auth-label {
+  white-space: nowrap;
+  text-align: left;
   color: #104754;
   font-size: 18px;
   font-weight: 500;
 }
-
+.auth-error {
+  color: rgb(189, 77, 77);
+}
 
 /* 按鈕列 */
 .auth-action-row {
@@ -53,10 +52,9 @@
   margin-top: 60px;
 }
 
-
 /* 主要按鈕（登入） */
-.auth-btn {  
-  width: 100%;    
+.auth-btn {
+  width: 100%;
   max-width: 100%;
   height: 50px;
   padding: 0 20px;
@@ -89,15 +87,12 @@
   transition: 0.2s ease;
 }
 
-
-
 /* 右側按鈕容器 */
 .auth-btn-group {
   display: flex;
   justify-content: flex-end;
   gap: 20px;
 }
-
 
 .auth-btn-outline:hover {
   background: #104754;
@@ -112,13 +107,10 @@
   padding: 40px 16px;
 }
 
-
-
 .auth-title {
   text-align: center;
   color: #104754;
 }
-
 
 /* 右側膠囊輸入框 */
 .auth-input {
@@ -129,7 +121,7 @@
   border-radius: 999px;
   border: none;
   font-size: 16px;
-  text-align: center; 
+  text-align: center;
   align-items: center;
   color: #104754;
   background: rgba(255, 255, 255, 0.85);
@@ -146,13 +138,10 @@
   }
 }
 
-
-
 /* 測試區塊 */
 .auth-test-section {
   margin-bottom: 40px;
   text-align: center;
-  
 }
 
 .auth-test-title {
@@ -181,5 +170,5 @@
 }
 
 .auth-test-btn:hover {
-  background: rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.4);
 }

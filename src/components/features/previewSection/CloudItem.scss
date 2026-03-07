@@ -53,6 +53,10 @@
       transform: translateY(0px);
     }
   }
+
+  &.is-playing {
+    z-index: 15;
+  }
 }
 
 .cloud-content-wrapper {

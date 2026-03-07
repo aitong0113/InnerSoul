@@ -1,7 +1,7 @@
 import happyStamp from "../../../assets/moodStamp/happy.png";
 import goodStamp from "../../../assets/moodStamp/good.png";
 import madStamp from "../../../assets/moodStamp/mad.png";
-import notGoodStamp from "../../../assets/moodStamp/notGood.png";
+import notGoodStamp from "../../../assets/moodStamp/notGood1.png";
 import sadStamp from "../../../assets/moodStamp/sad.png";
 import { ROUTES } from "../../../constants/routes";
 import { Link } from "react-router-dom";
@@ -64,10 +64,12 @@ const HomeDiary = () => {
   };
 
   return (
-    <div className="container">
-      <div className="text-center fw-bold pb-5">
-        <h2 className="text-primary-05 mb-5 fw-bold">從撰寫日記開始陪伴自己</h2>
-        <p className="text-black-700">心情的每一天，都值得被看見與理解</p>
+    <>
+      <div className="text-center fw-bold pb-lg-0">
+        <h2 className="text-primary-05 fs-lg-2 fs-md-4 mb-lg-5 mb-3 fw-bold">
+          從撰寫日記開始陪伴自己
+        </h2>
+        <p className="text-black-700 fs-lg-5 pb-lg-0 pb-7">心情的每一天，都值得被看見與理解</p>
       </div>
       <DiaryLayout
         year_month="2026 Feb"
@@ -79,20 +81,20 @@ const HomeDiary = () => {
         diaryDate="02/10"
         diaryTitle="今天的步伐有點慢，但沒關係"
         diaryContent={`最近好像有點累，連呼吸都慢了半拍。
-  不是討厭現在的生活，而是有些事情還沒想清楚，情緒在心裡輕輕敲了一整天。
-     我知道自己已經努力了，但偶爾還是會覺得「不夠好」。
-         今天沒有逼自己想通，也沒有逼自己堅強。
-         我只是靜靜坐，把那些還沒整理好的心情放下來。`}
+        不是討厭現在的生活，而是有些事情還沒想清楚，情緒在心裡輕輕敲了一整天。
+        我知道自己已經努力了，但偶爾還是會覺得「不夠好」。
+        今天沒有逼自己想通，也沒有逼自己堅強。
+        我只是靜靜坐，把那些還沒整理好的心情放下來。`}
         diaryImg="https://images.unsplash.com/photo-1454372182658-c712e4c5a1db?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         footer={
           <div className="d-flex justify-content-end">
-            <Link to={ROUTES.diaryBase} className="btn custom-btn-filled">
+            <Link to={ROUTES.diaryBase} className="btn custom-btn-filled fs-md-5 fs-6">
               查看更多
             </Link>
           </div>
         }
       />
-    </div>
+    </>
   );
 };
 export default HomeDiary;

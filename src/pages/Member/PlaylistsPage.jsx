@@ -34,6 +34,8 @@ import {
 } from "@tabler/icons-react";
 import PlaylistCard from "../../components/features/member/PlaylistCard";
 import "./PlaylistsPage.scss";
+import { motion } from "motion/react";
+import { fadeIn, scrollFadeIn } from "../../components/animation/motion";
 
 function PlaylistsPage({ selectPlaylist }) {
   const userId = authStore.getUserId();
@@ -177,19 +179,19 @@ function PlaylistsPage({ selectPlaylist }) {
   return (
     <div className="playlists-page ">
       <div className="page-header">
-        <div>
+        <motion.div {...fadeIn()}>
           <h2 className="page-title">我的專屬播放清單</h2>
           <p className="page-subtitle">你的心在播放哪一段旋律？</p>
-        </div>
-        <button className="create-playlist-btn" onClick={handleCreatePlaylist}>
+        </motion.div>
+        <motion.button className="create-playlist-btn" onClick={handleCreatePlaylist} {...fadeIn()}>
           <IconPlus size={20} />
           新增播放清單
-        </button>
+        </motion.button>
       </div>
       {followedPlaylists.length === 0 ? (
-        <p>你還沒有追蹤任何播放清單</p>
+        <motion.p {...fadeIn()}>你還沒有追蹤任何播放清單</motion.p>
       ) : (
-        <section className="playlist-detail-section">
+        <motion.section className="playlist-detail-section" {...fadeIn()}>
           {/* 播放清單詳情區域 */}
           <div className="playlist-detail-grid">
             {/* 左側：播放清單大卡片 */}
@@ -249,11 +251,11 @@ function PlaylistsPage({ selectPlaylist }) {
                           {openMenuId === song.id && (
                             <div
                               ref={dotMenuRef}
-                              className="custom-dropdown-menu position-absolute py-4 bg-complementary-04"
+                              className="custom-dropdown-menu position-absolute"
                               style={{ width: "150px" }}
                             >
                               <div
-                                className="px-3 dropdown-item"
+                                className=" dropdown-item"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   dispatch(
@@ -268,7 +270,7 @@ function PlaylistsPage({ selectPlaylist }) {
                                 刪除歌曲
                               </div>
                               <div
-                                className="px-3 dropdown-item"
+                                className="dropdown-item"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   dispatch(toggleSongLike({ userId, songId: song.id }));
@@ -277,8 +279,8 @@ function PlaylistsPage({ selectPlaylist }) {
                               >
                                 {likedSongIds.includes(song.id) ? "取消收藏" : "加入收藏"}
                               </div>
-                              <div className="px-3 dropdown-item">重新排列</div>
-                              <div className="px-3 dropdown-item">分享</div>
+                              {/* <div className="dropdown-item">重新排列</div> */}
+                              {/* <div className="dropdown-item">分享</div> */}
                             </div>
                           )}
                         </div>
@@ -313,7 +315,7 @@ function PlaylistsPage({ selectPlaylist }) {
                             <IconChevronLeft size={16} className="chevron-icon" />
                           </div>
 
-                          <div className="submenu position-absolute bg-light px-3 py-2 shadow">
+                          <div className="submenu position-absolute bg-white px-3 py-2 shadow">
                             {pl.songs.length === 0 ? (
                               <div className="text-muted small">此清單尚無歌曲</div>
                             ) : (
@@ -362,10 +364,10 @@ function PlaylistsPage({ selectPlaylist }) {
               </button>
             </div>
           )}
-        </section>
+        </motion.section>
       )}
-      <section className="py-12">
-        <p className="section-title">我的追蹤清單</p>
+      <motion.section className="py-12" {...scrollFadeIn()}>
+        <p className="fs-4 text-primary-05 fw-bold">我的追蹤清單</p>
         <Swiper
           slidesPerView={4}
           spaceBetween={20}
@@ -401,10 +403,10 @@ function PlaylistsPage({ selectPlaylist }) {
             );
           })}
         </Swiper>
-      </section>
+      </motion.section>
       {/* 推薦清單區域 */}
-      <section className="recommended-section">
-        <h3 className="section-title">這裡一收錄看相似的共鳴</h3>
+      <motion.section className="recommended-section" {...scrollFadeIn(0.2)}>
+        <h3 className="section-title">這裡一收錄相似的共鳴</h3>
         <p className="section-subtitle">大家都在聽</p>
         <div className="recommended-grid">
           {recommendedPlaylists.map((playlist) => {
@@ -447,7 +449,7 @@ function PlaylistsPage({ selectPlaylist }) {
             );
           })}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

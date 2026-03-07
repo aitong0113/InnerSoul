@@ -67,7 +67,7 @@ function Header() {
         <div className={`menu-overlay ${isMobileMenuOpen ? "open" : ""}`} onClick={closeMenu}></div>
 
         <div className={`nav-wrapper ${isMobileMenuOpen ? "open" : ""}`}>
-          <nav className="main-nav">
+          <nav className="main-nav fs-5">
             <NavLink
               to={ROUTES.playlist}
               className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
@@ -106,8 +106,9 @@ function Header() {
                 {(!userPlan || userPlan === "free") && (
                   <NavLink
                     to="/member/subscription"
-                    className="upgrade-btn desktop-only"
+                    className="btn custom-btn-outline desktop-only"
                     onClick={closeMenu}
+                    style={{ fontSize: "14px" }}
                   >
                     升級方案
                   </NavLink>
@@ -135,14 +136,14 @@ function Header() {
                 {/* 桌機版：顯示分開的登入與註冊 */}
                 <Link
                   to={ROUTES.login}
-                  className="btn btn-outline desktop-only"
+                  className="btn custom-btn-text desktop-only"
                   onClick={closeMenu}
                 >
                   登入
                 </Link>
                 <Link
                   to={ROUTES.signup}
-                  className="btn btn-outline desktop-only"
+                  className="btn custom-btn-text desktop-only"
                   onClick={closeMenu}
                 >
                   註冊

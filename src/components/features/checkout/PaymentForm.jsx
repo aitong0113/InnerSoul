@@ -26,7 +26,7 @@ const isValidLuhn = (val) => {
     sum += digit;
     shouldDouble = !shouldDouble;
   }
-  return (sum % 10) === 0;
+  return sum % 10 === 0;
 };
 
 const paymentSchema = z.object({
@@ -42,7 +42,6 @@ const paymentSchema = z.object({
     .string()
     .regex(/^(0[1-9]|1[0-2]) \/ \d{2}$/, "格式錯誤 (MM / YY)")
     .refine((val) => {
-
       if (!val) return false;
       const [monthStr, yearStr] = val.split(" / ");
 
@@ -63,41 +62,41 @@ const paymentSchema = z.object({
   cvc: z.string().regex(/^\d{3,4}$/, "格式錯誤 (3碼數字)"),
 });
 
-const PaymentForm = ({ amount }) => {
-  const [showModal, setShowModal] = useState(false);
+// 將產生隨機 ID 的邏輯獨立到元件外部
+const generateMockOrderId = () => {
+  return `ORD-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+};
 
+const PaymentForm = () => {
+  const [showModal, setShowModal] = useState(false);
   const [successData, setSuccessData] = useState(null);
 
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(paymentSchema),
     mode: "onTouched",
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     try {
-      const mockOrderId = `ORD-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-
-      console.log("正在處理付款...", data);
+      // 呼叫外部的函式，避免 Linter 誤判
+      const mockOrderId = generateMockOrderId();
 
       const userId = authStore.getUserId();
 
-      await api.patch(`/users/${userId}`, { plan: 'pro' });
+      await api.patch(`/users/${userId}`, { plan: "pro" });
 
-      if (typeof authStore.updateUserPlan === 'function') {
-        authStore.updateUserPlan('pro');
-      }
+      authStore.updateUserPlan("pro");
 
       window.dispatchEvent(new Event("auth-update"));
 
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       setSuccessData(mockOrderId);
-
     } catch (error) {
       console.error("付款失敗:", error);
       alert("付款處理發生錯誤，請檢查網路或稍後再試。");
@@ -134,7 +133,7 @@ const PaymentForm = ({ amount }) => {
     let value = e.target.value.replace(/\D/g, "");
     value = value.substring(0, 4);
     setValue("cvc", value, { shouldValidate: true });
-  }
+  };
 
   return (
     <>
@@ -195,11 +194,7 @@ const PaymentForm = ({ amount }) => {
                     {...register("expiry")}
                     onChange={handleExpiryChange}
                   />
-                  {errors.expiry && (
-                    <div className="invalid-feedback">
-                      {errors.expiry.message}
-                    </div>
-                  )}
+                  {errors.expiry && <div className="invalid-feedback">{errors.expiry.message}</div>}
                 </div>
 
                 {/* CVC 欄位 */}
@@ -213,11 +208,7 @@ const PaymentForm = ({ amount }) => {
                     {...register("cvc")}
                     onChange={handleCvcChange}
                   />
-                  {errors.cvc && (
-                    <div className="invalid-feedback">
-                      {errors.cvc.message}
-                    </div>
-                  )}
+                  {errors.cvc && <div className="invalid-feedback">{errors.cvc.message}</div>}
                 </div>
               </div>
 
@@ -231,9 +222,7 @@ const PaymentForm = ({ amount }) => {
                   {...register("cardName")}
                 />
                 {errors.cardName && (
-                  <div className="invalid-feedback">
-                    {errors.cardName.message}
-                  </div>
+                  <div className="invalid-feedback">{errors.cardName.message}</div>
                 )}
               </div>
 
@@ -254,11 +243,7 @@ const PaymentForm = ({ amount }) => {
 
           <div className="terms-note">
             點擊確認即代表您同意{" "}
-            <button
-              type="button"
-              className="btn-link-style"
-              onClick={() => setShowModal(true)}
-            >
+            <button type="button" className="btn-link-style" onClick={() => setShowModal(true)}>
               訂閱條款與注意事項
             </button>
             ，您可以隨時取消訂閱。
@@ -266,11 +251,8 @@ const PaymentForm = ({ amount }) => {
         </form>
       </div>
 
-      {showModal && (
-        <SubscriptionTermsModal onClose={() => setShowModal(false)} />)}
-      {successData && (
-        <PaymentSuccessModal orderId={successData} />
-      )}
+      {showModal && <SubscriptionTermsModal onClose={() => setShowModal(false)} />}
+      {successData && <PaymentSuccessModal orderId={successData} />}
     </>
   );
 };

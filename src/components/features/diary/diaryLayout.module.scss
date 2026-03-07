@@ -101,7 +101,8 @@
 .calendarBtn:hover:not(:disabled) {
   border: none;
   background-color: var(--bs-primary-03);
-  transition: 0.5s ease;
+  transition: all 0.5s ease;
+  transform: translateY(-2px);
 }
 .calendarBtn:disabled {
   background-color: var(--bs-black-100);

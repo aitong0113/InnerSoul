@@ -3,12 +3,13 @@
 
   .submenu {
     top: 0;
-    left: 100%;
+    right: 100%;
     min-width: 220px;
     opacity: 0;
     pointer-events: none;
     transform: translateX(-6px);
     transition: 0.2s ease;
+    border-radius: 12px;
   }
 
   .chevron-icon {
@@ -30,10 +31,34 @@
 
 .custom-dropdown-menu {
   right: 0;
-  top: 40px;
-  border-radius: 8px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-  z-index: 9999999;
+  top: 100%;
+  margin-top: 4px;
+  min-width: 170px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(16, 71, 84, 0.12);
+  border: 1px solid rgba(189, 224, 236, 0.5);
+  padding: 8px 0;
+  z-index: 9999;
+  overflow: visible;
+  .dropdown-item {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #104754;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+    line-height: 1.6;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(189, 224, 236, 0.35);
+      color: #0d3a45;
+    }
+  }
 }
 
 .playlists-page {
@@ -82,7 +107,8 @@
       transition: all 0.3s ease;
 
       &:hover {
-        background: #1a6376;
+        background: #b9e5e8;
+        color: #104754;
         transform: translateY(-2px);
       }
     }
@@ -205,7 +231,7 @@
           transition: all 0.3s ease;
 
           &:hover {
-            background: rgba(16, 71, 84, 0.05);
+            background: #b9e5e8;
             border-style: solid;
           }
         }
@@ -222,7 +248,7 @@
         width: 36px;
         height: 36px;
         border-radius: 50%;
-        border: 2px solid #104754;
+        border: 1px solid #104754;
         background: transparent;
         color: #104754;
         display: inline-flex;
@@ -232,13 +258,14 @@
         transition: all 0.3s ease;
 
         &:hover:not(:disabled) {
-          background: #104754;
-          color: #fff;
+          background: #b9e5e8;
+          transition: all 0.5s ease;
+          transform: translateY(-1px);
         }
 
         &:disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
+          border: 1px solid #b6b6b6;
+          color: #b6b6b6;
         }
       }
 

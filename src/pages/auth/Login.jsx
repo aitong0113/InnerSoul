@@ -1,12 +1,14 @@
 import LoginForm from "../../components/auth/LoginForm";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 
 function Login() {
   return (
     <section className="auth-page bg-liner">
-      <div className="auth-container">
+      <motion.div className="auth-container" {...fadeIn()}>
         <h2 className="auth-title">登入</h2>
         <LoginForm />
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -1,11 +1,11 @@
-$primary-04: #398C9F;
+$primary-02: #b9e5e8;
+$primary-03: #6db0b5;
+$primary-04: #398c9f;
+$primary-05: #104754;
 $text-dark: #333;
 
 // 容器設定
 .subscription-container {
-  padding-top: 0px;
-  padding-bottom: 60px;
-
   .header-section {
     max-width: 800px;
     margin: 0 auto 3rem auto;
@@ -17,7 +17,6 @@ $text-dark: #333;
   background: #fff;
   border: 1px solid #eaeaea;
   border-radius: 40px;
-  padding: 40px;
   width: 100%;
   position: relative;
   display: flex;
@@ -29,25 +28,15 @@ $text-dark: #333;
     color: #353535;
   }
 
-
-  &:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-    border-color: $primary-04;
-  }
-
   // 推薦版樣式
   &.highlight {
-    border: 2px solid #398C9F;
+    border: 2px solid #398c9f;
     background: linear-gradient(to bottom, #f2f9fa 0%, #ffffff 150px);
     box-shadow: 0 15px 40px rgba(57, 140, 159, 0.15);
     z-index: 2;
 
     .card-header-area .title {
-      color: #398C9F;
-    }
-
-    &:hover {
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      color: #398c9f;
     }
   }
 
@@ -75,7 +64,7 @@ $text-dark: #333;
     }
 
     .card-subtitle {
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
   }
 
@@ -171,7 +160,7 @@ $text-dark: #333;
     padding: 10px;
 
     &:hover {
-      color: #398C9F;
+      color: #398c9f;
     }
   }
 }
@@ -246,7 +235,7 @@ $text-dark: #333;
     text-align: left;
 
     .info-box {
-      background-color: #F0F7F9;
+      background-color: #f0f7f9;
       border: 1px solid rgba(57, 140, 159, 0.2);
       border-radius: 12px;
       padding: 16px 20px;
@@ -254,10 +243,8 @@ $text-dark: #333;
       display: flex;
       gap: 16px;
       align-items: flex-start;
-      ;
-
       .info-icon {
-        color: #398C9F;
+        color: #398c9f;
         flex-shrink: 0;
         margin-top: 2px;
       }
@@ -278,7 +265,7 @@ $text-dark: #333;
         }
 
         strong {
-          color: #398C9F;
+          color: #398c9f;
         }
       }
     }
@@ -318,7 +305,7 @@ $text-dark: #333;
     justify-content: center;
 
     .confirm-btn {
-      background-color: #398C9F;
+      background-color: #398c9f;
       color: white;
       border: none;
       border-radius: 50px;
@@ -329,10 +316,15 @@ $text-dark: #333;
       transition: background 0.2s;
 
       &:hover {
-        background-color: darken(#398C9F, 10%);
+        background-color: darken(#398c9f, 10%);
       }
     }
   }
+}
+
+// 取消訂閱 Modal
+.cancel-modal {
+  max-width: 420px;
 }
 
 @keyframes fadeIn {
@@ -352,7 +344,6 @@ $text-dark: #333;
   background-color: #ffffff;
   border: none;
   border-radius: 40px;
-  padding: 32px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -381,7 +372,7 @@ $text-dark: #333;
 
   // Icon 圓圈樣式
   .icon-box {
-    background-color: #398C9F;
+    background-color: #398c9f;
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -400,14 +391,12 @@ $text-dark: #333;
   // 文字區域
   .text-info {
     .status-title {
-      font-size: 1.1rem;
       font-weight: bold;
       margin: 0;
       color: #2c2c2c;
     }
 
     .status-desc {
-      font-size: 0.9rem;
       margin: 0;
       color: #4a4a4a;
     }
@@ -416,8 +405,8 @@ $text-dark: #333;
   // 右側升級按鈕
   .upgrade-btn {
     background-color: transparent;
-    color: #398C9F;
-    border: 2px solid #398C9F;
+    color: #398c9f;
+    border: 2px solid #398c9f;
     border-radius: 50px;
     padding: 8px 24px;
     font-weight: bold;
@@ -426,7 +415,7 @@ $text-dark: #333;
     transition: all 0.2s;
 
     &:hover {
-      background-color: #398C9F;
+      background-color: #398c9f;
       color: #fff;
       box-shadow: 0 4px 12px rgba(57, 140, 159, 0.25);
     }
@@ -478,28 +467,29 @@ $text-dark: #333;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(57, 140, 159, 0.3);
+    // box-shadow: 0 4px 15px rgba(57, 140, 159, 0.3);
   }
 
   // 立即註冊
   &.mode-outline {
     background-color: transparent;
-    color: $primary-04;
+    color: $primary-05;
 
     &:hover {
-      background-color: $primary-04;
-      color: #ffffff;
+      background-color: $primary-02;
+      color: $primary-05;
     }
   }
 
   // 立即訂閱
   &.mode-solid {
-    background-color: $primary-04;
+    background-color: $primary-05;
+    border: 2px solid $primary-05;
     color: #ffffff;
 
     &:hover {
-      background-color: #104754;
-      border: 2px solid #104754;
+      background-color: $primary-03;
+      border: 2px solid $primary-03;
     }
   }
 }
@@ -507,21 +497,17 @@ $text-dark: #333;
 // 訂閱狀態樣式
 .subscription-management-container {
   min-height: calc(100vh - 60px);
-  padding-bottom: 80px;
 
   .management-title {
     color: #333;
     font-weight: 700;
     margin-bottom: 2rem;
-    padding-top: 80px;
-    padding-bottom: 36px;
-    padding-left: 110px;
+    justify-content: center;
   }
 
   .card-box {
     background: #fff;
     border-radius: 20px;
-    padding: 2.5rem;
     height: 100%;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -529,7 +515,7 @@ $text-dark: #333;
     flex-direction: column;
 
     &.highlight-border {
-      border: 2px solid #398C9F;
+      border: 2px solid #398c9f;
     }
   }
 
@@ -541,13 +527,13 @@ $text-dark: #333;
     font-weight: bold;
 
     &.gray {
-      background-color: #E0E0E0;
+      background-color: #e0e0e0;
       color: #757575;
     }
 
     &.green {
-      background-color: #E0F2F1;
-      color: #398C9F;
+      background-color: #e0f2f1;
+      color: #398c9f;
     }
   }
 
@@ -571,10 +557,10 @@ $text-dark: #333;
       }
 
       .icon-check {
-        color: #BDBDBD;
+        color: #bdbdbd;
 
         &.active {
-          color: #398C9F;
+          color: #398c9f;
         }
       }
     }
@@ -605,13 +591,13 @@ $text-dark: #333;
 
   // 按鈕樣式
   .btn-primary-teal {
-    background-color: #398C9F;
-    border-color: #398C9F;
+    background-color: #398c9f;
+    border-color: #398c9f;
     color: white;
     transition: all 0.2s;
 
     &:hover {
-      background-color: darken(#398C9F, 5%);
+      background-color: darken(#398c9f, 5%);
     }
   }
 
@@ -623,6 +609,75 @@ $text-dark: #333;
     &:hover {
       background: #f8f9fa;
       color: #333;
+    }
+  }
+}
+
+// 變更信用卡 Modal
+.change-card-modal {
+  max-width: 520px;
+
+  .card-form-body {
+    background-color: #c5e6f691;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 24px;
+
+    label {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 6px;
+      display: block;
+      font-weight: bold;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 12px;
+      font-size: 1rem;
+      background-color: #fff;
+
+      &:focus {
+        border-color: $primary-04;
+        box-shadow: 0 0 0 2px rgba($primary-04, 0.2);
+      }
+
+      &.is-invalid {
+        border-color: #dc3545;
+
+        &:focus {
+          box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+      }
+    }
+
+    .invalid-feedback {
+      display: block;
+      width: 100%;
+      margin-top: 0.25rem;
+      font-size: 0.875em;
+      color: #dc3545;
+    }
+
+    .secure-note {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  .btn-primary-teal {
+    background-color: $primary-04;
+    border-color: $primary-04;
+    color: white;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: darken($primary-04, 5%);
     }
   }
 }

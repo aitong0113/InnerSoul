@@ -19,9 +19,7 @@ function PlaylistCard({
 
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(listName);
-  const [editDesc, setEditDesc] = useState(
-    playlist.listDescription || ""
-  );
+  const [editDesc, setEditDesc] = useState(playlist.listDescription || "");
 
   const handleStartEdit = (e) => {
     e.stopPropagation();
@@ -51,7 +49,11 @@ function PlaylistCard({
       {size === "small" && (
         <>
           <div className="playlist-cover">
-            <img src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`} alt={listName} className="cloud-bg" />
+            <img
+              src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`}
+              alt={listName}
+              className="cloud-bg"
+            />
           </div>
           <div className="playlist-info">
             <h4 className="playlist-title">{listName}</h4>
@@ -73,7 +75,11 @@ function PlaylistCard({
       {size === "large" && (
         <div className="playlist-large-content">
           <div className="playlist-cover-large">
-            <img src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`} alt={listName} className="cloud-bg" />
+            <img
+              src={playlist.coverImg || `${import.meta.env.BASE_URL}Union.png`}
+              alt={listName}
+              className="cloud-bg"
+            />
           </div>
           <div className="playlist-details">
             {isEditing ? (
@@ -95,10 +101,18 @@ function PlaylistCard({
                   placeholder="播放清單描述"
                 />
                 <div className="edit-actions">
-                  <button className="save-btn" onClick={handleSave}>
+                  <button
+                    className="custom-btn-filled"
+                    onClick={handleSave}
+                    style={{ fontSize: "14px" }}
+                  >
                     儲存
                   </button>
-                  <button className="cancel-btn" onClick={handleCancelEdit}>
+                  <button
+                    className="custom-btn-outline"
+                    onClick={handleCancelEdit}
+                    style={{ fontSize: "14px" }}
+                  >
                     取消
                   </button>
                 </div>
@@ -107,30 +121,35 @@ function PlaylistCard({
               <>
                 <h3 className="playlist-title-large">{listName}</h3>
                 <p className="playlist-description">
-                  {playlist.listDescription || "世界再吵，我都在陪你一起聽著心的聲音"}
+                  {playlist.listDescription || "聆聽內心的聲音"}
                 </p>
                 {showEditMode ? (
                   <div className="playlist-edit-actions">
-                    <button className="edit-playlist-btn" onClick={handleStartEdit}>
-                      <IconPencil size={16} />
+                    <button
+                      className="custom-btn-filled d-inline-flex align-items-center"
+                      onClick={handleStartEdit}
+                      style={{ fontSize: "14px" }}
+                    >
+                      <IconPencil size={16} className="me-1" />
                       修改
                     </button>
                     <button
-                      className="delete-playlist-btn"
+                      className="custom-btn-outline d-inline-flex align-items-center"
                       onClick={(e) => {
                         e.stopPropagation();
                         if (window.confirm("確定要刪除此播放清單嗎？")) {
                           onDelete && onDelete(playlist.id);
                         }
                       }}
+                      style={{ fontSize: "14px" }}
                     >
-                      <IconTrash size={16} />
+                      <IconTrash size={16} className="me-1" />
                       刪除
                     </button>
                   </div>
                 ) : (
                   <div className="playlist-stats d-flex align-items-center">
-                    <span className="stat-item">👁 {followerCount} 人氣</span>
+                    {followerCount && <span className="stat-item">👁 {followerCount} 人氣</span>}
                     {onToggleFollow && (
                       <button
                         className={`btn ${isFollowed ? "btn-primary-05" : "btn-primary"}`}

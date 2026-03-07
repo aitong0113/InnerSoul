@@ -1,6 +1,7 @@
 import { IconArrowNarrowRight } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-import { easeInOut, motion } from "motion/react";
+import { motion } from "motion/react";
+import { fadeIn, scrollFadeIn } from "../../components/animation/motion";
 import style from "./diaryWelcome.module.scss";
 import mainPhoto from "../../assets/diary/diaryWelcome_main.avif";
 import diaryCalendar from "../../assets/diary/calendar_Demo3.png";
@@ -8,31 +9,14 @@ import diaryContent from "../../assets/diary/content_Demo2.png";
 import cloud from "../../assets/cloud-right.svg";
 
 const DiaryWelcome = () => {
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1, ease: easeInOut },
-    },
-  };
-  const scrollFadeIn = {
-    initial: { opacity: 0, y: 16 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.18 },
-    transition: {
-      duration: 1.2,
-      ease: "easeInOut", // 注意：Framer Motion 字符串格式通常更穩定
-    },
-  };
   return (
     <div>
       {/* 1 */}
-      <motion.section className={style.cloudR} {...fadeIn}>
+      <motion.section className={style.cloudR} {...fadeIn()}>
         <div className={` container d-flex flex-column gap-md-11 gap-7 mb-md-12 mb-7`}>
           <div className="fw-bold text-center d-flex flex-column gap-md-6 gap-3">
-            <h1 className="fs-md-1 fs-4 text-primary-04">從撰寫日記開始陪伴自己</h1>
-            <p className="text-black-700 fs-md-4 fs-6">心情的每一天，都值得被看見與理解</p>
+            <h1 className="fs-md-2 fs-4 text-primary-04">從撰寫日記開始陪伴自己</h1>
+            <p className="text-black-700 fs-md-5 fs-6">心情的每一天，都值得被看見與理解</p>
           </div>
           <div className="row row-cols-1 row-cols-lg-2 gx-lg-5 align-items-stretch mb-5">
             <div className="col">
@@ -58,11 +42,12 @@ const DiaryWelcome = () => {
                   </div>
                 </div>
                 <div className="">
-                  <Link to={`/login`}>
-                    <button type="button" className={`${style.btnOutline}`}>
-                      <div className="fs-6 fw-bold fs-md-5">開始寫日記</div>
-                      <IconArrowNarrowRight className={style.arrowIcon} />
-                    </button>
+                  <Link
+                    to="/login"
+                    className="btn custom-btn-outline fs-6 fw-bold fs-md-5 d-inline-flex align-items-center text-decoration-none"
+                  >
+                    開始寫日記
+                    <IconArrowNarrowRight className={style.arrowIcon} />
                   </Link>
                 </div>
               </div>
@@ -73,7 +58,7 @@ const DiaryWelcome = () => {
       </motion.section>
 
       {/* 2 */}
-      <motion.section className={style.cloudR} {...scrollFadeIn}>
+      <motion.section className={style.cloudR} {...scrollFadeIn()}>
         <div className={`${style.labelS2} ${style.text} ${style.onlyMobile} text-black-700`}>
           點擊可查看心情記事
         </div>
@@ -220,11 +205,7 @@ const DiaryWelcome = () => {
         <img src={cloud} className={style.cloud2} alt="bg-cloud" />
       </motion.section>
       {/* 3 */}
-      <motion.section
-        className="bg-liner"
-        {...scrollFadeIn}
-        transition={{ ...scrollFadeIn.transition, delay: 0.1 }}
-      >
+      <motion.section className="bg-liner" {...scrollFadeIn(0.1)}>
         <div className={`container text-center ${style.section} py-md-11 py-7`}>
           <div className="d-flex flex-column gap-md-11 gap-12 ">
             <div className="text-primary-05 fw-bold fs-md-2 fs-5">把今天的心情，溫柔的留下來</div>
@@ -237,10 +218,11 @@ const DiaryWelcome = () => {
                 />
               </div>
               <div>
-                <Link to={`/login`}>
-                  <button type="button" className={`${style.btnFilled}`}>
-                    <span className="fs-md-5 fs-6">開始自己的心途旅行</span>
-                  </button>
+                <Link
+                  to="/login"
+                  className="btn custom-btn-filled fs-6 fw-bold fs-md-5 d-inline-flex align-items-center text-decoration-none"
+                >
+                  開始自己的心途旅行
                 </Link>
               </div>
             </div>

@@ -99,6 +99,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/member-account-edit" element={<MemberAccountEdit />} />
           <Route path="/member/subscription" element={<SubscriptionManagement />} />
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         {/* 後台 */}
@@ -108,9 +110,6 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="users" element={<Users />} />
         </Route>
-
-        {/* 404 */}
-        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {!songList.length ? <BackToTop /> : <Player />}

@@ -100,7 +100,7 @@ function LoginForm() {
 
       <div className="auth-action-row">
         <div></div> {/* 佔位用，對齊 label */}
-        <button type="submit" className="auth-btn">
+        <button type="submit" className="custom-btn-filled w-100">
           登入
         </button>
       </div>

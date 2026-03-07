@@ -1,18 +1,4 @@
-.contact-section {
-  padding-bottom: 80px;
-}
-
-.contact-info-text {
-  font-family: "Noto Sans TC", sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.5; // 150%
-  letter-spacing: 0.02em;
-  color: var(--bs-black-800);
-}
-
 .contact-title {
-  font-size: 28px;
   font-weight: 700;
   color: var(--bs-primary-05);
   margin-bottom: 12px;
@@ -20,24 +6,20 @@
 
 .contact-list {
   padding: 0;
-  padding: 0;
-  margin-bottom: 32px;
   list-style: none;
 }
 
 .contact-item {
   display: flex;
-  align-items: center; // 🔥 關鍵：icon 與文字垂直對齊
-  gap: 12px; // 設計稿 icon → 文字距離
-  margin-bottom: 12px;
+  align-items: center;
+  gap: 8px;
 
-  font-size: 20px; // Body / B2
   font-weight: 700;
-  line-height: 2;
-  color: var(--bs-black-700);
+  line-height: 1.5;
+  color: var(--bs-black-800);
 
   i {
-    font-size: 18px; // 與 Figma 18~20px 對齊
+    font-size: 18px;
     line-height: 1;
     flex-shrink: 0;
     margin-top: -2px;
@@ -45,7 +27,7 @@
 
   a {
     color: inherit;
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
@@ -56,20 +38,18 @@
 
 .contact-social {
   display: flex;
-  gap: 30px; // 設計稿比較緊
-  margin-top: 24px;
+  gap: 24px;
 
   i {
     font-size: 28px;
     color: var(--bs-primary-05);
-    line-height: 1;
+    padding: 16px;
   }
 }
 
 .contact-layout {
   display: grid;
-  grid-template-columns: 1fr 650px; // 🔥 地圖寬度直接對齊 Figma
-  gap: 100px;
+  grid-template-columns: 1fr 650px;
   align-items: start;
 }
 
@@ -102,14 +82,39 @@
 
 /* RWD */
 @media (max-width: 992px) {
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
   .contact-cloud-right {
-    top: -20px;
-    right: -20px;
+    right: 0px;
+    top: 0px;
     width: 160px;
   }
 
   .map-card {
     width: 100%;
-    height: 280px;
+    height: 352px;
+  }
+
+  .contact-social {
+    display: flex;
+    gap: 24px;
+
+    i {
+      font-size: 24px;
+      padding: 8px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+
+  .contact-cloud-right {
+    right: 0px;
+    top: 0px;
+    width: 104px;
   }
 }

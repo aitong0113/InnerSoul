@@ -49,7 +49,7 @@ const HomeHero = () => {
             </Link>
           </div>
           {/* 右側：心途小語區 */}
-          <div className="hero-right">
+          <div className="hero-right my-lg-0 my-md-11">
             <div className="quote-card">
               <div className="quote-header">
                 <span className="quote-title text-primary-05 fade-in-up">

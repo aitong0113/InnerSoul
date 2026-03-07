@@ -1,5 +1,6 @@
 import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
-import { easeInOut, motion } from "motion/react";
+import { motion } from "motion/react";
+import { fadeIn } from "../../animation/motion";
 import style from "./diaryLayout.module.scss";
 
 const DiaryLayout = ({
@@ -24,16 +25,8 @@ const DiaryLayout = ({
   const canNext = typeof onNextMonth === "function";
   const canSelect = typeof onSelectDate === "function";
 
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1, ease: easeInOut },
-    },
-  };
   return (
-    <motion.div className="container d-flex flex-column" {...fadeIn}>
+    <motion.div className="container d-flex flex-column" {...fadeIn()}>
       <div className="row justify-content-center">
         <div className={`col-12  ${style.diaryBlur}`}>
           <div className={style.diaryCardBottom}>

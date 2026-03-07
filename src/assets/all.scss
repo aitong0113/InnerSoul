@@ -8,7 +8,7 @@
 
 /* 擴充 Bootstrap fs-* RWD 版本 */
 @each $bp, $breakpoint in $grid-breakpoints {
-  @if $bp != xs {
+  @if $bp !=xs {
     @media (min-width: $breakpoint) {
       @each $key, $size in $font-sizes {
         .fs-#{$bp}-#{$key} {
@@ -31,9 +31,11 @@
 .bg-playlist {
   background: linear-gradient(to bottom, #cde8fa, #ffffff80);
 }
+
 .custom-swal-radius {
   border-radius: 24px !important;
 }
+
 .custom-swal-btn {
   border-radius: 50px !important;
   padding: 10px 32px !important;
@@ -56,6 +58,7 @@
     color: white;
     background-color: var(--bs-primary-03);
     transition: all 0.5s ease;
+    transform: translateY(-2px);
   }
 
   &:disabled {
@@ -71,18 +74,46 @@
   border: 2px solid var(--bs-primary-05);
   border-radius: 100px;
   text-decoration: none;
-  transition: all 0.5s ease;
   padding: 6px 14px;
 
   &:hover:not(:disabled) {
     color: var(--bs-primary-05);
     background-color: var(--bs-primary-02);
+    transition: all 0.5s ease;
+    transform: translateY(-2px);
   }
 
   &:disabled {
     color: var(--bs-black-300);
     border-color: var(--bs-black-300);
     background-color: white;
+  }
+}
+
+.custom-btn-text {
+  color: #505050;
+  position: relative;
+  background: none;
+  border: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0px;
+    width: 0;
+    height: 2px;
+    background: #398c9f;
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+
+  &:disabled {
+    color: #505050;
   }
 }
 
@@ -95,4 +126,8 @@
 
 .site-main {
   padding-top: var(--page-space);
+
+  @media (max-width: 768px) {
+    padding-top: 28px;
+  }
 }
