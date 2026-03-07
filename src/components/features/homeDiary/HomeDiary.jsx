@@ -1,7 +1,7 @@
 import happyStamp from "../../../assets/moodStamp/happy.png";
 import goodStamp from "../../../assets/moodStamp/good.png";
 import madStamp from "../../../assets/moodStamp/mad.png";
-import notGoodStamp from "../../../assets/moodStamp/notGood.png";
+import notGoodStamp from "../../../assets/moodStamp/notGood1.png";
 import sadStamp from "../../../assets/moodStamp/sad.png";
 import { ROUTES } from "../../../constants/routes";
 import { Link } from "react-router-dom";
