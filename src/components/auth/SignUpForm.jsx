@@ -71,8 +71,8 @@ function SignUpForm() {
           onChange={(e) => setUserName(e.target.value)}
           placeholder="請輸入您的暱稱"
         />
+        {errors.userName && <small className="auth-error">{errors.userName}</small>}
       </div>
-      {errors.userName && <small className="auth-error">{errors.userName}</small>}
 
       <div className="auth-row">
         <label className="auth-label">帳號</label>
@@ -83,8 +83,8 @@ function SignUpForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="請輸入您的 Email"
         />
+        {errors.email && <small className="auth-error">{errors.email}</small>}
       </div>
-      {errors.email && <small className="auth-error">{errors.email}</small>}
 
       <div className="auth-row">
         <label className="auth-label">密碼</label>
@@ -95,11 +95,11 @@ function SignUpForm() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="請輸入6-12位英數字"
         />
+        {errors.password && <small className="auth-error">{errors.password}</small>}
       </div>
-      {errors.password && <small className="auth-error">{errors.password}</small>}
 
       <div className="auth-row">
-        <label className="auth-label">再輸入密碼</label>
+        <label className="auth-label">再次輸入密碼</label>
         <input
           type="password"
           className="auth-input"
@@ -107,12 +107,12 @@ function SignUpForm() {
           onChange={(e) => setPassword2(e.target.value)}
           placeholder="請再次輸入密碼"
         />
+        {errors.password2 && <small className="auth-error">{errors.password2}</small>}
       </div>
-      {errors.password2 && <small className="auth-error">{errors.password2}</small>}
 
       <div className="auth-action-row">
         <div></div> {/* 佔位用，對齊 label */}
-        <button type="submit" className="auth-btn">
+        <button type="submit" className="custom-btn-filled w-100">
           註冊
         </button>
       </div>

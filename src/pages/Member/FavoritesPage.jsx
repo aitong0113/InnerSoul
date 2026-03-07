@@ -23,6 +23,8 @@ import {
   IconDotsVertical,
   IconPlus,
 } from "@tabler/icons-react";
+import { motion } from "motion/react";
+import { fadeIn, scrollFadeIn } from "../../components/animation/motion";
 
 function FavoritesPage({ selectPlaylist }) {
   const dispatch = useDispatch();
@@ -158,10 +160,12 @@ function FavoritesPage({ selectPlaylist }) {
   };
   return (
     <div className="favorites-page">
-      <h2 className="page-title">我的語音收藏</h2>
+      <motion.h2 className="page-title" {...fadeIn()}>
+        我的語音收藏
+      </motion.h2>
 
       {/* 我的收藏歌曲 */}
-      <section className="playlist-detail-section">
+      <motion.section className="playlist-detail-section" {...fadeIn()}>
         <div className="playlist-detail-grid">
           {/* 左側：收藏清單大卡片 */}
           <div className="playlist-detail-card">
@@ -327,43 +331,45 @@ function FavoritesPage({ selectPlaylist }) {
                       ))}
                   </div>
                   {/* 浮動子選單 - 外推顯示 */}
-                  {hoveredAddPl && hoveredAddRect && (() => {
-                    const pl = playlists.find((p) => p.id === hoveredAddPl);
-                    if (!pl) return null;
-                    return (
-                      <div
-                        className="fav-submenu fav-submenu-fixed"
-                        style={{
-                          position: 'fixed',
-                          top: hoveredAddRect.top,
-                          right: window.innerWidth - hoveredAddRect.left + 4,
-                          zIndex: 10001,
-                        }}
-                        onMouseEnter={() => {
-                          cancelHoverClear();
-                          setHoveredAddPl(hoveredAddPl);
-                        }}
-                        onMouseLeave={clearHoverWithDelay}
-                      >
-                        {pl.songs.length === 0 ? (
-                          <div className="fav-submenu-empty">此清單尚無語音</div>
-                        ) : (
-                          pl.songs.map((song) => (
-                            <div
-                              key={song.id}
-                              className="fav-submenu-item"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleAddSongToFavorites(song);
-                              }}
-                            >
-                              🎵 {song.name}
-                            </div>
-                          ))
-                        )}
-                      </div>
-                    );
-                  })()}
+                  {hoveredAddPl &&
+                    hoveredAddRect &&
+                    (() => {
+                      const pl = playlists.find((p) => p.id === hoveredAddPl);
+                      if (!pl) return null;
+                      return (
+                        <div
+                          className="fav-submenu fav-submenu-fixed"
+                          style={{
+                            position: "fixed",
+                            top: hoveredAddRect.top,
+                            right: window.innerWidth - hoveredAddRect.left + 4,
+                            zIndex: 10001,
+                          }}
+                          onMouseEnter={() => {
+                            cancelHoverClear();
+                            setHoveredAddPl(hoveredAddPl);
+                          }}
+                          onMouseLeave={clearHoverWithDelay}
+                        >
+                          {pl.songs.length === 0 ? (
+                            <div className="fav-submenu-empty">此清單尚無語音</div>
+                          ) : (
+                            pl.songs.map((song) => (
+                              <div
+                                key={song.id}
+                                className="fav-submenu-item"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleAddSongToFavorites(song);
+                                }}
+                              >
+                                🎵 {song.name}
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      );
+                    })()}
                 </>
               )}
             </div>
@@ -372,27 +378,29 @@ function FavoritesPage({ selectPlaylist }) {
         {/* 控制按鈕 */}
         <div className="pagination-controls">
           <button
-            className="btn border-0"
+            className="btn pagination-btn"
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
+            style={{ padding: 0 }}
           >
-            <IconChevronLeft />
+            <IconChevronLeft size={20} />
           </button>
           <span>
             {page} / {totalPages}
           </span>
           <button
-            className="btn border-0"
+            className="btn pagination-btn"
             onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={page === totalPages}
+            style={{ padding: 0 }}
           >
-            <IconChevronRight></IconChevronRight>
+            <IconChevronRight size={20} />
           </button>
         </div>
-      </section>
+      </motion.section>
 
       {/* 最新收藏區塊 */}
-      <section className="favorites-section">
+      <motion.section className="favorites-section" {...scrollFadeIn()}>
         <h3 className="section-title">我的最新收藏</h3>
         <div className="song-grid">
           {reversedSongs.map((song) => {
@@ -416,10 +424,10 @@ function FavoritesPage({ selectPlaylist }) {
             );
           })}
         </div>
-      </section>
+      </motion.section>
 
       {/* 高人氣收藏區塊 */}
-      <section className="favorites-section">
+      <motion.section className="favorites-section" {...scrollFadeIn(0.2)}>
         <h3 className="section-title">推薦高人氣</h3>
         <div className="song-grid">
           {popularSongs.map((song) => {
@@ -443,7 +451,7 @@ function FavoritesPage({ selectPlaylist }) {
             );
           })}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

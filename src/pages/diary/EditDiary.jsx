@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { easeInOut, motion } from "motion/react";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 import { MOODS } from "../../constants/moods";
 import api from "../../services/api";
 import axios from "axios";
@@ -89,6 +90,15 @@ function EditDiary() {
     setDiary((prev) => ({ ...prev, diaryImg: previewURL }));
     setUploadImg(file);
   };
+  const quickFillDiary = () => {
+    setDiary((prev) => ({
+      ...prev,
+      diaryTitle: "專題發表日",
+      diaryContent:
+        "今天是專題發表日\n準備了好久終於走到這一天～\n心裡有點緊張，但也很雀躍\n希望大家會喜歡我們的作品",
+      mood: "happy",
+    }));
+  };
 
   const saveDiary = async () => {
     if (!userId) {
@@ -141,18 +151,10 @@ function EditDiary() {
       alert("存檔失敗");
     }
   };
-  const fadeIn = {
-    initial: { opacity: 0, y: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1, ease: easeInOut },
-    },
-  };
 
   return (
     <main className="bg-liner">
-      <motion.section {...fadeIn}>
+      <motion.section {...fadeIn()}>
         <div className="container">
           <div className="h-100 gx-lg-5 mt-5">
             <div className={`${style.diaryBlur}`}>
@@ -163,9 +165,9 @@ function EditDiary() {
                   <div
                     className={`${style.diaryCard} ${style.diaryCardTop} bg-white px-3 h-100 d-flex flex-column`}
                   >
-                    <div className="d-flex flex-column gap-2 flex-grow-1 p-5">
-                      <div className="fw-bold d-flex flex-column">
-                        <div className="d-flex pb-4 text-black-500 me-4">
+                    <div className="d-flex flex-column gap-md-8 gap-3 flex-grow-1 p-5">
+                      <div className="fw-bold d-flex justify-content-between">
+                        <div className="d-flex text-black-500">
                           <span className="fw-bold fs-md-4 fs-5 border-black-500 border-bottom px-1">
                             {dayText}
                           </span>
@@ -173,6 +175,13 @@ function EditDiary() {
                             {weekday}
                           </small>
                         </div>
+                        <button
+                          type="button"
+                          className="btn btn-outline-primary btn-sm d-flex align-items-center"
+                          onClick={quickFillDiary}
+                        >
+                          快速填寫
+                        </button>
                       </div>
                       <form className="d-flex flex-column flex-grow-1">
                         <div className="d-flex flex-column gap-md-2">
@@ -271,7 +280,7 @@ function EditDiary() {
                               <label
                                 type="button"
                                 htmlFor="uploadImg"
-                                className={`form-label mb-0 d-flex text-center mx-md-2 p-1 ${style.uploadBtn}`}
+                                className={`form-label mb-0 d-flex text-center p-1 ${style.uploadBtn}`}
                               >
                                 選擇
                               </label>

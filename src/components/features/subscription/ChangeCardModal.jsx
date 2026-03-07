@@ -246,7 +246,7 @@ const ChangeCardModal = ({ onClose, onCardUpdated }) => {
 
               <button
                 type="submit"
-                className="btn btn-primary-teal rounded-pill w-100 py-3 fw-bold mt-7"
+                className="btn rounded-pill w-100 py-3 fw-bold mt-7 custom-btn-filled"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "儲存中..." : "儲存信用卡資料"}

@@ -13,6 +13,8 @@ import ChangeCardModal from "../../components/features/subscription/ChangeCardMo
 import { authStore } from "../../services/auth/authStore";
 import api from "../../services/api";
 import "../../components/features/subscription/subscription.scss";
+import { motion } from "motion/react";
+import { fadeIn } from "../../components/animation/motion";
 
 const SubscriptionManagement = () => {
   const navigate = useNavigate();
@@ -173,7 +175,7 @@ const SubscriptionManagement = () => {
 
           <div>
             <button
-              className="btn btn-primary-teal rounded-pill px-5 py-3 fw-bold fs-5 shadow-sm w-75"
+              className="btn custom-btn-filled rounded-pill px-5 py-3 fw-bold fs-5 shadow-sm w-75"
               onClick={() =>
                 navigate("/checkout", {
                   state: {
@@ -216,7 +218,8 @@ const SubscriptionManagement = () => {
             <div className="info-row">
               <span className="label">付款方式</span>
               <span className="value d-flex align-items-center gap-2">
-                <IconCreditCard size={20} color="#398C9F" /> 信用卡 {cardInfo.brand} (•••• {cardInfo.last4})
+                <IconCreditCard size={20} color="#398C9F" /> 信用卡 {cardInfo.brand} (••••{" "}
+                {cardInfo.last4})
               </span>
             </div>
             <div className="info-row">
@@ -253,13 +256,13 @@ const SubscriptionManagement = () => {
 
           <div className="d-flex gap-3">
             <button
-              className="btn btn-outline-gray rounded-pill py-2 w-100"
+              className="btn custom-btn-outline rounded-pill py-2 w-100"
               onClick={() => setShowCancelModal(true)}
             >
               取消訂閱
             </button>
             <button
-              className="btn btn-outline-gray rounded-pill py-2 w-100"
+              className="btn custom-btn-outline rounded-pill py-2 w-100"
               onClick={() => setShowChangeCardModal(true)}
             >
               變更付款信用卡
@@ -294,22 +297,22 @@ const SubscriptionManagement = () => {
 
   return (
     <div className="bg-liner subscription-management-container">
-      <div className="container">
+      <motion.div className="container" {...fadeIn()}>
         <h2 className="row management-title text-primary-05 mb-lg-7 mb-5">我的訂閱狀態</h2>
         {isPro ? renderProView() : renderFreeView()}
 
-        <div className="text-center mt-10 text-muted small d-flex align-items-center justify-content-center gap-1">
+        <div className="text-center mt-10 text-muted small d-flex align-items-center justify-content-center gap-1 terms-trigger-area">
           <button
-            className="terms-btn fw-bold"
+            className="terms-btn custom-btn-text fw-bold"
             onClick={() => setShowModal(true)}
-            style={{
-              background: "none",
-              border: "none",
-              color: "inherit",
-              display: "flex",
-              alignItems: "center",
-              padding: 0,
-            }}
+            // style={{
+            //   background: "none",
+            //   border: "none",
+            //   color: "inherit",
+            //   display: "flex",
+            //   alignItems: "center",
+            //   padding: 0,
+            // }}
           >
             <IconInfoCircleFilled size={18} className="me-1" />
             訂閱條款與注意事項
@@ -334,7 +337,7 @@ const SubscriptionManagement = () => {
             onCardUpdated={(info) => setCardInfo(info)}
           />
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

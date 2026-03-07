@@ -20,6 +20,8 @@ import {
   IconMoodHeart,
   IconArrowNarrowRight,
 } from "@tabler/icons-react";
+import { motion } from "motion/react";
+import { scrollFadeIn } from "../../components/animation/motion";
 
 function Home({ selectPlaylist }) {
   return (
@@ -28,11 +30,15 @@ function Home({ selectPlaylist }) {
       <HomeHero />
       <HomeMoodText />
       {/* 試聽區塊 */}
-      <AudioPreviewSection selectPlaylist={selectPlaylist} />
+      <motion.section {...scrollFadeIn(0.1)}>
+        <AudioPreviewSection selectPlaylist={selectPlaylist} />
+      </motion.section>
       {/* 從撰寫日記開始陪伴自己 */}
-      <HomeDiary />
+      <motion.section {...scrollFadeIn(0.15)}>
+        <HomeDiary />
+      </motion.section>
       {/* 關於心途 */}
-      <section className="">
+      <motion.section {...scrollFadeIn(0.2)}>
         <div className="container pt-0 pb-lg-11 pb-7">
           <div className="row justify-content-center mb-lg-9">
             <div className="text-center py-lg-0 pt-12 pb-8">
@@ -87,10 +93,10 @@ function Home({ selectPlaylist }) {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* 加入心途 */}
-      <section>
+      <motion.section {...scrollFadeIn(0.15)}>
         <div className="container py-lg-11 py-7 text-center">
           <h2 className="fw-bold text-primary-05 fs-lg-2 fs-md-4 mb-lg-6 mb-3">
             已經有 <AnimatedNumber end={99999} /> 人加入心途
@@ -170,9 +176,9 @@ function Home({ selectPlaylist }) {
             </div>
           </section>
         </div>
-      </section>
+      </motion.section>
       {/* 常見問題 */}
-      <section className="home-faq bg-liner">
+      <motion.section className="home-faq bg-liner" {...scrollFadeIn(0.2)}>
         <div className="container py-lg-11 py-7">
           <h2 className="fw-bold text-center text-primary-05 fs-lg-2 fs-md-4 mb-lg-9 mb-6">
             常見問題
@@ -189,7 +195,7 @@ function Home({ selectPlaylist }) {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
       {/* 聯絡我們 */}
       <Contact />
     </main>

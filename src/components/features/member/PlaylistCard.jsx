@@ -101,10 +101,18 @@ function PlaylistCard({
                   placeholder="播放清單描述"
                 />
                 <div className="edit-actions">
-                  <button className="save-btn" onClick={handleSave}>
+                  <button
+                    className="custom-btn-filled"
+                    onClick={handleSave}
+                    style={{ fontSize: "14px" }}
+                  >
                     儲存
                   </button>
-                  <button className="cancel-btn" onClick={handleCancelEdit}>
+                  <button
+                    className="custom-btn-outline"
+                    onClick={handleCancelEdit}
+                    style={{ fontSize: "14px" }}
+                  >
                     取消
                   </button>
                 </div>
@@ -117,20 +125,25 @@ function PlaylistCard({
                 </p>
                 {showEditMode ? (
                   <div className="playlist-edit-actions">
-                    <button className="edit-playlist-btn" onClick={handleStartEdit}>
-                      <IconPencil size={16} />
+                    <button
+                      className="custom-btn-filled d-inline-flex align-items-center"
+                      onClick={handleStartEdit}
+                      style={{ fontSize: "14px" }}
+                    >
+                      <IconPencil size={16} className="me-1" />
                       修改
                     </button>
                     <button
-                      className="delete-playlist-btn"
+                      className="custom-btn-outline d-inline-flex align-items-center"
                       onClick={(e) => {
                         e.stopPropagation();
                         if (window.confirm("確定要刪除此播放清單嗎？")) {
                           onDelete && onDelete(playlist.id);
                         }
                       }}
+                      style={{ fontSize: "14px" }}
                     >
-                      <IconTrash size={16} />
+                      <IconTrash size={16} className="me-1" />
                       刪除
                     </button>
                   </div>

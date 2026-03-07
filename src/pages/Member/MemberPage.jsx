@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPlaylistsView, makeSelectUserLikesView } from "../../slices/selectors";
 import { toggleSongLike } from "../../slices/userLikeSlice";
+import { motion } from "motion/react";
+import { fadeIn, scrollFadeIn } from "../../components/animation/motion";
 
 import {
   IconMusic,
@@ -27,19 +29,18 @@ import PlaylistsPage from "./PlaylistsPage";
 // 匯入心情圖片
 import happyImg from "../../assets/moodStamp/happy.png";
 import goodImg from "../../assets/moodStamp/good.png";
-import notGoodImg from "../../assets/moodStamp/notGood.png";
+import notGoodImg from "../../assets/moodStamp/notGood1.png";
 import sadImg from "../../assets/moodStamp/sad.png";
 import madImg from "../../assets/moodStamp/mad.png";
-
 import messyImg from "../../assets/moodStamp/messy.png";
 
 const moodConfig = {
-  happy: { emoji: "😊", name: "喜悅", img: happyImg },
   good: { emoji: "🙂", name: "平靜", img: goodImg },
-  notgood: { emoji: "😔", name: "混亂", img: notGoodImg },
+  messy: { emoji: "😵‍💫", name: "混亂", img: messyImg },
+  happy: { emoji: "😊", name: "喜悅", img: happyImg },
   sad: { emoji: "😢", name: "低落", img: sadImg },
   mad: { emoji: "😠", name: "憤怒", img: madImg },
-  messy: { emoji: "😵‍💫", name: "混亂", img: messyImg },
+  notgood: { emoji: "😔", name: "崩潰", img: notGoodImg },
 };
 
 const moodToCategoryMap = {
@@ -229,31 +230,33 @@ function MemberPage({ selectPlaylist }) {
     <div className="section bg-liner">
       <main className="member-page">
         {/* 頂部頁籤 */}
-        <nav className="member-tabs">
-          <button
-            className={activeTab === "member" ? "active" : ""}
-            onClick={() => setActiveTab("member")}
-          >
-            心途會員
-          </button>
-          <button
-            className={activeTab === "favorite" ? "active" : ""}
-            onClick={() => setActiveTab("favorite")}
-          >
-            語音收藏
-          </button>
-          <button
-            className={activeTab === "playlist" ? "active" : ""}
-            onClick={() => setActiveTab("playlist")}
-          >
-            播放清單
-          </button>
-        </nav>
+        <motion.div {...fadeIn()}>
+          <nav className="member-tabs">
+            <button
+              className={activeTab === "member" ? "active" : ""}
+              onClick={() => setActiveTab("member")}
+            >
+              心途會員
+            </button>
+            <button
+              className={activeTab === "favorite" ? "active" : ""}
+              onClick={() => setActiveTab("favorite")}
+            >
+              語音收藏
+            </button>
+            <button
+              className={activeTab === "playlist" ? "active" : ""}
+              onClick={() => setActiveTab("playlist")}
+            >
+              播放清單
+            </button>
+          </nav>
+        </motion.div>
 
         {activeTab === "member" && (
           <>
             {/* 會員卡片 */}
-            <section className="member-card">
+            <motion.section className="member-card" {...fadeIn()}>
               <img className="avatar" src={avatarSrc} alt={`${userName || "會員"} 的頭像`} />
               <div className="info">
                 <h5>
@@ -294,7 +297,7 @@ function MemberPage({ selectPlaylist }) {
                   </button>
                 </div>
               </div>
-            </section>
+            </motion.section>
 
             {isLoading ? (
               <div className="text-center p-5">
@@ -305,7 +308,7 @@ function MemberPage({ selectPlaylist }) {
             ) : (
               <>
                 {/* 本月回顧 */}
-                <section className="month-review">
+                <motion.section className="month-review" {...fadeIn()}>
                   <h3>讓我們一起回顧本月心情點滴吧</h3>
                   <div className="review-grid">
                     <div className="review-card">
@@ -371,11 +374,11 @@ function MemberPage({ selectPlaylist }) {
                       </div>
                     </div>
                   </div>
-                </section>
+                </motion.section>
 
                 {/* 情緒推薦 */}
                 {diaryStats.topMood && (
-                  <section className="emotion-block">
+                  <motion.section className="emotion-block" {...scrollFadeIn()}>
                     <p className="emotion-title">
                       這個月你按下了 {diaryStats.topMood.percentage}% 的{" "}
                       <img
@@ -450,7 +453,7 @@ function MemberPage({ selectPlaylist }) {
                                 onClick={() => selectPlaylist(moodPlaylist.id, index)}
                               >
                                 <div>
-                                  <span className="badge text-bg-primary-02 rounded-pill me-4">
+                                  <span className="badge bg-BG-02 rounded-pill text-black me-4">
                                     {song.category}
                                   </span>
                                   {song.name}
@@ -496,16 +499,19 @@ function MemberPage({ selectPlaylist }) {
                         </ul>
                       </div>
                     </div>
-                  </section>
+                  </motion.section>
                 )}
                 {/* 底部統計 */}
-                <section className="member-stats">
+                <motion.section className="member-stats" {...scrollFadeIn(0.2)}>
                   <div className="stat-card">
                     <div className="stat-header">心途陪伴你你多久了？</div>
                     <div className="stat-number">{userStats.totalHours.toLocaleString()}</div>
                     <div className="stat-unit">小時</div>
                     <div className="stat-description">辛苦你這麼用心在守護身邊</div>
-                    <button className="stat-button" onClick={() => setActiveTab("favorite")}>
+                    <button
+                      className="btn custom-btn-filled"
+                      onClick={() => setActiveTab("favorite")}
+                    >
                       語音收藏 →
                     </button>
                   </div>
@@ -514,7 +520,10 @@ function MemberPage({ selectPlaylist }) {
                     <div className="stat-number">{userStats.playlistCount}</div>
                     <div className="stat-unit">個播放清單</div>
                     <div className="stat-description">播放清單將會與音檔互相連結</div>
-                    <button className="stat-button" onClick={() => setActiveTab("playlist")}>
+                    <button
+                      className="btn custom-btn-filled"
+                      onClick={() => setActiveTab("playlist")}
+                    >
                       播放清單 →
                     </button>
                   </div>
@@ -523,11 +532,11 @@ function MemberPage({ selectPlaylist }) {
                     <div className="stat-number">{diaryStats.totalDiaries}</div>
                     <div className="stat-unit">篇日記</div>
                     <div className="stat-description">今天的心情也寫了嗎？</div>
-                    <button className="stat-button" onClick={() => navigate("/diary")}>
+                    <button className="btn custom-btn-filled" onClick={() => navigate("/diary")}>
                       我的日記 →
                     </button>
                   </div>
-                </section>
+                </motion.section>
               </>
             )}
           </>

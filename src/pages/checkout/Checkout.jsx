@@ -36,7 +36,7 @@ const Checkout = () => {
       <div className="container" style={{ maxWidth: "900px" }}>
         {/* 返回按鈕 */}
         <div className="mb-lg-7 mb-5">
-          <button className="btn back-link" onClick={() => navigate("/subscription")}>
+          <button className="btn custom-btn-text" onClick={() => navigate("/subscription")}>
             <IconArrowLeft size={20} />
             返回方案選擇
           </button>

@@ -1,5 +1,8 @@
-$primary-04: #398C9F;
-$card-gray: #EFEFEF;
+$primary-02: #b9e5e8;
+$primary-03: #6db0b5;
+$primary-04: #398c9f;
+$primary-05: #104754;
+$card-gray: #efefef;
 
 .checkout-page {
   min-height: 100vh;
@@ -186,7 +189,6 @@ $card-gray: #EFEFEF;
       padding: 24px;
       padding-top: 8px;
 
-
       label {
         font-size: 0.85rem;
         color: #555;
@@ -239,7 +241,7 @@ $card-gray: #EFEFEF;
   // 送出按鈕
   .submit-btn {
     width: 100%;
-    background-color: $primary-04;
+    background-color: $primary-05;
     color: white;
     font-weight: bold;
     font-size: 1.1rem;
@@ -250,7 +252,9 @@ $card-gray: #EFEFEF;
     transition: background 0.2s;
 
     &:hover {
-      background-color: darken($primary-04, 5%);
+      background-color: $primary-03;
+      transition: all 0.5s ease;
+      transform: translateY(-2px);
     }
   }
 
@@ -276,8 +280,6 @@ $card-gray: #EFEFEF;
     }
   }
 }
-
-
 
 // 訂閱成功彈窗樣式
 .checkout-modal-overlay {
@@ -312,7 +314,7 @@ $card-gray: #EFEFEF;
   .icon-wrapper {
     width: 80px;
     height: 80px;
-    background-color: #E0F2F1;
+    background-color: #e0f2f1;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -326,7 +328,7 @@ $card-gray: #EFEFEF;
   }
 
   .order-id-tag {
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
     color: #666;
     padding: 8px 16px;
     border-radius: 50rem;
