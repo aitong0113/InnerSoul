@@ -24,9 +24,9 @@ function PlaylistLayout({ selectPlaylist }) {
   return (
     <>
       <div className="container py-md-11">
-        <h2 className="text-center text-primary-04 mb-5 text-md-start">
+        <h1 className="fs-md-2 fs-4 text-center text-primary-04 mb-5 text-md-start">
           你的心，正在播放哪一段旋律？
-        </h2>
+        </h1>
         <div className="d-flex justify-content-center justify-content-md-start align-items-center mb-6 my-7">
           <input
             value={inputValue}

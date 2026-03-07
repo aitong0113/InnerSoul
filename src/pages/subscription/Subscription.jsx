@@ -39,7 +39,9 @@ const Subscription = () => {
       <div className="container">
         {/* 標題區塊 */}
         <div className="text-center mb-5 header-section">
-          <h2 className="text-center text-primary-04 fw-bold mb-lg-6 mb-5">選擇適合你的陪伴方案</h2>
+          <h1 className="text-center text-primary-04 fw-bold mb-lg-6 mb-5 fs-lg-2 fs-4 ">
+            選擇適合你的陪伴方案
+          </h1>
           <p className="fs-lg-5 text-black-700 mb-lg-9 mb-5 d-none d-lg-block">
             無論你需要輕量的放鬆，還是深度的情緒支持，心途都在這裡
           </p>

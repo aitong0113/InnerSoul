@@ -31,8 +31,8 @@ const DiaryWelcome = () => {
       <motion.section className={style.cloudR} {...fadeIn}>
         <div className={` container d-flex flex-column gap-md-11 gap-7 mb-md-12 mb-7`}>
           <div className="fw-bold text-center d-flex flex-column gap-md-6 gap-3">
-            <h1 className="fs-md-1 fs-4 text-primary-04">從撰寫日記開始陪伴自己</h1>
-            <p className="text-black-700 fs-md-4 fs-6">心情的每一天，都值得被看見與理解</p>
+            <h1 className="fs-md-2 fs-4 text-primary-04">從撰寫日記開始陪伴自己</h1>
+            <p className="text-black-700 fs-md-5 fs-6">心情的每一天，都值得被看見與理解</p>
           </div>
           <div className="row row-cols-1 row-cols-lg-2 gx-lg-5 align-items-stretch mb-5">
             <div className="col">
