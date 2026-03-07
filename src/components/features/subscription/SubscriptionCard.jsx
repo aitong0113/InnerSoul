@@ -12,26 +12,30 @@ const SubscriptionCard = ({
   isRecommended,
   buttonText,
   features,
-  userPlan
+  userPlan,
 }) => {
   const navigate = useNavigate();
 
   const planMapping = {
-    "free": "plan_free",
-    "pro": "plan_pro"
+    free: "plan_free",
+    pro: "plan_pro",
   };
 
   const isCurrentPlan = planMapping[userPlan] === id;
   const isIncluded = userPlan === "pro" && id === "plan_free";
 
+  // 已登入：高亮目前方案卡片；未登入：使用 API 預設推薦
+  const shouldHighlight = userPlan ? isCurrentPlan : isRecommended;
+  const badgeText = isCurrentPlan ? "目前方案" : "超值享受";
+
   let displayButtonText = buttonText;
   if (isCurrentPlan) {
-    displayButtonText = "管理目前方案";
+    displayButtonText = "目前方案";
   } else if (isIncluded) {
     displayButtonText = "已包含";
   }
 
-  const isDisabled = isIncluded;
+  const isDisabled = isIncluded || (userPlan === "free" && isCurrentPlan);
 
   const handleSubscribe = () => {
     if (isDisabled) return;
@@ -43,7 +47,7 @@ const SubscriptionCard = ({
 
     if (!userPlan) {
       navigate("/signup", {
-        state: { redirectToCheckout: id === "plan_pro", planId: id }
+        state: { redirectToCheckout: id === "plan_pro", planId: id },
       });
       return;
     }
@@ -53,8 +57,8 @@ const SubscriptionCard = ({
         state: {
           planId: id,
           planName: title,
-          price: price
-        }
+          price: price,
+        },
       });
     } else {
       navigate("/member/subscription");
@@ -62,10 +66,10 @@ const SubscriptionCard = ({
   };
 
   return (
-    <div className={`subscription-card ${isRecommended ? "highlight" : ''}`}>
-      {isRecommended && <div className="badge bg-primary-04">超值享受</div>}
+    <div className={`subscription-card p-lg-9 p-5 ${shouldHighlight ? "highlight" : ""}`}>
+      {shouldHighlight && <div className="badge bg-primary-04">{badgeText}</div>}
 
-      <div className="card-header-area">
+      <div className="card-header-area fs-4">
         <h3 className="title mb-0 py-2">{title}</h3>
         <p className="card-subtitle mb-0 py-4">{subtitle}</p>
 
@@ -88,23 +92,27 @@ const SubscriptionCard = ({
             <span className="icon-wrapper">
               {item.included ? <IconCheck size={24} /> : <IconX size={24} />}
             </span>
-            <span className="text">{item.text}</span>
+            <span className="text fs-md-6">{item.text}</span>
           </li>
         ))}
       </ul>
 
-      <div className="action-area pt-4 w-100 mt-auto">
+      <div className="action-area w-100 mt-auto">
         <button
           className={`card-action-btn ${isRecommended ? "mode-solid" : "mode-outline"}`}
           disabled={isDisabled}
-          style={isDisabled ? {
-            background: "#E0E0E0",
-            borderColor: "#E0E0E0",
-            color: "#9E9E9E",
-            cursor: "default",
-            boxShadow: "none",
-            transform: "none"
-          } : {}}
+          style={
+            isDisabled
+              ? {
+                background: "#E0E0E0",
+                borderColor: "#E0E0E0",
+                color: "#9E9E9E",
+                cursor: "default",
+                boxShadow: "none",
+                transform: "none",
+              }
+              : {}
+          }
           onClick={handleSubscribe}
         >
           {displayButtonText}

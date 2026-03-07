@@ -27,25 +27,38 @@
 
 .faq-item {
   position: relative;
-  padding: 23px 40px; // 統一 padding
+  padding: 23px 40px;
   overflow: visible;
   transition: padding 0.3s ease, min-height 0.3s ease;
 }
 
-/* 預設（收合）雲朵背景 */
-.faq-item::before {
+/* ✨ 共同設定：使用 ::before 與 ::after 疊加兩層背景 */
+.faq-item::before,
+.faq-item::after {
   content: "";
   position: absolute;
   inset: 0;
-
-  background-image: url("../../../assets/faq/faq-cloud1.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-position: center; // 定位雲朵圖片位置
-
+  background-position: center;
   pointer-events: none;
   z-index: 0;
-  transition: background-image 0.3s ease;
+  /* ✨ 關鍵：用 opacity (透明度) 來做滑順漸變，這點非常重要！ */
+  transition: opacity 0.35s ease-in-out;
+}
+
+/* 第一層：預設（收合）的雲朵 */
+.faq-item::before {
+  background-image: url("../../../assets/faq/faq-cloud1.png");
+  opacity: 1;
+  /* 收合時顯示 */
+}
+
+/* 第二層：展開狀態的雲朵 */
+.faq-item::after {
+  background-image: url("../../../assets/faq/faq-cloud2.png");
+  opacity: 0;
+  /* 收合時隱藏 */
 }
 
 /* =========================
@@ -54,12 +67,16 @@
 
 .faq-item.is-open {
   padding-top: 40px;
-  padding-bottom: 40px; // 展開後上下 padding 一致
+  padding-bottom: 40px;
 }
 
+/* ✨ 展開時的動畫魔法：第一層淡出，第二層淡入 */
 .faq-item.is-open::before {
-  background-image: url("../../../assets/faq/faq-cloud2.png");
-  background-size: 100% 100%;
+  opacity: 0;
+}
+
+.faq-item.is-open::after {
+  opacity: 1;
 }
 
 
@@ -101,21 +118,28 @@
   position: relative;
   z-index: 1;
   font-size: 20px;
-
   line-height: 1.7;
   color: #555;
 
   max-height: 0;
   opacity: 0;
+  margin-top: 0;
+  overflow: hidden;
+  /* ✨ 關鍵 1：必須加上隱藏溢出，收合時文字才不會凸出來 */
+
+  /* ✨ 關鍵 2：把 transition 移到「沒有 is-open」的基礎設定這裡！
+     這樣不管展開還是收合，都會有動畫效果 */
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    margin-top 0.3s ease;
 }
 
 .faq-item.is-open .faq-answer {
   max-height: 800px;
   opacity: 1;
   margin-top: 20px; // 展開後補上 margin，拉開題目與內文間距
-  transition:
-    max-height 0.35s ease,
-    opacity 0.25s ease;
+  /* ✨ 這裡「不要」寫 transition，它會自動繼承上面的設定 */
 }
 
 /* =========================
@@ -138,9 +162,37 @@
 
   .faq-question {
     font-size: 16px;
+    min-height: 28px;
   }
 
   .faq-answer {
     font-size: 16px;
+    margin-top: 0;
+  }
+
+  /* --- 新增以下這段來替換手機版雲朵背景 --- */
+
+  /* ✨ 修正：預設（收合）雲朵背景，請用 close！ */
+  .faq-item::before {
+    background-image: url("../../../assets/faq/faq-mobile-close.png");
+  }
+
+  /* ✨ 修正：展開狀態雲朵背景，請用 open！ */
+  .faq-item::after {
+    background-image: url("../../../assets/faq/faq-mobile-open.png");
+
+  }
+
+  /* ✨ 修復 2：將 max-height 縮小到接近真實內容高度 */
+  .faq-item.is-open .faq-answer {
+    max-height: 400px;
+    /* 手機版文字不多，250px 剛剛好，會讓動畫速度變得極度滑順 */
+    margin-top: 4px;
+    /* 手機版的文字間距可以稍微小一點 */
+  }
+
+  .faq-list {
+
+    gap: 8px; // 加寬題目間間距
   }
 }

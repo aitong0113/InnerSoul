@@ -18,7 +18,6 @@ const Checkout = () => {
     }
   }, [navigate]);
 
-
   const { planId, planName, price } = location.state || {};
 
   if (!planId) {
@@ -33,11 +32,10 @@ const Checkout = () => {
   }
 
   return (
-    <div className="checkout-page bg-liner py-5">
+    <div className="checkout-page bg-liner">
       <div className="container" style={{ maxWidth: "900px" }}>
-
         {/* 返回按鈕 */}
-        <div className="mt-10 mb-3">
+        <div className="mb-lg-7 mb-5">
           <button className="btn back-link" onClick={() => navigate("/subscription")}>
             <IconArrowLeft size={20} />
             返回方案選擇
@@ -46,15 +44,12 @@ const Checkout = () => {
 
         {/* 結帳卡片 */}
         <div className="checkout-card">
-
           {/* 訂單摘要 */}
           <OrderSummary planName={planName} price={price} />
 
           {/* 付款表單 */}
           <PaymentForm amount={price} />
-
         </div>
-
       </div>
     </div>
   );

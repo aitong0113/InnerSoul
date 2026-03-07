@@ -3,7 +3,7 @@ $card-gray: #EFEFEF;
 
 .checkout-page {
   min-height: 100vh;
-  padding-bottom: 80px;
+  // padding-bottom: 80px;
 
   // 返回按鈕
   .back-link {
@@ -27,7 +27,6 @@ $card-gray: #EFEFEF;
     border-radius: 24px;
     padding: 40px 60px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    margin: 40px 0px;
 
     @media (max-width: 768px) {
       padding: 30px 20px;
@@ -99,7 +98,7 @@ $card-gray: #EFEFEF;
   .features-box {
     background-color: $card-gray;
     border-radius: 12px;
-    padding: 24px 32px;
+    // padding: 24px 32px;
     margin-bottom: 40px;
 
     .box-title {

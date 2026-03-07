@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding:50px
+  padding: 50px
 }
 
 /* =========================================
@@ -27,7 +27,7 @@
 .nav-link {
   position: relative;
   font-family: "Noto Sans TC", sans-serif;
-  font-size: 20px;
+  // font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: #505050;
@@ -50,20 +50,21 @@
   transform-origin: left;
 
   transition: transform 0.3s ease;
-  
+
 }
 
 /* Hover 動畫 */
 .nav-link:hover::after {
   transform: scaleX(1);
-  
+
 }
 
 /* Active 永遠開啟，但取消 transition */
 .nav-link.active::after {
   transform: scaleX(1);
-   opacity: 1;
+  opacity: 1;
 }
+
 /* active 失去時只淡出，不滑動 */
 .nav-link:not(.active):not(:hover)::after {
   transform: scaleX(0);
@@ -416,9 +417,9 @@
     gap: 16px;
   }
 
-  .nav-link {
-    font-size: 24px;
-  }
+  // .nav-link {
+  //   font-size: 24px;
+  // }
 
   .upgrade-btn,
   .btn-outline {

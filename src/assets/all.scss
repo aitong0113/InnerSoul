@@ -8,7 +8,7 @@
 
 /* 擴充 Bootstrap fs-* RWD 版本 */
 @each $bp, $breakpoint in $grid-breakpoints {
-  @if $bp != xs {
+  @if $bp !=xs {
     @media (min-width: $breakpoint) {
       @each $key, $size in $font-sizes {
         .fs-#{$bp}-#{$key} {
@@ -31,9 +31,11 @@
 .bg-playlist {
   background: linear-gradient(to bottom, #cde8fa, #ffffff80);
 }
+
 .custom-swal-radius {
   border-radius: 24px !important;
 }
+
 .custom-swal-btn {
   border-radius: 50px !important;
   padding: 10px 32px !important;
@@ -95,4 +97,8 @@
 
 .site-main {
   padding-top: var(--page-space);
+
+  @media (max-width: 768px) {
+    padding-top: 28px;
+  }
 }
