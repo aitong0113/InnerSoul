@@ -166,7 +166,10 @@ function PlaylistsPage({ selectPlaylist }) {
     }
   };
 
-  if (status === "loading" || followStatus === "loading") {
+  const isInitialLoading =
+    (status === "loading" || followStatus === "loading") && playlists.length === 0;
+
+  if (isInitialLoading) {
     return (
       <div className="playlists-page loading">
         <div className="spinner-border text-primary" role="status">
@@ -178,21 +181,20 @@ function PlaylistsPage({ selectPlaylist }) {
 
   return (
     <div className="playlists-page ">
-      <div className="page-header">
-        <motion.div {...fadeIn()}>
+      <motion.div className="page-header" {...fadeIn()}>
+        <div>
           <h2 className="page-title">我的專屬播放清單</h2>
           <p className="page-subtitle">你的心在播放哪一段旋律？</p>
-        </motion.div>
+        </div>
         <motion.button
           className="create-playlist-btn"
           onClick={handleCreatePlaylist}
-          {...fadeIn()}
           whileHover={{ y: -2 }}
         >
           <IconPlus size={20} />
           新增播放清單
         </motion.button>
-      </div>
+      </motion.div>
       {ownedPlaylists.length === 0 ? (
         <motion.p {...fadeIn()}>你還沒有建立任何播放清單</motion.p>
       ) : (
