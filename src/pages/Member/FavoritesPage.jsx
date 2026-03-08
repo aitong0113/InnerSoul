@@ -12,8 +12,7 @@ import { toggleSongLike } from "../../slices/userLikeSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { authStore } from "../../services/auth/authStore";
-import { addSongToPlaylist, fetchPlaylists } from "../../slices/memberPlaylistSlice";
-import api from "../../services/api";
+import { addSongToPlaylist } from "../../slices/memberPlaylistSlice";
 import { getUserAvatar } from "../../helpers/userAvatar";
 import {
   IconPlayerPlayFilled,
@@ -95,6 +94,7 @@ function FavoritesPage({ selectPlaylist }) {
   const [hoveredAddPl, setHoveredAddPl] = useState(null);
   const [hoveredAddRect, setHoveredAddRect] = useState(null);
   const addMenuRef = useRef(null);
+  const submenuRef = useRef(null);
   const dotMenuRef = useRef(null);
   const hoverTimeoutRef = useRef(null);
 
@@ -112,9 +112,15 @@ function FavoritesPage({ selectPlaylist }) {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (addMenuRef.current && !addMenuRef.current.contains(e.target)) {
+      if (
+        addMenuRef.current &&
+        !addMenuRef.current.contains(e.target) &&
+        submenuRef.current &&
+        !submenuRef.current.contains(e.target)
+      ) {
         setShowAddMenu(false);
       }
+
       if (dotMenuRef.current && !dotMenuRef.current.contains(e.target)) {
         setOpenMenuId(null);
       }
@@ -123,31 +129,6 @@ function FavoritesPage({ selectPlaylist }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  // 修改收藏清單
-  const handleSaveEdit = async (playlistId, { listName, listDescription }) => {
-    try {
-      await api.patch(`/likes/${playlistId}`, { listName, listDescription });
-      await dispatch(fetchPlaylists());
-    } catch (err) {
-      console.error("更新收藏清單失敗：", err);
-      alert("更新收藏清單失敗，請稍後再試");
-    }
-  };
-
-  // 刪除收藏清單（清空所有收藏）
-  const handleDeleteFavorite = async (playlistId) => {
-    try {
-      // 取消所有收藏的歌曲
-      for (const song of likedPlaylist.songs) {
-        dispatch(toggleSongLike({ userId, songId: song.id }));
-      }
-      setPage(1);
-    } catch (err) {
-      console.error("刪除收藏失敗：", err);
-      alert("刪除收藏失敗，請稍後再試");
-    }
-  };
 
   // 新增語音到收藏
   const handleAddSongToFavorites = (song) => {
@@ -173,16 +154,12 @@ function FavoritesPage({ selectPlaylist }) {
               playlist={{ ...likedPlaylist, coverImg: userAvatarSrc }}
               size="large"
               isFollowed={false}
-              // followerCount={likedPlaylist.songs.length}
-              // showEditMode={true}
-              // onSaveEdit={handleSaveEdit}
-              // onDelete={handleDeleteFavorite}
             />
           </div>
           {/* 右側：歌曲列表 */}
           <div className="playlist-songs">
             {likedPlaylist.songs.length === 0 ? (
-              <div className="empty-state">你還沒有收藏任何語音 🎵</div>
+              <div className="empty-state mb-3">你還沒有收藏任何語音 🎵</div>
             ) : (
               <ul className="song-list">
                 {paginatedLikedSongs.map((song, index) => {
@@ -339,6 +316,7 @@ function FavoritesPage({ selectPlaylist }) {
                       return (
                         <div
                           className="fav-submenu fav-submenu-fixed"
+                          ref={submenuRef}
                           style={{
                             position: "fixed",
                             top: hoveredAddRect.top,
