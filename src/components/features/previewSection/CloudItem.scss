@@ -1,6 +1,5 @@
 // 飄動動畫
 @keyframes floatY {
-
   0%,
   100% {
     transform: translateY(0);
@@ -42,17 +41,17 @@
     }
   }
 
-  &.cloud-style-9 {
-    .cloud-action {
-      transform: translateY(32px);
-    }
-  }
+  // &.cloud-style-9 {
+  //   .cloud-action {
+  //     transform: translateY(32px);
+  //   }
+  // }
 
-  &.cloud-style-7 {
-    .cloud-action {
-      transform: translateY(0px);
-    }
-  }
+  // &.cloud-style-7 {
+  //   .cloud-action {
+  //     transform: translateY(0px);
+  //   }
+  // }
 
   &.is-playing {
     z-index: 15;
@@ -78,7 +77,6 @@
 }
 
 .cloud-path {
-
   transition: all 0.3s ease;
   pointer-events: auto;
   cursor: pointer;
@@ -106,13 +104,16 @@
   &.visible {
     opacity: 1;
     text-align: center;
-    transform: translateY(16px);
+    transform: translateY(10px);
   }
 
   font-size: 20px;
 
-  @media (max-width:992px) {
+  @media (max-width: 992px) {
     font-size: 16px;
+    &.visible {
+      transform: translateY(1px);
+    }
   }
 }
 

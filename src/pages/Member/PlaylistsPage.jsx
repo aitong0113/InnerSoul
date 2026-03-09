@@ -166,7 +166,10 @@ function PlaylistsPage({ selectPlaylist }) {
     }
   };
 
-  if (status === "loading" || followStatus === "loading") {
+  const isInitialLoading =
+    (status === "loading" || followStatus === "loading") && playlists.length === 0;
+
+  if (isInitialLoading) {
     return (
       <div className="playlists-page loading">
         <div className="spinner-border text-primary" role="status">
@@ -178,23 +181,22 @@ function PlaylistsPage({ selectPlaylist }) {
 
   return (
     <div className="playlists-page ">
-      <div className="page-header">
-        <motion.div {...fadeIn()}>
+      <motion.div className="page-header" {...fadeIn()}>
+        <div>
           <h2 className="page-title">我的專屬播放清單</h2>
           <p className="page-subtitle">你的心在播放哪一段旋律？</p>
-        </motion.div>
+        </div>
         <motion.button
           className="create-playlist-btn"
           onClick={handleCreatePlaylist}
-          {...fadeIn()}
           whileHover={{ y: -2 }}
         >
           <IconPlus size={20} />
           新增播放清單
         </motion.button>
-      </div>
-      {followedPlaylists.length === 0 ? (
-        <motion.p {...fadeIn()}>你還沒有追蹤任何播放清單</motion.p>
+      </motion.div>
+      {ownedPlaylists.length === 0 ? (
+        <motion.p {...fadeIn()}>你還沒有建立任何播放清單</motion.p>
       ) : (
         <motion.section className="playlist-detail-section" {...fadeIn()}>
           {/* 播放清單詳情區域 */}
@@ -373,41 +375,45 @@ function PlaylistsPage({ selectPlaylist }) {
       )}
       <motion.section className="py-12" {...scrollFadeIn()}>
         <p className="fs-4 text-primary-05 fw-bold">我的追蹤清單</p>
-        <Swiper
-          slidesPerView={4}
-          spaceBetween={20}
-          breakpoints={{
-            0: { slidesPerView: 1, spaceBetween: 12 },
-            480: { slidesPerView: 2, spaceBetween: 16 },
-            768: { slidesPerView: 3, spaceBetween: 20 },
-            1024: { slidesPerView: 4, spaceBetween: 20 },
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
-          className="mySwiper"
-        >
-          {followedPlaylists.map((list) => {
-            const isAnimating = animatingId === list.id && animationDir === "down";
-            return (
-              <SwiperSlide key={list.id}>
-                <div
-                  className={`playlist-detail-card ${isAnimating ? "animate-fly-down" : ""}`}
-                  onAnimationEnd={() => isAnimating && handleAnimationEnd(list.id)}
-                >
-                  <PlaylistCard
-                    playlist={list}
-                    isFollowed={list.isFollowed}
-                    onToggleFollow={() => handleToggleFollow(list.id)}
-                    followerCount={list.followerCount}
-                    size="large"
-                  />
-                </div>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+        {followedPlaylists.length === 0 ? (
+          <motion.p {...fadeIn()}>你還沒有追蹤任何播放清單</motion.p>
+        ) : (
+          <Swiper
+            slidesPerView={4}
+            spaceBetween={20}
+            breakpoints={{
+              0: { slidesPerView: 1, spaceBetween: 12 },
+              480: { slidesPerView: 2, spaceBetween: 16 },
+              768: { slidesPerView: 3, spaceBetween: 20 },
+              1024: { slidesPerView: 4, spaceBetween: 20 },
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Pagination]}
+            className="mySwiper"
+          >
+            {followedPlaylists.map((list) => {
+              const isAnimating = animatingId === list.id && animationDir === "down";
+              return (
+                <SwiperSlide key={list.id}>
+                  <div
+                    className={`playlist-detail-card ${isAnimating ? "animate-fly-down" : ""}`}
+                    onAnimationEnd={() => isAnimating && handleAnimationEnd(list.id)}
+                  >
+                    <PlaylistCard
+                      playlist={list}
+                      isFollowed={list.isFollowed}
+                      onToggleFollow={() => handleToggleFollow(list.id)}
+                      followerCount={list.followerCount}
+                      size="large"
+                    />
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        )}
       </motion.section>
       {/* 推薦清單區域 */}
       <motion.section className="recommended-section" {...scrollFadeIn(0.2)}>

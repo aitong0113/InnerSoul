@@ -98,15 +98,17 @@ const CloudItem = ({
             className="cloud-path"
           />
         </svg>
-        <span className="cloud-label fs-4 fw-bold">{label}</span>
-      </div>
-      <div
-        className={`cloud-action text-primary-05 d-flex align-items-center ${isHovered ? "visible" : ""}`}
-      >
-        <span className="me-2 d-flex">
-          {isPlaying ? <IconPlayerPauseFilled size={20} /> : <IconPlayerPlayFilled size={20} />}
-        </span>
-        {isPlaying ? "暫停播放" : "試聽更多"}
+        <div className="cloud-label">
+          <span className="fs-4 fw-bold">{label}</span>
+          <div
+            className={`cloud-action text-primary-05 d-flex align-items-center ${isHovered ? "visible" : ""}`}
+          >
+            <span className="me-2 d-flex">
+              {isPlaying ? <IconPlayerPauseFilled size={20} /> : <IconPlayerPlayFilled size={20} />}
+            </span>
+            {isPlaying ? "暫停播放" : "試聽更多"}
+          </div>
+        </div>
       </div>
     </button>
   );
