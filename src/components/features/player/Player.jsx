@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import { authStore } from "../../../services/auth/authStore";
 
@@ -46,21 +47,48 @@ function Player() {
 
   // 訂閱方案
   const FREE_PLAY_LIMIT = 3;
-  const alertMessage = useCallback(() => {
-    const confirmed = window.confirm("這份陪伴暫僅開放前三首試聽，升級訂閱即可完整聆聽。");
-    if (confirmed) navigate("/subscription");
+  const alertMessage = useCallback(async () => {
+    const result = await Swal.fire({
+      icon: "info",
+      title: "試聽限制",
+      text: "這份陪伴暫僅開放前三首試聽，升級訂閱即可完整聆聽。",
+      confirmButtonText: "升級方案",
+      showCancelButton: true,
+      cancelButtonText: "稍後再說",
+      confirmButtonColor: "#6C8E9E",
+    });
+
+    if (result.isConfirmed) {
+      navigate("/subscription");
+    }
+
     setPlayerType("bar");
   }, [navigate]);
+
+  const loginAlert = async () => {
+    const result = await Swal.fire({
+      icon: "info",
+      title: "需要登入",
+      text: "登入後才能收藏這段聲音",
+      confirmButtonText: "前往登入",
+      showCancelButton: true,
+      cancelButtonText: "稍後再說",
+    });
+
+    if (result.isConfirmed) {
+      navigate("/login");
+    }
+  };
 
   const canPlayIndex = useCallback((index) => {
     const plan = authStore.getUserPlan() || "free";
     return plan === "pro" || index < FREE_PLAY_LIMIT;
   }, []);
   const tryPlayIndex = useCallback(
-    (index, fallbackAction) => {
+    async (index, fallbackAction) => {
       if (!canPlayIndex(index)) {
         dispatch(pause());
-        alertMessage();
+        await alertMessage();
         return;
       }
       fallbackAction();
@@ -84,7 +112,7 @@ function Player() {
     tryPlayIndex(nextIndex, () => dispatch(next()));
   }, [repeatType, currentIndex, songList.length, tryPlayIndex, dispatch]);
 
-  const onPrev = useCallback(() => {
+  const onPrev = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (repeatType === "single") {
@@ -105,7 +133,7 @@ function Player() {
     }
     if (!canPlayIndex(targetIndex)) {
       dispatch(pause());
-      alertMessage();
+      await alertMessage();
       return;
     }
     dispatch(prev());
@@ -346,7 +374,7 @@ function Player() {
                     className="btn border-0 text-primary-05"
                     onClick={() => {
                       if (!userId) {
-                        alertMessage();
+                        loginAlert();
                         return;
                       }
 

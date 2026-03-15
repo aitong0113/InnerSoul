@@ -4,7 +4,7 @@ import { authStore } from "../../services/auth/authStore";
 import PlaylistRecommend from "./PlaylistRecommend";
 import api from "../../services/api.js";
 import { useSelector } from "react-redux";
-import { IconArrowBackUp } from "@tabler/icons-react";
+import { IconArrowBackUp, IconX } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { fadeIn, scrollFadeIn } from "../../components/animation/motion";
 
@@ -23,6 +23,7 @@ function PlaylistLayout({ selectPlaylist }) {
   }, []);
   const [inputValue, setInputValue] = useState("");
   const [keyword, setKeyword] = useState("");
+  const isSearching = keyword.trim() !== "";
   return (
     <>
       <motion.div className="container py-md-11" {...fadeIn()}>
@@ -36,8 +37,10 @@ function PlaylistLayout({ selectPlaylist }) {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                setKeyword(inputValue);
-                setInputValue("");
+                const value = inputValue.trim();
+                if (!value) return;
+                setKeyword(value);
+                // setInputValue("");
                 if (location.pathname !== "/playlist") {
                   navigate("/playlist");
                 }
@@ -45,15 +48,29 @@ function PlaylistLayout({ selectPlaylist }) {
             }}
             placeholder="搜尋歌單"
           />
-          {isSubPage && (
+          {isSearching ? (
             <button
               className="btn border-0 ms-2"
-              aria-label="上一頁"
-              title="上一頁"
-              onClick={() => navigate(-1)}
+              aria-label="清除搜尋"
+              title="清除搜尋"
+              onClick={() => {
+                setKeyword("");
+                setInputValue("");
+              }}
             >
-              <IconArrowBackUp size={28} className="text-secondary" />
+              <IconX size={28} className="text-secondary" />
             </button>
+          ) : (
+            isSubPage && (
+              <button
+                className="btn border-0 ms-2"
+                aria-label="上一頁"
+                title="上一頁"
+                onClick={() => navigate(-1)}
+              >
+                <IconArrowBackUp size={28} className="text-secondary" />
+              </button>
+            )
           )}
         </div>
       </motion.div>

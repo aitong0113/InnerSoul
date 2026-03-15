@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IconPencil, IconPlayerPlay, IconTrash } from "@tabler/icons-react";
 import "./PlaylistCard.scss";
+import Swal from "sweetalert2";
 
 function PlaylistCard({
   playlist,
@@ -135,9 +136,20 @@ function PlaylistCard({
                     </button>
                     <button
                       className="custom-btn-outline d-inline-flex align-items-center"
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.stopPropagation();
-                        if (window.confirm("確定要刪除此播放清單嗎？")) {
+
+                        const result = await Swal.fire({
+                          icon: "warning",
+                          title: "刪除播放清單",
+                          text: "確定要刪除此播放清單嗎？",
+                          confirmButtonText: "刪除",
+                          showCancelButton: true,
+                          cancelButtonText: "取消",
+                          confirmButtonColor: "#d33",
+                        });
+
+                        if (result.isConfirmed) {
                           onDelete && onDelete(playlist.id);
                         }
                       }}
