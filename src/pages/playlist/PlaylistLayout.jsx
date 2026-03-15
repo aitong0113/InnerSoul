@@ -24,6 +24,12 @@ function PlaylistLayout({ selectPlaylist }) {
   const [inputValue, setInputValue] = useState("");
   const [keyword, setKeyword] = useState("");
   const isSearching = keyword.trim() !== "";
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setKeyword(inputValue.trim());
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [inputValue]);
   return (
     <>
       <motion.div className="container py-md-11" {...fadeIn()}>
@@ -37,6 +43,7 @@ function PlaylistLayout({ selectPlaylist }) {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
+                e.preventDefault();
                 const value = inputValue.trim();
                 if (!value) return;
                 setKeyword(value);
