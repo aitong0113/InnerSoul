@@ -53,9 +53,16 @@ function Header() {
     if (!result.isConfirmed) return;
 
     logout();
-    window.dispatchEvent(new Event("auth-update"));
     setIsMobileMenuOpen(false);
-    navigate(0);
+    window.dispatchEvent(new Event("auth-update"));
+    await Swal.fire({
+      icon: "success",
+      title: "已登出",
+      timer: 1200,
+      showConfirmButton: false,
+    });
+
+    navigate("/");
   }
 
   // 點擊連結時自動收合選單的輔助函式
