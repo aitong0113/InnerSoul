@@ -5,6 +5,7 @@ import { authStore } from "../../services/auth/authStore";
 import UserProfile from "../shared/UserProfile";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { NavLink } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import logo from "../../assets/logo.png";
 import { useEffect, useState } from "react";
@@ -38,11 +39,30 @@ function Header() {
     };
   }, []);
 
-  function handleLogout() {
+  async function handleLogout() {
+    const result = await Swal.fire({
+      icon: "warning",
+      title: "確定要登出嗎？",
+      text: "登出後需要重新登入才能使用完整功能",
+      confirmButtonText: "登出",
+      cancelButtonText: "取消",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+    });
+
+    if (!result.isConfirmed) return;
+
     logout();
-    window.dispatchEvent(new Event("auth-update"));
     setIsMobileMenuOpen(false);
-    navigate(0);
+    window.dispatchEvent(new Event("auth-update"));
+    await Swal.fire({
+      icon: "success",
+      title: "已登出",
+      timer: 1200,
+      showConfirmButton: false,
+    });
+
+    navigate("/");
   }
 
   // 點擊連結時自動收合選單的輔助函式
@@ -126,7 +146,7 @@ function Header() {
                 </NavLink>
 
                 {/* 登出按鈕：桌機版顯示 Icon，手機版顯示文字 */}
-                <button className="btn btn-outline logout-btn" onClick={handleLogout}>
+                <button className="btn btn-outline logout-btn border-0" onClick={handleLogout}>
                   <i className="bi bi-box-arrow-right desktop-only"></i>
                   <span className="mobile-only">登出</span>
                 </button>

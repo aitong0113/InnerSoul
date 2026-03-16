@@ -31,6 +31,14 @@
       "userImg": "小兔.png",
       "plan": "free",
       "id": 4
+    },
+    {
+      "email": "123@gmail",
+      "password": "$2a$10$JVcEj2ppeEXT6XLQr6Cd6ugSuu/klIE6I.wly1dlaCIVigc/eA6EO",
+      "userName": "123",
+      "userImg": "小兔.png",
+      "plan": "free",
+      "id": 5
     }
   ],
   "diaries": [
@@ -117,10 +125,10 @@
       "diaryDate": "2026-03-04",
       "diaryTitle": "慢慢找回自己的節奏",
       "diaryContent": "沒有特別發生什麼事\n只是照著自己的步調過一天\n吃了喜歡的東西～\n也記得提醒自己休息～～",
-      "mood": "happy",
+      "mood": "messy",
       "diaryImg": "https://images.unsplash.com/photo-1422205512921-12dac7b3b603?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGNhbG18ZW58MHx8MHx8fDA%3D",
       "createdAt": "2026-03-04T07:25:08.342Z",
-      "updatedAt": "2026-03-12T08:45:33.783Z"
+      "updatedAt": "2026-03-07T00:28:23.409Z"
     },
     {
       "id": 9,
@@ -264,6 +272,17 @@
       "diaryImg": "https://res.cloudinary.com/dlx6slnbd/image/upload/v1771921300/vgexbsvbr3scfjlbmdml.jpg",
       "createdAt": "2026-02-24T08:21:41.351Z",
       "updatedAt": "2026-02-24T08:21:41.351Z"
+    },
+    {
+      "id": 28,
+      "userId": 4,
+      "diaryDate": "2026-03-07",
+      "diaryTitle": "",
+      "diaryContent": "",
+      "mood": "sad",
+      "diaryImg": "",
+      "createdAt": "2026-03-07T00:09:47.924Z",
+      "updatedAt": "2026-03-07T00:09:47.924Z"
     }
   ],
   "lists": [
@@ -427,7 +446,8 @@
         9,
         10,
         17,
-        11
+        11,
+        8
       ],
       "ownerId": 3,
       "listDescription": "",
@@ -662,33 +682,13 @@
     },
     {
       "userId": 3,
-      "songId": 11,
-      "id": 22
+      "songId": 1,
+      "id": 33
     },
     {
       "userId": 3,
-      "songId": 2,
-      "id": 24
-    },
-    {
-      "userId": 3,
-      "songId": 3,
-      "id": 25
-    },
-    {
-      "userId": 3,
-      "songId": 6,
-      "id": 26
-    },
-    {
-      "userId": 3,
-      "songId": 8,
-      "id": 27
-    },
-    {
-      "userId": 3,
-      "songId": 14,
-      "id": 28
+      "songId": 9,
+      "id": 34
     }
   ],
   "playlistFollowers": [
@@ -723,29 +723,14 @@
       "userId": 2
     },
     {
-      "id": 9,
-      "playlistId": 3,
-      "userId": 4
-    },
-    {
       "id": 10,
       "playlistId": 4,
       "userId": 2
     },
     {
-      "id": 12,
-      "playlistId": 4,
-      "userId": 4
-    },
-    {
       "id": 14,
       "playlistId": 5,
       "userId": 1
-    },
-    {
-      "id": 16,
-      "playlistId": 5,
-      "userId": 4
     },
     {
       "id": 18,

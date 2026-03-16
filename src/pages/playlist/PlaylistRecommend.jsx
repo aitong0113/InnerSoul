@@ -1,6 +1,7 @@
 import { IconLockDollar, IconPlayerPlayFilled, IconPlayerPauseFilled } from "@tabler/icons-react";
 import { authStore } from "../../services/auth/authStore.js";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function PlaylistRecommend({ lists, selectPlaylist, currentListId, isPlaying }) {
   const plan = authStore.getUserPlan();
@@ -33,8 +34,20 @@ function PlaylistRecommend({ lists, selectPlaylist, currentListId, isPlaying }) 
                     className={`position-absolute bottom-0 start-50 translate-middle btn border-0 playlist-play-btn ${isCurrentList(item.id) ? "is-current" : ""}`}
                     onClick={() => {
                       if (plan !== "pro") {
-                        const confirmed = window.confirm("此功能需升級為深度方案，是否前往訂閱？");
-                        if (confirmed) navigate("/subscription");
+                        Swal.fire({
+                          icon: "info",
+                          title: "升級方案",
+                          text: "此功能需升級為深度方案才能使用",
+                          confirmButtonText: "前往訂閱",
+                          showCancelButton: true,
+                          cancelButtonText: "取消",
+                          confirmButtonColor: "#6C8E9E",
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            navigate("/subscription");
+                          }
+                        });
+
                         return;
                       }
 

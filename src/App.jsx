@@ -53,15 +53,20 @@ function App() {
 
   const { currentIndex, currentListId } = useSelector((state) => state.player);
 
-  const selectPlaylist = (listID, index = 0, overrideList = null) => {
+  const selectPlaylist = async (listID, index = 0, overrideList = null) => {
     const list = overrideList || playlists.find((l) => l.id === listID);
     if (!list) return;
-    if (!guardPlay(index)) return;
+
+    const allowed = await guardPlay(index);
+    if (!allowed) return;
+
     const isSameSong = currentListId === listID && currentIndex === index;
+
     if (isSameSong) {
       dispatch(toggle());
       return;
     }
+
     dispatch(
       setPlaylist({
         songList: list.songs,

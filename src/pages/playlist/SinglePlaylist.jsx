@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleSongLike } from "../../slices/userLikeSlice";
 import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
 import { makeSelectUserLikesView, selectPlaylistsView } from "../../slices/selectors";
+import Swal from "sweetalert2";
 
 import Button from "../../components/common/Button/Button";
 import {
@@ -71,10 +72,20 @@ function SinglePlaylist({ selectPlaylist }) {
                 type="button"
                 onClick={async () => {
                   if (!userId) {
-                    const shouldLogin = window.confirm(
-                      "登入後才能把這份陪伴加入你的清單，是否前往登入？"
-                    );
-                    if (shouldLogin) navigate("/login");
+                    const result = await Swal.fire({
+                      icon: "info",
+                      title: "需要登入",
+                      text: "登入後才能把這份陪伴加入你的清單",
+                      confirmButtonText: "前往登入",
+                      showCancelButton: true,
+                      cancelButtonText: "稍後再說",
+                      confirmButtonColor: "#6C8E9E",
+                    });
+
+                    if (result.isConfirmed) {
+                      navigate("/login");
+                    }
+
                     return;
                   }
 
@@ -136,14 +147,27 @@ function SinglePlaylist({ selectPlaylist }) {
                       <button
                         type="button"
                         className="btn border-0"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.stopPropagation();
+
                           if (!userId) {
-                            const shouldLogin =
-                              window.confirm("登入後才能把這首聲音收藏起來，是否前往登入？");
-                            if (shouldLogin) navigate("/login");
+                            const result = await Swal.fire({
+                              icon: "info",
+                              title: "需要登入",
+                              text: "登入後才能把這首聲音收藏起來",
+                              confirmButtonText: "前往登入",
+                              showCancelButton: true,
+                              cancelButtonText: "稍後再說",
+                              confirmButtonColor: "#6C8E9E",
+                            });
+
+                            if (result.isConfirmed) {
+                              navigate("/login");
+                            }
+
                             return;
                           }
+
                           dispatch(
                             toggleSongLike({
                               userId,
