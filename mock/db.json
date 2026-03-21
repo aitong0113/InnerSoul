@@ -272,17 +272,6 @@
       "diaryImg": "https://res.cloudinary.com/dlx6slnbd/image/upload/v1771921300/vgexbsvbr3scfjlbmdml.jpg",
       "createdAt": "2026-02-24T08:21:41.351Z",
       "updatedAt": "2026-02-24T08:21:41.351Z"
-    },
-    {
-      "id": 28,
-      "userId": 4,
-      "diaryDate": "2026-03-07",
-      "diaryTitle": "",
-      "diaryContent": "",
-      "mood": "sad",
-      "diaryImg": "",
-      "createdAt": "2026-03-07T00:09:47.924Z",
-      "updatedAt": "2026-03-07T00:09:47.924Z"
     }
   ],
   "lists": [
