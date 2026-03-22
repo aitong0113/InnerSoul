@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Card from "../common/Card/Card";
-import Button from "../common/Button/Button";
+import Card from "../common/card/Card";
+import Button from "../common/button/Button";
 
 const PaymentForm = () => {
   const [cardNumber, setCardNumber] = useState("");
