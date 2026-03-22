@@ -39,10 +39,6 @@ const AudioPreviewSection = ({ selectPlaylist }) => {
                   "--float-duration": `${duration}s`,
                   "--float-delay": `-${delay}s`,
                 }}
-                // id搭配songId
-                // onClick={() => selectPlaylist(cloud.id)}
-                // onClick={() => console.log(`Clicked: ${cloud.id}`)}
-
                 // 4. 新增：將判斷結果傳給 CloudItem
                 isPlaying={isActive}
                 // 點擊事件維持不變，讓原本的邏輯去處理切換歌單

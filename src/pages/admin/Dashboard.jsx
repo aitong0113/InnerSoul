@@ -8,11 +8,18 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([getUsers(), getDiaries()]).then(([userRes, diaryRes]) => {
-      setUsers(userRes.data);
-      setDiaries(diaryRes.data);
-      setLoading(false);
-    });
+    const fetchData = async () => {
+      try {
+        const [userRes, diaryRes] = await Promise.all([getUsers(), getDiaries()]);
+        setUsers(userRes.data);
+        setDiaries(diaryRes.data);
+      } catch (err) {
+        console.error("資料載入失敗", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   /* ---------- KPI 計算 ---------- */

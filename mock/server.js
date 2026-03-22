@@ -12,7 +12,6 @@ const dbPath = path.join(__dirname, "db.json");
 
 // --- [核心設定：自動初始化] ---
 if (!fs.existsSync(dbPath)) {
-  console.log("⚠️ 偵測到環境中無資料庫檔案，正在初始化基本結構...");
   const initialData = {
     users: [],
     diaries: [],
@@ -57,8 +56,4 @@ server.use(router);
 const port = process.env.PORT || 3001;
 
 // 關鍵點：一定要監聽 '0.0.0.0'，這代表接受來自容器外部的所有連線
-server.listen(port, "0.0.0.0", () => {
-  console.log(`🚀 步道系統後端啟動成功！`);
-  console.log(`📡 目前 Port：${port}`);
-  console.log(`📂 目前資料庫檔案位置：${dbPath}`);
-});
+server.listen(port, "0.0.0.0", () => {});

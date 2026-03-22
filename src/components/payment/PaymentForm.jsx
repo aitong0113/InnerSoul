@@ -8,13 +8,6 @@ const PaymentForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const paymentData = {
-      cardNumber,
-      name,
-    };
-
-    console.log("Payment Data:", paymentData);
   };
 
   return (
