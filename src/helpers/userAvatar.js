@@ -8,12 +8,12 @@ import avatarWangXiaoMing from "../assets/userImg/王小明.png";
 
 // 頭像映射表
 const AVATAR_MAP = {
-    "admin.png": avatarAdmin,
-    "悠悠.png": avatarYouyou,
-    "小兔.png": avatarXiaoTu,
-    "小妹兔.png": avatarXiaoMeiTu,
-    "小熊.png": avatarXiaoXiong,
-    "王小明.png": avatarWangXiaoMing,
+  "admin.png": avatarAdmin,
+  "悠悠.png": avatarYouyou,
+  "小兔.png": avatarXiaoTu,
+  "小妹兔.png": avatarXiaoMeiTu,
+  "小熊.png": avatarXiaoXiong,
+  "王小明.png": avatarWangXiaoMing,
 };
 
 // 預設頭像
@@ -25,7 +25,7 @@ const DEFAULT_AVATAR = avatarYouyou;
  * @returns {string} 頭像圖片路徑
  */
 export function getUserAvatar(userImgKey) {
-    return AVATAR_MAP[userImgKey] || DEFAULT_AVATAR;
+  return AVATAR_MAP[userImgKey] || DEFAULT_AVATAR;
 }
 
 /**
@@ -33,11 +33,11 @@ export function getUserAvatar(userImgKey) {
  * @returns {Array} 頭像列表
  */
 export function getAllAvatars() {
-    return Object.entries(AVATAR_MAP).map(([key, src]) => ({
-        key,
-        src,
-        name: key.replace(".png", ""),
-    }));
+  return Object.entries(AVATAR_MAP).map(([key, src]) => ({
+    key,
+    src,
+    name: key.replace(".png", ""),
+  }));
 }
 
 // 匯出頭像資源

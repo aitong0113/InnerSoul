@@ -37,7 +37,9 @@
   color: #cbd5e1;
   text-decoration: none;
   font-size: 15px;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 }
 
 .admin-link:hover {

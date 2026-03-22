@@ -104,13 +104,13 @@ const SubscriptionCard = ({
           style={
             isDisabled
               ? {
-                background: "#E0E0E0",
-                borderColor: "#E0E0E0",
-                color: "#9E9E9E",
-                cursor: "default",
-                boxShadow: "none",
-                transform: "none",
-              }
+                  background: "#E0E0E0",
+                  borderColor: "#E0E0E0",
+                  color: "#9E9E9E",
+                  cursor: "default",
+                  boxShadow: "none",
+                  transform: "none",
+                }
               : {}
           }
           onClick={handleSubscribe}

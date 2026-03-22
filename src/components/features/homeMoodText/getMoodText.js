@@ -1,9 +1,9 @@
-import { moodText } from './moodText';
-import { getTimePeriod } from './getTimePeriod';
-import { getDayType } from './getDayType';
+import { moodText } from "./moodText";
+import { getTimePeriod } from "./getTimePeriod";
+import { getDayType } from "./getDayType";
 
 export function getMoodText() {
-  const dayType = getDayType();       // weekday / holiday
+  const dayType = getDayType(); // weekday / holiday
   const timePeriod = getTimePeriod(); // morning / afternoon / night
 
   const texts = moodText[dayType][timePeriod];

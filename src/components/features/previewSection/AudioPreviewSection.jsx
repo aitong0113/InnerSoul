@@ -10,7 +10,9 @@ const AudioPreviewSection = ({ selectPlaylist }) => {
       <div className="container">
         <div>
           <h2 className="text-primary-05 fw-bold fs-lg-2 fs-md-4 mb-1 mb-sm-3">哪些情緒</h2>
-          <h2 className="text-primary-05 fw-bold fs-lg-2 fs-md-4 mb-3 mb-sm-6">最近常出現在你的生活裡？</h2>
+          <h2 className="text-primary-05 fw-bold fs-lg-2 fs-md-4 mb-3 mb-sm-6">
+            最近常出現在你的生活裡？
+          </h2>
           <p className="fw-bold text-black-700 fs-lg-5 mb-11">點擊一個最貼近的情緒聽聽</p>
         </div>
       </div>
