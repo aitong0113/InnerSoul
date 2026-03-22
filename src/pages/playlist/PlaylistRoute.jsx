@@ -2,7 +2,7 @@ import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import { authStore } from "../../services/auth/authStore.js";
 
 import "./playlist.scss";
-import Button from "../../components/common/Button/Button.jsx";
+import Button from "../../components/common/button/Button.jsx";
 
 function PlaylistRoute() {
   const navigate = useNavigate();

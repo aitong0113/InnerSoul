@@ -1,297 +1,297 @@
 .playlist-card {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
 
-    &:hover {
-        background: rgba(255, 255, 255, 0.95);
-        transform: translateY(-4px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  &:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  // Small size (for grid display)
+  &.small {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    .playlist-cover {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(189, 224, 236, 0.3);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
-    // Small size (for grid display)
-    &.small {
-        padding: 16px;
+    .playlist-info {
+      width: 100%;
+      text-align: center;
+
+      .playlist-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #104754;
+        margin: 0 0 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .playlist-meta {
+        font-size: 14px;
+        color: #666;
+        margin: 0;
+      }
+    }
+
+    .edit-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.9);
+      color: #104754;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #104754;
+        color: #fff;
+      }
+    }
+  }
+
+  // Large size (for detail view)
+  &.large {
+    padding: 32px;
+    min-height: 400px;
+
+    .playlist-large-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .playlist-cover-large {
+      width: 200px;
+      height: 200px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(189, 224, 236, 0.3);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .playlist-details {
+      text-align: center;
+      flex: 1;
+
+      .playlist-title-large {
+        font-size: 24px;
+        font-weight: 600;
+        color: #104754;
+        margin: 0 0 12px;
+      }
+
+      .playlist-description {
+        font-size: 16px;
+        color: #666;
+        margin: 0 0 16px;
+        line-height: 1.5;
+      }
+
+      .playlist-stats {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+
+        .stat-item {
+          font-size: 14px;
+          color: #104754;
+          font-weight: 500;
+        }
+      }
+
+      .playlist-edit-actions {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .edit-playlist-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 20px;
+        background: #104754;
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #1a6376;
+          transform: translateY(-2px);
+        }
+      }
+
+      .delete-playlist-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 20px;
+        background: transparent;
+        color: #c0392b;
+        border: 2px solid #c0392b;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #c0392b;
+          color: #fff;
+          transform: translateY(-2px);
+        }
+      }
+
+      .edit-form {
         display: flex;
         flex-direction: column;
-        align-items: center;
         gap: 12px;
+        width: 100%;
 
-        .playlist-cover {
-            width: 100%;
-            aspect-ratio: 1;
-            border-radius: 12px;
-            overflow: hidden;
-            background: rgba(189, 224, 236, 0.3);
+        .edit-input {
+          width: 100%;
+          padding: 10px 14px;
+          border: 2px solid #bde0ec;
+          border-radius: 8px;
+          font-size: 18px;
+          font-weight: 600;
+          color: #104754;
+          background: rgba(255, 255, 255, 0.9);
+          outline: none;
+          text-align: center;
+          transition: border-color 0.3s ease;
 
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+          &:focus {
+            border-color: #104754;
+          }
         }
 
-        .playlist-info {
-            width: 100%;
-            text-align: center;
+        .edit-textarea {
+          width: 100%;
+          padding: 10px 14px;
+          border: 2px solid #bde0ec;
+          border-radius: 8px;
+          font-size: 14px;
+          color: #333;
+          background: rgba(255, 255, 255, 0.9);
+          outline: none;
+          resize: vertical;
+          text-align: center;
+          line-height: 1.5;
+          transition: border-color 0.3s ease;
 
-            .playlist-title {
-                font-size: 16px;
-                font-weight: 600;
-                color: #104754;
-                margin: 0 0 4px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .playlist-meta {
-                font-size: 14px;
-                color: #666;
-                margin: 0;
-            }
+          &:focus {
+            border-color: #104754;
+          }
         }
 
-        .edit-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+        .edit-actions {
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+
+          .save-btn {
+            padding: 8px 24px;
+            background: #104754;
+            color: #fff;
             border: none;
-            background: rgba(255, 255, 255, 0.9);
-            color: #104754;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
 
             &:hover {
-                background: #104754;
-                color: #fff;
+              background: #1a6376;
             }
-        }
-    }
+          }
 
-    // Large size (for detail view)
+          .cancel-btn {
+            padding: 8px 24px;
+            background: transparent;
+            color: #104754;
+            border: 2px solid #104754;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: rgba(16, 71, 84, 0.05);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* ========= Mobile RWD ========= */
+  @media (max-width: 768px) {
     &.large {
-        padding: 32px;
-        min-height: 400px;
+      padding: 24px;
+      min-height: auto;
 
-        .playlist-large-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-            height: 100%;
+      .playlist-cover-large {
+        width: 150px;
+        height: 150px;
+      }
+
+      .playlist-details {
+        .playlist-title-large {
+          font-size: 20px;
+          margin-bottom: 8px;
         }
 
-        .playlist-cover-large {
-            width: 200px;
-            height: 200px;
-            border-radius: 16px;
-            overflow: hidden;
-            background: rgba(189, 224, 236, 0.3);
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
+        .playlist-description {
+          font-size: 14px;
         }
 
-        .playlist-details {
-            text-align: center;
-            flex: 1;
-
-            .playlist-title-large {
-                font-size: 24px;
-                font-weight: 600;
-                color: #104754;
-                margin: 0 0 12px;
-            }
-
-            .playlist-description {
-                font-size: 16px;
-                color: #666;
-                margin: 0 0 16px;
-                line-height: 1.5;
-            }
-
-            .playlist-stats {
-                display: flex;
-                justify-content: center;
-                gap: 16px;
-
-                .stat-item {
-                    font-size: 14px;
-                    color: #104754;
-                    font-weight: 500;
-                }
-            }
-
-            .playlist-edit-actions {
-                display: flex;
-                justify-content: center;
-                gap: 12px;
-            }
-
-            .edit-playlist-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                padding: 8px 20px;
-                background: #104754;
-                color: #fff;
-                border: none;
-                border-radius: 999px;
-                font-size: 14px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background: #1a6376;
-                    transform: translateY(-2px);
-                }
-            }
-
-            .delete-playlist-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-                padding: 8px 20px;
-                background: transparent;
-                color: #c0392b;
-                border: 2px solid #c0392b;
-                border-radius: 999px;
-                font-size: 14px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    background: #c0392b;
-                    color: #fff;
-                    transform: translateY(-2px);
-                }
-            }
-
-            .edit-form {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                width: 100%;
-
-                .edit-input {
-                    width: 100%;
-                    padding: 10px 14px;
-                    border: 2px solid #bde0ec;
-                    border-radius: 8px;
-                    font-size: 18px;
-                    font-weight: 600;
-                    color: #104754;
-                    background: rgba(255, 255, 255, 0.9);
-                    outline: none;
-                    text-align: center;
-                    transition: border-color 0.3s ease;
-
-                    &:focus {
-                        border-color: #104754;
-                    }
-                }
-
-                .edit-textarea {
-                    width: 100%;
-                    padding: 10px 14px;
-                    border: 2px solid #bde0ec;
-                    border-radius: 8px;
-                    font-size: 14px;
-                    color: #333;
-                    background: rgba(255, 255, 255, 0.9);
-                    outline: none;
-                    resize: vertical;
-                    text-align: center;
-                    line-height: 1.5;
-                    transition: border-color 0.3s ease;
-
-                    &:focus {
-                        border-color: #104754;
-                    }
-                }
-
-                .edit-actions {
-                    display: flex;
-                    justify-content: center;
-                    gap: 12px;
-
-                    .save-btn {
-                        padding: 8px 24px;
-                        background: #104754;
-                        color: #fff;
-                        border: none;
-                        border-radius: 999px;
-                        font-size: 14px;
-                        font-weight: 500;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-
-                        &:hover {
-                            background: #1a6376;
-                        }
-                    }
-
-                    .cancel-btn {
-                        padding: 8px 24px;
-                        background: transparent;
-                        color: #104754;
-                        border: 2px solid #104754;
-                        border-radius: 999px;
-                        font-size: 14px;
-                        font-weight: 500;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-
-                        &:hover {
-                            background: rgba(16, 71, 84, 0.05);
-                        }
-                    }
-                }
-            }
+        .edit-form {
+          .edit-input {
+            font-size: 16px;
+          }
         }
+      }
     }
-
-    /* ========= Mobile RWD ========= */
-    @media (max-width: 768px) {
-        &.large {
-            padding: 24px;
-            min-height: auto;
-
-            .playlist-cover-large {
-                width: 150px;
-                height: 150px;
-            }
-
-            .playlist-details {
-                .playlist-title-large {
-                    font-size: 20px;
-                    margin-bottom: 8px;
-                }
-
-                .playlist-description {
-                    font-size: 14px;
-                }
-
-                .edit-form {
-                    .edit-input {
-                        font-size: 16px;
-                    }
-                }
-            }
-        }
-    }
+  }
 }
