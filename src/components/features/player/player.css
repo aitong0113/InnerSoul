@@ -8,7 +8,7 @@
     width: 100vw;
   }
 }
-@media (min-width: 768px) {
+@include media-breakpoint-up(md) {
   .player {
     bottom: 0px;
     right: 0px;

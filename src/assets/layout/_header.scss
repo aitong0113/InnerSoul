@@ -281,7 +281,7 @@
 }
 
 /* === 平板與手機 (992px 以下) === */
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .container {
     padding: 0 12px;
 

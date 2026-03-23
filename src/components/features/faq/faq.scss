@@ -147,7 +147,7 @@
   RWD
 ========================= */
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .faq-section {
     padding: 64px 0;
   }

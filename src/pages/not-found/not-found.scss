@@ -58,7 +58,7 @@
 }
 
 /* 📱 手機版微調 */
-@media (max-width: 576px) {
+@include media-breakpoint-down(sm) {
   .not-found-page {
     padding: 80px 16px;
   }

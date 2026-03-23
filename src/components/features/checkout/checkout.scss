@@ -31,7 +31,7 @@ $card-gray: #efefef;
     padding: 40px 60px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
-    @media (max-width: 768px) {
+    @include media-breakpoint-down(md) {
       padding: 30px 20px;
     }
   }
@@ -86,7 +86,7 @@ $card-gray: #efefef;
       }
     }
 
-    @media (max-width: 576px) {
+    @include media-breakpoint-down(sm) {
       flex-direction: column;
       align-items: flex-start;
       gap: 16px;
@@ -118,7 +118,7 @@ $card-gray: #efefef;
       grid-template-columns: 1fr 1fr;
       gap: 16px 24px;
 
-      @media (max-width: 768px) {
+      @include media-breakpoint-down(md) {
         grid-template-columns: 1fr;
       }
 

@@ -246,7 +246,7 @@
    RWD 區塊
    ========================================= */
 
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .hero-container {
     padding-top: 28px;
   }
@@ -306,7 +306,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@include media-breakpoint-down(sm) {
   .hero-left {
     margin-bottom: -130px;
 
