@@ -17,9 +17,15 @@ function PlaylistLayout({ selectPlaylist }) {
 
   const [lists, setLists] = useState([]);
   useEffect(() => {
-    api.get(`/lists`).then((res) => {
-      setLists(res.data);
-    });
+    const fetchLists = async () => {
+      try {
+        const res = await api.get(`/lists`);
+        setLists(res.data);
+      } catch (err) {
+        console.error("取得清單失敗", err);
+      }
+    };
+    fetchLists();
   }, []);
   const [inputValue, setInputValue] = useState("");
   const [keyword, setKeyword] = useState("");

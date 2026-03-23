@@ -219,25 +219,23 @@ function FavoritesPage({ selectPlaylist }) {
                                       <div
                                         key={pl.id}
                                         className="fav-submenu-item"
-                                        onClick={(e) => {
+                                        onClick={async (e) => {
                                           e.stopPropagation();
-                                          dispatch(
-                                            addSongToPlaylist({
-                                              playlistId: pl.id,
-                                              song: song,
-                                            })
-                                          )
-                                            .unwrap()
-                                            .then(() => {
-                                              alert("已加入播放清單");
-                                            })
-                                            .catch((err) => {
-                                              if (err === "duplicate") {
-                                                alert("這首歌已經在播放清單裡了 🎵");
-                                              } else {
-                                                alert("加入失敗");
-                                              }
-                                            });
+                                          try {
+                                            await dispatch(
+                                              addSongToPlaylist({
+                                                playlistId: pl.id,
+                                                song: song,
+                                              })
+                                            ).unwrap();
+                                            alert("已加入播放清單");
+                                          } catch (err) {
+                                            if (err === "duplicate") {
+                                              alert("這首歌已經在播放清單裡了 🎵");
+                                            } else {
+                                              alert("加入失敗");
+                                            }
+                                          }
                                           setOpenMenuId(null);
                                           setOpenSubmenuId(null);
                                         }}
