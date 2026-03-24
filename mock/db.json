@@ -4,7 +4,7 @@
       "email": "abc@gmail.com",
       "password": "$2a$10$FF90Vp4quKMPngfzAENqKObrcHx.IUPBSkXYjrmYHuJqTPzsK0iG.",
       "userName": "小熊忘記密碼了",
-      "userImg": "小兔.png",
+      "userImg": "avatar-rabbit.png",
       "plan": "free",
       "id": 1
     },
@@ -12,7 +12,7 @@
       "email": "innersoul_admin@gmail.com",
       "password": "$2a$10$DPY5Xjwe22jn5swLiNsPJuIw.uW.KPplW0G8H3FpVUya5ciQWDcC.",
       "userName": "Admin",
-      "userImg": "小兔.png",
+      "userImg": "avatar-admin.png",
       "plan": "free",
       "id": 2
     },
@@ -20,7 +20,7 @@
       "email": "sad@gmail.com",
       "password": "$2a$10$fzvZtxO767Urko4BaXhzAuo7N5Dty1o196jxgYXwhhNVws1pGV2Au",
       "userName": "悠悠",
-      "userImg": "悠悠.png",
+      "userImg": "avatar-premium.png",
       "plan": "pro",
       "id": 3
     },
@@ -28,7 +28,7 @@
       "email": "happy@gmail.com",
       "password": "$2a$10$BHXIztJbsdLGggO2L8rq2O60GYqjs536R95SFN8chgMWBLkiZ0X3S",
       "userName": "黑皮",
-      "userImg": "小兔.png",
+      "userImg": "avatar-rabbit.png",
       "plan": "free",
       "id": 4
     },
@@ -36,7 +36,7 @@
       "email": "123@gmail",
       "password": "$2a$10$JVcEj2ppeEXT6XLQr6Cd6ugSuu/klIE6I.wly1dlaCIVigc/eA6EO",
       "userName": "123",
-      "userImg": "小兔.png",
+      "userImg": "avatar-rabbit.png",
       "plan": "free",
       "id": 5
     }
