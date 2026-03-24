@@ -2,7 +2,7 @@
   margin-top: 0;
 }
 
-@media (min-width: 992px) {
+@include media-breakpoint-up(lg) {
   .desktopMargin {
     margin-top: -30%;
   }

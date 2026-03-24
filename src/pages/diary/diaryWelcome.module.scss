@@ -156,7 +156,7 @@
 .onlyMobile {
   display: none;
 }
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .onlyDesktop {
     display: none;
   }

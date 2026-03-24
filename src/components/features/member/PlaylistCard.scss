@@ -266,7 +266,7 @@
   }
 
   /* ========= Mobile RWD ========= */
-  @media (max-width: 768px) {
+  @include media-breakpoint-down(md) {
     &.large {
       padding: 24px;
       min-height: auto;
