@@ -223,7 +223,7 @@ InnerSoul/
   "email": "abc@gmail.com",
   "password": "$2a$10$...",
   "userName": "小熊忘記密碼了",
-  "userImg": "小兔.png",
+  "userImg": "avatar-rabbit.png",
   "plan": "free"
 }
 ```

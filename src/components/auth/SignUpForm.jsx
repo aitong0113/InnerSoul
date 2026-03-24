@@ -40,7 +40,7 @@ function SignUpForm() {
 
     try {
       const DEFAULT_PROFILE = {
-        userImg: "小兔.png",
+        userImg: "avatar-rabbit.png",
         plan: "free",
       };
       await signUp({ userName, email, password, ...DEFAULT_PROFILE });
