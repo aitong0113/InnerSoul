@@ -45,6 +45,13 @@ function FavoritesPage({ selectPlaylist }) {
   const totalPages = useMemo(() => {
     return Math.max(1, Math.ceil(likedPlaylist.songs.length / PAGE_SIZE));
   }, [likedPlaylist.songs.length]);
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
+  }, [totalPages, page]);
+
   const paginatedLikedSongs = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return likedPlaylist.songs.slice(start, start + PAGE_SIZE);
@@ -251,7 +258,6 @@ function FavoritesPage({ selectPlaylist }) {
                                   e.stopPropagation();
                                   dispatch(toggleSongLike({ userId, songId: song.id }));
                                   setOpenMenuId(null);
-                                  setPage(1);
                                 }}
                               >
                                 取消收藏
