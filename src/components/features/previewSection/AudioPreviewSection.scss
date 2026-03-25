@@ -69,12 +69,7 @@ body {
   }
 }
 
-@media (max-width: 991px) {
-  .sky-container {
-    p {
-      font-size: 16px;
-    }
-  }
+@include media-breakpoint-down(lg) {
 
   .clouds-wrapper {
     height: 750px;
@@ -117,7 +112,6 @@ body {
     left: 70%;
     width: 50%;
   }
-
 
   // 喜悅 (ID:6)
   .cloud-style-6 {
@@ -163,12 +157,7 @@ body {
   }
 }
 
-@media (max-width: 576px) {
-  .sky-container {
-    p {
-      font-size: 16px;
-    }
-  }
+@include media-breakpoint-down(sm) {
 
   .cloud-content-wrapper {
     .cloud-label {

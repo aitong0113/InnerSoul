@@ -7,13 +7,15 @@ export default function Users() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUsers()
-      .then((res) => {
+    const fetchUsers = async () => {
+      try {
+        const res = await getUsers();
         setUsers(res.data);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    fetchUsers();
   }, []);
 
   if (loading) {

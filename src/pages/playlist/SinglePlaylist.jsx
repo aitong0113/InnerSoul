@@ -6,7 +6,7 @@ import { togglePlaylistFollow } from "../../slices/playlistFollowSlice";
 import { makeSelectUserLikesView, selectPlaylistsView } from "../../slices/selectors";
 import Swal from "sweetalert2";
 
-import Button from "../../components/common/Button/Button";
+import Button from "../../components/common/button/Button";
 import {
   IconMusic,
   IconPlayerPlayFilled,

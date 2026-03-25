@@ -17,9 +17,9 @@
   z-index: 999;
   box-shadow: 0 10px 10px rgba(23, 26, 29, 0.2);
 
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .back-to-top:hover {
@@ -37,8 +37,7 @@
   font-weight: 600;
 }
 
-
-@media (max-width: 576px) {
+@include media-breakpoint-down(sm) {
   .back-to-top {
     width: 40px;
     height: 47px;

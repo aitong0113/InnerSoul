@@ -322,7 +322,7 @@ select.member-input:disabled {
 }
 
 /* ========= Mobile RWD ========= */
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .member-edit {
     padding: 80px 0 40px;
   }

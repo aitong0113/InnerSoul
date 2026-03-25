@@ -29,7 +29,9 @@
   position: relative;
   padding: 23px 40px;
   overflow: visible;
-  transition: padding 0.3s ease, min-height 0.3s ease;
+  transition:
+    padding 0.3s ease,
+    min-height 0.3s ease;
 }
 
 /* ✨ 共同設定：使用 ::before 與 ::after 疊加兩層背景 */
@@ -78,7 +80,6 @@
 .faq-item.is-open::after {
   opacity: 1;
 }
-
 
 /* =========================
   問題列
@@ -146,7 +147,7 @@
   RWD
 ========================= */
 
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .faq-section {
     padding: 64px 0;
   }
@@ -180,7 +181,6 @@
   /* ✨ 修正：展開狀態雲朵背景，請用 open！ */
   .faq-item::after {
     background-image: url("../../../assets/faq/faq-mobile-open.png");
-
   }
 
   /* ✨ 修復 2：將 max-height 縮小到接近真實內容高度 */
@@ -192,7 +192,6 @@
   }
 
   .faq-list {
-
     gap: 8px; // 加寬題目間間距
   }
 }

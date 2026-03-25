@@ -56,6 +56,7 @@ Mock API (Node.js mock server)
 				↓
 JSON DB (db.json)
 ```
+
 此架構模擬真實前後端分離（SPA + RESTful API）開發模式，
 前端僅透過 API 存取資料，未直接讀寫資料庫。
 
@@ -71,17 +72,19 @@ JSON DB (db.json)
 6. React 元件自動 re-render，UI 同步最新狀態
 7. API error 統一由 thunk 捕捉，並透過 Redux state 回傳錯誤狀態給 UI 顯示提示。
 
-
 ### Global State（全域狀態）
+
 - 會員登入狀態、會員資料
 - 播放器狀態（目前播放歌曲、播放清單、是否播放中）
 - 收藏歌曲、追蹤清單
 - 訂閱方案狀態
 
 ### Local State（區域狀態）
+
 - 表單輸入、modal 開關、頁面分頁等
 
 ### 資料取得方式
+
 - 會員、日記、播放清單、歌曲、收藏、追蹤、訂閱方案等皆透過 axios 向 mock API 取得
 - Redux slice 統一管理跨元件資料，確保狀態一致與可追蹤
 
@@ -90,19 +93,18 @@ JSON DB (db.json)
 ## 技術選型理由
 
 - **為什麼使用 Redux？**
-	- 專案有多個跨頁、跨元件的資料需求（如會員、播放、收藏、訂閱），Context 難以管理複雜邏輯。
-	- Redux Toolkit 提供明確資料流、可預測狀態變化，利於多人協作與維護。
-	- 易於整合 devtools，方便追蹤狀態與除錯。
+  - 專案有多個跨頁、跨元件的資料需求（如會員、播放、收藏、訂閱），Context 難以管理複雜邏輯。
+  - Redux Toolkit 提供明確資料流、可預測狀態變化，利於多人協作與維護。
+  - 易於整合 devtools，方便追蹤狀態與除錯。
 
 - **為什麼用 mock server？**
-	- 前後端可獨立開發，API 介面可提前設計與驗證。
-	- 模擬真實 RESTful API，方便測試資料流與錯誤處理。
-	- 未來可無痛切換正式後端。
+  - 前後端可獨立開發，API 介面可提前設計與驗證。
+  - 模擬真實 RESTful API，方便測試資料流與錯誤處理。
+  - 未來可無痛切換正式後端。
 
 - **為什麼資料設計用關聯表？**
-	- 收藏（songLikes）、追蹤（playlistFollowers）等多對多關係，需用關聯表維護。
-	- 關聯表設計可支援複雜查詢與彈性擴充，貼近實際後端資料庫設計。
-
+  - 收藏（songLikes）、追蹤（playlistFollowers）等多對多關係，需用關聯表維護。
+  - 關聯表設計可支援複雜查詢與彈性擴充，貼近實際後端資料庫設計。
 
 ---
 
@@ -140,22 +142,27 @@ JSON DB (db.json)
 ## 主要功能
 
 ### 1. 會員與認證
+
 - 註冊、登入、登出、會員資料編輯
 - 會員狀態全域同步
 
 ### 2. 心情日記
+
 - 新增、瀏覽、刪除日記
 - 支援語音、圖像、情緒貼圖
 
 ### 3. 音樂播放
+
 - 播放、暫停、切換音樂
 - 支援播放清單、收藏
 
 ### 4. FAQ 與陪伴內容
+
 - 常見問題互動
 - 陪伴語錄、情緒建議
 
 ### 5. 訂閱與付款
+
 - 方案訂閱、付款流程模擬
 
 ---
@@ -182,158 +189,167 @@ InnerSoul/
 ## 安裝與啟動
 
 1. Clone 專案
-	```bash
-	git clone <本專案網址>
-	cd InnerSoul
-	```
+   ```bash
+   git clone <本專案網址>
+   cd InnerSoul
+   ```
 2. 安裝前端依賴
-	```bash
-	npm install
-	```
+   ```bash
+   npm install
+   ```
 3. 啟動 mock server（另開一 terminal）
-	```bash
-	cd mock
-	npm install
-	npm run start
-	```
+   ```bash
+   cd mock
+   npm install
+   npm run start
+   ```
 4. 啟動前端
-	```bash
-	cd ..
-	npm run dev
-	```
+   ```bash
+   cd ..
+   npm run dev
+   ```
 5. 開啟 http://localhost:5173
 
 ---
 
-
 ## 資料結構
 
 ### User（會員）
-| 欄位      | 型別   | 說明           |
-|-----------|--------|----------------|
-| id        | number | 會員唯一識別碼 |
-| email     | string | 信箱           |
-| password  | string | 密碼（加密）   |
-| userName  | string | 暱稱           |
-| userImg   | string | 頭像檔名       |
-| plan      | string | free/pro       |
+
+| 欄位     | 型別   | 說明           |
+| -------- | ------ | -------------- |
+| id       | number | 會員唯一識別碼 |
+| email    | string | 信箱           |
+| password | string | 密碼（加密）   |
+| userName | string | 暱稱           |
+| userImg  | string | 頭像檔名       |
+| plan     | string | free/pro       |
 
 #### 範例
+
 ```json
 {
-	"id": 1,
-	"email": "abc@gmail.com",
-	"password": "$2a$10$...",
-	"userName": "小熊忘記密碼了",
-	"userImg": "小兔.png",
-	"plan": "free"
+  "id": 1,
+  "email": "abc@gmail.com",
+  "password": "$2a$10$...",
+  "userName": "小熊忘記密碼了",
+  "userImg": "avatar-rabbit.png",
+  "plan": "free"
 }
 ```
 
 ### Diary（日記）
-| 欄位         | 型別    | 說明           |
-|--------------|---------|----------------|
-| id           | number  | 日記唯一識別碼 |
-| userId       | number  | 所屬會員 id    |
-| diaryDate    | string  | 日記日期（YYYY-MM-DD）|
-| diaryTitle   | string  | 標題           |
-| diaryContent | string  | 內容           |
-| mood         | string  | 心情（happy/good/notgood/mad/messy/sad）|
-| diaryImg     | string  | 圖片網址       |
-| createdAt    | string  | 建立時間（ISO）|
-| updatedAt    | string  | 更新時間（ISO）|
+
+| 欄位         | 型別   | 說明                                     |
+| ------------ | ------ | ---------------------------------------- |
+| id           | number | 日記唯一識別碼                           |
+| userId       | number | 所屬會員 id                              |
+| diaryDate    | string | 日記日期（YYYY-MM-DD）                   |
+| diaryTitle   | string | 標題                                     |
+| diaryContent | string | 內容                                     |
+| mood         | string | 心情（happy/good/notgood/mad/messy/sad） |
+| diaryImg     | string | 圖片網址                                 |
+| createdAt    | string | 建立時間（ISO）                          |
+| updatedAt    | string | 更新時間（ISO）                          |
 
 #### 範例
+
 ```json
 {
-	"id": 1,
-	"userId": 3,
-	"diaryDate": "2025-12-19",
-	"diaryTitle": "終於星期五了！！",
-	"diaryContent": "好開心 \n好開心",
-	"mood": "happy",
-	"diaryImg": "https://.../img.png",
-	"createdAt": "2026-12-19T10:58:35.465Z",
-	"updatedAt": "2026-12-19T10:58:35.465Z"
+  "id": 1,
+  "userId": 3,
+  "diaryDate": "2025-12-19",
+  "diaryTitle": "終於星期五了！！",
+  "diaryContent": "好開心 \n好開心",
+  "mood": "happy",
+  "diaryImg": "https://.../img.png",
+  "createdAt": "2026-12-19T10:58:35.465Z",
+  "updatedAt": "2026-12-19T10:58:35.465Z"
 }
 ```
 
 ### Playlist（播放清單）
-| 欄位         | 型別     | 說明           |
-|--------------|----------|----------------|
-| id           | number   | 清單唯一識別碼 |
-| listName     | string   | 清單名稱       |
-| category     | string   | 分類           |
-| songsID      | number[] | 歌曲 id 陣列   |
-| ownerId      | number   | 擁有者 id      |
-| listDescription | string | 清單描述（可選）|
+
+| 欄位            | 型別     | 說明             |
+| --------------- | -------- | ---------------- |
+| id              | number   | 清單唯一識別碼   |
+| listName        | string   | 清單名稱         |
+| category        | string   | 分類             |
+| songsID         | number[] | 歌曲 id 陣列     |
+| ownerId         | number   | 擁有者 id        |
+| listDescription | string   | 清單描述（可選） |
 
 #### 範例
+
 ```json
 {
-	"id": 1,
-	"listName": "孤獨",
-	"category": "心情推薦",
-	"songsID": [1,6,8,14],
-	"ownerId": 2
+  "id": 1,
+  "listName": "孤獨",
+  "category": "心情推薦",
+  "songsID": [1, 6, 8, 14],
+  "ownerId": 2
 }
 ```
 
 ### Song（歌曲）
-| 欄位      | 型別   | 說明         |
-|-----------|--------|--------------|
-| id        | number | 歌曲唯一識別碼|
-| name      | string | 歌名         |
-| author    | string | 作者         |
-| category  | string | 歌曲分類     |
-| fileName  | string | 檔名         |
-| fileUrl   | string | 音檔路徑     |
+
+| 欄位     | 型別   | 說明           |
+| -------- | ------ | -------------- |
+| id       | number | 歌曲唯一識別碼 |
+| name     | string | 歌名           |
+| author   | string | 作者           |
+| category | string | 歌曲分類       |
+| fileName | string | 檔名           |
+| fileUrl  | string | 音檔路徑       |
 
 #### 範例
+
 ```json
 {
-	"id": 1,
-	"name": "靜靜聽著雨落",
-	"author": "raindrops",
-	"category": "平靜",
-	"fileName": "calm-heavenly-raindrops",
-	"fileUrl": "music/m02.mp3"
+  "id": 1,
+  "name": "靜靜聽著雨落",
+  "author": "raindrops",
+  "category": "平靜",
+  "fileName": "calm-heavenly-raindrops",
+  "fileUrl": "music/m02.mp3"
 }
 ```
 
 ### songLikes（歌曲收藏關聯）
-| 欄位    | 型別   | 說明         |
-|---------|--------|--------------|
-| id      | number | 關聯唯一識別碼|
-| userId  | number | 會員 id      |
-| songId  | number | 歌曲 id      |
+
+| 欄位   | 型別   | 說明           |
+| ------ | ------ | -------------- |
+| id     | number | 關聯唯一識別碼 |
+| userId | number | 會員 id        |
+| songId | number | 歌曲 id        |
 
 ### playlistFollowers（清單追蹤關聯）
-| 欄位      | 型別   | 說明         |
-|-----------|--------|--------------|
-| id        | number | 關聯唯一識別碼|
-| userId    | number | 會員 id      |
-| playlistId| number | 清單 id      |
+
+| 欄位       | 型別   | 說明           |
+| ---------- | ------ | -------------- |
+| id         | number | 關聯唯一識別碼 |
+| userId     | number | 會員 id        |
+| playlistId | number | 清單 id        |
 
 ### plans（訂閱方案）
-| 欄位         | 型別     | 說明           |
-|--------------|----------|----------------|
-| id           | string   | 方案 id（plan_free/plan_pro）|
-| title        | string   | 方案名稱       |
-| price        | number   | 價格           |
-| uiFeatures   | array    | 前端顯示功能   |
-| logicFeatures| object   | 方案邏輯限制   |
+
+| 欄位          | 型別   | 說明                          |
+| ------------- | ------ | ----------------------------- |
+| id            | string | 方案 id（plan_free/plan_pro） |
+| title         | string | 方案名稱                      |
+| price         | number | 價格                          |
+| uiFeatures    | array  | 前端顯示功能                  |
+| logicFeatures | object | 方案邏輯限制                  |
 
 #### 範例
+
 ```json
 {
-	"id": "plan_free",
-	"title": "輕量體驗",
-	"price": 0,
-	"uiFeatures": [
-		{ "text": "語音內容庫：僅瀏覽目錄，可試聽免費音檔", "included": true }
-	],
-	"logicFeatures": { "diaryLimit": 3, "canAccessFullAudio": false }
+  "id": "plan_free",
+  "title": "輕量體驗",
+  "price": 0,
+  "uiFeatures": [{ "text": "語音內容庫：僅瀏覽目錄，可試聽免費音檔", "included": true }],
+  "logicFeatures": { "diaryLimit": 3, "canAccessFullAudio": false }
 }
 ```
 
@@ -350,7 +366,6 @@ InnerSoul/
 - 更完整的自動化測試與 CI/CD 部署流程
 - 優化無障礙設計（a11y）
 
-
 ---
 
 ## 注意事項
@@ -359,5 +374,3 @@ InnerSoul/
 - 資料僅供測試，不會實際儲存或處理
 
 ---
-
-

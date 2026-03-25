@@ -4,7 +4,6 @@
   gap: 32px;
 }
 
-
 .footer-Body-B2 {
   font-family: "Noto Sans TC", sans-serif;
   font-size: 16px;
@@ -38,8 +37,7 @@
 }
 
 /* RWD */
-@media (max-width: 992px) {
-
+@include media-breakpoint-down(lg) {
   .footer-cloud-left {
     left: 2%;
     bottom: 100px;
@@ -51,8 +49,7 @@
   }
 }
 
-@media (max-width: 576px) {
-
+@include media-breakpoint-down(sm) {
   .footer-cloud-left {
     left: 2%;
     bottom: 140px;

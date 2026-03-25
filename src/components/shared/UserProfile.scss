@@ -1,82 +1,82 @@
 .user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__info {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+  }
 
-    &__avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
+  &__name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  &__plan {
+    font-size: 16px;
+    padding: 3px 20px;
+    border-radius: 20px;
+    font-weight: 500;
+
+    &--free {
+      background-color: #e8e8e8;
+      color: #666;
     }
 
-    &__info {
-        display: flex;
-        align-items: center;
-        gap: 8px;
+    &--pro {
+      background-color: #e8e8e8;
+      color: #2c5f8d;
+    }
+  }
+
+  // Header variant
+  &--header {
+    .user-profile__avatar {
+      width: 44px;
+      height: 44px;
     }
 
-    &__name {
-        font-size: 14px;
-        font-weight: 500;
-        color: #333;
+    .user-profile__name {
+      font-size: 20px;
+    }
+  }
+
+  // Card variant
+  &--card {
+    .user-profile__avatar {
+      width: 60px;
+      height: 60px;
     }
 
-    &__plan {
-        font-size: 16px;
-        padding: 3px 20px;
-        border-radius: 20px;
-        font-weight: 500;
+    .user-profile__name {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
 
-        &--free {
-            background-color: #e8e8e8;
-            color: #666;
-        }
-
-        &--pro {
-            background-color: #e8e8e8;
-            color: #2c5f8d;
-        }
+  @include media-breakpoint-down(lg) {
+    .user-profile__avatar {
+      width: 36px;
+      height: 36px;
     }
 
-    // Header variant
-    &--header {
-        .user-profile__avatar {
-            width: 44px;
-            height: 44px;
-        }
-
-        .user-profile__name {
-            font-size: 20px;
-        }
+    .user-profile__name {
+      color: #ffffff;
+      font-size: 16px;
     }
 
-    // Card variant
-    &--card {
-        .user-profile__avatar {
-            width: 60px;
-            height: 60px;
-        }
-
-        .user-profile__name {
-            font-size: 18px;
-            font-weight: 600;
-        }
+    .user-profile__plan {
+      font-size: 14px;
     }
-
-    @media (max-width:992px) {
-        .user-profile__avatar {
-            width: 36px;
-            height: 36px;
-        }
-
-        .user-profile__name {
-            color: #FFFFFF;
-            font-size: 16px;
-        }
-
-        .user-profile__plan {
-            font-size: 14px;
-        }
-    }
+  }
 }

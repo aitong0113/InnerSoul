@@ -2,7 +2,7 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding: 50px
+  padding: 50px;
 }
 
 /* =========================================
@@ -50,13 +50,11 @@
   transform-origin: left;
 
   transition: transform 0.3s ease;
-
 }
 
 /* Hover 動畫 */
 .nav-link:hover::after {
   transform: scaleX(1);
-
 }
 
 /* Active 永遠開啟，但取消 transition */
@@ -102,7 +100,6 @@
   letter-spacing: 0.02em;
 }
 
-
 .auth-buttons {
   display: flex;
   align-items: center;
@@ -128,7 +125,6 @@
     }
   }
 }
-
 
 .site-header .header-inner {
   display: grid;
@@ -285,7 +281,7 @@
 }
 
 /* === 平板與手機 (992px 以下) === */
-@media (max-width: 992px) {
+@include media-breakpoint-down(lg) {
   .container {
     padding: 0 12px;
 
@@ -305,13 +301,13 @@
   .site-header {
     padding: 20px 0;
     height: 100%;
-    background-color: #CDE8FA;
+    background-color: #cde8fa;
   }
 
   .site-header.scrolled {
     padding: 20px 0;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    background-color: #CDE8FA;
+    background-color: #cde8fa;
     border-bottom-left-radius: 24px;
     border-bottom-right-radius: 24px;
   }
@@ -377,7 +373,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #CDE8FA;
+    background-color: #cde8fa;
     z-index: 1000;
     border-bottom-left-radius: 24px;
     border-bottom-right-radius: 24px;
@@ -438,23 +434,23 @@
       justify-content: center;
       width: calc(100% - 64px);
       max-width: 351px;
-      background-color: #1A4D53;
+      background-color: #1a4d53;
       border-radius: 100px;
       padding: 8px 16px;
       margin: 0 auto 24px auto;
       text-decoration: none;
       box-sizing: border-box;
-      color: #FFFFFF;
+      color: #ffffff;
 
       .member-name {
-        color: #FFFFFF;
+        color: #ffffff;
         font-size: 18px;
         font-weight: 700;
         margin: 0 8px;
       }
 
       .member-plan {
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         color: #505050;
         font-weight: 700;
         padding: 4px 12px;
@@ -484,8 +480,8 @@
 
     /* 未登入：「登入/註冊」按鈕 */
     .mobile-login-btn {
-      background-color: #1A4D53;
-      color: #FFFFFF;
+      background-color: #1a4d53;
+      color: #ffffff;
 
       &:hover {
         background-color: #12383c;
@@ -494,14 +490,14 @@
 
     /* 已登入：「登出」按鈕 */
     .logout-btn {
-      background-color: #FFFFFF;
-      color: #1A4D53;
-      border-color: #1A4D53;
+      background-color: #ffffff;
+      color: #1a4d53;
+      border-color: #1a4d53;
       max-width: 351px;
       padding: 8px 16px;
 
       &:hover {
-        background-color: #F0F5F6;
+        background-color: #f0f5f6;
       }
     }
   }

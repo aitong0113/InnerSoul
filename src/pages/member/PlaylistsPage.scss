@@ -410,7 +410,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @include media-breakpoint-down(md) {
     padding: 20px 12px;
 
     .page-header {

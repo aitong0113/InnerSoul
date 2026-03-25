@@ -45,6 +45,13 @@ function FavoritesPage({ selectPlaylist }) {
   const totalPages = useMemo(() => {
     return Math.max(1, Math.ceil(likedPlaylist.songs.length / PAGE_SIZE));
   }, [likedPlaylist.songs.length]);
+
+  useEffect(() => {
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
+  }, [totalPages, page]);
+
   const paginatedLikedSongs = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
     return likedPlaylist.songs.slice(start, start + PAGE_SIZE);
@@ -219,25 +226,23 @@ function FavoritesPage({ selectPlaylist }) {
                                       <div
                                         key={pl.id}
                                         className="fav-submenu-item"
-                                        onClick={(e) => {
+                                        onClick={async (e) => {
                                           e.stopPropagation();
-                                          dispatch(
-                                            addSongToPlaylist({
-                                              playlistId: pl.id,
-                                              song: song,
-                                            })
-                                          )
-                                            .unwrap()
-                                            .then(() => {
-                                              alert("已加入播放清單");
-                                            })
-                                            .catch((err) => {
-                                              if (err === "duplicate") {
-                                                alert("這首歌已經在播放清單裡了 🎵");
-                                              } else {
-                                                alert("加入失敗");
-                                              }
-                                            });
+                                          try {
+                                            await dispatch(
+                                              addSongToPlaylist({
+                                                playlistId: pl.id,
+                                                song: song,
+                                              })
+                                            ).unwrap();
+                                            alert("已加入播放清單");
+                                          } catch (err) {
+                                            if (err === "duplicate") {
+                                              alert("這首歌已經在播放清單裡了 🎵");
+                                            } else {
+                                              alert("加入失敗");
+                                            }
+                                          }
                                           setOpenMenuId(null);
                                           setOpenSubmenuId(null);
                                         }}
@@ -253,7 +258,6 @@ function FavoritesPage({ selectPlaylist }) {
                                   e.stopPropagation();
                                   dispatch(toggleSongLike({ userId, songId: song.id }));
                                   setOpenMenuId(null);
-                                  setPage(1);
                                 }}
                               >
                                 取消收藏

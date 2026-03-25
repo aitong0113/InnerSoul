@@ -32,9 +32,9 @@ function PlaylistRecommend({ lists, selectPlaylist, currentListId, isPlaying }) 
                   <button
                     type="button"
                     className={`position-absolute bottom-0 start-50 translate-middle btn border-0 playlist-play-btn ${isCurrentList(item.id) ? "is-current" : ""}`}
-                    onClick={() => {
+                    onClick={async () => {
                       if (plan !== "pro") {
-                        Swal.fire({
+                        const result = await Swal.fire({
                           icon: "info",
                           title: "升級方案",
                           text: "此功能需升級為深度方案才能使用",
@@ -42,15 +42,12 @@ function PlaylistRecommend({ lists, selectPlaylist, currentListId, isPlaying }) 
                           showCancelButton: true,
                           cancelButtonText: "取消",
                           confirmButtonColor: "#6C8E9E",
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            navigate("/subscription");
-                          }
                         });
-
+                        if (result.isConfirmed) {
+                          navigate("/subscription");
+                        }
                         return;
                       }
-
                       selectPlaylist(item.id);
                     }}
                     aria-label="播放歌單"

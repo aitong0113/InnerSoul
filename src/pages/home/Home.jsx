@@ -3,7 +3,6 @@ import HomeHero from "../../components/features/homeHero/HomeHero.jsx";
 import HomeDiary from "../../components/features/homeDiary/HomeDiary.jsx";
 import AudioPreviewSection from "../../components/features/previewSection/";
 
-import Button from "../../components/common/Button/Button.jsx";
 import FAQList from "../../components/features/faq/FAQList.jsx";
 import Contact from "../../components/features/contact/Contact.jsx";
 import { faqData } from "../../components/features/faq/faqData";

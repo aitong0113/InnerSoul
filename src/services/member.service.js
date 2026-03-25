@@ -6,13 +6,13 @@ import api from "./api";
  * @returns {Promise<Array>} 日記列表
  */
 export async function getUserDiaries(userId) {
-    try {
-        const res = await api.get(`/diaries?userId=${userId}`);
-        return res.data;
-    } catch (err) {
-        console.error("獲取日記失敗", err);
-        throw err;
-    }
+  try {
+    const res = await api.get(`/diaries?userId=${userId}`);
+    return res.data;
+  } catch (err) {
+    console.error("獲取日記失敗", err);
+    throw err;
+  }
 }
 
 /**
@@ -21,13 +21,13 @@ export async function getUserDiaries(userId) {
  * @returns {Promise<Array>} 播放清單列表
  */
 export async function getUserPlaylists(userId) {
-    try {
-        const res = await api.get(`/lists?ownerID=${userId}`);
-        return res.data;
-    } catch (err) {
-        console.error("獲取播放清單失敗", err);
-        throw err;
-    }
+  try {
+    const res = await api.get(`/lists?ownerID=${userId}`);
+    return res.data;
+  } catch (err) {
+    console.error("獲取播放清單失敗", err);
+    throw err;
+  }
 }
 
 /**
@@ -36,11 +36,11 @@ export async function getUserPlaylists(userId) {
  * @returns {Promise<number>} 收藏數量
  */
 export async function getUserSongLikesCount(userId) {
-    try {
-        const res = await api.get(`/songLikes?userId=${userId}`);
-        return res.data.length;
-    } catch (err) {
-        console.error("獲取收藏失敗", err);
-        throw err;
-    }
+  try {
+    const res = await api.get(`/songLikes?userId=${userId}`);
+    return res.data.length;
+  } catch (err) {
+    console.error("獲取收藏失敗", err);
+    throw err;
+  }
 }

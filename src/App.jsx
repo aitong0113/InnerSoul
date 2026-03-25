@@ -15,7 +15,7 @@ import { fetchPlaylists } from "./slices/memberPlaylistSlice";
 
 // 前台 pages
 import ScrollToTop from "./helpers/ScrollToTop.jsx";
-import BackToTop from "./components/common/BackToTop/BackToTop";
+import BackToTop from "./components/common/backtotop/BackToTop";
 import Home from "./pages/home/Home";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
@@ -27,11 +27,11 @@ import Subscription from "./pages/subscription/Subscription";
 import Player from "./components/features/player/Player";
 import FAQPage from "./pages/faq/faq";
 import NotFound from "./pages/not-found/NotFound";
-import MemberPage from "./pages/Member/MemberPage";
+import MemberPage from "./pages/member/MemberPage";
 import SinglePlaylist from "./pages/playlist/SinglePlaylist";
 import Checkout from "./pages/checkout/Checkout";
 import PlaylistLayout from "./pages/playlist/PlaylistLayout";
-import MemberAccountEdit from "./pages/Member/MemberAccountEdit";
+import MemberAccountEdit from "./pages/member/MemberAccountEdit";
 import PlaylistRoute from "./pages/playlist/PlaylistRoute.jsx";
 import SubscriptionManagement from "./pages/subscription/SubscriptionManagement";
 

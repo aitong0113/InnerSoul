@@ -768,7 +768,7 @@
 }
 
 /* ========= Mobile RWD ========= */
-@media (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .member-page {
     padding: 20px 12px 60px;
   }

@@ -9,7 +9,7 @@
 /* 擴充 Bootstrap fs-* RWD 版本 */
 @each $bp, $breakpoint in $grid-breakpoints {
   @if $bp !=xs {
-    @media (min-width: $breakpoint) {
+    @include media-breakpoint-up($bp) {
       @each $key, $size in $font-sizes {
         .fs-#{$bp}-#{$key} {
           font-size: $size !important;
@@ -127,7 +127,7 @@
 .site-main {
   padding-top: var(--page-space);
 
-  @media (max-width: 768px) {
+  @include media-breakpoint-down(md) {
     padding-top: 28px;
   }
 }
