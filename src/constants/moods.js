@@ -1,9 +1,9 @@
-import good from "../assets/moodStamp/good.png";
-import happy from "../assets/moodStamp/happy.png";
-import mad from "../assets/moodStamp/mad.png";
-import notgood from "../assets/moodStamp/notgood1.png";
-import sad from "../assets/moodStamp/sad.png";
-import messy from "../assets/moodStamp/messy.png";
+import good from "../assets/img/moodStamp/good.png";
+import happy from "../assets/img/moodStamp/happy.png";
+import mad from "../assets/img/moodStamp/mad.png";
+import notgood from "../assets/img/moodStamp/notgood1.png";
+import sad from "../assets/img/moodStamp/sad.png";
+import messy from "../assets/img/moodStamp/messy.png";
 
 export const MOODS = [
   { id: "good", chName: "平靜", icon: good },

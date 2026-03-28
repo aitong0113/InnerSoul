@@ -22,7 +22,7 @@
   top: -20%;
   bottom: -15%;
 
-  background-image: url("../../../assets/shadow-horizontal.png");
+  background-image: url("../../../assets/img/shadow-horizontal.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -195,7 +195,7 @@
 
 @include media-breakpoint-down(lg) {
   .diaryBlur::before {
-    background-image: url("../../../assets/shadow-vertical.png");
+    background-image: url("../../../assets/img/shadow-vertical.png");
     left: 0%;
     right: 0%;
     top: -8%;

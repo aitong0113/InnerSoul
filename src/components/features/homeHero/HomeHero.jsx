@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./homeHero.scss";
-import flowerIcon from "../../../assets/flower.png";
+import flowerIcon from "../../../assets/img/flower.png";
 import { IconRotateClockwise } from "@tabler/icons-react";
 import HomeMoodText from "../homeMoodText/HomeMoodText";
 import { getMoodText } from "../homeMoodText/getMoodText";

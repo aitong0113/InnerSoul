@@ -1,10 +1,10 @@
 // 統一管理使用者頭像資源
-import avatarAdmin from "../assets/userImg/avatar-admin.png";
-import avatarYouyou from "../assets/userImg/avatar-premium.png";
-import avatarXiaoTu from "../assets/userImg/avatar-rabbit.png";
-import avatarXiaoMeiTu from "../assets/userImg/avatar-girl.png";
-import avatarXiaoXiong from "../assets/userImg/avatar-bear.png";
-import avatarWangXiaoMing from "../assets/userImg/avatar-wang.png";
+import avatarAdmin from "../assets/img/userImg/avatar-admin.png";
+import avatarYouyou from "../assets/img/userImg/avatar-premium.png";
+import avatarXiaoTu from "../assets/img/userImg/avatar-rabbit.png";
+import avatarXiaoMeiTu from "../assets/img/userImg/avatar-girl.png";
+import avatarXiaoXiong from "../assets/img/userImg/avatar-bear.png";
+import avatarWangXiaoMing from "../assets/img/userImg/avatar-wang.png";
 
 // 頭像映射表
 const AVATAR_MAP = {

@@ -46,16 +46,12 @@ function FavoritesPage({ selectPlaylist }) {
     return Math.max(1, Math.ceil(likedPlaylist.songs.length / PAGE_SIZE));
   }, [likedPlaylist.songs.length]);
 
-  useEffect(() => {
-    if (page > totalPages) {
-      setPage(totalPages);
-    }
-  }, [totalPages, page]);
+  const safePage = Math.min(page, totalPages);
 
   const paginatedLikedSongs = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
+    const start = (safePage - 1) * PAGE_SIZE;
     return likedPlaylist.songs.slice(start, start + PAGE_SIZE);
-  }, [likedPlaylist.songs, page]);
+  }, [likedPlaylist.songs, safePage]);
 
   const likedSet = useMemo(() => new Set(likedSongIds), [likedSongIds]);
   const unlikedSongs = useMemo(() => songs.filter((s) => !likedSet.has(s.id)), [songs, likedSet]);
@@ -170,7 +166,7 @@ function FavoritesPage({ selectPlaylist }) {
             ) : (
               <ul className="song-list">
                 {paginatedLikedSongs.map((song, index) => {
-                  const globalIndex = (page - 1) * PAGE_SIZE + index;
+                  const globalIndex = (safePage - 1) * PAGE_SIZE + index;
                   const isCurrent =
                     currentListId === likedPlaylist.id && currentIndex === globalIndex;
                   const showPause = isCurrent && isPlaying;
@@ -362,18 +358,18 @@ function FavoritesPage({ selectPlaylist }) {
           <button
             className="btn pagination-btn"
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-            disabled={page === 1}
+            disabled={safePage === 1}
             style={{ padding: 0 }}
           >
             <IconChevronLeft size={20} />
           </button>
           <span>
-            {page} / {totalPages}
+            {safePage} / {totalPages}
           </span>
           <button
             className="btn pagination-btn"
             onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-            disabled={page === totalPages}
+            disabled={safePage === totalPages}
             style={{ padding: 0 }}
           >
             <IconChevronRight size={20} />

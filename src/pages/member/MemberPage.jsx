@@ -27,12 +27,12 @@ import FavoritesPage from "./FavoritesPage";
 import PlaylistsPage from "./PlaylistsPage";
 
 // 匯入心情圖片
-import happyImg from "../../assets/moodStamp/happy.png";
-import goodImg from "../../assets/moodStamp/good.png";
-import notGoodImg from "../../assets/moodStamp/notGood1.png";
-import sadImg from "../../assets/moodStamp/sad.png";
-import madImg from "../../assets/moodStamp/mad.png";
-import messyImg from "../../assets/moodStamp/messy.png";
+import happyImg from "../../assets/img/moodStamp/happy.png";
+import goodImg from "../../assets/img/moodStamp/good.png";
+import notGoodImg from "../../assets/img/moodStamp/notGood1.png";
+import sadImg from "../../assets/img/moodStamp/sad.png";
+import madImg from "../../assets/img/moodStamp/mad.png";
+import messyImg from "../../assets/img/moodStamp/messy.png";
 
 const moodConfig = {
   good: { emoji: "🙂", name: "平靜", img: goodImg },
@@ -80,7 +80,7 @@ function MemberPage({ selectPlaylist }) {
   // 新增狀態
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [diaries, setDiaries] = useState([]);
+  const [_diaries, setDiaries] = useState([]);
   const [diaryStats, setDiaryStats] = useState({
     checkInRate: 0,
     moodStats: [],

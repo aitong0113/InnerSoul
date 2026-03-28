@@ -51,14 +51,14 @@
 
 /* 第一層：預設（收合）的雲朵 */
 .faq-item::before {
-  background-image: url("../../../assets/faq/faq-cloud1.png");
+  background-image: url("../../../assets/img/faq/faq-cloud1.png");
   opacity: 1;
   /* 收合時顯示 */
 }
 
 /* 第二層：展開狀態的雲朵 */
 .faq-item::after {
-  background-image: url("../../../assets/faq/faq-cloud2.png");
+  background-image: url("../../../assets/img/faq/faq-cloud2.png");
   opacity: 0;
   /* 收合時隱藏 */
 }
@@ -175,12 +175,12 @@
 
   /* ✨ 修正：預設（收合）雲朵背景，請用 close！ */
   .faq-item::before {
-    background-image: url("../../../assets/faq/faq-mobile-close.png");
+    background-image: url("../../../assets/img/faq/faq-mobile-close.png");
   }
 
   /* ✨ 修正：展開狀態雲朵背景，請用 open！ */
   .faq-item::after {
-    background-image: url("../../../assets/faq/faq-mobile-open.png");
+    background-image: url("../../../assets/img/faq/faq-mobile-open.png");
   }
 
   /* ✨ 修復 2：將 max-height 縮小到接近真實內容高度 */

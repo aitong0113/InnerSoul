@@ -7,9 +7,9 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { NavLink } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/img/logo.png";
 import { useEffect, useState } from "react";
-import "../../assets/layout/_header.scss";
+import "../../assets/style/layout/_header.scss";
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
