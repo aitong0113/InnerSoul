@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv 404.svg blue-blob.png cloud-left.svg cloud-right.svg flower.png logo.png shadow-horizontal.png shadow-vertical.png white-blob.png img/)",
+      "Bash(mv diary:*)",
+      "Bash(mv all.scss _variables.scss _variables-dark.scss style/)",
+      "Bash(mv layout:*)"
+    ]
+  }
+}
