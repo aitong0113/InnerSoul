@@ -1,4 +1,4 @@
-import cloudRight from "../../../assets/cloud-right.svg";
+import cloudRight from "../../../assets/img/cloud-right.svg";
 import "./contact.scss";
 import {
   IconMapPin,

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { fadeIn, scrollFadeIn } from "../../components/animation/motion";
 import style from "./diaryWelcome.module.scss";
-import mainPhoto from "../../assets/diary/diaryWelcome_main.avif";
-import diaryCalendar from "../../assets/diary/calendar_Demo3.png";
-import diaryContent from "../../assets/diary/content_Demo2.png";
-import cloud from "../../assets/cloud-right.svg";
+import mainPhoto from "../../assets/img/diary/diaryWelcome_main.avif";
+import diaryCalendar from "../../assets/img/diary/calendar_Demo3.png";
+import diaryContent from "../../assets/img/diary/content_Demo2.png";
+import cloud from "../../assets/img/cloud-right.svg";
 
 const DiaryWelcome = () => {
   return (

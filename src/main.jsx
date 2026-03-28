@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "bootstrap";
-import "./assets/all.scss";
+import "./assets/style/all.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { store } from "./store.js";
 import { Provider } from "react-redux";

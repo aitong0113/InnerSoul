@@ -1,5 +1,5 @@
-import logo from "../../assets/logo.png";
-import cloudLeft from "../../assets/cloud-left.svg";
+import logo from "../../assets/img/logo.png";
+import cloudLeft from "../../assets/img/cloud-left.svg";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { NavLink } from "react-router-dom";

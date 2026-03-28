@@ -71,7 +71,7 @@
   width: min(100%, 636px);
   aspect-ratio: 1 / 1;
   transform: translate(-50%, -50%);
-  background: url("/src/assets/white-blob.png") no-repeat center / contain;
+  background: url("/src/assets/img/white-blob.png") no-repeat center / contain;
   animation: breathe 10s ease-in-out infinite;
   z-index: 0;
 }
@@ -84,7 +84,7 @@
   right: 0%;
   width: 220px;
   height: 220px;
-  background: url("/src/assets/blue-blob.png") no-repeat center / contain;
+  background: url("/src/assets/img/blue-blob.png") no-repeat center / contain;
   animation: floatBlue 7s ease-in-out infinite;
   z-index: 1;
 }

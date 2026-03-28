@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./not-found.scss";
-import notFoundSvg from "../../assets/404.svg";
+import notFoundSvg from "../../assets/img/404.svg";
 import { motion } from "motion/react";
 import { fadeIn } from "../../components/animation/motion";
 export default function NotFound() {

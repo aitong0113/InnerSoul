@@ -7,7 +7,7 @@ import api from "../../services/api";
 import axios from "axios";
 import { authStore } from "../../services/auth/authStore";
 import style from "./editDiary.module.scss";
-import cloud from "../../assets/cloud-right.svg";
+import cloud from "../../assets/img/cloud-right.svg";
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
